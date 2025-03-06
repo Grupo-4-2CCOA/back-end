@@ -1,12 +1,9 @@
-package sptech.school.projetoPI.Agendamento;
+package sptech.school.projetoPI.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import sptech.school.projetoPI.Funcionario.Funcionario;
-import sptech.school.projetoPI.Servico.Servico;
-import sptech.school.projetoPI.Usuario.Usuario;
 
 import java.util.Date;
 
@@ -14,7 +11,7 @@ import java.util.Date;
 public class Agendamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idAgendamento;
+    private Integer id;
     private Usuario usuario;
     private Funcionario funcionario;
     private Servico servico;
@@ -22,12 +19,12 @@ public class Agendamento {
     private String hora;
     private String duracao;
 
-    public int getIdAgendamento() {
-        return idAgendamento;
+    public Integer getIdAgendamento() {
+        return id;
     }
 
-    public void setIdAgendamento(int idAgendamento) {
-        this.idAgendamento = idAgendamento;
+    public void setIdAgendamento(Integer id) {
+        this.id = id;
     }
 
     public Usuario getUsuario() {

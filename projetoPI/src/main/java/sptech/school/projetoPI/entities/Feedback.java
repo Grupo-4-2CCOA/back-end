@@ -1,26 +1,25 @@
-package sptech.school.projetoPI.Feedback;
+package sptech.school.projetoPI.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import sptech.school.projetoPI.Usuario.Usuario;
 
 @Entity
 public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idFeedback;
+    private Integer id;
     private String comentario;
-    private int nota;
+    private Integer nota;
     private Usuario usuario;
 
-    public int getIdFeedback() {
-        return idFeedback;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdFeedback(int idFeedback) {
-        this.idFeedback = idFeedback;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getComentario() {
@@ -31,11 +30,11 @@ public class Feedback {
         this.comentario = comentario;
     }
 
-    public int getNota() {
+    public Integer getNota() {
         return nota;
     }
 
-    public void setNota(int nota) {
+    public void setNota(Integer nota) {
         this.nota = nota;
     }
 

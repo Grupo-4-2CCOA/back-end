@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.Funcionario;
+package sptech.school.projetoPI.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 public class Funcionario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idFuncionario;
+    private Integer id;
     private String nome;
     private String email;
     private String cpf;
@@ -18,12 +18,12 @@ public class Funcionario {
     private String fidelidade;
     private String senha;
 
-    public Integer getIdFuncionario() {
-        return idFuncionario;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdFuncionario(Integer idFuncionario) {
-        this.idFuncionario = idFuncionario;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNome() {

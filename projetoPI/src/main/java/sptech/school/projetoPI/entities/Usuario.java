@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.Usuario;
+package sptech.school.projetoPI.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,22 +11,22 @@ import java.util.Date;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idUsuario;
+    private Integer id;
     private String nome;
     private String email;
     private String cpf;
     private String cep;
-    private Date Dtnasc;
+    private Date dtNasc;
     private String telefone;
     private String fidelidade;
     private String senha;
 
     public Integer getId() {
-        return idUsuario;
+        return id;
     }
 
     public void setId(Integer id) {
-        this.idUsuario = id;
+        this.id = id;
     }
 
     public String getNome() {
@@ -61,12 +61,12 @@ public class Usuario {
         this.cep = cep;
     }
 
-    public Date getDtnasc() {
-        return Dtnasc;
+    public Date getDtNasc() {
+        return dtNasc;
     }
 
-    public void setDtnasc(Date dtnasc) {
-        Dtnasc = dtnasc;
+    public void setDtNasc(Date dtNasc) {
+        this.dtNasc = dtNasc;
     }
 
     public String getTelefone() {

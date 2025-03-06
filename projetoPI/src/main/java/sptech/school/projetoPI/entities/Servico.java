@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.Servico;
+package sptech.school.projetoPI.entities;
 
 
 import jakarta.persistence.Entity;
@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 public class Servico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idServico;
+    private Integer id;
     private String tipo;
     private Double preco;
     private Double precoDesconto;
@@ -18,12 +18,12 @@ public class Servico {
     private String categoria;
     private String imagem;
 
-    public Integer getIdServico() {
-        return idServico;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdServico(Integer idServico) {
-        this.idServico = idServico;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTipo() {

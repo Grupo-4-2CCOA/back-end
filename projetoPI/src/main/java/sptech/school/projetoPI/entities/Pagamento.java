@@ -1,10 +1,9 @@
-package sptech.school.projetoPI.Pagamento;
+package sptech.school.projetoPI.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import sptech.school.projetoPI.Usuario.Usuario;
 
 import java.util.Date;
 
@@ -12,18 +11,18 @@ import java.util.Date;
 public class Pagamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idPreco;
+    private Integer id;
     private String formaPagamento;
     private Date dataPagamento;
     private String numeroTransacao;
     private Usuario usuarioPagamento;
 
-    public int getIdPreco() {
-        return idPreco;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdPreco(int idPreco) {
-        this.idPreco = idPreco;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getFormaPagamento() {

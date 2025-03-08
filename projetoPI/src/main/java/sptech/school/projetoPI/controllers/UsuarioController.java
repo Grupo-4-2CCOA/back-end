@@ -17,6 +17,8 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<Usuario> signUser(@RequestBody Usuario usuario) {
+        if(usuario == null) ResponseEntity.status(400).build();
+
         if(
             usuarioRepository.existsByCpf(usuario.getCpf()) ||
             usuarioRepository.existsByEmail(usuario.getEmail())
@@ -45,6 +47,7 @@ public class UsuarioController {
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> updateUserById(@RequestBody Usuario usuario, @PathVariable Integer id) {
         if(!usuarioRepository.existsById(id)) return ResponseEntity.status(404).build();
+        if(usuario == null) return ResponseEntity.status(400).build();
 
         usuario.setId(id);
         return ResponseEntity.status(200).body(usuarioRepository.save(usuario));

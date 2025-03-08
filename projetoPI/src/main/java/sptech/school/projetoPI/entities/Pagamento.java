@@ -5,7 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 public class Pagamento {
@@ -13,7 +13,7 @@ public class Pagamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String formaPagamento;
-    private Date dataPagamento;
+    private LocalDate dataPagamento;
     private String numeroTransacao;
     private Usuario usuarioPagamento;
 
@@ -21,9 +21,7 @@ public class Pagamento {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public void setId(Integer id) { this.id = id; }
 
     public String getFormaPagamento() {
         return formaPagamento;
@@ -33,11 +31,11 @@ public class Pagamento {
         this.formaPagamento = formaPagamento;
     }
 
-    public Date getDataPagamento() {
+    public LocalDate getDataPagamento() {
         return dataPagamento;
     }
 
-    public void setDataPagamento(Date dataPagamento) {
+    public void setDataPagamento(LocalDate dataPagamento) {
         this.dataPagamento = dataPagamento;
     }
 

@@ -1,4 +1,4 @@
 package sptech.school.projetoPI.controllers;
 
-public class PagamentoController {
+public class PaymentController {
 }

@@ -5,19 +5,21 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.sql.Time;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
-public class Agendamento {
+public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Usuario usuario;
-    private Funcionario funcionario;
-    private Servico servico;
-    private Date dia;
-    private String hora;
-    private String duracao;
+    private User usuario;
+    private Employee funcionario;
+    private Service servico;
+    private LocalDate dia;
+    private Time hora;
+    private Time duracao;
 
     public Integer getIdAgendamento() {
         return id;
@@ -27,51 +29,51 @@ public class Agendamento {
         this.id = id;
     }
 
-    public Usuario getUsuario() {
+    public User getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(User usuario) {
         this.usuario = usuario;
     }
 
-    public Funcionario getFuncionario() {
+    public Employee getFuncionario() {
         return funcionario;
     }
 
-    public void setFuncionario(Funcionario funcionario) {
+    public void setFuncionario(Employee funcionario) {
         this.funcionario = funcionario;
     }
 
-    public Servico getServico() {
+    public Service getServico() {
         return servico;
     }
 
-    public void setServico(Servico servico) {
+    public void setServico(Service servico) {
         this.servico = servico;
     }
 
-    public Date getDia() {
+    public LocalDate getDia() {
         return dia;
     }
 
-    public void setDia(Date dia) {
+    public void setDia(LocalDate dia) {
         this.dia = dia;
     }
 
-    public String getHora() {
+    public Time getHora() {
         return hora;
     }
 
-    public void setHora(String hora) {
+    public void setHora(Time hora) {
         this.hora = hora;
     }
 
-    public String getDuracao() {
+    public Time getDuracao() {
         return duracao;
     }
 
-    public void setDuracao(String duracao) {
+    public void setDuracao(Time duracao) {
         this.duracao = duracao;
     }
 }

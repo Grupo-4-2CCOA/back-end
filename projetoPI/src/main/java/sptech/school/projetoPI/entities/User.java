@@ -5,15 +5,18 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.util.Date;
 
 @Entity
-public class Funcionario {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
     private String email;
     private String cpf;
+    private String cep;
+    private Date dtNasc;
     private String telefone;
     private String fidelidade;
     private String senha;
@@ -48,6 +51,22 @@ public class Funcionario {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public Date getDtNasc() {
+        return dtNasc;
+    }
+
+    public void setDtNasc(Date dtNasc) {
+        this.dtNasc = dtNasc;
     }
 
     public String getTelefone() {

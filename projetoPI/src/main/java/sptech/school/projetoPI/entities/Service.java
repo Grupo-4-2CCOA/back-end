@@ -11,12 +11,12 @@ public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String tipo;
-    private Double preco;
-    private Double precoDesconto;
-    private String descricao;
-    private String categoria;
-    private String imagem;
+    private String type;
+    private String category;
+    private Double price;
+    private Double discount;
+    private String description;
+    private String image;
 
     public Integer getId() {
         return id;
@@ -26,51 +26,51 @@ public class Service {
         this.id = id;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getType() {
+        return type;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public Double getPreco() {
-        return preco;
+    public String getCategory() {
+        return category;
     }
 
-    public void setPreco(Double preco) {
-        this.preco = preco;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public Double getPrecoDesconto() {
-        return precoDesconto;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setPrecoDesconto(Double precoDesconto) {
-        this.precoDesconto = precoDesconto;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public Double getDiscount() {
+        return discount;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setDiscount(Double discount) {
+        this.discount = discount;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getImagem() {
-        return imagem;
+    public String getImage() {
+        return image;
     }
 
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
+    public void setImage(String image) {
+        this.image = image;
     }
 }

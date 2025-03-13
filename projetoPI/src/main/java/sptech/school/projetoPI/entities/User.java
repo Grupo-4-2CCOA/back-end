@@ -5,21 +5,21 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String nome;
     private String email;
+    private String password;
+    private String phone;
     private String cpf;
+    private String name;
     private String cep;
-    private Date dtNasc;
-    private String telefone;
-    private String fidelidade;
-    private String senha;
+    private LocalDate birth;
+    private String fidelity;
 
     public Integer getId() {
         return id;
@@ -27,14 +27,6 @@ public class User {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getEmail() {
@@ -45,12 +37,36 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getCpf() {
         return cpf;
     }
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getCep() {
@@ -61,35 +77,19 @@ public class User {
         this.cep = cep;
     }
 
-    public Date getDtNasc() {
-        return dtNasc;
+    public LocalDate getBirth() {
+        return birth;
     }
 
-    public void setDtNasc(Date dtNasc) {
-        this.dtNasc = dtNasc;
+    public void setBirth(LocalDate birth) {
+        this.birth = birth;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public String getFidelity() {
+        return fidelity;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getFidelidade() {
-        return fidelidade;
-    }
-
-    public void setFidelidade(String fidelidade) {
-        this.fidelidade = fidelidade;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setFidelity(String fidelity) {
+        this.fidelity = fidelity;
     }
 }

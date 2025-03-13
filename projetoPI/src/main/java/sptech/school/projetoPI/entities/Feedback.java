@@ -10,9 +10,9 @@ public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String comentario;
-    private Integer nota;
-    private User usuario;
+    private String comment;
+    private Integer rating;
+    private User user;
 
     public Integer getId() {
         return id;
@@ -22,27 +22,27 @@ public class Feedback {
         this.id = id;
     }
 
-    public String getComentario() {
-        return comentario;
+    public String getComment() {
+        return comment;
     }
 
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
-    public Integer getNota() {
-        return nota;
+    public Integer getRating() {
+        return rating;
     }
 
-    public void setNota(Integer nota) {
-        this.nota = nota;
+    public void setRating(Integer rating) {
+        this.rating = rating;
     }
 
-    public User getUsuario() {
-        return usuario;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsuario(User usuario) {
-        this.usuario = usuario;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

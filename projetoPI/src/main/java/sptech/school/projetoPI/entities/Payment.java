@@ -12,10 +12,10 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String formaPagamento;
-    private Date dataPagamento;
-    private String numeroTransacao;
-    private User usuarioPagamento;
+    private String type;
+    private Date date;
+    private String transaction;
+    private User user;
 
     public Integer getId() {
         return id;
@@ -25,35 +25,35 @@ public class Payment {
         this.id = id;
     }
 
-    public String getFormaPagamento() {
-        return formaPagamento;
+    public String getType() {
+        return type;
     }
 
-    public void setFormaPagamento(String formaPagamento) {
-        this.formaPagamento = formaPagamento;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public Date getDataPagamento() {
-        return dataPagamento;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDataPagamento(Date dataPagamento) {
-        this.dataPagamento = dataPagamento;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public String getNumeroTransacao() {
-        return numeroTransacao;
+    public String getTransaction() {
+        return transaction;
     }
 
-    public void setNumeroTransacao(String numeroTransacao) {
-        this.numeroTransacao = numeroTransacao;
+    public void setTransaction(String transaction) {
+        this.transaction = transaction;
     }
 
-    public User getUsuarioPagamento() {
-        return usuarioPagamento;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsuarioPagamento(User usuarioPagamento) {
-        this.usuarioPagamento = usuarioPagamento;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

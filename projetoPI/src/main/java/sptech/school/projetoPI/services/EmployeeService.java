@@ -19,7 +19,7 @@ public class EmployeeService {
     }
 
     public Employee signEmployee(Employee employee) {
-        if (repository.existsByCpf(employee.getCpf()) || repository.existsByEmail(employee.getEmail()) || repository.existsByTelefone(employee.getTelefone())) {
+        if (repository.existsByCpf(employee.getCpf()) || repository.existsByEmail(employee.getEmail()) || repository.existsByPhone(employee.getPhone())) {
             throw new EntityConflictException(
                     "Este cpf, email ou telefone já está cadastrado no banco."
             );

@@ -5,6 +5,6 @@ import sptech.school.projetoPI.entities.Service;
 
 public interface ServiceRepository extends JpaRepository<Service, Integer> {
 
-    boolean existsByDescricaoIgnoreCase(String descricao);
-    boolean existsByTipoIgnoreCase(String tipo);
+    boolean existsByDescriptionIgnoreCase(String description);
+    boolean existsByTypeIgnoreCase(String type);
 }

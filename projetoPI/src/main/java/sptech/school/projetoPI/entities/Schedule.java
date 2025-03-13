@@ -5,44 +5,60 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-import java.sql.Time;
+import java.time.Duration;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalTime;
 
 @Entity
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private User usuario;
-    private Employee funcionario;
+    private LocalDate day;
+    private LocalTime time;
+    private Duration duration;
+    private User user;
     private Service servico;
-    private LocalDate dia;
-    private Time hora;
-    private Time duracao;
+    private Employee funcionario;
 
-    public Integer getIdAgendamento() {
+    public Integer getId() {
         return id;
     }
 
-    public void setIdAgendamento(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public User getUsuario() {
-        return usuario;
+    public LocalDate getDay() {
+        return day;
     }
 
-    public void setUsuario(User usuario) {
-        this.usuario = usuario;
+    public void setDay(LocalDate day) {
+        this.day = day;
     }
 
-    public Employee getFuncionario() {
-        return funcionario;
+    public LocalTime getTime() {
+        return time;
     }
 
-    public void setFuncionario(Employee funcionario) {
-        this.funcionario = funcionario;
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Service getServico() {
@@ -53,27 +69,11 @@ public class Schedule {
         this.servico = servico;
     }
 
-    public LocalDate getDia() {
-        return dia;
+    public Employee getFuncionario() {
+        return funcionario;
     }
 
-    public void setDia(LocalDate dia) {
-        this.dia = dia;
-    }
-
-    public Time getHora() {
-        return hora;
-    }
-
-    public void setHora(Time hora) {
-        this.hora = hora;
-    }
-
-    public Time getDuracao() {
-        return duracao;
-    }
-
-    public void setDuracao(Time duracao) {
-        this.duracao = duracao;
+    public void setFuncionario(Employee funcionario) {
+        this.funcionario = funcionario;
     }
 }

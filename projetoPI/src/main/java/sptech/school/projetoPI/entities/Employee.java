@@ -11,12 +11,12 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String nome;
     private String email;
+    private String password;
+    private String phone;
     private String cpf;
-    private String telefone;
-    private String fidelidade;
-    private String senha;
+    private String role;
+    private String cep;
 
     public Integer getId() {
         return id;
@@ -24,14 +24,6 @@ public class Employee {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getEmail() {
@@ -42,6 +34,22 @@ public class Employee {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getCpf() {
         return cpf;
     }
@@ -50,27 +58,19 @@ public class Employee {
         this.cpf = cpf;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public String getRole() {
+        return role;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setRole(String role) {
+        this.role = role;
     }
 
-    public String getFidelidade() {
-        return fidelidade;
+    public String getCep() {
+        return cep;
     }
 
-    public void setFidelidade(String fidelidade) {
-        this.fidelidade = fidelidade;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setCep(String cep) {
+        this.cep = cep;
     }
 }

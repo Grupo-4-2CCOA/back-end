@@ -12,7 +12,7 @@ public class Feedback {
     private Integer id;
     private String comentario;
     private Integer nota;
-    private Usuario usuario;
+    private User usuario;
 
     public Integer getId() {
         return id;
@@ -38,11 +38,11 @@ public class Feedback {
         this.nota = nota;
     }
 
-    public Usuario getUsuario() {
+    public User getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(User usuario) {
         this.usuario = usuario;
     }
 }

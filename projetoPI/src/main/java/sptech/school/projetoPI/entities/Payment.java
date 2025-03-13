@@ -8,14 +8,14 @@ import jakarta.persistence.Id;
 import java.util.Date;
 
 @Entity
-public class Pagamento {
+public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String formaPagamento;
     private Date dataPagamento;
     private String numeroTransacao;
-    private Usuario usuarioPagamento;
+    private User usuarioPagamento;
 
     public Integer getId() {
         return id;
@@ -49,11 +49,11 @@ public class Pagamento {
         this.numeroTransacao = numeroTransacao;
     }
 
-    public Usuario getUsuarioPagamento() {
+    public User getUsuarioPagamento() {
         return usuarioPagamento;
     }
 
-    public void setUsuarioPagamento(Usuario usuarioPagamento) {
+    public void setUsuarioPagamento(User usuarioPagamento) {
         this.usuarioPagamento = usuarioPagamento;
     }
 }

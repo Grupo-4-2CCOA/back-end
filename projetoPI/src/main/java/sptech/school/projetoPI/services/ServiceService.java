@@ -18,7 +18,7 @@ public class ServiceService {
     }
 
     public sptech.school.projetoPI.entities.Service signService(sptech.school.projetoPI.entities.Service service) {
-        if (repository.existsByDescriptionIgnoreCase(service.getDescription())) {
+        if (repository.existsByDescricaoIgnoreCase(service.getDescricao())) {
             throw new EntityConflictException(
                     "Este serviço já está cadastrado no banco."
             );

@@ -11,12 +11,12 @@ public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String type;
-    private String category;
-    private Double price;
-    private Double discount;
-    private String description;
-    private String image;
+    private String tipo;
+    private Double preco;
+    private Double precoDesconto;
+    private String descricao;
+    private String categoria;
+    private String imagem;
 
     public Integer getId() {
         return id;
@@ -26,51 +26,51 @@ public class Service {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
-    public String getCategory() {
-        return category;
+    public Double getPreco() {
+        return preco;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setPreco(Double preco) {
+        this.preco = preco;
     }
 
-    public Double getPrice() {
-        return price;
+    public Double getPrecoDesconto() {
+        return precoDesconto;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setPrecoDesconto(Double precoDesconto) {
+        this.precoDesconto = precoDesconto;
     }
 
-    public Double getDiscount() {
-        return discount;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDiscount(Double discount) {
-        this.discount = discount;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
-    public String getDescription() {
-        return description;
+    public String getCategoria() {
+        return categoria;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
-    public String getImage() {
-        return image;
+    public String getImagem() {
+        return imagem;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
     }
 }

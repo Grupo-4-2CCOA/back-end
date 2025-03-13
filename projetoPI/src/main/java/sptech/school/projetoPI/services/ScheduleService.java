@@ -19,7 +19,7 @@ public class ScheduleService {
     }
 
     public Schedule signSchedule(Schedule schedule) {
-        if (repository.existsByDay(schedule.getDay()) && repository.existsByTime(schedule.getTime())) {
+        if (repository.existsByDia(schedule.getDia()) && repository.existsByHora(schedule.getHora())) {
             throw new EntityConflictException(
                     "Um atendimento para este horário neste dia já existe."
             );

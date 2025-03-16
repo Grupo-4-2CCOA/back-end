@@ -1,5 +1,6 @@
 package sptech.school.projetoPI.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.entities.Schedule;
@@ -18,7 +19,7 @@ public class ScheduleController {
     }
 
     @PostMapping
-    public ResponseEntity<Schedule> signSchedule(@RequestBody Schedule schedule) {
+    public ResponseEntity<Schedule> signSchedule(@Valid @RequestBody Schedule schedule) {
         return ResponseEntity.status(201).body(service.signSchedule(schedule));
     }
 
@@ -39,7 +40,7 @@ public class ScheduleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Schedule> updateScheduleById(@RequestBody Schedule schedule, @PathVariable Integer id) {
+    public ResponseEntity<Schedule> updateScheduleById(@Valid @RequestBody Schedule schedule, @PathVariable Integer id) {
         return ResponseEntity.status(200).body(service.updateScheduleById(schedule, id));
     }
 

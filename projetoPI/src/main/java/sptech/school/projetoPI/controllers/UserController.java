@@ -1,5 +1,6 @@
 package sptech.school.projetoPI.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.entities.User;
@@ -18,7 +19,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> signUser(@RequestBody User user) {
+    public ResponseEntity<User> signUser(@Valid @RequestBody User user) {
         return ResponseEntity.status(201).body(service.signUser(user));
     }
 
@@ -39,7 +40,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUserById(@RequestBody User user, @PathVariable Integer id) {
+    public ResponseEntity<User> updateUserById(@Valid @RequestBody User user, @PathVariable Integer id) {
         return ResponseEntity.status(200).body(service.updateUserById(user, id));
     }
 

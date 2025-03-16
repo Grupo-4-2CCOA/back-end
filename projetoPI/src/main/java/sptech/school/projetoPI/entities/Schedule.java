@@ -1,25 +1,32 @@
 package sptech.school.projetoPI.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Entity
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private LocalDate day;
-    private LocalTime time;
+
+    @NotNull
+    private LocalDateTime dateTime;
     private Duration duration;
+
+    @ManyToOne
+    @JoinColumn(name="fk_user")
     private User user;
-    private Service servico;
-    private Employee funcionario;
+
+    @ManyToOne
+    @JoinColumn(name="fk_service")
+    private Service service;
+
+    @ManyToOne
+    @JoinColumn(name="fk_employee")
+    private Employee employee;
 
     public Integer getId() {
         return id;
@@ -29,20 +36,12 @@ public class Schedule {
         this.id = id;
     }
 
-    public LocalDate getDay() {
-        return day;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
-    public void setDay(LocalDate day) {
-        this.day = day;
-    }
-
-    public LocalTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
     public Duration getDuration() {
@@ -61,19 +60,19 @@ public class Schedule {
         this.user = user;
     }
 
-    public Service getServico() {
-        return servico;
+    public Service getService() {
+        return service;
     }
 
-    public void setServico(Service servico) {
-        this.servico = servico;
+    public void setService(Service service) {
+        this.service = service;
     }
 
-    public Employee getFuncionario() {
-        return funcionario;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setFuncionario(Employee funcionario) {
-        this.funcionario = funcionario;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

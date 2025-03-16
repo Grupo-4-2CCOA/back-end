@@ -1,20 +1,27 @@
 package sptech.school.projetoPI.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import sptech.school.projetoPI.enums.PaymentType;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String type;
-    private Date date;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private PaymentType type;
+
+    @NotNull
+    private LocalDateTime dateTime;
     private String transaction;
+
+    @ManyToOne
+    @JoinColumn(name="fk_user")
     private User user;
 
     public Integer getId() {
@@ -25,20 +32,20 @@ public class Payment {
         this.id = id;
     }
 
-    public String getType() {
+    public PaymentType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(PaymentType type) {
         this.type = type;
     }
 
-    public Date getDate() {
-        return date;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDate(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
     public String getTransaction() {

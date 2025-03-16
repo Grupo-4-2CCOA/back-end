@@ -1,22 +1,49 @@
 package sptech.school.projetoPI.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import sptech.school.projetoPI.enums.EmployeeRole;
 
+import java.time.LocalDate;
 
 @Entity
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(unique = true)
+    @NotBlank
     private String email;
+
+    @NotBlank
+    @Size(min=8)
     private String password;
+
+    @Column(unique = true)
+    @NotBlank
+    @Size(min=11, max=11)
     private String phone;
+
+    @Column(unique = true)
+    @NotBlank
+    @Size(min=11, max=11)
     private String cpf;
-    private String role;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private EmployeeRole role;
+
+    @NotBlank
+    @Size(min=8, max=8)
     private String cep;
+
+    private LocalDate birth;
+
+    @NotBlank
+    private String name;
 
     public Integer getId() {
         return id;
@@ -58,11 +85,11 @@ public class Employee {
         this.cpf = cpf;
     }
 
-    public String getRole() {
+    public EmployeeRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(EmployeeRole role) {
         this.role = role;
     }
 
@@ -72,5 +99,21 @@ public class Employee {
 
     public void setCep(String cep) {
         this.cep = cep;
+    }
+
+    public LocalDate getBirth() {
+        return birth;
+    }
+
+    public void setBirth(LocalDate birth) {
+        this.birth = birth;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

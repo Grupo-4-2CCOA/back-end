@@ -3,6 +3,7 @@ package sptech.school.projetoPI.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import sptech.school.projetoPI.enums.UserFidelity;
 
@@ -15,34 +16,35 @@ public class User {
     private Integer id;
 
     @Column(unique = true)
-    @NotBlank
+    @NotBlank(message = "Preencha o e-mail")
     private String email;
 
-    @NotBlank
-    @Size(min=8)
+    @NotBlank(message = "Preencha a senha")
+    @Size(min=8, message = "A senha deve conter, no mínimo, 8 caracteres")
     private String password;
 
     @Column(unique = true)
-    @NotBlank
-    @Size(min=11, max=11)
+    @NotBlank(message = "Preencha o número do telefone")
+    @Size(min=11, max=11, message = "O número do telefone deve conter 11 dígitos")
     private String phone;
 
     @Column(unique = true)
-    @NotBlank
-    @Size(min=11, max=11)
+    @NotBlank(message = "Preencha o CPF")
+    @Size(min=11, max=11, message = "O CPF deve conter 11 dígitos")
     private String cpf;
 
-    @NotBlank
+    @NotBlank(message = "Preencha o nome")
     private String name;
 
-    @NotBlank
-    @Size(min=8, max=8)
+    @NotBlank(message = "Preencha o CEP")
+    @Size(min=8, max=8, message = "O CEP deve conter 8 dígitos")
     private String cep;
 
+    @PastOrPresent(message = "A data de nascimento não pode estar no futuro")
     private LocalDate birth;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
+    @NotNull(message = "Preencha o nível de fidelidade")
     private UserFidelity fidelity;
 
     public Integer getId() {

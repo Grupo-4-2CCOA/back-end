@@ -11,7 +11,7 @@ public class Feedback {
 
     private String comment;
 
-    @Range(min = 0, max = 5)
+    @Range(min = 0, max = 5, message = "A avaliação deve ser de 0 à 5")
     private Integer rating;
 
     @ManyToOne

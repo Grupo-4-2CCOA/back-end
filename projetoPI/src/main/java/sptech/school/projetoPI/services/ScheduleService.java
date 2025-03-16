@@ -7,9 +7,9 @@ import sptech.school.projetoPI.entities.Feedback;
 import sptech.school.projetoPI.entities.Schedule;
 import sptech.school.projetoPI.exceptions.EntityConflictException;
 import sptech.school.projetoPI.exceptions.EntityNotFoundException;
-import sptech.school.projetoPI.repositories.FeedbackRepository;
-import sptech.school.projetoPI.repositories.ScheduleRepository;
+import sptech.school.projetoPI.repositories.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,21 +18,21 @@ public class ScheduleService {
 
     private final ScheduleRepository repository;
     private final FeedbackRepository feedbackRepository;
+    private final UserRepository userRepository;
+    private final EmployeeRepository employeeRepository;
+    private final ServiceRepository serviceRepository;
 
-    public ScheduleService(ScheduleRepository repository, FeedbackRepository feedbackRepository) {
+    public ScheduleService(ScheduleRepository repository, FeedbackRepository feedbackRepository, UserRepository userRepository, EmployeeRepository employeeRepository, ServiceRepository serviceRepository) {
         this.repository = repository;
         this.feedbackRepository = feedbackRepository;
+        this.userRepository = userRepository;
+        this.employeeRepository = employeeRepository;
+        this.serviceRepository = serviceRepository;
     }
 
     public Schedule signSchedule(Schedule schedule) {
-        if (repository.existsByDateTime(schedule.getDateTime())) {
-            throw new EntityConflictException(
-                    "Um atendimento para este horário neste dia já existe."
-            );
-        }
-
-        // TODO: Adicionar um if que checa se a duração do atendimento não conflita com outro marcado para o mesmo dia e que joga a TimeConflictException
-
+        validateRequestBody(schedule);
+        schedule.setId(null);
         return repository.save(schedule);
     }
 
@@ -43,7 +43,7 @@ public class ScheduleService {
     public Schedule getScheduleById(Integer id) {
         return repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(
-                        "O agendamento com o ID %d não foi encontrado.".formatted(id)
+                        "O agendamento com o ID %d não foi encontrado".formatted(id)
                 )
         );
     }
@@ -51,9 +51,11 @@ public class ScheduleService {
     public Schedule updateScheduleById(Schedule schedule, Integer id) {
         if(!repository.existsById(id)) {
             throw new EntityNotFoundException(
-                    "O agendamento com o ID %d não foi encontrado.".formatted(id)
+                    "O agendamento com o ID %d não foi encontrado".formatted(id)
             );
         }
+
+        validateRequestBody(schedule);
 
         schedule.setId(id);
         return repository.save(schedule);
@@ -62,7 +64,7 @@ public class ScheduleService {
     public ResponseEntity<Void> deleteScheduleById(Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
-                    "O agendamento com o ID %d não foi encontrado.".formatted(id)
+                    "O agendamento com o ID %d não foi encontrado".formatted(id)
             );
         }
 
@@ -78,4 +80,26 @@ public class ScheduleService {
         return ResponseEntity.status(204).build();
     }
 
+    // Validação do POST & PUT
+    public void validateRequestBody(Schedule schedule) {
+        if (repository.existsByDateTime(schedule.getDateTime())) {
+            throw new EntityConflictException(
+                    "Um atendimento para este horário neste dia já existe"
+            );
+        }
+
+        List<String> entidadesNaoEncontradas = new ArrayList<>();
+
+        if(!userRepository.existsById(schedule.getUser().getId())) entidadesNaoEncontradas.add("Usuário");
+        if(!employeeRepository.existsById(schedule.getEmployee().getId())) entidadesNaoEncontradas.add("Funcionário");
+        if(!serviceRepository.existsById(schedule.getService().getId())) entidadesNaoEncontradas.add("Serviço");
+
+        if(!entidadesNaoEncontradas.isEmpty()) {
+            throw new EntityNotFoundException(
+                    "As seguintes entidades não foram encontradas: " + entidadesNaoEncontradas
+            );
+        }
+
+        // TODO: Adicionar um if que checa se a duração do atendimento não conflita com outro marcado para o mesmo dia e que joga a TimeConflictException
+    }
 }

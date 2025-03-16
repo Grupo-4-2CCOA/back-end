@@ -7,5 +7,6 @@ import java.util.Optional;
 
 public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
     boolean existsByScheduleId(Integer scheduleId);
+    boolean existsByIdNotAndScheduleId(Integer id, Integer scheduleId);
     Optional<Feedback> findByScheduleId(Integer scheduleId);
 }

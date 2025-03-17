@@ -1,5 +1,6 @@
 package sptech.school.projetoPI.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.entities.Employee;
@@ -17,8 +18,10 @@ public class EmployeeController {
         this.service = service;
     }
 
+
+
     @PostMapping
-    public ResponseEntity<Employee> signEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> signEmployee(@Valid @RequestBody Employee employee) {
         return ResponseEntity.status(201).body(service.signEmployee(employee));
     }
 
@@ -39,7 +42,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Employee> updateEmployeeById(@RequestBody Employee employee, @PathVariable Integer id) {
+    public ResponseEntity<Employee> updateEmployeeById(@Valid @RequestBody Employee employee, @PathVariable Integer id) {
         return ResponseEntity.status(200).body(service.updateEmployeeById(employee, id));
     }
 

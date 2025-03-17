@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.entities.Feedback;
 import sptech.school.projetoPI.exceptions.EntityNotFoundException;
+import sptech.school.projetoPI.exceptions.ScheduleAlreadyRated;
 import sptech.school.projetoPI.repositories.FeedbackRepository;
 
 import java.util.List;
@@ -18,6 +19,10 @@ public class FeedbackService {
     }
 
     public Feedback signFeedback(Feedback feedback) {
+        if(repository.existsByScheduleId(feedback.getSchedule().getId())) {
+            throw new ScheduleAlreadyRated("O Agendamento de ID %d já foi avaliado".formatted(feedback.getSchedule().getId()));
+        }
+
         return repository.save(feedback);
     }
 
@@ -28,7 +33,7 @@ public class FeedbackService {
     public Feedback getFeedbackById(Integer id) {
         return repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(
-                        "O feedback com o id %d não foi encontrado.".formatted(id)
+                        "O feedback com o ID %d não foi encontrado".formatted(id)
                 )
         );
     }

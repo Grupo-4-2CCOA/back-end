@@ -19,9 +19,9 @@ public class UserService {
     }
 
     public User signUser(User user) {
-        if (repository.existsByCpf(user.getCpf()) || repository.existsByEmail(user.getEmail())) {
+        if (repository.existsByCpfOrEmailIgnoreCase(user.getCpf(), user.getEmail())) {
             throw new EntityConflictException(
-                    "Este email ou cpf já está cadastrado no banco."
+                    "Este email ou CPF já está cadastrado no banco."
             );
         }
 

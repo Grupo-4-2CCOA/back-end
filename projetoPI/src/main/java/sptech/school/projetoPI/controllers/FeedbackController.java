@@ -1,5 +1,6 @@
 package sptech.school.projetoPI.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.entities.Feedback;
@@ -18,7 +19,7 @@ public class FeedbackController {
     }
 
     @PostMapping
-    public ResponseEntity<Feedback> signFeedback(@RequestBody Feedback feedback) {
+    public ResponseEntity<Feedback> signFeedback(@Valid @RequestBody Feedback feedback) {
         return ResponseEntity.status(201).body(service.signFeedback(feedback));
     }
 
@@ -30,7 +31,7 @@ public class FeedbackController {
             return ResponseEntity.status(204).build();
         }
 
-        return ResponseEntity.status(200).build();
+        return ResponseEntity.status(200).body(feedbacks);
     }
 
     @GetMapping("/{id}")
@@ -39,7 +40,7 @@ public class FeedbackController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Feedback> updateFeedbackById(@RequestBody Feedback feedback, @PathVariable Integer id) {
+    public ResponseEntity<Feedback> updateFeedbackById(@Valid @RequestBody Feedback feedback, @PathVariable Integer id) {
         return ResponseEntity.status(200).body(service.updateFeedbackById(feedback, id));
     }
 

@@ -1,5 +1,6 @@
 package sptech.school.projetoPI.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class ServiceController {
     }
 
     @PostMapping
-    public ResponseEntity<Service> signService(@RequestBody Service service1) {
+    public ResponseEntity<Service> signService(@Valid @RequestBody Service service1) {
         return ResponseEntity.status(201).body(service.signService(service1));
     }
 
@@ -42,7 +43,7 @@ public class ServiceController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Service> updateServicoById(@RequestBody Service service1, @PathVariable Integer id) {
+    public ResponseEntity<Service> updateServicoById(@Valid @RequestBody Service service1, @PathVariable Integer id) {
         return ResponseEntity.status(200).body(service.updateServiceById(service1, id));
     }
 

@@ -1,6 +1,7 @@
 package sptech.school.projetoPI.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.Duration;
@@ -12,7 +13,8 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
+    @NotNull(message = "Preencha o horário do agendamento")
+    @FutureOrPresent(message = "O horário do agendamento não pode estar no passado")
     private LocalDateTime dateTime;
     private Duration duration;
 

@@ -3,6 +3,7 @@ package sptech.school.projetoPI.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import sptech.school.projetoPI.enums.EmployeeRole;
 
@@ -15,34 +16,35 @@ public class Employee {
     private Integer id;
 
     @Column(unique = true)
-    @NotBlank
+    @NotBlank(message = "Preencha o e-mail")
     private String email;
 
-    @NotBlank
-    @Size(min=8)
+    @NotBlank(message = "Insira uma senha")
+    @Size(min=8, message = "Sua senha deve conter, no mínimo, 8 caracteres")
     private String password;
 
     @Column(unique = true)
-    @NotBlank
-    @Size(min=11, max=11)
+    @NotBlank(message = "Preencha o número de telefone")
+    @Size(min=11, max=11, message = "O número de telefone deve conter 11 dígitos")
     private String phone;
 
     @Column(unique = true)
-    @NotBlank
-    @Size(min=11, max=11)
+    @NotBlank(message = "Preencha o CPF")
+    @Size(min=11, max=11, message = "O CPF deve conter 11 dígitos")
     private String cpf;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
+    @NotNull(message = "Preencha o cargo")
     private EmployeeRole role;
 
-    @NotBlank
-    @Size(min=8, max=8)
+    @NotBlank(message = "Preencha o CEP")
+    @Size(min=8, max=8, message = "O CEP deve conter 8 dígitos")
     private String cep;
 
+    @PastOrPresent(message = "A data de nascimento não pode estar no futuro")
     private LocalDate birth;
 
-    @NotBlank
+    @NotBlank(message = "Preencha o nome")
     private String name;
 
     public Integer getId() {

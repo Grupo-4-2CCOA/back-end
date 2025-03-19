@@ -22,12 +22,8 @@ public class ServiceService {
     }
 
     public sptech.school.projetoPI.entities.Service signService(sptech.school.projetoPI.entities.Service service) {
-        if (repository.existsByDescriptionIgnoreCase(service.getDescription())) {
-            throw new EntityConflictException(
-                    "Este serviço já está cadastrado no banco."
-            );
-        }
-
+        validateRequestBody(service);
+        service.setId(null);
         return repository.save(service);
     }
 
@@ -44,7 +40,15 @@ public class ServiceService {
     }
 
     public sptech.school.projetoPI.entities.Service updateServiceById(sptech.school.projetoPI.entities.Service service, Integer id) {
-        return null;
+        if (!repository.existsById(id)) {
+            throw new EntityNotFoundException(
+                    "O serviço com o ID %d não foi encontrado".formatted(id)
+            );
+        }
+
+        validateRequestBody(service);
+        service.setId(id);
+        return repository.save(service);
     }
 
     public ResponseEntity<Void> deleteServiceById(Integer id) {
@@ -62,5 +66,14 @@ public class ServiceService {
 
         repository.deleteById(id);
         return ResponseEntity.status(204).build();
+    }
+
+    // Validação do POST & PUT
+    public void validateRequestBody(sptech.school.projetoPI.entities.Service service) {
+        if (repository.existsByDescriptionIgnoreCase(service.getDescription())) {
+            throw new EntityConflictException(
+                    "Este serviço já está cadastrado"
+            );
+        }
     }
 }

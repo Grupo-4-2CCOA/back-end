@@ -4,5 +4,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import sptech.school.projetoPI.entities.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-    boolean existsByCpfOrEmailIgnoreCase(String cpf, String email);
+//    boolean existsByCpfOrEmailIgnoreCaseOrPhone(String cpf, String email, String phone);
+//    boolean existsByIdNotAndCpfOrIdNotAndEmailIgnoreCaseOrIdNotAndPhone(Integer id1, String cpf, Integer id2, String email, Integer id3, String phone);
+    boolean existsByCpf(String cpf);
+    boolean existsByIdNotAndCpf(Integer id, String cpf);
+    boolean existsByEmailIgnoreCase(String email);
+    boolean existsByIdNotAndEmailIgnoreCase(Integer id, String email);
+    boolean existsByPhone(String phone);
+    boolean existsByIdNotAndPhone(Integer id, String phone);
 }

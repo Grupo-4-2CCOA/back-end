@@ -9,4 +9,5 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     boolean existsByDateTime(LocalDateTime dateTime);
     boolean existsByEmployeeId(Integer employeeId);
     boolean existsByServiceId(Integer serviceId);
+    boolean existsByUserId(Integer userId);
 }

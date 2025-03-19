@@ -18,8 +18,6 @@ public class EmployeeController {
         this.service = service;
     }
 
-
-
     @PostMapping
     public ResponseEntity<Employee> signEmployee(@Valid @RequestBody Employee employee) {
         return ResponseEntity.status(201).body(service.signEmployee(employee));

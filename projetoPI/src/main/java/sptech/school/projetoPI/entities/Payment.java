@@ -13,10 +13,10 @@ public class Payment {
     private Integer id;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
+    @NotNull(message = "Preencha a forma de pagamento")
     private PaymentType type;
 
-    @NotNull
+    @NotNull(message = "Preencha o horário do pagamento")
     private LocalDateTime dateTime;
     private String transaction;
 

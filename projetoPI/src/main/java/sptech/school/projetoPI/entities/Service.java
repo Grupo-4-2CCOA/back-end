@@ -11,13 +11,13 @@ public class Service {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank
+    @NotBlank(message = "Preencha o serviço")
     private String type;
 
-    @NotBlank
+    @NotBlank(message = "Preencha a categoria")
     private String category;
 
-    @NotNull
+    @NotNull(message = "Preencha o valor do serviço")
     private Double price;
     private Double discount;
     private String description;

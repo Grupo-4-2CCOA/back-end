@@ -6,25 +6,24 @@ import sptech.school.projetoPI.entities.Employee;
 import sptech.school.projetoPI.enums.EmployeeRole;
 import sptech.school.projetoPI.exceptions.EntityConflictException;
 import sptech.school.projetoPI.exceptions.EntityNotFoundException;
-import sptech.school.projetoPI.exceptions.EnumDoesntExistsException;
 import sptech.school.projetoPI.exceptions.ForeignKeyConstraintException;
+import sptech.school.projetoPI.repositories.AppointmentRepository;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
 import sptech.school.projetoPI.repositories.ScheduleRepository;
 import sptech.school.projetoPI.repositories.UserRepository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class EmployeeService {
     private final EmployeeRepository repository;
-    private final ScheduleRepository scheduleRepository;
+    private final AppointmentRepository appointmentRepository;
     private final UserRepository userRepository;
 
-    public EmployeeService(EmployeeRepository repository, ScheduleRepository scheduleRepository, UserRepository userRepository) {
+    public EmployeeService(EmployeeRepository repository, AppointmentRepository appointmentRepository, UserRepository userRepository) {
         this.repository = repository;
-        this.scheduleRepository = scheduleRepository;
+        this.appointmentRepository = appointmentRepository;
         this.userRepository = userRepository;
     }
 
@@ -64,7 +63,7 @@ public class EmployeeService {
     public Employee getEmployeeById(Integer id) {
         return repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(
-                        "O funcionário de id %d não foi encontrado".formatted(id)
+                        "O funcionário de ID %d não foi encontrado".formatted(id)
                 )
         );
     }
@@ -111,7 +110,7 @@ public class EmployeeService {
             );
         }
 
-        if(scheduleRepository.existsByEmployeeId(id)) {
+        if(appointmentRepository.existsByEmployeeId(id)) {
             throw new ForeignKeyConstraintException(
                     "O funcionário de ID %d não pode ser apagado porque está relacionado com um ou vários agendamentos".formatted(id)
             );

@@ -3,8 +3,8 @@ package sptech.school.projetoPI.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
+import sptech.school.projetoPI.enums.Status;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,22 +13,17 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private Status status;
+
     @NotNull(message = "Preencha o horário do agendamento")
     @FutureOrPresent(message = "O horário do agendamento não pode estar no passado")
     private LocalDateTime dateTime;
-    private Duration duration;
 
     @ManyToOne
-    @JoinColumn(name="fk_user")
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name="fk_service")
-    private Service service;
-
-    @ManyToOne
-    @JoinColumn(name="fk_employee")
-    private Employee employee;
+    @JoinColumn(name="fk_appointment")
+    private Appointment appointment;
 
     public Integer getId() {
         return id;
@@ -46,35 +41,19 @@ public class Schedule {
         this.dateTime = dateTime;
     }
 
-    public Duration getDuration() {
-        return duration;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setDuration(Duration duration) {
-        this.duration = duration;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
-    public User getUser() {
-        return user;
+    public Appointment getAppointment() {
+        return appointment;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Service getService() {
-        return service;
-    }
-
-    public void setService(Service service) {
-        this.service = service;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
     }
 }

@@ -14,14 +14,6 @@ public class Feedback {
     @Range(min = 0, max = 5, message = "A avaliação deve ser de 0 à 5")
     private Integer rating;
 
-    @ManyToOne
-    @JoinColumn(name="fk_user")
-    private User user;
-
-    @OneToOne
-    @JoinColumn(name="fk_schedule")
-    private Schedule schedule;
-
     public Integer getId() {
         return id;
     }
@@ -44,21 +36,5 @@ public class Feedback {
 
     public void setRating(Integer rating) {
         this.rating = rating;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Schedule getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
     }
 }

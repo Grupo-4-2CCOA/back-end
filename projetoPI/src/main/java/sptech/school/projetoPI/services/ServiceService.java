@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.exceptions.EntityConflictException;
 import sptech.school.projetoPI.exceptions.EntityNotFoundException;
 import sptech.school.projetoPI.exceptions.ForeignKeyConstraintException;
-import sptech.school.projetoPI.repositories.ScheduleRepository;
+import sptech.school.projetoPI.repositories.AppointmentRepository;
 import sptech.school.projetoPI.repositories.ServiceRepository;
 
 import java.util.List;
@@ -14,11 +14,11 @@ import java.util.List;
 public class ServiceService {
 
     private final ServiceRepository repository;
-    private final ScheduleRepository scheduleRepository;
+    private final AppointmentRepository appointmentRepository;
 
-    public ServiceService(ServiceRepository repository, ScheduleRepository scheduleRepository) {
+    public ServiceService(ServiceRepository repository, AppointmentRepository appointmentRepository) {
         this.repository = repository;
-        this.scheduleRepository = scheduleRepository;
+        this.appointmentRepository = appointmentRepository;
     }
 
     public sptech.school.projetoPI.entities.Service signService(sptech.school.projetoPI.entities.Service service) {
@@ -34,7 +34,7 @@ public class ServiceService {
     public sptech.school.projetoPI.entities.Service getServiceById(Integer id) {
         return repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(
-                        "O serviço com o id %d não foi encontrado".formatted(id)
+                        "O serviço com o ID %d não foi encontrado".formatted(id)
                 )
         );
     }
@@ -54,13 +54,13 @@ public class ServiceService {
     public ResponseEntity<Void> deleteServiceById(Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
-                    "O serviço com o id %d não foi encontrado".formatted(id)
+                    "O serviço com o ID %d não foi encontrado".formatted(id)
             );
         }
 
-        if(scheduleRepository.existsByServiceId(id)) {
+        if(appointmentRepository.existsByServiceId(id)) {
             throw new ForeignKeyConstraintException(
-                    "O serviço de ID %d não pode ser apagado porque está relacionado com um ou vários agendamentos".formatted(id)
+                    "O serviço de ID %d não pode ser apagado porque está relacionado com um ou vários atendimentos".formatted(id)
             );
         }
 

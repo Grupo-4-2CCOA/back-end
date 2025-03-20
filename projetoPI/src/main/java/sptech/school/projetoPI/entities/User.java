@@ -2,10 +2,8 @@ package sptech.school.projetoPI.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
-import sptech.school.projetoPI.enums.UserFidelity;
 
 import java.time.LocalDate;
 
@@ -42,10 +40,6 @@ public class User {
 
     @PastOrPresent(message = "A data de nascimento não pode estar no futuro")
     private LocalDate birth;
-
-    @Enumerated(EnumType.STRING)
-    @NotNull(message = "Preencha o nível de fidelidade")
-    private UserFidelity fidelity;
 
     public Integer getId() {
         return id;
@@ -109,13 +103,5 @@ public class User {
 
     public void setBirth(LocalDate birth) {
         this.birth = birth;
-    }
-
-    public UserFidelity getFidelity() {
-        return fidelity;
-    }
-
-    public void setFidelity(UserFidelity fidelity) {
-        this.fidelity = fidelity;
     }
 }

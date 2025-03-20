@@ -17,17 +17,11 @@ import java.util.Optional;
 public class ScheduleService {
 
     private final ScheduleRepository repository;
-    private final FeedbackRepository feedbackRepository;
-    private final UserRepository userRepository;
-    private final EmployeeRepository employeeRepository;
-    private final ServiceRepository serviceRepository;
+    private final AppointmentRepository appointmentRepository;
 
-    public ScheduleService(ScheduleRepository repository, FeedbackRepository feedbackRepository, UserRepository userRepository, EmployeeRepository employeeRepository, ServiceRepository serviceRepository) {
+    public ScheduleService(ScheduleRepository repository, AppointmentRepository appointmentRepository) {
         this.repository = repository;
-        this.feedbackRepository = feedbackRepository;
-        this.userRepository = userRepository;
-        this.employeeRepository = employeeRepository;
-        this.serviceRepository = serviceRepository;
+        this.appointmentRepository = appointmentRepository;
     }
 
     public Schedule signSchedule(Schedule schedule) {
@@ -68,14 +62,6 @@ public class ScheduleService {
             );
         }
 
-        Optional<Feedback> feedback = feedbackRepository.findByScheduleId(id);
-
-        //feedback.ifPresent(feedbackRepository::delete);
-
-        if(feedback.isPresent()) {
-            feedbackRepository.deleteById(feedback.get().getId());
-        }
-
         repository.deleteById(id);
         return ResponseEntity.status(204).build();
     }
@@ -88,15 +74,9 @@ public class ScheduleService {
             );
         }
 
-        List<String> entidadesNaoEncontradas = new ArrayList<>();
-
-        if(!userRepository.existsById(schedule.getUser().getId())) entidadesNaoEncontradas.add("Usuário");
-        if(!employeeRepository.existsById(schedule.getEmployee().getId())) entidadesNaoEncontradas.add("Funcionário");
-        if(!serviceRepository.existsById(schedule.getService().getId())) entidadesNaoEncontradas.add("Serviço");
-
-        if(!entidadesNaoEncontradas.isEmpty()) {
+        if (!appointmentRepository.existsById(schedule.getAppointment().getId())) {
             throw new EntityNotFoundException(
-                    "As seguintes entidades não foram encontradas: " + entidadesNaoEncontradas
+                    "O atendimento com o ID %d não foi encontrado".formatted(schedule.getAppointment().getId())
             );
         }
 

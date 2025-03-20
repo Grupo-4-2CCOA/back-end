@@ -3,7 +3,6 @@ package sptech.school.projetoPI.services;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.entities.Feedback;
-import sptech.school.projetoPI.entities.Schedule;
 import sptech.school.projetoPI.exceptions.EntityNotFoundException;
 import sptech.school.projetoPI.exceptions.ScheduleAlreadyRated;
 import sptech.school.projetoPI.repositories.FeedbackRepository;
@@ -27,11 +26,13 @@ public class FeedbackService {
     }
 
     public Feedback signFeedback(Feedback feedback) {
-        if(repository.existsByScheduleId(feedback.getSchedule().getId())) {
-            throw new ScheduleAlreadyRated("O Agendamento de ID %d já foi avaliado".formatted(feedback.getSchedule().getId()));
+        if(repository.existsById(feedback.getId())) {
+            throw new ScheduleAlreadyRated(
+                    "Você já avaliou este agendamento antes"
+            );
         }
 
-        validateRequestBody(feedback);
+//        validateRequestBody(feedback);
         feedback.setId(null);
         return repository.save(feedback);
     }
@@ -55,11 +56,13 @@ public class FeedbackService {
             );
         }
 
-        if(repository.existsByIdNotAndScheduleId(id, feedback.getSchedule().getId())) {
-            throw new ScheduleAlreadyRated("O Agendamento de ID %d já foi avaliado".formatted(feedback.getSchedule().getId()));
+        if(repository.existsById(feedback.getId())) {
+            throw new ScheduleAlreadyRated(
+                    "Você já avaliou este serviço antes"
+            );
         }
 
-        validateRequestBody(feedback);
+//        validateRequestBody(feedback);
         feedback.setId(id);
         return repository.save(feedback);
     }
@@ -76,16 +79,16 @@ public class FeedbackService {
     }
 
     // Validação do POST & PUT
-    public void validateRequestBody(Feedback feedback) {
-        List<String> entidadesNaoEncontradas = new ArrayList<>();
-
-        if(!userRepository.existsById(feedback.getUser().getId())) entidadesNaoEncontradas.add("Usuário");
-        if(!scheduleRepository.existsById(feedback.getSchedule().getId())) entidadesNaoEncontradas.add("Agendamento");
-
-        if(!entidadesNaoEncontradas.isEmpty()) {
-            throw new EntityNotFoundException(
-                    "As seguintes entidades não foram encontrada: " + entidadesNaoEncontradas
-            );
-        }
-    }
+//    public void validateRequestBody(Feedback feedback) {
+//        List<String> entidadesNaoEncontradas = new ArrayList<>();
+//
+//        if(!userRepository.existsById(feedback.getUser().getId())) entidadesNaoEncontradas.add("Usuário");
+//        if(!scheduleRepository.existsById(feedback.getSchedule().getId())) entidadesNaoEncontradas.add("Agendamento");
+//
+//        if(!entidadesNaoEncontradas.isEmpty()) {
+//            throw new EntityNotFoundException(
+//                    "As seguintes entidades não foram encontrada: " + entidadesNaoEncontradas
+//            );
+//        }
+//    }
 }

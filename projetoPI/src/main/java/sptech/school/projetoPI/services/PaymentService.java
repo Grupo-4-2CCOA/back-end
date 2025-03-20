@@ -3,6 +3,7 @@ package sptech.school.projetoPI.services;
 import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.entities.Payment;
 import sptech.school.projetoPI.exceptions.EntityNotFoundException;
+import sptech.school.projetoPI.repositories.AppointmentRepository;
 import sptech.school.projetoPI.repositories.PaymentRepository;
 import sptech.school.projetoPI.repositories.UserRepository;
 
@@ -12,17 +13,17 @@ import java.util.List;
 public class PaymentService {
 
     private final PaymentRepository repository;
-    private final UserRepository userRepository;
+    private final AppointmentRepository appointmentRepository;
 
-    public PaymentService(PaymentRepository repository, UserRepository userRepository) {
+    public PaymentService(PaymentRepository repository, AppointmentRepository appointmentRepository) {
         this.repository = repository;
-        this.userRepository = userRepository;
+        this.appointmentRepository = appointmentRepository;
     }
 
     public Payment signPayment(Payment payment) {
-        if(!userRepository.existsById(payment.getUser().getId())) {
+        if(!appointmentRepository.existsById(payment.getAppointment().getId())) {
             throw new EntityNotFoundException(
-                    "O usuário com o ID %d não foi encontrado".formatted(payment.getUser().getId())
+                    "O atendimento com o ID %d não foi encontrado".formatted(payment.getAppointment().getId())
             );
         }
 

@@ -1,8 +1,8 @@
 package sptech.school.projetoPI.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import sptech.school.projetoPI.enums.PaymentType;
 
 import java.time.LocalDateTime;
 
@@ -12,17 +12,15 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Enumerated(EnumType.STRING)
-    @NotNull(message = "Preencha a forma de pagamento")
-    private PaymentType type;
+    @NotBlank(message = "Preencha a forma de pagamento")
+    private String type;
 
     @NotNull(message = "Preencha o horário do pagamento")
     private LocalDateTime dateTime;
-    private String transaction;
 
-    @ManyToOne
-    @JoinColumn(name="fk_user")
-    private User user;
+    @OneToOne
+    @JoinColumn(name="fk_appointment")
+    private Appointment appointment;
 
     public Integer getId() {
         return id;
@@ -32,11 +30,11 @@ public class Payment {
         this.id = id;
     }
 
-    public PaymentType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(PaymentType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -48,19 +46,11 @@ public class Payment {
         this.dateTime = dateTime;
     }
 
-    public String getTransaction() {
-        return transaction;
+    public Appointment getAppointment() {
+        return appointment;
     }
 
-    public void setTransaction(String transaction) {
-        this.transaction = transaction;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
     }
 }

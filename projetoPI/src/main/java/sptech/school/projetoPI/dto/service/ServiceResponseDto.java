@@ -1,17 +1,11 @@
-package sptech.school.projetoPI.entities;
+package sptech.school.projetoPI.dto.service;
 
-
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import sptech.school.projetoPI.dto.category.CategoryResponseDto;
 
 import java.time.LocalDateTime;
 
-@Entity
-public class Service {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class ServiceResponseDto {
+    private Integer Id;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String type;
@@ -19,17 +13,14 @@ public class Service {
     private Double discount;
     private String description;
     private String image;
-
-    @ManyToOne
-    @JoinColumn(name="fk_category")
-    private Category category;
+    private CategoryResponseDto category;
 
     public Integer getId() {
-        return id;
+        return Id;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        Id = id;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -54,14 +45,6 @@ public class Service {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     public Double getPrice() {
@@ -94,5 +77,13 @@ public class Service {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public CategoryResponseDto getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryResponseDto category) {
+        this.category = category;
     }
 }

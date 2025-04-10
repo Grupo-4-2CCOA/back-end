@@ -2,6 +2,7 @@ package sptech.school.projetoPI.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import sptech.school.projetoPI.enums.Status;
 
@@ -13,17 +14,24 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    private Status status;
-
-    @NotNull(message = "Preencha o horário do agendamento")
-    @FutureOrPresent(message = "O horário do agendamento não pode estar no passado")
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private LocalDateTime dateTime;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    private LocalDateTime appointmentDate;
+    private String transactionHash;
+    private Integer duration;
+
     @ManyToOne
-    @JoinColumn(name="fk_appointment")
-    private Appointment appointment;
+    @JoinColumn(name="fk_user")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name="fk_payment_type")
+    private PaymentType paymentType;
 
     public Integer getId() {
         return id;
@@ -31,6 +39,22 @@ public class Schedule {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public LocalDateTime getDateTime() {
@@ -49,11 +73,43 @@ public class Schedule {
         this.status = status;
     }
 
-    public Appointment getAppointment() {
-        return appointment;
+    public LocalDateTime getAppointmentDate() {
+        return appointmentDate;
     }
 
-    public void setAppointment(Appointment appointment) {
-        this.appointment = appointment;
+    public void setAppointmentDate(LocalDateTime appointmentDate) {
+        this.appointmentDate = appointmentDate;
+    }
+
+    public String getTransactionHash() {
+        return transactionHash;
+    }
+
+    public void setTransactionHash(String transactionHash) {
+        this.transactionHash = transactionHash;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public PaymentType getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
     }
 }

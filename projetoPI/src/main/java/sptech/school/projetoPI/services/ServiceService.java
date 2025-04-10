@@ -2,10 +2,11 @@ package sptech.school.projetoPI.services;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import sptech.school.projetoPI.exceptions.EntityConflictException;
-import sptech.school.projetoPI.exceptions.EntityNotFoundException;
-import sptech.school.projetoPI.exceptions.ForeignKeyConstraintException;
-import sptech.school.projetoPI.repositories.AppointmentRepository;
+import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
+import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.exceptions.exceptionClass.ForeignKeyConstraintException;
+import sptech.school.projetoPI.exceptions.exceptionClass.RelatedEntityNotFoundException;
+import sptech.school.projetoPI.repositories.CategoryRepository;
 import sptech.school.projetoPI.repositories.ServiceRepository;
 
 import java.util.List;
@@ -14,11 +15,11 @@ import java.util.List;
 public class ServiceService {
 
     private final ServiceRepository repository;
-    private final AppointmentRepository appointmentRepository;
+    private final CategoryRepository categoryRepository;
 
-    public ServiceService(ServiceRepository repository, AppointmentRepository appointmentRepository) {
+    public ServiceService(ServiceRepository repository, CategoryRepository categoryRepository) {
         this.repository = repository;
-        this.appointmentRepository = appointmentRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public sptech.school.projetoPI.entities.Service signService(sptech.school.projetoPI.entities.Service service) {
@@ -58,19 +59,19 @@ public class ServiceService {
             );
         }
 
-        if(appointmentRepository.existsByServiceId(id)) {
-            throw new ForeignKeyConstraintException(
-                    "O serviço de ID %d não pode ser apagado porque está relacionado com um ou vários atendimentos".formatted(id)
-            );
-        }
-
         repository.deleteById(id);
         return ResponseEntity.status(204).build();
     }
 
     // Validação do POST & PUT
     public void validateRequestBody(sptech.school.projetoPI.entities.Service service) {
-        if (repository.existsByDescriptionIgnoreCase(service.getDescription())) {
+        if(!categoryRepository.existsById(service.getCategory().getId())) {
+            throw new RelatedEntityNotFoundException(
+                    "A categoria com o ID %d não foi encontrada".formatted(service.getCategory().getId())
+            );
+        }
+
+        if (repository.existsByType(service.getType())) {
             throw new EntityConflictException(
                     "Este serviço já está cadastrado"
             );

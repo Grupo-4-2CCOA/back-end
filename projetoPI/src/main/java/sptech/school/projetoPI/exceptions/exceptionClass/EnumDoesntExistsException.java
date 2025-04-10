@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.exceptions;
+package sptech.school.projetoPI.exceptions.exceptionClass;
 
 public class EnumDoesntExistsException extends RuntimeException {
     public EnumDoesntExistsException(String message) {

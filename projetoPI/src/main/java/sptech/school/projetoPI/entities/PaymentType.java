@@ -1,6 +1,5 @@
 package sptech.school.projetoPI.entities;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,21 +7,15 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
-public class Service {
+public class PaymentType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private String type;
-    private Double price;
-    private Double discount;
+    private String name;
     private String description;
-    private String image;
-
-    @ManyToOne
-    @JoinColumn(name="fk_category")
-    private Category category;
 
     public Integer getId() {
         return id;
@@ -48,36 +41,12 @@ public class Service {
         this.updatedAt = updatedAt;
     }
 
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Double getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(Double discount) {
-        this.discount = discount;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -86,13 +55,5 @@ public class Service {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 }

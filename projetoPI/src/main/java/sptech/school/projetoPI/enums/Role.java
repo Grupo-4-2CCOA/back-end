@@ -1,7 +1,8 @@
 package sptech.school.projetoPI.enums;
 
-public enum EmployeeRole {
+public enum Role {
     OWNER,
+    USER,
     INFRA,
     EMPLOYEE;
 }

@@ -2,26 +2,25 @@ package sptech.school.projetoPI.services;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import sptech.school.projetoPI.entities.Feedback;
 import sptech.school.projetoPI.entities.Schedule;
-import sptech.school.projetoPI.exceptions.EntityConflictException;
-import sptech.school.projetoPI.exceptions.EntityNotFoundException;
+import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
+import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.exceptions.exceptionClass.RelatedEntityNotFoundException;
 import sptech.school.projetoPI.repositories.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ScheduleService {
 
     private final ScheduleRepository repository;
-    private final AppointmentRepository appointmentRepository;
+    private final UserRepository userRepository;
+    private final PaymentTypeRepository paymentTypeRepository;
 
-    public ScheduleService(ScheduleRepository repository, AppointmentRepository appointmentRepository) {
+    public ScheduleService(ScheduleRepository repository, UserRepository userRepository, PaymentTypeRepository paymentTypeRepository) {
         this.repository = repository;
-        this.appointmentRepository = appointmentRepository;
+        this.userRepository = userRepository;
+        this.paymentTypeRepository = paymentTypeRepository;
     }
 
     public Schedule signSchedule(Schedule schedule) {
@@ -74,9 +73,15 @@ public class ScheduleService {
             );
         }
 
-        if (!appointmentRepository.existsById(schedule.getAppointment().getId())) {
-            throw new EntityNotFoundException(
-                    "O atendimento com o ID %d não foi encontrado".formatted(schedule.getAppointment().getId())
+        if (!userRepository.existsById(schedule.getUser().getId())) {
+            throw new RelatedEntityNotFoundException(
+                    "O usuário com o ID %d não foi encontrado".formatted(schedule.getUser().getId())
+            );
+        }
+
+        if (!paymentTypeRepository.existsById(schedule.getPaymentType().getId())) {
+            throw new RelatedEntityNotFoundException(
+                    "O tipo de pagamento com o ID %d não foi encontrado".formatted(schedule.getPaymentType().getId())
             );
         }
 

@@ -2,6 +2,7 @@ package sptech.school.projetoPI.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import sptech.school.projetoPI.entities.User;
+import sptech.school.projetoPI.enums.Role;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
     boolean existsByCpf(String cpf);
@@ -10,4 +11,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     boolean existsByIdNotAndEmailIgnoreCase(Integer id, String email);
     boolean existsByPhone(String phone);
     boolean existsByIdNotAndPhone(Integer id, String phone);
+    boolean existsByRole(Role role);
 }

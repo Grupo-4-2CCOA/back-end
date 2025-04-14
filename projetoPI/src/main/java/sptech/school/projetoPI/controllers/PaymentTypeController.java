@@ -3,14 +3,10 @@ package sptech.school.projetoPI.controllers;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.dto.category.CategoryMapper;
 import sptech.school.projetoPI.dto.paymentType.PaymentTypeMapper;
 import sptech.school.projetoPI.dto.paymentType.PaymentTypeRequestDto;
 import sptech.school.projetoPI.dto.paymentType.PaymentTypeResponseDto;
-import sptech.school.projetoPI.dto.schedule.ScheduleMapper;
-import sptech.school.projetoPI.entities.Category;
 import sptech.school.projetoPI.entities.PaymentType;
-import sptech.school.projetoPI.entities.Schedule;
 import sptech.school.projetoPI.services.PaymentTypeService;
 
 import java.util.List;

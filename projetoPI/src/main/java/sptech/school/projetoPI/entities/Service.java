@@ -1,6 +1,5 @@
 package sptech.school.projetoPI.entities;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

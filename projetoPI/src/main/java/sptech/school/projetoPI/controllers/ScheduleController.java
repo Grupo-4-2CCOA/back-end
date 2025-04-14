@@ -7,9 +7,7 @@ import sptech.school.projetoPI.dto.schedule.ScheduleMapper;
 import sptech.school.projetoPI.dto.schedule.ScheduleRequestDto;
 import sptech.school.projetoPI.dto.schedule.ScheduleResponseDto;
 import sptech.school.projetoPI.dto.schedule.ScheduleUpdateRequestDto;
-import sptech.school.projetoPI.dto.user.UserMapper;
 import sptech.school.projetoPI.entities.Schedule;
-import sptech.school.projetoPI.entities.User;
 import sptech.school.projetoPI.services.ScheduleService;
 
 import java.util.List;

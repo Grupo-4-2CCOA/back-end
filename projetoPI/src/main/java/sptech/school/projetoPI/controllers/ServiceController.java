@@ -1,17 +1,12 @@
 package sptech.school.projetoPI.controllers;
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.dto.service.ServiceMapper;
 import sptech.school.projetoPI.dto.service.ServiceRequestDto;
 import sptech.school.projetoPI.dto.service.ServiceResponseDto;
-import sptech.school.projetoPI.dto.user.UserMapper;
-import sptech.school.projetoPI.entities.Schedule;
 import sptech.school.projetoPI.entities.Service;
-import sptech.school.projetoPI.entities.User;
-import sptech.school.projetoPI.repositories.ServiceRepository;
 import sptech.school.projetoPI.services.ServiceService;
 
 import java.util.List;

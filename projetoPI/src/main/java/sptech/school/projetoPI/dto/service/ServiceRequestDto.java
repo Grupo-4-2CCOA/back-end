@@ -3,7 +3,6 @@ package sptech.school.projetoPI.dto.service;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
-import sptech.school.projetoPI.dto.category.CategoryRequestDto;
 import sptech.school.projetoPI.dto.category.CategoryResponseDto;
 
 @Getter
@@ -30,6 +29,5 @@ public class ServiceRequestDto {
     private String image;
 
     @NotNull(message = "Preencha o ID da categoria")
-//    @Positive(message = "ID inválido para Categoria")
     private CategoryResponseDto category;
 }

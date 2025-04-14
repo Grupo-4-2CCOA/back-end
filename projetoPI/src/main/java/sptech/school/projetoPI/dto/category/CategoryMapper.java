@@ -8,7 +8,14 @@ public class CategoryMapper {
 
         category.setName(requestObject.getName());
         category.setDescription(requestObject.getDescription());
+        category.setActive(true);
 
+        return category;
+    }
+
+    public static Category toEntity(CategoryResponseDto responseObject) {
+        Category category = new Category();
+        category.setId(responseObject.getId());
         return category;
     }
 

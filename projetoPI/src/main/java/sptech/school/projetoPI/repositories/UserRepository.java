@@ -4,6 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import sptech.school.projetoPI.entities.User;
 import sptech.school.projetoPI.enums.Role;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface UserRepository extends JpaRepository<User, Integer> {
     boolean existsByCpf(String cpf);
     boolean existsByIdNotAndCpf(Integer id, String cpf);
@@ -12,4 +15,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     boolean existsByPhone(String phone);
     boolean existsByIdNotAndPhone(Integer id, String phone);
     boolean existsByRole(Role role);
+    boolean existsByIdAndActiveTrue(Integer id);
+    boolean existsByIdAndActiveFalse(Integer id);
+    List<User> findAllByActiveTrue();
+    Optional<User> findByIdAndActiveTrue(Integer id);
 }

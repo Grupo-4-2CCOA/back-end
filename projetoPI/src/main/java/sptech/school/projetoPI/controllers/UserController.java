@@ -45,12 +45,13 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDto> updateUserById(@Valid @RequestBody UserRequestDto user, @PathVariable Integer id) {
-        User tempUser = service.signUser(UserMapper.toEntity(user));
+        User tempUser = service.updateUserById(UserMapper.toEntity(user), id);
         return ResponseEntity.status(200).body(UserMapper.toResponseDto(tempUser));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUserById(@PathVariable Integer id) {
-        return service.deleteUserById(id);
+        service.deleteUserById(id);
+        return ResponseEntity.status(204).build();
     }
 }

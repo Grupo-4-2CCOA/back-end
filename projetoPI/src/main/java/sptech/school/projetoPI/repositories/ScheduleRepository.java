@@ -7,9 +7,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
-    boolean existsByDateTime(LocalDateTime dateTime);
+    boolean existsByAppointmentDatetime(LocalDateTime appointmentDatetime);
     boolean existsByPaymentTypeId(Integer id);
     List<Schedule> findAllByPaymentTypeId(Integer id);
     boolean existsByUserId(Integer id);
     List<Schedule> findAllByUserId(Integer id);
+    boolean existsByIdNotAndAppointmentDatetime(Integer id, LocalDateTime appointmentDatetime);
 }

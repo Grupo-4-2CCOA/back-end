@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.dto.service.ServiceMapper;
 import sptech.school.projetoPI.dto.service.ServiceRequestDto;
 import sptech.school.projetoPI.dto.service.ServiceResponseDto;
+import sptech.school.projetoPI.dto.user.UserMapper;
 import sptech.school.projetoPI.entities.Schedule;
 import sptech.school.projetoPI.entities.Service;
+import sptech.school.projetoPI.entities.User;
 import sptech.school.projetoPI.repositories.ServiceRepository;
 import sptech.school.projetoPI.services.ServiceService;
 
@@ -48,12 +50,13 @@ public class ServiceController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ServiceResponseDto> updateServicoById(@Valid @RequestBody ServiceRequestDto service1, @PathVariable Integer id) {
-        Service tempService = service.signService(ServiceMapper.toEntity(service1));
+        Service tempService = service.updateServiceById(ServiceMapper.toEntity(service1), id);
         return ResponseEntity.status(200).body(ServiceMapper.toResponseDto(tempService));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteServicoById(@PathVariable Integer id) {
-        return service.deleteServiceById(id);
+        service.deleteServiceById(id);
+        return ResponseEntity.status(204).build();
     }
 }

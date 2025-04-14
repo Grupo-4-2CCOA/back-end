@@ -6,9 +6,11 @@ import sptech.school.projetoPI.entities.Category;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.exceptions.exceptionClass.ForeignKeyConstraintException;
+import sptech.school.projetoPI.exceptions.exceptionClass.InactiveEntityException;
 import sptech.school.projetoPI.repositories.CategoryRepository;
 import sptech.school.projetoPI.repositories.ServiceRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -29,15 +31,17 @@ public class CategoryService {
         }
 
         category.setId(null);
+        category.setCreatedAt(LocalDateTime.now());
+        category.setUpdatedAt(LocalDateTime.now());
         return repository.save(category);
     }
 
     public List<Category> getAllCategories() {
-        return repository.findAll();
+        return repository.findAllByActiveTrue();
     }
 
     public Category getCategoryById(Integer id) {
-        return repository.findById(id).orElseThrow(
+        return repository.findByIdAndActiveTrue(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         "A categoria com o ID %d não foi encontrada".formatted(id)
                 )
@@ -51,14 +55,34 @@ public class CategoryService {
             );
         }
 
+        if (repository.existsByIdAndActiveFalse(id)) {
+            throw new InactiveEntityException(
+                    "A categoria com o ID %d já está inativa".formatted(id)
+            );
+        }
+
+        if(repository.existsByIdNotAndName(id, category.getName())) {
+            throw new EntityConflictException(
+                    "Categoria com o mesmo nome já existe na base de dados"
+            );
+        }
+
         category.setId(id);
+        category.setCreatedAt(repository.findById(id).get().getCreatedAt());
+        category.setUpdatedAt(LocalDateTime.now());
         return repository.save(category);
     }
 
-    public ResponseEntity<Void> deleteCategoryById(Integer id) {
+    public void deleteCategoryById(Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "A categoria com o ID %d não foi encontrada".formatted(id)
+            );
+        }
+
+        if (repository.existsByIdAndActiveFalse(id)) {
+            throw new InactiveEntityException(
+                    "A categoria com o ID %d já está inativa".formatted(id)
             );
         }
 
@@ -69,7 +93,9 @@ public class CategoryService {
             );
         }
 
-        repository.deleteById(id);
-        return ResponseEntity.status(204).build();
+        Category category = repository.findById(id).get();
+        category.setActive(false);
+        category.setUpdatedAt(LocalDateTime.now());
+        repository.save(category);
     }
 }

@@ -3,10 +3,12 @@ package sptech.school.projetoPI.controllers;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sptech.school.projetoPI.dto.category.CategoryMapper;
 import sptech.school.projetoPI.dto.paymentType.PaymentTypeMapper;
 import sptech.school.projetoPI.dto.paymentType.PaymentTypeRequestDto;
 import sptech.school.projetoPI.dto.paymentType.PaymentTypeResponseDto;
 import sptech.school.projetoPI.dto.schedule.ScheduleMapper;
+import sptech.school.projetoPI.entities.Category;
 import sptech.school.projetoPI.entities.PaymentType;
 import sptech.school.projetoPI.entities.Schedule;
 import sptech.school.projetoPI.services.PaymentTypeService;
@@ -30,8 +32,8 @@ public class PaymentTypeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PaymentTypeResponseDto>> getAllPaymentsType() {
-        List<PaymentType> payments = service.getAllPaymentsType();
+    public ResponseEntity<List<PaymentTypeResponseDto>> getAllPaymentTypes() {
+        List<PaymentType> payments = service.getAllPaymentTypes();
 
         if(payments.isEmpty()) {
             return ResponseEntity.status(204).build();
@@ -45,14 +47,15 @@ public class PaymentTypeController {
         return ResponseEntity.status(200).body(PaymentTypeMapper.toResponseDto(service.getPaymentTypeById(id)));
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<PaymentTypeResponseDto> updatePaymentTypeById(@RequestBody PaymentTypeRequestDto paymentType, @PathVariable Integer id) {
-        PaymentType tempPaymentType = service.signPaymentType(PaymentTypeMapper.toEntity(paymentType));
+        PaymentType tempPaymentType = service.updatePaymentTypeById(PaymentTypeMapper.toEntity(paymentType), id);
         return ResponseEntity.status(200).body(PaymentTypeMapper.toResponseDto(tempPaymentType));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePaymentTypeById(@PathVariable Integer id) {
-        return service.deletePaymentTypeById(id);
+        service.deletePaymentTypeById(id);
+        return ResponseEntity.status(204).build();
     }
 }

@@ -28,11 +28,6 @@ public class GlobalExceptionMapper {
         return ResponseEntity.status(409).body("Entidade já possui relacionamento: %s".formatted(exception.getMessage()));
     }
 
-    @ExceptionHandler(ScheduleAlreadyRated.class)
-    public static ResponseEntity<String> handleScheduleAlreadyRated(ScheduleAlreadyRated exception) {
-        return ResponseEntity.status(409).body("Agendamento já foi avaliado: %s".formatted(exception.getMessage()));
-    }
-
     @ExceptionHandler(TimeConflictException.class)
     public static ResponseEntity<String> handleTimeConflictException(TimeConflictException exception) {
         return ResponseEntity.status(409).body("O horário indicado está conflitando com o horário de outro agendamento: %s".formatted(exception.getMessage()));
@@ -41,5 +36,10 @@ public class GlobalExceptionMapper {
     @ExceptionHandler(RelatedEntityNotFoundException.class)
     public static ResponseEntity<String> handleRelatedEntityNotFoundException(RelatedEntityNotFoundException exception) {
         return ResponseEntity.status(404).body("A entidade indicada para relacionamento não existe: %s".formatted(exception.getMessage()));
+    }
+
+    @ExceptionHandler(InactiveEntityException.class)
+    public static ResponseEntity<String> handleInactiveEntityException(InactiveEntityException exception) {
+        return ResponseEntity.status(403).body("A entidade indicada está inativa: %s".formatted(exception.getMessage()));
     }
 }

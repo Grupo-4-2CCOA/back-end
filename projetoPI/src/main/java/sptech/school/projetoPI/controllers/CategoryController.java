@@ -51,6 +51,7 @@ public class CategoryController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFeedbackById(@PathVariable Integer id) {
-        return service.deleteCategoryById(id);
+        service.deleteCategoryById(id);
+        return ResponseEntity.status(204).build();
     }
 }

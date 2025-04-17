@@ -5,11 +5,11 @@ import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.entities.Feedback;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.exceptions.exceptionClass.RelatedEntityNotFoundException;
-import sptech.school.projetoPI.exceptions.exceptionClass.ScheduleAlreadyRated;
 import sptech.school.projetoPI.repositories.FeedbackRepository;
 import sptech.school.projetoPI.repositories.ScheduleRepository;
 import sptech.school.projetoPI.repositories.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -28,6 +28,8 @@ public class FeedbackService {
     public Feedback signFeedback(Feedback feedback) {
         validateRequestBody(feedback);
         feedback.setId(null);
+        feedback.setCreatedAt(LocalDateTime.now());
+        feedback.setUpdatedAt(LocalDateTime.now());
         return repository.save(feedback);
     }
 
@@ -52,6 +54,8 @@ public class FeedbackService {
 
         validateRequestBody(feedback);
         feedback.setId(id);
+        feedback.setCreatedAt(repository.findById(id).get().getCreatedAt());
+        feedback.setUpdatedAt(LocalDateTime.now());
         return repository.save(feedback);
     }
 
@@ -67,19 +71,13 @@ public class FeedbackService {
     }
 
     public void validateRequestBody(Feedback feedback) {
-        if (repository.existsById(feedback.getId())) {
-            throw new ScheduleAlreadyRated(
-                    "Você já avaliou este serviço antes"
-            );
-        }
-
         if (!scheduleRepository.existsById(feedback.getSchedule().getId())) {
             throw new RelatedEntityNotFoundException(
                     "O agendamento com o ID %d não foi encontrado".formatted(feedback.getSchedule().getId())
             );
         }
 
-        if (!userRepository.existsById(feedback.getUser().getId())) {
+        if (!userRepository.existsByIdAndActiveTrue(feedback.getUser().getId())) {
             throw new RelatedEntityNotFoundException(
                     "O usuário com o ID %d não foi encontrado".formatted(feedback.getUser().getId())
             );

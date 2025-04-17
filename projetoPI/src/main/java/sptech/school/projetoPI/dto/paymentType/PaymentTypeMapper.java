@@ -8,7 +8,14 @@ public class PaymentTypeMapper {
 
         paymentType.setName(requestObject.getName());
         paymentType.setDescription(requestObject.getDescription());
+        paymentType.setActive(true);
 
+        return paymentType;
+    }
+
+    public static PaymentType toEntity(PaymentTypeResponseDto responseObject) {
+        PaymentType paymentType = new PaymentType();
+        paymentType.setId(responseObject.getId());
         return paymentType;
     }
 

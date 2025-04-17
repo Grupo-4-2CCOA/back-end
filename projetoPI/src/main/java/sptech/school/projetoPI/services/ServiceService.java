@@ -2,13 +2,14 @@ package sptech.school.projetoPI.services;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
-import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
-import sptech.school.projetoPI.exceptions.exceptionClass.ForeignKeyConstraintException;
-import sptech.school.projetoPI.exceptions.exceptionClass.RelatedEntityNotFoundException;
+import sptech.school.projetoPI.dto.service.ServiceMapper;
+import sptech.school.projetoPI.dto.service.ServiceRequestDto;
+import sptech.school.projetoPI.entities.Category;
+import sptech.school.projetoPI.exceptions.exceptionClass.*;
 import sptech.school.projetoPI.repositories.CategoryRepository;
 import sptech.school.projetoPI.repositories.ServiceRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -23,17 +24,25 @@ public class ServiceService {
     }
 
     public sptech.school.projetoPI.entities.Service signService(sptech.school.projetoPI.entities.Service service) {
+        if (repository.existsByName(service.getName())) {
+            throw new EntityConflictException(
+                    "Este serviço já está cadastrado"
+            );
+        }
+
         validateRequestBody(service);
         service.setId(null);
+        service.setCreatedAt(LocalDateTime.now());
+        service.setUpdatedAt(LocalDateTime.now());
         return repository.save(service);
     }
 
     public List<sptech.school.projetoPI.entities.Service> getAllServices() {
-        return repository.findAll();
+        return repository.findAllByActiveTrue();
     }
 
     public sptech.school.projetoPI.entities.Service getServiceById(Integer id) {
-        return repository.findById(id).orElseThrow(
+        return repository.findByIdAndActiveTrue(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         "O serviço com o ID %d não foi encontrado".formatted(id)
                 )
@@ -47,33 +56,48 @@ public class ServiceService {
             );
         }
 
+        if (repository.existsByIdAndActiveFalse(id)) {
+            throw new InactiveEntityException(
+                    "O serviço com o ID %d já está inativo".formatted(id)
+            );
+        }
+
+        if (repository.existsByIdNotAndName(id, service.getName())) {
+            throw new EntityConflictException(
+                    "Este serviço já está cadastrado"
+            );
+        }
+
         validateRequestBody(service);
         service.setId(id);
+        service.setCreatedAt(repository.findById(id).get().getCreatedAt());
+        service.setUpdatedAt(LocalDateTime.now());
         return repository.save(service);
     }
 
-    public ResponseEntity<Void> deleteServiceById(Integer id) {
+    public void deleteServiceById(Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O serviço com o ID %d não foi encontrado".formatted(id)
             );
         }
 
-        repository.deleteById(id);
-        return ResponseEntity.status(204).build();
+        if (repository.existsByIdAndActiveFalse(id)) {
+            throw new InactiveEntityException(
+                    "O serviço com o ID %d já está inativo".formatted(id)
+            );
+        }
+
+        sptech.school.projetoPI.entities.Service service = repository.findById(id).get();
+        service.setActive(false);
+        repository.save(service);
     }
 
     // Validação do POST & PUT
     public void validateRequestBody(sptech.school.projetoPI.entities.Service service) {
-        if(!categoryRepository.existsById(service.getCategory().getId())) {
-            throw new RelatedEntityNotFoundException(
+        if (!categoryRepository.existsByIdAndActiveTrue(service.getCategory().getId())) {
+            throw new EntityNotFoundException(
                     "A categoria com o ID %d não foi encontrada".formatted(service.getCategory().getId())
-            );
-        }
-
-        if (repository.existsByType(service.getType())) {
-            throw new EntityConflictException(
-                    "Este serviço já está cadastrado"
             );
         }
     }

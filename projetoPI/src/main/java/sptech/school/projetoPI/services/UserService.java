@@ -9,10 +9,12 @@ import sptech.school.projetoPI.enums.Role;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.exceptions.exceptionClass.ForeignKeyConstraintException;
+import sptech.school.projetoPI.exceptions.exceptionClass.InactiveEntityException;
 import sptech.school.projetoPI.repositories.FeedbackRepository;
 import sptech.school.projetoPI.repositories.ScheduleRepository;
 import sptech.school.projetoPI.repositories.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,15 +57,17 @@ public class UserService {
         }
 
         user.setId(null);
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(LocalDateTime.now());
         return repository.save(user);
     }
 
     public List<User> getAllUsers() {
-        return repository.findAll();
+        return repository.findAllByActiveTrue();
     }
 
     public User getUserById(Integer id) {
-        return repository.findById(id).orElseThrow(
+        return repository.findByIdAndActiveTrue(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         "O usuário de ID %d não foi encontrado".formatted(id)
                 )
@@ -74,6 +78,12 @@ public class UserService {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O usuário com o ID %d não foi encontrado".formatted(id)
+            );
+        }
+
+        if(repository.existsByIdAndActiveFalse(id)) {
+            throw new InactiveEntityException(
+                    "O usuário com o ID %d está inativo".formatted(id)
             );
         }
 
@@ -96,13 +106,21 @@ public class UserService {
         }
 
         user.setId(id);
+        user.setCreatedAt(repository.findById(id).get().getCreatedAt());
+        user.setUpdatedAt(LocalDateTime.now());
         return repository.save(user);
     }
 
-    public ResponseEntity<Void> deleteUserById(Integer id) {
+    public void deleteUserById(Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O usuário de ID %d não foi encontrado".formatted(id)
+            );
+        }
+
+        if (repository.existsByIdAndActiveFalse(id)) {
+            throw new InactiveEntityException(
+                    "O usuário com o ID %d já está inativo".formatted(id)
             );
         }
 
@@ -120,7 +138,9 @@ public class UserService {
             );
         }
 
-        repository.deleteById(id);
-        return ResponseEntity.status(204).build();
+        User user = repository.findById(id).get();
+        user.setActive(false);
+        user.setUpdatedAt(LocalDateTime.now());
+        repository.save(user);
     }
 }

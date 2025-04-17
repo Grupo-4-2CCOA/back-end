@@ -1,10 +1,15 @@
 package sptech.school.projetoPI.dto.feedback;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
+import sptech.school.projetoPI.dto.schedule.ScheduleResponseDto;
+import sptech.school.projetoPI.dto.user.UserResponseDto;
 
+@Getter
+@Setter
 public class FeedbackRequestDto {
     @Size(max = 255, message = "Comentário muito longo")
     private String comment;
@@ -14,42 +19,8 @@ public class FeedbackRequestDto {
     private Integer rating;
 
     @NotNull(message = "Preencha o ID do Agendamento")
-    @Positive(message = "ID inválido para Agendamento")
-    private Integer schedule;
+    private ScheduleResponseDto schedule;
 
     @NotNull(message = "Preencha o ID do Usuário")
-    @Positive(message = "ID inválido para Usuário")
-    private Integer user;
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public Integer getRating() {
-        return rating;
-    }
-
-    public void setRating (Integer rating) {
-        this.rating = rating;
-    }
-
-    public Integer getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(Integer schedule) {
-        this.schedule = schedule;
-    }
-
-    public Integer getUser() {
-        return user;
-    }
-
-    public void setUser(Integer user) {
-        this.user = user;
-    }
+    private UserResponseDto user;
 }

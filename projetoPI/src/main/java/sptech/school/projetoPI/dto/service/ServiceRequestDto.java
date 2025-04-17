@@ -1,21 +1,26 @@
 package sptech.school.projetoPI.dto.service;
 
 import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
+import sptech.school.projetoPI.dto.category.CategoryResponseDto;
 
+@Getter
+@Setter
 public class ServiceRequestDto {
     @Size(max = 80)
-    @NotBlank(message = "Preencha o tipo do serviço")
-    private String type;
+    @NotBlank(message = "Preencha o nome do serviço")
+    private String name;
 
     @Positive(message = "Preço deve ser positivo")
     @DecimalMax(value = "999.99", message = "Preço muito alto")
     @NotNull(message = "Preencha o valor do serviço")
-    private Double price;
+    private Double basePrice;
 
-    @Positive
-    @DecimalMax(value = "999.99", message = "Desconto muito alto")
-    @NotNull(message = "Preencha o valor do desconto")
-    private Double discount;
+    @Max(value = 1000, message = "Muito longo")
+    @Min(value = 1, message = "Muito curto")
+    @NotNull(message = "Preencha a duração do serviço")
+    private Integer baseDuration;
 
     @Size(max = 255, message = "Descrição muito longa")
     private String description;
@@ -23,54 +28,6 @@ public class ServiceRequestDto {
     @Size(max = 255, message = "URL de imagem muito longa")
     private String image;
 
-    @Positive(message = "ID inválido para Categoria")
-    private Integer category;
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Double getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(Double discount) {
-        this.discount = discount;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Integer getCategory() {
-        return category;
-    }
-
-    public void setCategory(Integer category) {
-        this.category = category;
-    }
+    @NotNull(message = "Preencha o ID da categoria")
+    private CategoryResponseDto category;
 }

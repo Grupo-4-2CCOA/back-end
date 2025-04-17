@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.dto.schedule.ScheduleMapper;
 import sptech.school.projetoPI.dto.schedule.ScheduleRequestDto;
 import sptech.school.projetoPI.dto.schedule.ScheduleResponseDto;
+import sptech.school.projetoPI.dto.schedule.ScheduleUpdateRequestDto;
 import sptech.school.projetoPI.entities.Schedule;
 import sptech.school.projetoPI.services.ScheduleService;
 
@@ -44,13 +45,14 @@ public class ScheduleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDto> updateScheduleById(@Valid @RequestBody ScheduleRequestDto schedule, @PathVariable Integer id) {
-        Schedule tempSchedule = service.signSchedule(ScheduleMapper.toEntity(schedule));
+    public ResponseEntity<ScheduleResponseDto> updateScheduleById(@Valid @RequestBody ScheduleUpdateRequestDto schedule, @PathVariable Integer id) {
+        Schedule tempSchedule = service.updateScheduleById(ScheduleMapper.toEntity(schedule), id);
         return ResponseEntity.status(200).body(ScheduleMapper.toResponseDto(tempSchedule));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteScheduleById(@PathVariable Integer id) {
-        return service.deleteScheduleById(id);
+        service.deleteScheduleById(id);
+        return ResponseEntity.status(204).build();
     }
 }

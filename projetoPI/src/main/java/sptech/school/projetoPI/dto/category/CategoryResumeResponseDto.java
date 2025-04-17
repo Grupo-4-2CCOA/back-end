@@ -2,17 +2,12 @@ package sptech.school.projetoPI.dto.category;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryResponseDto {
+public class CategoryResumeResponseDto {
     private Integer id;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
     private String name;
-    private String description;
 }

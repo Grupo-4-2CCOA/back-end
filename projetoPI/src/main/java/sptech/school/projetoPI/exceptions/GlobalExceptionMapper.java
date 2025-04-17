@@ -1,12 +1,20 @@
 package sptech.school.projetoPI.exceptions;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import sptech.school.projetoPI.exceptions.exceptionClass.*;
 
+@Hidden
 @RestControllerAdvice
 public class GlobalExceptionMapper {
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public static ResponseEntity<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        return ResponseEntity.status(400).body("Erro na validação dos campos: %s".formatted(exception.getMessage()));
+    }
 
     @ExceptionHandler(EntityConflictException.class)
     public static ResponseEntity<String> handleEntityConflictException(EntityConflictException exception) {
@@ -16,11 +24,6 @@ public class GlobalExceptionMapper {
     @ExceptionHandler(EntityNotFoundException.class)
     public static ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException exception) {
         return ResponseEntity.status(404).body("Esta entidade não existe: %s".formatted(exception.getMessage()));
-    }
-
-    @ExceptionHandler(EnumDoesntExistsException.class)
-    public static ResponseEntity<String> handleEnumDoesntExistsException(EnumDoesntExistsException exception) {
-        return ResponseEntity.status(412).body("Tipo inserido é inválido para Enum: %s".formatted(exception.getMessage()));
     }
 
     @ExceptionHandler(ForeignKeyConstraintException.class)

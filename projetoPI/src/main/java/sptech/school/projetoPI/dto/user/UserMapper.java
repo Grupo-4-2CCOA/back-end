@@ -1,44 +1,47 @@
 package sptech.school.projetoPI.dto.user;
 
+import sptech.school.projetoPI.dto.role.RoleMapper;
+import sptech.school.projetoPI.entities.Role;
 import sptech.school.projetoPI.entities.User;
-import sptech.school.projetoPI.enums.Role;
-import sptech.school.projetoPI.exceptions.exceptionClass.EnumDoesntExistsException;
 
 public class UserMapper {
     public static User toEntity(UserRequestDto requestObject) {
-        User user = new User();
+        if(requestObject == null) return null;
 
-        user.setName(requestObject.getName());
-        user.setCpf(requestObject.getCpf());
-        user.setEmail(requestObject.getEmail());
-        user.setPassword(requestObject.getPassword());
-        user.setCep(requestObject.getCep());
-        user.setPhone(requestObject.getPhone());
-        user.setActive(true);
-        user.setRole(Role.roleCheck(requestObject.getRole().toUpperCase()));
-
-        return user;
-    }
-
-    public static User toEntity(UserResponseDto responseObject) {
-        User user = new User();
-        user.setId(responseObject.getId());
-        return user;
+        return User.builder()
+                .name(requestObject.getName())
+                .cpf(requestObject.getCpf())
+                .email(requestObject.getEmail())
+                .password(requestObject.getPassword())
+                .cep(requestObject.getCep())
+                .phone(requestObject.getPhone())
+                .active(true)
+                .role(Role.builder().id(requestObject.getRole()).build())
+                .build();
     }
 
     public static UserResponseDto toResponseDto(User entity) {
-        UserResponseDto user = new UserResponseDto();
+        if(entity == null) return null;
 
-        user.setId(entity.getId());
-        user.setName(entity.getName());
-        user.setCpf(entity.getCpf());
-        user.setEmail(entity.getEmail());
-        user.setCep(entity.getCep());
-        user.setPhone(entity.getPhone());
-        user.setCreatedAt(entity.getCreatedAt());
-        user.setUpdatedAt(entity.getUpdatedAt());
-        user.setRole(entity.getRole());
+        return UserResponseDto.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .cpf(entity.getCpf())
+                .email(entity.getEmail())
+                .cep(entity.getCep())
+                .phone(entity.getPhone())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
+                .role(RoleMapper.toResumeResponseDto(entity.getRole()))
+                .build();
+    }
 
-        return user;
+    public static UserResumeResponseDto toResumeResponseDto(User entity) {
+        if(entity == null) return null;
+
+        return UserResumeResponseDto.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .build();
     }
 }

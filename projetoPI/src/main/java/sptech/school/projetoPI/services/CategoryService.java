@@ -1,6 +1,6 @@
 package sptech.school.projetoPI.services;
 
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.entities.Category;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
@@ -14,14 +14,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository repository;
     private final ServiceRepository serviceRepository;
-
-    public CategoryService(CategoryRepository repository, ServiceRepository serviceRepository) {
-        this.repository = repository;
-        this.serviceRepository = serviceRepository;
-    }
 
     public Category signCategory(Category category) {
         if(repository.existsByName(category.getName())) {

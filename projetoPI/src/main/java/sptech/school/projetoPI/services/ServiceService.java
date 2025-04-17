@@ -1,10 +1,7 @@
 package sptech.school.projetoPI.services;
 
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import sptech.school.projetoPI.dto.service.ServiceMapper;
-import sptech.school.projetoPI.dto.service.ServiceRequestDto;
-import sptech.school.projetoPI.entities.Category;
 import sptech.school.projetoPI.exceptions.exceptionClass.*;
 import sptech.school.projetoPI.repositories.CategoryRepository;
 import sptech.school.projetoPI.repositories.ServiceRepository;
@@ -13,15 +10,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ServiceService {
-
     private final ServiceRepository repository;
     private final CategoryRepository categoryRepository;
-
-    public ServiceService(ServiceRepository repository, CategoryRepository categoryRepository) {
-        this.repository = repository;
-        this.categoryRepository = categoryRepository;
-    }
 
     public sptech.school.projetoPI.entities.Service signService(sptech.school.projetoPI.entities.Service service) {
         if (repository.existsByName(service.getName())) {
@@ -94,7 +86,7 @@ public class ServiceService {
     }
 
     // Validação do POST & PUT
-    public void validateRequestBody(sptech.school.projetoPI.entities.Service service) {
+    private void validateRequestBody(sptech.school.projetoPI.entities.Service service) {
         if (!categoryRepository.existsByIdAndActiveTrue(service.getCategory().getId())) {
             throw new EntityNotFoundException(
                     "A categoria com o ID %d não foi encontrada".formatted(service.getCategory().getId())

@@ -1,11 +1,10 @@
 package sptech.school.projetoPI.services;
 
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.entities.Feedback;
 import sptech.school.projetoPI.entities.Schedule;
 import sptech.school.projetoPI.entities.User;
-import sptech.school.projetoPI.enums.Role;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.exceptions.exceptionClass.ForeignKeyConstraintException;
@@ -15,21 +14,14 @@ import sptech.school.projetoPI.repositories.ScheduleRepository;
 import sptech.school.projetoPI.repositories.UserRepository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-
     private final UserRepository repository;
     private final ScheduleRepository scheduleRepository;
     private final FeedbackRepository feedbackRepository;
-
-    public UserService(UserRepository repository, ScheduleRepository scheduleRepository, FeedbackRepository feedbackRepository) {
-        this.repository = repository;
-        this.scheduleRepository = scheduleRepository;
-        this.feedbackRepository = feedbackRepository;
-    }
 
     public User signUser(User user) {
         if (repository.existsByCpf(user.getCpf())) {
@@ -50,7 +42,7 @@ public class UserService {
             );
         }
 
-        if (user.getRole().equals(Role.OWNER) && repository.existsByRole(Role.OWNER)) {
+        if (user.getRole().getName().equals("OWNER") && repository.existsByRoleName("OWNER")) {
             throw new EntityConflictException(
                     "Já existe um usuário como 'dono'"
             );

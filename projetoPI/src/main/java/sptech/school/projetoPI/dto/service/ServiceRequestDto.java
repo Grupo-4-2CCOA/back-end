@@ -1,12 +1,13 @@
 package sptech.school.projetoPI.dto.service;
 
 import jakarta.validation.constraints.*;
-import lombok.Getter;
-import lombok.Setter;
-import sptech.school.projetoPI.dto.category.CategoryResponseDto;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ServiceRequestDto {
     @Size(max = 80)
     @NotBlank(message = "Preencha o nome do serviço")
@@ -28,6 +29,7 @@ public class ServiceRequestDto {
     @Size(max = 255, message = "URL de imagem muito longa")
     private String image;
 
+    @Positive(message = "ID inválido para categoria")
     @NotNull(message = "Preencha o ID da categoria")
-    private CategoryResponseDto category;
+    private Integer category;
 }

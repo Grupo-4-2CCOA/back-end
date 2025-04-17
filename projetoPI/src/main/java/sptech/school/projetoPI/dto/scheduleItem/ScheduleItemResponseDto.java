@@ -1,8 +1,8 @@
-package sptech.school.projetoPI.dto.feedback;
+package sptech.school.projetoPI.dto.scheduleItem;
 
 import lombok.*;
 import sptech.school.projetoPI.dto.schedule.ScheduleResumeResponseDto;
-import sptech.school.projetoPI.dto.user.UserResumeResponseDto;
+import sptech.school.projetoPI.dto.service.ServiceResumeResponseDto;
 
 import java.time.LocalDateTime;
 
@@ -11,12 +11,12 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FeedbackResponseDto {
+public class ScheduleItemResponseDto {
     private Integer id;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Integer rating;
-    private String comment;
-    private UserResumeResponseDto user;
+    private Double finalPrice;
+    private Double discount;
     private ScheduleResumeResponseDto schedule;
+    private ServiceResumeResponseDto service;
 }

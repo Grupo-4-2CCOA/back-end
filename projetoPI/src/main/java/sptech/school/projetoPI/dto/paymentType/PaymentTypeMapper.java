@@ -4,22 +4,18 @@ import sptech.school.projetoPI.entities.PaymentType;
 
 public class PaymentTypeMapper {
     public static PaymentType toEntity(PaymentTypeRequestDto requestObject) {
-        PaymentType paymentType = new PaymentType();
+        if(requestObject == null) return null;
 
-        paymentType.setName(requestObject.getName());
-        paymentType.setDescription(requestObject.getDescription());
-        paymentType.setActive(true);
-
-        return paymentType;
-    }
-
-    public static PaymentType toEntity(PaymentTypeResponseDto responseObject) {
-        PaymentType paymentType = new PaymentType();
-        paymentType.setId(responseObject.getId());
-        return paymentType;
+        return PaymentType.builder()
+                .name(requestObject.getName())
+                .description(requestObject.getDescription())
+                .active(true)
+                .build();
     }
 
     public static PaymentTypeResponseDto toResponseDto(PaymentType entity) {
+        if(entity == null) return null;
+
         PaymentTypeResponseDto paymentType = new PaymentTypeResponseDto();
 
         paymentType.setId(entity.getId());
@@ -29,5 +25,14 @@ public class PaymentTypeMapper {
         paymentType.setUpdatedAt(entity.getUpdatedAt());
 
         return paymentType;
+    }
+
+    public static PaymentTypeResumeResponseDto toResumeResponseDto(PaymentType entity) {
+        if(entity == null) return null;
+
+        return PaymentTypeResumeResponseDto.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .build();
     }
 }

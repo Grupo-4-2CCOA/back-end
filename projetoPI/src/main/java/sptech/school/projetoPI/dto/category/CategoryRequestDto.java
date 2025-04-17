@@ -2,11 +2,13 @@ package sptech.school.projetoPI.dto.category;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CategoryRequestDto {
     @Size(max = 80, message = "Nome muito longo")
     @NotBlank(message = "Insira o nome da categoria")

@@ -1,5 +1,6 @@
 package sptech.school.projetoPI.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.entities.PaymentType;
 import sptech.school.projetoPI.entities.Schedule;
@@ -14,15 +15,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PaymentTypeService {
-
     private final PaymentTypeRepository repository;
     private final ScheduleRepository scheduleRepository;
-
-    public PaymentTypeService(PaymentTypeRepository repository, ScheduleRepository scheduleRepository) {
-        this.repository = repository;
-        this.scheduleRepository = scheduleRepository;
-    }
 
     public PaymentType signPaymentType(PaymentType paymentType) {
         if(repository.existsByNameIgnoreCase(paymentType.getName())) {

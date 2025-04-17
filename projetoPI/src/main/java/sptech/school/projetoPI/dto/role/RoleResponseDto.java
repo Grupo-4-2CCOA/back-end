@@ -1,6 +1,5 @@
-package sptech.school.projetoPI.entities;
+package sptech.school.projetoPI.dto.role;
 
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -10,12 +9,8 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class PaymentType {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class RoleResponseDto {
     private Integer id;
-    private Boolean active;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String name;

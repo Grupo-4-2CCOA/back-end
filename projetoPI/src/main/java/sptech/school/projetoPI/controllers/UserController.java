@@ -1,11 +1,13 @@
 package sptech.school.projetoPI.controllers;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.dto.user.UserMapper;
 import sptech.school.projetoPI.dto.user.UserRequestDto;
 import sptech.school.projetoPI.dto.user.UserResponseDto;
+import sptech.school.projetoPI.dto.user.UserResumeResponseDto;
 import sptech.school.projetoPI.entities.User;
 import sptech.school.projetoPI.services.UserService;
 
@@ -13,29 +15,26 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService service;
 
-    public UserController(UserService service) {
-        this.service = service;
-    }
-
     @PostMapping
-    public ResponseEntity<UserResponseDto> signUser(@Valid @RequestBody UserRequestDto user) {
+    public ResponseEntity<UserResumeResponseDto> signUser(@Valid @RequestBody UserRequestDto user) {
         User tempUser = service.signUser(UserMapper.toEntity(user));
-        return ResponseEntity.status(201).body(UserMapper.toResponseDto(tempUser));
+        return ResponseEntity.status(201).body(UserMapper.toResumeResponseDto(tempUser));
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDto>> getAllUsers() {
+    public ResponseEntity<List<UserResumeResponseDto>> getAllUsers() {
         List<User> users = service.getAllUsers();
 
         if (users.isEmpty()) {
             return ResponseEntity.status(204).build();
         }
 
-        return ResponseEntity.status(200).body(users.stream().map(UserMapper::toResponseDto).toList());
+        return ResponseEntity.status(200).body(users.stream().map(UserMapper::toResumeResponseDto).toList());
     }
 
     @GetMapping("/{id}")
@@ -44,9 +43,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDto> updateUserById(@Valid @RequestBody UserRequestDto user, @PathVariable Integer id) {
+    public ResponseEntity<UserResumeResponseDto> updateUserById(@Valid @RequestBody UserRequestDto user, @PathVariable Integer id) {
         User tempUser = service.updateUserById(UserMapper.toEntity(user), id);
-        return ResponseEntity.status(200).body(UserMapper.toResponseDto(tempUser));
+        return ResponseEntity.status(200).body(UserMapper.toResumeResponseDto(tempUser));
     }
 
     @DeleteMapping("/{id}")

@@ -1,36 +1,47 @@
 package sptech.school.projetoPI.dto.service;
 
 import sptech.school.projetoPI.dto.category.CategoryMapper;
+import sptech.school.projetoPI.entities.Category;
 import sptech.school.projetoPI.entities.Service;
 
 public class ServiceMapper {
     public static Service toEntity(ServiceRequestDto requestObject) {
-        Service service = new Service();
+        if(requestObject == null) return null;
 
-        service.setName(requestObject.getName());
-        service.setDescription(requestObject.getDescription());
-        service.setBasePrice(requestObject.getBasePrice());
-        service.setBaseDuration(requestObject.getBaseDuration());
-        service.setImage(requestObject.getImage());
-        service.setActive(true);
-        service.setCategory(CategoryMapper.toEntity(requestObject.getCategory()));
-
-        return service;
+        return Service.builder()
+                .name(requestObject.getName())
+                .description(requestObject.getDescription())
+                .basePrice(requestObject.getBasePrice())
+                .baseDuration(requestObject.getBaseDuration())
+                .image(requestObject.getImage())
+                .active(true)
+                .category(Category.builder().id(requestObject.getCategory()).build())
+                .build();
     }
 
     public static ServiceResponseDto toResponseDto(Service entity) {
-        ServiceResponseDto service = new ServiceResponseDto();
+        if(entity == null) return null;
 
-        service.setId(entity.getId());
-        service.setName(entity.getName());
-        service.setDescription(entity.getDescription());
-        service.setBasePrice(entity.getBasePrice());
-        service.setBaseDuration(entity.getBaseDuration());
-        service.setImage(entity.getImage());
-        service.setCreatedAt(entity.getCreatedAt());
-        service.setUpdatedAt(entity.getUpdatedAt());
-        service.setCategory(CategoryMapper.toResponseDto(entity.getCategory()));
+        return ServiceResponseDto.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .description(entity.getDescription())
+                .basePrice(entity.getBasePrice())
+                .baseDuration(entity.getBaseDuration())
+                .image(entity.getImage())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
+                .category(CategoryMapper.toResumeResponseDto(entity.getCategory()))
+                .build();
+    }
 
-        return service;
+    public static ServiceResumeResponseDto toResumeResponseDto(Service entity) {
+        if(entity == null) return null;
+
+        return ServiceResumeResponseDto.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .basePrice(entity.getBasePrice())
+                .build();
     }
 }

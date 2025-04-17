@@ -11,13 +11,20 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class PaymentType {
+public class ScheduleItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Boolean active;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private String name;
-    private String description;
+    private Double finalPrice;
+    private Double discount;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_schedule")
+    private Schedule schedule;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_service")
+    private Service service;
 }

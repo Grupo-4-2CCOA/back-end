@@ -1,8 +1,7 @@
 package sptech.school.projetoPI.services;
 
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import sptech.school.projetoPI.dto.schedule.ScheduleMapper;
 import sptech.school.projetoPI.entities.Schedule;
 import sptech.school.projetoPI.enums.Status;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
@@ -12,20 +11,13 @@ import sptech.school.projetoPI.repositories.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ScheduleService {
-
     private final ScheduleRepository repository;
     private final UserRepository userRepository;
     private final PaymentTypeRepository paymentTypeRepository;
-
-    public ScheduleService(ScheduleRepository repository, UserRepository userRepository, PaymentTypeRepository paymentTypeRepository) {
-        this.repository = repository;
-        this.userRepository = userRepository;
-        this.paymentTypeRepository = paymentTypeRepository;
-    }
 
     public Schedule signSchedule(Schedule schedule) {
         if (repository.existsByAppointmentDatetime(schedule.getAppointmentDatetime())) {
@@ -86,7 +78,7 @@ public class ScheduleService {
     }
 
     // Validação do POST & PUT
-    public void validateRequestBody(Schedule schedule) {
+    private void validateRequestBody(Schedule schedule) {
         if (!userRepository.existsById(schedule.getUser().getId())) {
             throw new RelatedEntityNotFoundException(
                     "O usuário com o ID %d não foi encontrado".formatted(schedule.getUser().getId())

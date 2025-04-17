@@ -3,30 +3,42 @@ package sptech.school.projetoPI.dto.feedback;
 import sptech.school.projetoPI.dto.schedule.ScheduleMapper;
 import sptech.school.projetoPI.dto.user.UserMapper;
 import sptech.school.projetoPI.entities.Feedback;
+import sptech.school.projetoPI.entities.Schedule;
+import sptech.school.projetoPI.entities.User;
 
 public class FeedbackMapper {
     public static Feedback toEntity(FeedbackRequestDto requestObject) {
-        Feedback feedback = new Feedback();
+        if(requestObject == null) return null;
 
-        feedback.setComment(requestObject.getComment());
-        feedback.setRating(requestObject.getRating());
-        feedback.setUser(UserMapper.toEntity(requestObject.getUser()));
-        feedback.setSchedule(ScheduleMapper.toEntity(requestObject.getSchedule()));
-
-        return feedback;
+        return Feedback.builder()
+                .comment(requestObject.getComment())
+                .rating(requestObject.getRating())
+                .user(User.builder().id(requestObject.getUser()).build())
+                .schedule(Schedule.builder().id(requestObject.getSchedule()).build())
+                .build();
     }
 
     public static FeedbackResponseDto toResponseDto(Feedback entity) {
-        FeedbackResponseDto feedbackResponseDto = new FeedbackResponseDto();
+        if(entity == null) return null;
 
-        feedbackResponseDto.setId(entity.getId());
-        feedbackResponseDto.setComment(entity.getComment());
-        feedbackResponseDto.setRating(entity.getRating());
-        feedbackResponseDto.setCreatedAt(entity.getCreatedAt());
-        feedbackResponseDto.setUpdatedAt(entity.getUpdatedAt());
-        feedbackResponseDto.setUser(UserMapper.toResponseDto(entity.getUser()));
-        feedbackResponseDto.setSchedule(ScheduleMapper.toResponseDto(entity.getSchedule()));
+        return FeedbackResponseDto.builder()
+                .id(entity.getId())
+                .comment(entity.getComment())
+                .rating(entity.getRating())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
+                .user(UserMapper.toResumeResponseDto(entity.getUser()))
+                .schedule(ScheduleMapper.toResumeResponseDto(entity.getSchedule()))
+                .build();
+    }
 
-        return feedbackResponseDto;
+    public static FeedbackResumeResponseDto toResumeResponseDto(Feedback entity) {
+        if(entity == null) return null;
+
+        return FeedbackResumeResponseDto.builder()
+                .id(entity.getId())
+                .comment(entity.getComment())
+                .rating(entity.getRating())
+                .build();
     }
 }

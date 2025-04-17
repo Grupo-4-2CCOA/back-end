@@ -1,14 +1,16 @@
 package sptech.school.projetoPI.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import sptech.school.projetoPI.enums.Status;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Schedule {
     @Id

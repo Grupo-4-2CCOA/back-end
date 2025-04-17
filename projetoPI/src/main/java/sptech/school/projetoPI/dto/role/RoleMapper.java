@@ -1,22 +1,22 @@
-package sptech.school.projetoPI.dto.category;
+package sptech.school.projetoPI.dto.role;
 
-import sptech.school.projetoPI.entities.Category;
+import sptech.school.projetoPI.entities.Role;
 
-public class CategoryMapper {
-    public static Category toEntity(CategoryRequestDto requestObject) {
+public class RoleMapper {
+    public static Role toEntity(RoleRequestDto requestObject) {
         if(requestObject == null) return null;
 
-        return Category.builder()
-                .name(requestObject.getName())
+        return Role.builder()
+                .name(requestObject.getName().toUpperCase())
                 .description(requestObject.getDescription())
                 .active(true)
                 .build();
     }
 
-    public static CategoryResponseDto toResponseDto(Category entity) {
+    public static RoleResponseDto toResponseDto(Role entity) {
         if(entity == null) return null;
 
-        return CategoryResponseDto.builder()
+        return RoleResponseDto.builder()
                 .id(entity.getId())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
@@ -25,10 +25,10 @@ public class CategoryMapper {
                 .build();
     }
 
-    public static CategoryResumeResponseDto toResumeResponseDto(Category entity) {
+    public static RoleResumeResponseDto toResumeResponseDto(Role entity) {
         if(entity == null) return null;
 
-        return CategoryResumeResponseDto.builder()
+        return RoleResumeResponseDto.builder()
                 .id(entity.getId())
                 .name(entity.getName())
                 .build();

@@ -1,15 +1,17 @@
 package sptech.school.projetoPI.dto.service;
 
-import lombok.Getter;
-import lombok.Setter;
-import sptech.school.projetoPI.dto.category.CategoryResponseDto;
+import lombok.*;
+import sptech.school.projetoPI.dto.category.CategoryResumeResponseDto;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ServiceResponseDto {
-    private Integer Id;
+    private Integer id;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String name;
@@ -17,5 +19,5 @@ public class ServiceResponseDto {
     private Integer baseDuration;
     private String description;
     private String image;
-    private CategoryResponseDto category;
+    private CategoryResumeResponseDto category;
 }

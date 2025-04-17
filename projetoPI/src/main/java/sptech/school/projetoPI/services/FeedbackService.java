@@ -1,5 +1,6 @@
 package sptech.school.projetoPI.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.entities.Feedback;
@@ -13,17 +14,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class FeedbackService {
-
     private final FeedbackRepository repository;
     private final ScheduleRepository scheduleRepository;
     private final UserRepository userRepository;
-
-    public FeedbackService(FeedbackRepository repository, ScheduleRepository scheduleRepository, UserRepository userRepository) {
-        this.repository = repository;
-        this.scheduleRepository = scheduleRepository;
-        this.userRepository = userRepository;
-    }
 
     public Feedback signFeedback(Feedback feedback) {
         validateRequestBody(feedback);
@@ -70,7 +65,8 @@ public class FeedbackService {
         return ResponseEntity.status(204).build();
     }
 
-    public void validateRequestBody(Feedback feedback) {
+    // Validação do POST & PUT
+    private void validateRequestBody(Feedback feedback) {
         if (!scheduleRepository.existsById(feedback.getSchedule().getId())) {
             throw new RelatedEntityNotFoundException(
                     "O agendamento com o ID %d não foi encontrado".formatted(feedback.getSchedule().getId())

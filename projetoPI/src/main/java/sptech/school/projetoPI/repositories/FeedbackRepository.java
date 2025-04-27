@@ -6,6 +6,6 @@ import sptech.school.projetoPI.entities.Feedback;
 import java.util.List;
 
 public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
-    boolean existsByUserId(Integer id);
-    List<Feedback> findAllByUserId(Integer id);
+    boolean existsByClientId(Integer clientId);
+    List<Feedback> findAllByClientId(Integer clientId);
 }

@@ -1,9 +1,12 @@
 package sptech.school.projetoPI.dto.schedule;
 
-import sptech.school.projetoPI.dto.user.UserMapper;
+import sptech.school.projetoPI.dto.client.ClientMapper;
+import sptech.school.projetoPI.dto.paymentType.PaymentTypeMapper;
+import sptech.school.projetoPI.dto.employee.EmployeeMapper;
+import sptech.school.projetoPI.entities.Client;
 import sptech.school.projetoPI.entities.PaymentType;
 import sptech.school.projetoPI.entities.Schedule;
-import sptech.school.projetoPI.entities.User;
+import sptech.school.projetoPI.entities.Employee;
 import sptech.school.projetoPI.enums.Status;
 
 import java.time.LocalDateTime;
@@ -15,7 +18,8 @@ public class ScheduleMapper {
         return Schedule.builder()
                 .appointmentDatetime(requestObject.getAppointmentDatetime())
                 .status(Status.ACTIVE)
-                .user(User.builder().id(requestObject.getUser()).build())
+                .client(Client.builder().id(requestObject.getClient()).build())
+                .employee(Employee.builder().id(requestObject.getEmployee()).build())
                 .build();
     }
 
@@ -24,16 +28,13 @@ public class ScheduleMapper {
 
         return Schedule.builder()
                 .appointmentDatetime(updateObject.getAppointmentDatetime())
-                .status(Status.valueOf(updateObject.getStatus()))
+                .status(Status.checkValue(updateObject.getStatus().toUpperCase()))
                 .duration(updateObject.getDuration())
                 .transactionHash(updateObject.getTransactionHash())
                 .updatedAt(LocalDateTime.now())
-                .user(User.builder().id(updateObject.getUser()).build())
-                .paymentType(
-                        updateObject.getPaymentType() != null?
-                        PaymentType.builder().id(updateObject.getPaymentType()).build() :
-                        null
-                )
+                .client(Client.builder().id(updateObject.getClient()).build())
+                .employee(Employee.builder().id(updateObject.getEmployee()).build())
+                .paymentType(PaymentType.builder().id(updateObject.getPaymentType()).build())
                 .build();
     }
 
@@ -46,12 +47,9 @@ public class ScheduleMapper {
                 .appointmentDatetime(entity.getAppointmentDatetime())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
-                .user(UserMapper.toResumeResponseDto(entity.getUser()))
-//                .paymentType(
-//                        entity.getPaymentType() != null?
-//                                PaymentType.builder().id(entity.getPaymentType()).build() :
-//                                null
-//                )
+                .client(ClientMapper.toResumeResponseDto(entity.getClient()))
+                .employee(EmployeeMapper.toResumeResponseDto(entity.getEmployee()))
+                .paymentType(PaymentTypeMapper.toResumeResponseDto(entity.getPaymentType()))
                 .build();
     }
 
@@ -62,7 +60,8 @@ public class ScheduleMapper {
                 .id(entity.getId())
                 .appointmentDatetime(entity.getAppointmentDatetime())
                 .status(entity.getStatus())
-                .user(UserMapper.toResumeResponseDto(entity.getUser()))
+                .client(ClientMapper.toResumeResponseDto(entity.getClient()))
+                .employee(EmployeeMapper.toResumeResponseDto(entity.getEmployee()))
                 .build();
     }
 }

@@ -1,5 +1,6 @@
 package sptech.school.projetoPI.dto.service;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import sptech.school.projetoPI.dto.category.CategoryResumeResponseDto;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ServiceResponseDto {
     private Integer id;
     private LocalDateTime createdAt;

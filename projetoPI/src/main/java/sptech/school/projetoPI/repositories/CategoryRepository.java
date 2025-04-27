@@ -10,7 +10,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     boolean existsByName(String name);
     boolean existsByIdAndActiveTrue(Integer id);
     boolean existsByIdAndActiveFalse(Integer id);
+    boolean existsByIdNotAndName(Integer id, String name);
     Optional<Category> findByIdAndActiveTrue(Integer id);
     List<Category> findAllByActiveTrue();
-    boolean existsByIdNotAndName(Integer id, String name);
 }

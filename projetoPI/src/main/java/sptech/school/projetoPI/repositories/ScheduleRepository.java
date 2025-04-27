@@ -9,8 +9,10 @@ import java.util.List;
 public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     boolean existsByAppointmentDatetime(LocalDateTime appointmentDatetime);
     boolean existsByPaymentTypeId(Integer id);
-    List<Schedule> findAllByPaymentTypeId(Integer id);
-    boolean existsByUserId(Integer id);
-    List<Schedule> findAllByUserId(Integer id);
+    boolean existsByEmployeeId(Integer id);
     boolean existsByIdNotAndAppointmentDatetime(Integer id, LocalDateTime appointmentDatetime);
+    boolean existsByClientId(Integer clientId);
+    List<Schedule> findAllByPaymentTypeId(Integer id);
+    List<Schedule> findAllByEmployeeId(Integer id);
+    List<Schedule> findAllByClientId(Integer clientId);
 }

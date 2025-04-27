@@ -4,18 +4,26 @@ import sptech.school.projetoPI.exceptions.exceptionClass.EnumIsNotValidException
 
 import java.util.Arrays;
 
-public enum Status {
-    ACTIVE,
-    COMPLETED,
-    CANCELED;
+public enum Entity {
+    AVAILABILITY,
+    CATEGORY,
+    CLIENT,
+    EMPLOYEE,
+    FEEDBACK,
+    PAYMENT_TYPE,
+    ROLE,
+    SCHEDULE,
+    SCHEDULE_ITEM,
+    SERVICE,
+    UNAVAILABLE;
 
-    public static Status checkValue(String value) {
+    public static Entity checkValue(String value) {
         if(Arrays.stream(Entity.values()).anyMatch(enumValue -> enumValue.name().equals(value))) {
-            return Status.valueOf(value);
+            return Entity.valueOf(value);
         }
 
         throw new EnumIsNotValidException(
-                "Status não reconhecido"
+                "Entidade não reconhecida"
         );
     }
 }

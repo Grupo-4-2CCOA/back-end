@@ -1,7 +1,8 @@
-package sptech.school.projetoPI.dto.role;
+package sptech.school.projetoPI.dto.client;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import sptech.school.projetoPI.dto.role.RoleResumeResponseDto;
 
 import java.time.LocalDateTime;
 
@@ -11,10 +12,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RoleResponseDto {
+public class ClientResponseDto {
     private Integer id;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String name;
-    private String description;
+    private String email;
+    private String cpf;
+    private String phone;
+    private String cep;
 }

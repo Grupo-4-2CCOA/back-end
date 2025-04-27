@@ -4,10 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.dto.client.ClientMapper;
-import sptech.school.projetoPI.dto.client.ClientRequestDto;
-import sptech.school.projetoPI.dto.client.ClientResponseDto;
-import sptech.school.projetoPI.dto.client.ClientResumeResponseDto;
+import sptech.school.projetoPI.dto.client.*;
 import sptech.school.projetoPI.entities.Client;
 import sptech.school.projetoPI.services.user.ClientService;
 
@@ -24,6 +21,15 @@ public class ClientController {
     public ResponseEntity<ClientResumeResponseDto> signClient(@Valid @RequestBody ClientRequestDto client) {
         Client tempClient = service.signClient(ClientMapper.toEntity(client));
         return ResponseEntity.status(201).body(ClientMapper.toResumeResponseDto(tempClient));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ClientTokenDto> login(@RequestBody ClientLoginDto usuarioLoginDto) {
+
+        final Client user = ClientMapper.of(usuarioLoginDto);
+        ClientTokenDto usuarioTokenDto = this.service.autenticar(user);
+
+        return ResponseEntity.status(200).body(usuarioTokenDto);
     }
 
     @GetMapping

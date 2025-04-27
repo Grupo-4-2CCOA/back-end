@@ -17,7 +17,7 @@ import java.util.List;
 public class ScheduleService {
     private final ScheduleRepository repository;
     private final EmployeeRepository employeeRepository;
-    private final ClientRepository clientRepository;
+    private final ClienteRepository clientRepository;
     private final PaymentTypeRepository paymentTypeRepository;
 
     public Schedule signSchedule(Schedule schedule) {

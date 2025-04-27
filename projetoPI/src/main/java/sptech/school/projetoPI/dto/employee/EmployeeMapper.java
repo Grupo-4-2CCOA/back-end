@@ -1,6 +1,10 @@
 package sptech.school.projetoPI.dto.employee;
 
+import org.springframework.security.core.userdetails.User;
+import sptech.school.projetoPI.dto.client.ClientLoginDto;
+import sptech.school.projetoPI.dto.client.ClientTokenDto;
 import sptech.school.projetoPI.dto.role.RoleMapper;
+import sptech.school.projetoPI.entities.Client;
 import sptech.school.projetoPI.entities.Role;
 import sptech.school.projetoPI.entities.Employee;
 
@@ -44,21 +48,21 @@ public class EmployeeMapper {
                 .build();
     }
 
-    public static User of(UserLoginDto userLoginDto){
+    public static Client of(ClientLoginDto userLoginDto){
         if(userLoginDto == null){
             return null;
         }
 
-        User user = new User();
+        Client user = new Client();
 
         user.setEmail(userLoginDto.getEmail());
-        user.setPassword(userLoginDto.getPassword());
+        user.setPassword(userLoginDto.getSenha());
 
         return user;
     }
 
-    public static UserTokenDto of(User user, String token){
-        UserTokenDto userTokenDto = new UserTokenDto();
+    public static ClientTokenDto of(Client user, String token){
+        ClientTokenDto userTokenDto = new ClientTokenDto();
 
         userTokenDto.setUserId(user.getId());
         userTokenDto.setEmail(user.getEmail());

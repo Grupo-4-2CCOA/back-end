@@ -40,4 +40,24 @@ public class ClientMapper {
                 .name(entity.getName())
                 .build();
     }
+
+    public static Client of(ClientLoginDto usuarioLoginDto) {
+        Client usuario = new Client();
+
+        usuario.setEmail(usuarioLoginDto.getEmail());
+        usuario.setPassword(usuarioLoginDto.getSenha());
+
+        return usuario;
+    }
+
+    public static ClientTokenDto of(Client usuario, String token) {
+        ClientTokenDto usuarioTokenDto = new ClientTokenDto();
+
+        usuarioTokenDto.setUserId(usuario.getId());
+        usuarioTokenDto.setEmail(usuario.getEmail());
+        usuarioTokenDto.setNome(usuario.getName());
+        usuarioTokenDto.setToken(token);
+
+        return usuarioTokenDto;
+    }
 }

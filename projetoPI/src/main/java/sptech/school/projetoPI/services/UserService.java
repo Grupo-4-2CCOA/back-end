@@ -9,18 +9,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import sptech.school.projetoPI.config.GerenciadorTokenJwt;
-import sptech.school.projetoPI.dto.user.UserMapper;
-import sptech.school.projetoPI.dto.user.UserTokenDto;
+import sptech.school.projetoPI.dto.client.ClientMapper;
+import sptech.school.projetoPI.dto.client.ClientTokenDto;
+import sptech.school.projetoPI.entities.Client;
 import sptech.school.projetoPI.entities.Feedback;
 import sptech.school.projetoPI.entities.Schedule;
-import sptech.school.projetoPI.entities.User;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.exceptions.exceptionClass.ForeignKeyConstraintException;
 import sptech.school.projetoPI.exceptions.exceptionClass.InactiveEntityException;
+import sptech.school.projetoPI.repositories.ClienteRepository;
 import sptech.school.projetoPI.repositories.FeedbackRepository;
 import sptech.school.projetoPI.repositories.ScheduleRepository;
-import sptech.school.projetoPI.repositories.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,14 +28,14 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private final UserRepository repository;
+    private final ClienteRepository repository;
     private final ScheduleRepository scheduleRepository;
     private final FeedbackRepository feedbackRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final GerenciadorTokenJwt genenciadorTokenJwt;
 
-    public User signUser(User user) {
+    public Client signUser(Client user) {
         if (repository.existsByCpf(user.getCpf())) {
             throw new EntityConflictException(
                     "Já existe um usuário cadastrado com este CPF"
@@ -54,12 +54,6 @@ public class UserService {
             );
         }
 
-        if (user.getRole().getName().equals("OWNER") && repository.existsByRoleName("OWNER")) {
-            throw new EntityConflictException(
-                    "Já existe um usuário como 'dono'"
-            );
-        }
-
         String senhaCriptografada = passwordEncoder.encode(user.getPassword());
 
         user.setId(null);
@@ -69,14 +63,14 @@ public class UserService {
         return repository.save(user);
     }
 
-    public UserTokenDto autenticar(User user){
+    public ClientTokenDto autenticar(Client user){
         final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
                 user.getEmail(), user.getPassword()
         );
 
         final Authentication authentication = this.authenticationManager.authenticate(credentials);
 
-        User userAutenticado = repository.findByEmail(user.getEmail())
+        Client userAutenticado = repository.findByEmail(user.getEmail())
                 .orElseThrow(
                         () -> new ResponseStatusException(404, "Email do usuário não cadastrado", null)
                 );
@@ -86,15 +80,15 @@ public class UserService {
         final String token = genenciadorTokenJwt.generateToken(authentication);
 
 
-        return UserMapper.of(userAutenticado, token);
+        return ClientMapper.of(userAutenticado, token);
 
     }
 
-    public List<User> getAllUsers() {
+    public List<Client> getAllUsers() {
         return repository.findAllByActiveTrue();
     }
 
-    public User getUserById(Integer id) {
+    public Client getUserById(Integer id) {
         return repository.findByIdAndActiveTrue(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         "O usuário de ID %d não foi encontrado".formatted(id)
@@ -102,7 +96,7 @@ public class UserService {
         );
     }
 
-    public User updateUserById(User user, Integer id) {
+    public Client updateUserById(Client user, Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O usuário com o ID %d não foi encontrado".formatted(id)
@@ -152,21 +146,21 @@ public class UserService {
             );
         }
 
-        if (scheduleRepository.existsByUserId(id)) {
-            throw new ForeignKeyConstraintException(
-                    "Os seguintes agendamentos estão relacionados com este usuário: %s".formatted(scheduleRepository.findAllByUserId(id)
-                            .stream().map(Schedule::getId).toList())
-            );
-        }
+//        if (scheduleRepository.existsByUserId(id)) {
+//            throw new ForeignKeyConstraintException(
+//                    "Os seguintes agendamentos estão relacionados com este usuário: %s".formatted(scheduleRepository.findAllByUserId(id)
+//                            .stream().map(Schedule::getId).toList())
+//            );
+//        }
+//
+//        if (feedbackRepository.existsByUserId(id)) {
+//            throw new ForeignKeyConstraintException(
+//                    "Os seguintes feedbacks estão relacionados com este usuário: %s".formatted(feedbackRepository.findAllByUserId(id)
+//                            .stream().map(Feedback::getId).toList())
+//            );
+//        }
 
-        if (feedbackRepository.existsByUserId(id)) {
-            throw new ForeignKeyConstraintException(
-                    "Os seguintes feedbacks estão relacionados com este usuário: %s".formatted(feedbackRepository.findAllByUserId(id)
-                            .stream().map(Feedback::getId).toList())
-            );
-        }
-
-        User user = repository.findById(id).get();
+        Client user = repository.findById(id).get();
         user.setActive(false);
         user.setUpdatedAt(LocalDateTime.now());
         repository.save(user);

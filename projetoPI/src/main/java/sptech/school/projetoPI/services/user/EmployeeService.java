@@ -18,7 +18,7 @@ public class EmployeeService {
     private final ScheduleRepository scheduleRepository;
     private final AvailabilityRepository availabilityRepository;
     private final RoleRepository roleRepository;
-    private final UserService userService;
+    private final UserService2 userService;
 
     public Employee signEmployee(Employee employee) {
         userService.validateUniqueProperties(employee.getCpf(), employee.getEmail(), employee.getPhone());

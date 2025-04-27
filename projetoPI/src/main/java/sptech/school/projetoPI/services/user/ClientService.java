@@ -1,12 +1,21 @@
 package sptech.school.projetoPI.services.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import sptech.school.projetoPI.config.GerenciadorTokenJwt;
+import sptech.school.projetoPI.dto.client.ClientMapper;
+import sptech.school.projetoPI.dto.client.ClientTokenDto;
 import sptech.school.projetoPI.entities.*;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.exceptions.exceptionClass.ForeignKeyConstraintException;
 import sptech.school.projetoPI.exceptions.exceptionClass.InactiveEntityException;
-import sptech.school.projetoPI.repositories.ClientRepository;
+import sptech.school.projetoPI.repositories.ClienteRepository;
 import sptech.school.projetoPI.repositories.FeedbackRepository;
 import sptech.school.projetoPI.repositories.ScheduleRepository;
 
@@ -16,17 +25,44 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ClientService {
-    private final ClientRepository repository;
+    private final ClienteRepository repository;
     private final ScheduleRepository scheduleRepository;
     private final FeedbackRepository feedbackRepository;
-    private final UserService userService;
+    private final UserService2 userService;
+    private final PasswordEncoder passwordEncoder;
+    private final GerenciadorTokenJwt gerenciadorTokenJwt;
+    private final AuthenticationManager authenticationManager;
 
     public Client signClient(Client client) {
         userService.validateUniqueProperties(client.getCpf(), client.getEmail(), client.getPhone());
+
+        String senhaCriptografada = passwordEncoder.encode(client.getPassword());
+
         client.setId(null);
         client.setCreatedAt(LocalDateTime.now());
         client.setUpdatedAt(LocalDateTime.now());
+        client.setPassword(senhaCriptografada);
         return repository.save(client);
+    }
+
+    public ClientTokenDto autenticar(Client usuario) {
+
+        final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
+                usuario.getEmail(), usuario.getPassword());
+
+        final Authentication authentication = this.authenticationManager.authenticate(credentials);
+
+        Client usuarioAutenticado =
+                repository.findByEmail(usuario.getEmail())
+                        .orElseThrow(
+                                () -> new ResponseStatusException(404, "Email do usuário não cadastrado", null)
+                        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        final String token = gerenciadorTokenJwt.generateToken(authentication);
+
+        return ClientMapper.of(usuarioAutenticado, token);
     }
 
     public List<Client> getAllClients() {

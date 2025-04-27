@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.entities.Feedback;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.exceptions.exceptionClass.RelatedEntityNotFoundException;
-import sptech.school.projetoPI.repositories.ClientRepository;
+import sptech.school.projetoPI.repositories.ClienteRepository;
 import sptech.school.projetoPI.repositories.FeedbackRepository;
 import sptech.school.projetoPI.repositories.ScheduleRepository;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
@@ -19,7 +19,7 @@ import java.util.List;
 public class FeedbackService {
     private final FeedbackRepository repository;
     private final ScheduleRepository scheduleRepository;
-    private final ClientRepository clientRepository;
+    private final ClienteRepository clientRepository;
 
     public Feedback signFeedback(Feedback feedback) {
         validateRequestBody(feedback);

@@ -3,13 +3,13 @@ package sptech.school.projetoPI.services.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
-import sptech.school.projetoPI.repositories.ClientRepository;
+import sptech.school.projetoPI.repositories.ClienteRepository;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
-    private final ClientRepository clientRepository;
+public class UserService2 {
+    private final ClienteRepository clientRepository;
     private final EmployeeRepository employeeRepository;
 
     public void validateUniqueProperties(String cpf, String email, String phone) {

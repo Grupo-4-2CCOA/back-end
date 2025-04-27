@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import sptech.school.projetoPI.entities.Schedule;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
@@ -15,4 +16,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     List<Schedule> findAllByPaymentTypeId(Integer id);
     List<Schedule> findAllByEmployeeId(Integer id);
     List<Schedule> findAllByClientId(Integer clientId);
+
+    boolean existsByUserId(Integer id);
+
+    Arrays findAllByUserId(Integer id);
 }

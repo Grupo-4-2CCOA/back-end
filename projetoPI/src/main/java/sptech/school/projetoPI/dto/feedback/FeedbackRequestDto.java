@@ -23,7 +23,7 @@ public class FeedbackRequestDto {
     @NotNull(message = "Preencha o ID do Agendamento")
     private Integer schedule;
 
-    @Positive(message = "ID inválido para Usuário")
-    @NotNull(message = "Preencha o ID do Usuário")
-    private Integer user;
+    @Positive(message = "ID inválido para Cliente")
+    @NotNull(message = "Preencha o ID do Cliente")
+    private Integer client;
 }

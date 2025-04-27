@@ -16,7 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository repository;
-    private final UserRepository userRepository;
+    private final EmployeeRepository employeeRepository;
+    private final ClientRepository clientRepository;
     private final PaymentTypeRepository paymentTypeRepository;
 
     public Schedule signSchedule(Schedule schedule) {
@@ -79,9 +80,15 @@ public class ScheduleService {
 
     // Validação do POST & PUT
     private void validateRequestBody(Schedule schedule) {
-        if (!userRepository.existsById(schedule.getUser().getId())) {
+        if (!clientRepository.existsById(schedule.getClient().getId())) {
             throw new RelatedEntityNotFoundException(
-                    "O usuário com o ID %d não foi encontrado".formatted(schedule.getUser().getId())
+                    "O cliente com o ID %d não foi encontrado".formatted(schedule.getClient().getId())
+            );
+        }
+
+        if (!employeeRepository.existsById(schedule.getEmployee().getId())) {
+            throw new RelatedEntityNotFoundException(
+                    "O funcionário com o ID %d não foi encontrado".formatted(schedule.getEmployee().getId())
             );
         }
 

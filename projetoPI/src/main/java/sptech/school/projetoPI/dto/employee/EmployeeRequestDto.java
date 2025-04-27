@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.dto.user;
+package sptech.school.projetoPI.dto.employee;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -9,9 +9,9 @@ import org.hibernate.validator.constraints.br.CPF;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRequestDto {
+public class EmployeeRequestDto {
     @Positive(message = "ID inválido para Cargo")
-    @NotBlank(message = "Insira o cargo do usuário")
+    @NotNull(message = "Insira o cargo do usuário")
     private Integer role;
 
     @Size(max = 80, message = "Nome muito longo")

@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface RoleRepository extends JpaRepository<Role, Integer> {
     boolean existsByName(String name);
     boolean existsByIdAndActiveFalse(Integer id);
+    boolean existsByIdNotAndName(Integer id, String name);
     Optional<Role> findByIdAndActiveTrue(Integer id);
     List<Role> findAllByActiveTrue();
-    boolean existsByIdNotAndName(Integer id, String name);
 }

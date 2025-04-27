@@ -1,10 +1,10 @@
 package sptech.school.projetoPI.dto.feedback;
 
+import sptech.school.projetoPI.dto.client.ClientMapper;
 import sptech.school.projetoPI.dto.schedule.ScheduleMapper;
-import sptech.school.projetoPI.dto.user.UserMapper;
+import sptech.school.projetoPI.entities.Client;
 import sptech.school.projetoPI.entities.Feedback;
 import sptech.school.projetoPI.entities.Schedule;
-import sptech.school.projetoPI.entities.User;
 
 public class FeedbackMapper {
     public static Feedback toEntity(FeedbackRequestDto requestObject) {
@@ -13,7 +13,7 @@ public class FeedbackMapper {
         return Feedback.builder()
                 .comment(requestObject.getComment())
                 .rating(requestObject.getRating())
-                .user(User.builder().id(requestObject.getUser()).build())
+                .client(Client.builder().id(requestObject.getClient()).build())
                 .schedule(Schedule.builder().id(requestObject.getSchedule()).build())
                 .build();
     }
@@ -27,7 +27,7 @@ public class FeedbackMapper {
                 .rating(entity.getRating())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
-                .user(UserMapper.toResumeResponseDto(entity.getUser()))
+                .client(ClientMapper.toResumeResponseDto(entity.getClient()))
                 .schedule(ScheduleMapper.toResumeResponseDto(entity.getSchedule()))
                 .build();
     }

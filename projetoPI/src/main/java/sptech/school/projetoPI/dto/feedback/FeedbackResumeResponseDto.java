@@ -1,5 +1,6 @@
 package sptech.school.projetoPI.dto.feedback;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 @Getter
@@ -7,6 +8,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class FeedbackResumeResponseDto {
     private Integer id;
     private String comment;

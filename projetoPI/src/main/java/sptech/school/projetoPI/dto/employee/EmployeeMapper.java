@@ -1,14 +1,14 @@
-package sptech.school.projetoPI.dto.user;
+package sptech.school.projetoPI.dto.employee;
 
 import sptech.school.projetoPI.dto.role.RoleMapper;
 import sptech.school.projetoPI.entities.Role;
-import sptech.school.projetoPI.entities.User;
+import sptech.school.projetoPI.entities.Employee;
 
-public class UserMapper {
-    public static User toEntity(UserRequestDto requestObject) {
+public class EmployeeMapper {
+    public static Employee toEntity(EmployeeRequestDto requestObject) {
         if(requestObject == null) return null;
 
-        return User.builder()
+        return Employee.builder()
                 .name(requestObject.getName())
                 .cpf(requestObject.getCpf())
                 .email(requestObject.getEmail())
@@ -20,10 +20,10 @@ public class UserMapper {
                 .build();
     }
 
-    public static UserResponseDto toResponseDto(User entity) {
+    public static EmployeeResponseDto toResponseDto(Employee entity) {
         if(entity == null) return null;
 
-        return UserResponseDto.builder()
+        return EmployeeResponseDto.builder()
                 .id(entity.getId())
                 .name(entity.getName())
                 .cpf(entity.getCpf())
@@ -36,10 +36,10 @@ public class UserMapper {
                 .build();
     }
 
-    public static UserResumeResponseDto toResumeResponseDto(User entity) {
+    public static EmployeeResumeResponseDto toResumeResponseDto(Employee entity) {
         if(entity == null) return null;
 
-        return UserResumeResponseDto.builder()
+        return EmployeeResumeResponseDto.builder()
                 .id(entity.getId())
                 .name(entity.getName())
                 .build();

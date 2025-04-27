@@ -16,7 +16,6 @@ public class UserMapper {
                 .cep(requestObject.getCep())
                 .phone(requestObject.getPhone())
                 .active(true)
-                .role(Role.builder().id(requestObject.getRole()).build())
                 .build();
     }
 
@@ -43,5 +42,29 @@ public class UserMapper {
                 .id(entity.getId())
                 .name(entity.getName())
                 .build();
+    }
+
+    public static User of(UserLoginDto userLoginDto){
+        if(userLoginDto == null){
+            return null;
+        }
+
+        User user = new User();
+
+        user.setEmail(userLoginDto.getEmail());
+        user.setPassword(userLoginDto.getPassword());
+
+        return user;
+    }
+
+    public static UserTokenDto of(User user, String token){
+        UserTokenDto userTokenDto = new UserTokenDto();
+
+        userTokenDto.setUserId(user.getId());
+        userTokenDto.setEmail(user.getEmail());
+        userTokenDto.setNome(user.getName());
+        userTokenDto.setToken(token);
+
+        return userTokenDto;
     }
 }

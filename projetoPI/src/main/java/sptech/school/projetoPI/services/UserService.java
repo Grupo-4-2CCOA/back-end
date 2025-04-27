@@ -1,7 +1,16 @@
 package sptech.school.projetoPI.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import sptech.school.projetoPI.config.GerenciadorTokenJwt;
+import sptech.school.projetoPI.dto.user.UserMapper;
+import sptech.school.projetoPI.dto.user.UserTokenDto;
 import sptech.school.projetoPI.entities.Feedback;
 import sptech.school.projetoPI.entities.Schedule;
 import sptech.school.projetoPI.entities.User;
@@ -22,6 +31,9 @@ public class UserService {
     private final UserRepository repository;
     private final ScheduleRepository scheduleRepository;
     private final FeedbackRepository feedbackRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final GerenciadorTokenJwt genenciadorTokenJwt;
 
     public User signUser(User user) {
         if (repository.existsByCpf(user.getCpf())) {
@@ -48,10 +60,34 @@ public class UserService {
             );
         }
 
+        String senhaCriptografada = passwordEncoder.encode(user.getPassword());
+
         user.setId(null);
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
+        user.setPassword(senhaCriptografada);
         return repository.save(user);
+    }
+
+    public UserTokenDto autenticar(User user){
+        final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
+                user.getEmail(), user.getPassword()
+        );
+
+        final Authentication authentication = this.authenticationManager.authenticate(credentials);
+
+        User userAutenticado = repository.findByEmail(user.getEmail())
+                .orElseThrow(
+                        () -> new ResponseStatusException(404, "Email do usuário não cadastrado", null)
+                );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        final String token = genenciadorTokenJwt.generateToken(authentication);
+
+
+        return UserMapper.of(userAutenticado, token);
+
     }
 
     public List<User> getAllUsers() {

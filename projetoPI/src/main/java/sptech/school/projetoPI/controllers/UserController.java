@@ -1,13 +1,11 @@
 package sptech.school.projetoPI.controllers;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.dto.user.UserMapper;
-import sptech.school.projetoPI.dto.user.UserRequestDto;
-import sptech.school.projetoPI.dto.user.UserResponseDto;
-import sptech.school.projetoPI.dto.user.UserResumeResponseDto;
+import sptech.school.projetoPI.dto.user.*;
 import sptech.school.projetoPI.entities.User;
 import sptech.school.projetoPI.services.UserService;
 
@@ -24,6 +22,15 @@ public class UserController {
     public ResponseEntity<UserResumeResponseDto> signUser(@Valid @RequestBody UserRequestDto user) {
         User tempUser = service.signUser(UserMapper.toEntity(user));
         return ResponseEntity.status(201).body(UserMapper.toResumeResponseDto(tempUser));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserTokenDto> login(@RequestBody UserLoginDto usuarioLoginDto) {
+
+        final User user = UserMapper.of(usuarioLoginDto);
+        UserTokenDto usuarioTokenDto = this.service.autenticar(user);
+
+        return ResponseEntity.status(200).body(usuarioTokenDto);
     }
 
     @GetMapping

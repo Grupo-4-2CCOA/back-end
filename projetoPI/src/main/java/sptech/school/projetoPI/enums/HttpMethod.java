@@ -4,18 +4,19 @@ import sptech.school.projetoPI.exceptions.exceptionClass.EnumIsNotValidException
 
 import java.util.Arrays;
 
-public enum Status {
-    ACTIVE,
-    COMPLETED,
-    CANCELED;
+public enum HttpMethod {
+    POST,
+    PATCH,
+    PUT,
+    DELETE;
 
-    public static Status checkValue(String value) {
+    public static HttpMethod checkValue(String value) {
         if(Arrays.stream(Entity.values()).anyMatch(enumValue -> enumValue.name().equals(value))) {
-            return Status.valueOf(value);
+            return HttpMethod.valueOf(value);
         }
 
         throw new EnumIsNotValidException(
-                "Status não reconhecido"
+                "Método HTTP não reconhecido"
         );
     }
 }

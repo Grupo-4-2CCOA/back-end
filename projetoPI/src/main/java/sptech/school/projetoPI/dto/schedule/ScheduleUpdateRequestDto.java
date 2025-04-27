@@ -11,15 +11,20 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ScheduleUpdateRequestDto {
-    @Positive(message = "ID inválido para Usuário")
-    @NotNull(message = "Preencha com o ID do Usuário")
-    private Integer user;
+    @Positive(message = "ID inválido para Cliente")
+    @NotNull(message = "Preencha com o ID do Cliente")
+    private Integer client;
+
+    @Positive(message = "ID inválido para Funcionário")
+    @NotNull(message = "Preencha com o ID do Funcionário")
+    private Integer employee;
+
 
     @NotNull(message = "Preencha o horário do agendamento")
     @FutureOrPresent(message = "Horário deve estar no futuro")
     private LocalDateTime appointmentDatetime;
 
-    @Pattern(regexp = "(?i)ACTIVE|COMPLETED|CANCELED", message = "O status do Agendamento deve ser ACTIVE, COMPLETED ou CANCELED")
+    @NotBlank(message = "Preencha o Status")
     private String status;
 
     @Positive(message = "Insira um tempo de duração válida")

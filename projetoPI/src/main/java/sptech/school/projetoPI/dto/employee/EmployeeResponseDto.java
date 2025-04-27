@@ -1,7 +1,6 @@
-package sptech.school.projetoPI.dto.user;
+package sptech.school.projetoPI.dto.employee;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import sptech.school.projetoPI.dto.role.RoleResumeResponseDto;
 
@@ -12,7 +11,8 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponseDto {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class EmployeeResponseDto {
     private Integer id;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

@@ -1,9 +1,7 @@
-package sptech.school.projetoPI.dto.role;
+package sptech.school.projetoPI.dto.employee;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -11,10 +9,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RoleResponseDto {
+public class EmployeeResumeResponseDto {
     private Integer id;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
     private String name;
-    private String description;
+    private String email;
 }

@@ -3,10 +3,10 @@ package sptech.school.projetoPI.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.entities.Role;
-import sptech.school.projetoPI.entities.User;
+import sptech.school.projetoPI.entities.Employee;
 import sptech.school.projetoPI.exceptions.exceptionClass.*;
 import sptech.school.projetoPI.repositories.RoleRepository;
-import sptech.school.projetoPI.repositories.UserRepository;
+import sptech.school.projetoPI.repositories.EmployeeRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoleService {
     private final RoleRepository repository;
-    private final UserRepository userRepository;
+    private final EmployeeRepository userRepository;
 
     public Role signRole(Role role) {
         if(repository.existsByName(role.getName())) {
@@ -83,7 +83,7 @@ public class RoleService {
         if (userRepository.existsByRoleId(id)) {
             throw new ForeignKeyConstraintException(
                     "Os seguintes usuários estão relacionados com este cargo: %s".formatted(userRepository.findAllByRoleId(id)
-                            .stream().map(User::getId).toList())
+                            .stream().map(Employee::getId).toList())
             );
         }
 

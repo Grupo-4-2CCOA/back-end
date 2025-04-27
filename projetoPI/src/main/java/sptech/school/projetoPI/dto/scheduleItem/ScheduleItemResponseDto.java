@@ -1,5 +1,6 @@
 package sptech.school.projetoPI.dto.scheduleItem;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import sptech.school.projetoPI.dto.schedule.ScheduleResumeResponseDto;
 import sptech.school.projetoPI.dto.service.ServiceResumeResponseDto;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ScheduleItemResponseDto {
     private Integer id;
     private LocalDateTime createdAt;

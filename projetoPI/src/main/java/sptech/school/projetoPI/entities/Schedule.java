@@ -28,8 +28,12 @@ public class Schedule {
     private Integer duration;
 
     @ManyToOne
-    @JoinColumn(name="fk_user")
-    private User user;
+    @JoinColumn(name="fk_client")
+    private Client client;
+
+    @ManyToOne
+    @JoinColumn(name="fk_employee")
+    private Employee employee;
 
     @ManyToOne
     @JoinColumn(name="fk_payment_type")

@@ -2,6 +2,7 @@ package sptech.school.projetoPI.exceptions;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -13,7 +14,20 @@ public class GlobalExceptionMapper {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public static ResponseEntity<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        return ResponseEntity.status(400).body("Erro na validação dos campos: %s".formatted(exception.getMessage()));
+        StringBuilder errorMessages = new StringBuilder("Os seguintes campos são inválidos: \n");
+
+        exception.getBindingResult().getFieldErrors().forEach(fieldError -> {
+            errorMessages.append("- %s; \n".formatted(fieldError.getField()));
+        });
+
+        errorMessages.append("\n Detalhes: %s".formatted(exception.getMessage()));
+
+        return ResponseEntity.status(400).body(errorMessages.toString());
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public static ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
+        return ResponseEntity.status(400).body("Não foi possível processar o corpo de requisição: %s".formatted(exception.getMessage()));
     }
 
     @ExceptionHandler(EntityConflictException.class)
@@ -44,5 +58,10 @@ public class GlobalExceptionMapper {
     @ExceptionHandler(InactiveEntityException.class)
     public static ResponseEntity<String> handleInactiveEntityException(InactiveEntityException exception) {
         return ResponseEntity.status(403).body("A entidade indicada está inativa: %s".formatted(exception.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidTimeRangeException.class)
+    public static ResponseEntity<String> handleInvalidTimeRangeException(InvalidTimeRangeException exception) {
+        return ResponseEntity.status(400).body("O horário inicial não pode ser após o horário final: %s".formatted(exception.getMessage()));
     }
 }

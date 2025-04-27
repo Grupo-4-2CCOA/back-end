@@ -13,9 +13,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ScheduleRequestDto {
-    @Positive(message = "ID inválido para usuário")
-    @NotNull(message = "Preencha com o ID do Usuário")
-    private Integer user;
+    @Positive(message = "ID inválido para Cliente")
+    @NotNull(message = "Preencha com o ID do Cliente")
+    private Integer client;
+
+    @Positive(message = "ID inválido para Funcionário")
+    @NotNull(message = "Preencha com o ID do Funcionário")
+    private Integer employee;
 
     @NotNull(message = "Preencha o horário do agendamento")
     @FutureOrPresent(message = "Horário deve estar no futuro")

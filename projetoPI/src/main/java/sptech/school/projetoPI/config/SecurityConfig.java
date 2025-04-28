@@ -1,9 +1,10 @@
 package sptech.school.projetoPI.config;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.validator.internal.util.stereotypes.Lazy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,11 +32,12 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
-    @Lazy
-    private final AuthService authService;
-    private final AuthEntryPoint authEntryPoint;
+    @Autowired
+    private AuthService authService;
+
+    @Autowired
+    private AuthEntryPoint authEntryPoint;
 
     private static final AntPathRequestMatcher[] URLS_PERMITIDAS = {
             new AntPathRequestMatcher("/swagger-ui/**"),
@@ -90,7 +92,8 @@ public class SecurityConfig {
         return new AuthEntryPoint();
     }
 
-    @Bean public AuthFilter jwtAuthenticationFilterBean(){
+    @Bean
+    public AuthFilter jwtAuthenticationFilterBean(){
         return new AuthFilter(authService, jwtAuthenticationUtilBean());
     }
 

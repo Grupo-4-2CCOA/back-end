@@ -6,6 +6,10 @@ import sptech.school.projetoPI.entities.User;
 
 public class UserMapper {
     public static Client of(UserLoginDto usuarioLoginDto) {
+        if (usuarioLoginDto.getEmail() == null || usuarioLoginDto.getSenha() == null) {
+            throw new IllegalArgumentException("Email ou senha não podem ser nulos: Mapper");
+        }
+
         Client usuario = new Client();
 
         usuario.setEmail(usuarioLoginDto.getEmail());

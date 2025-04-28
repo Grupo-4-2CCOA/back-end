@@ -32,6 +32,9 @@ public class ClientController {
     @PostMapping("/login")
     public ResponseEntity<UserTokenDto> login(@RequestBody UserLoginDto usuarioLoginDto) {
 
+        System.out.println("Email: " + usuarioLoginDto.getEmail());
+        System.out.println("Senha: " + usuarioLoginDto.getSenha());
+
         final Client usuario = UserMapper.of(usuarioLoginDto);
         UserTokenDto usuarioTokenDto = this.service.autenticar(usuario);
 

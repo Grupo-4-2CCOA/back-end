@@ -50,6 +50,10 @@ public class ClientService {
         final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
                 usuario.getEmail(), usuario.getPassword());
 
+        if (usuario.getPassword() == null || usuario.getPassword().isEmpty()) {
+            throw new ResponseStatusException(400, "A senha não pode ser nula ou vazia.", null);
+        }
+
         final Authentication authentication = this.authenticationManager.authenticate(credentials);
 
         Client usuarioAutenticado =

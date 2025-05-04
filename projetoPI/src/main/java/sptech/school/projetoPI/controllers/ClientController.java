@@ -44,19 +44,6 @@ public class ClientController {
         return ResponseEntity.status(201).body(ClientMapper.toResumeResponseDto(tempClient));
     }
 
-    @PostMapping("/login")
-    @Operation(summary = "xxxxx", description = "xxxxx")
-    public ResponseEntity<UserTokenDto> login(@RequestBody UserLoginDto usuarioLoginDto) {
-
-        System.out.println("Email: " + usuarioLoginDto.getEmail());
-        System.out.println("Senha: " + usuarioLoginDto.getSenha());
-
-        final Client usuario = UserMapper.of(usuarioLoginDto);
-        UserTokenDto usuarioTokenDto = this.service.autenticar(usuario);
-
-        return ResponseEntity.status(200).body(usuarioTokenDto);
-    }
-
     @GetMapping
     @Operation(summary = "Buscar clientes", description = "Busca todos os clientes cadastrados no sistema.")
     @ApiResponses(value = {

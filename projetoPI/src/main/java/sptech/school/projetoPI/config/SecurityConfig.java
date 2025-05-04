@@ -1,10 +1,10 @@
 package sptech.school.projetoPI.config;
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +24,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import sptech.school.projetoPI.repositories.ClientRepository;
+import sptech.school.projetoPI.repositories.EmployeeRepository;
 import sptech.school.projetoPI.services.AuthService;
 
 import java.util.Arrays;
@@ -32,12 +34,13 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
-    @Autowired
-    private AuthService authService;
 
-    @Autowired
-    private AuthEntryPoint authEntryPoint;
+    private final ClientRepository clientRepository;
+    private final EmployeeRepository employeeRepository;
+    private final GerenciadorTokenJwt gerenciadorTokenJwt;
+    private final AuthEntryPoint authEntryPoint;
 
     private static final AntPathRequestMatcher[] URLS_PERMITIDAS = {
             new AntPathRequestMatcher("/swagger-ui/**"),
@@ -52,7 +55,8 @@ public class SecurityConfig {
             new AntPathRequestMatcher("/v3/api-docs/**"),
             new AntPathRequestMatcher("/actuator/*"),
             new AntPathRequestMatcher("/clientes/**"),
-            new AntPathRequestMatcher("/clientes/login/**"),
+            new AntPathRequestMatcher("/auth/**"),
+            new AntPathRequestMatcher("/funcionarios/**"),
             new AntPathRequestMatcher("/h2-console/**"),
             new AntPathRequestMatcher("/h2-console/**/**"),
             new AntPathRequestMatcher("/error/**")
@@ -69,8 +73,8 @@ public class SecurityConfig {
                         .anyRequest()
                         .authenticated()
                 )
-                .exceptionHandling(handling -> handling
-                        .authenticationEntryPoint(authEntryPoint))
+                .exceptionHandling(
+                        handling -> handling.authenticationEntryPoint(authEntryPoint))
                 .sessionManagement(management -> management
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
@@ -80,26 +84,21 @@ public class SecurityConfig {
     }
 
     @Bean
+    public AuthService authService() {
+        return new AuthService(clientRepository, employeeRepository, gerenciadorTokenJwt);
+    }
+
+    @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.authenticationProvider(new AuthProvider(authService, passwordEncoder()));
+        authenticationManagerBuilder.authenticationProvider(new AuthProvider(authService(), passwordEncoder()));
         return authenticationManagerBuilder.build();
     }
 
     @Bean
-    public AuthEntryPoint jwtAuthenticationEntryPointBean() {
-        return new AuthEntryPoint();
-    }
-
-    @Bean
     public AuthFilter jwtAuthenticationFilterBean(){
-        return new AuthFilter(authService, jwtAuthenticationUtilBean());
-    }
-
-    @Bean
-    public GerenciadorTokenJwt jwtAuthenticationUtilBean() {
-        return new GerenciadorTokenJwt();
+        return new AuthFilter(authService(), gerenciadorTokenJwt);
     }
 
     @Bean

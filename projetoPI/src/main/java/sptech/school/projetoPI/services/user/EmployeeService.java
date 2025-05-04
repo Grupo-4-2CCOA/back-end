@@ -1,6 +1,7 @@
 package sptech.school.projetoPI.services.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.entities.Availability;
 import sptech.school.projetoPI.entities.Schedule;
@@ -19,6 +20,7 @@ public class EmployeeService {
     private final AvailabilityRepository availabilityRepository;
     private final RoleRepository roleRepository;
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     public Employee signEmployee(Employee employee) {
         userService.validateUniqueProperties(employee.getCpf(), employee.getEmail(), employee.getPhone());
@@ -35,8 +37,11 @@ public class EmployeeService {
             );
         }
 
+        String senhaCriptografada = passwordEncoder.encode(employee.getPassword());
+
         validateRequestBody(employee);
         employee.setId(null);
+        employee.setPassword(senhaCriptografada);
         employee.setCreatedAt(LocalDateTime.now());
         employee.setUpdatedAt(LocalDateTime.now());
         return repository.save(employee);

@@ -11,6 +11,7 @@ public class UserMapper {
         dto.setEmail(usuario.getEmail());
         dto.setNome(usuario.getName());
         dto.setToken(token);
+        dto.setTipoUsuario("CLIENTE");
         return dto;
     }
 
@@ -20,6 +21,7 @@ public class UserMapper {
         dto.setEmail(usuario.getEmail());
         dto.setNome(usuario.getName());
         dto.setToken(token);
+        dto.setTipoUsuario("FUNC");
         return dto;
     }
 }

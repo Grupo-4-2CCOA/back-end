@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import sptech.school.projetoPI.services.AuthService;
 
-@Component
 public class AuthProvider implements AuthenticationProvider {
     private final AuthService usuarioAutorizacaoService;
     private final PasswordEncoder passwordEncoder;

@@ -15,8 +15,6 @@ import sptech.school.projetoPI.dto.login.UserDetailsDto;
 import sptech.school.projetoPI.dto.login.UserLoginDto;
 import sptech.school.projetoPI.dto.login.UserMapper;
 import sptech.school.projetoPI.dto.login.UserTokenDto;
-import sptech.school.projetoPI.entities.Client;
-import sptech.school.projetoPI.entities.User;
 import sptech.school.projetoPI.repositories.ClientRepository;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
 

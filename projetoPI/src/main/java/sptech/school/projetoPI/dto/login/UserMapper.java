@@ -5,27 +5,21 @@ import sptech.school.projetoPI.entities.Employee;
 import sptech.school.projetoPI.entities.User;
 
 public class UserMapper {
-    public static Client of(UserLoginDto usuarioLoginDto) {
-        if (usuarioLoginDto.getEmail() == null || usuarioLoginDto.getSenha() == null) {
-            throw new IllegalArgumentException("Email ou senha não podem ser nulos: Mapper");
-        }
-
-        Client usuario = new Client();
-
-        usuario.setEmail(usuarioLoginDto.getEmail());
-        usuario.setPassword(usuarioLoginDto.getSenha());
-
-        return usuario;
+    public static UserTokenDto of(Client usuario, String token) {
+        UserTokenDto dto = new UserTokenDto();
+        dto.setUserId(usuario.getId());
+        dto.setEmail(usuario.getEmail());
+        dto.setNome(usuario.getName());
+        dto.setToken(token);
+        return dto;
     }
 
-    public static UserTokenDto of(Client usuario, String token) {
-        UserTokenDto usuarioTokenDto = new UserTokenDto();
-
-        usuarioTokenDto.setUserId(usuario.getId());
-        usuarioTokenDto.setEmail(usuario.getEmail());
-        usuarioTokenDto.setNome(usuario.getName());
-        usuarioTokenDto.setToken(token);
-
-        return usuarioTokenDto;
+    public static UserTokenDto of(Employee usuario, String token) {
+        UserTokenDto dto = new UserTokenDto();
+        dto.setUserId(usuario.getId());
+        dto.setEmail(usuario.getEmail());
+        dto.setNome(usuario.getName());
+        dto.setToken(token);
+        return dto;
     }
 }

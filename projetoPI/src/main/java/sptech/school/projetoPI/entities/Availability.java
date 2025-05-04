@@ -20,6 +20,7 @@ public class Availability {
     private Boolean isAvailable;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    @Column(name = "\"day\"")
     private LocalDate day;
     private LocalTime startTime;
     private LocalTime endTime;

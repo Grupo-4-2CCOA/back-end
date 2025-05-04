@@ -1,6 +1,7 @@
 package sptech.school.projetoPI.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import sptech.school.projetoPI.entities.Client;
 import sptech.school.projetoPI.entities.Employee;
 
 import java.util.List;
@@ -20,4 +21,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     Optional<Employee> findByIdAndActiveTrue(Integer id);
     List<Employee> findAllByActiveTrue();
     List<Employee> findAllByRoleId(Integer id);
+    Optional<Employee> findByEmail(String email);
 }

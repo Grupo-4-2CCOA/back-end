@@ -30,8 +30,6 @@ public class ClientService {
     private final FeedbackRepository feedbackRepository;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-    private final GerenciadorTokenJwt gerenciadorTokenJwt;
-    private final AuthenticationManager authenticationManager;
 
     public Client signClient(Client client) {
         userService.validateUniqueProperties(client.getCpf(), client.getEmail(), client.getPhone());
@@ -43,30 +41,6 @@ public class ClientService {
         client.setCreatedAt(LocalDateTime.now());
         client.setUpdatedAt(LocalDateTime.now());
         return repository.save(client);
-    }
-
-    public UserTokenDto autenticar(Client usuario) {
-
-        final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
-                usuario.getEmail(), usuario.getPassword());
-
-        if (usuario.getPassword() == null || usuario.getPassword().isEmpty()) {
-            throw new ResponseStatusException(400, "A senha não pode ser nula ou vazia.", null);
-        }
-
-        final Authentication authentication = this.authenticationManager.authenticate(credentials);
-
-        Client usuarioAutenticado =
-                repository.findByEmail(usuario.getEmail())
-                        .orElseThrow(
-                                () -> new ResponseStatusException(404, "Email do usuário não cadastrado", null)
-                        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        final String token = gerenciadorTokenJwt.generateToken(authentication);
-
-        return UserMapper.of(usuarioAutenticado, token);
     }
 
     public List<Client> getAllClients() {

@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sptech.school.projetoPI.dto.client.ClientResumeResponseDto;
 import sptech.school.projetoPI.dto.schedule.*;
 import sptech.school.projetoPI.dto.service.ServiceResumeResponseDto;
 import sptech.school.projetoPI.entities.Schedule;
@@ -42,6 +43,11 @@ public class ScheduleController {
                     schema = @Schema(implementation = ScheduleResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
+            @ApiResponse(responseCode = "409", description = "Horário indisponível!", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
+            ))
     })
     public ResponseEntity<ScheduleResumeResponseDto> signSchedule(@Valid @RequestBody ScheduleRequestDto schedule) {
         Schedule tempSchedule = service.signSchedule(ScheduleMapper.toEntity(schedule));

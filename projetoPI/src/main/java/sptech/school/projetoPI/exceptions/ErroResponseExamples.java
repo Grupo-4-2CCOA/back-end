@@ -52,5 +52,13 @@ public class ErroResponseExamples {
           "mensagem": "Requisição realizada com sucesso"
         }
         """;
+
+        public static final String CONFLICT = """
+        {
+          "status": 409,
+          "Erro": "Conflito",
+          "mensagem": "Recurso ja existente"
+        }
+        """;
     }
 

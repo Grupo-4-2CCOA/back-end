@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sptech.school.projetoPI.dto.client.ClientResumeResponseDto;
 import sptech.school.projetoPI.dto.feedback.FeedbackMapper;
 import sptech.school.projetoPI.dto.feedback.FeedbackRequestDto;
 import sptech.school.projetoPI.dto.feedback.FeedbackResponseDto;

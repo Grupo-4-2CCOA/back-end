@@ -45,6 +45,11 @@ public class AvailabilityController {
                     schema = @Schema(implementation = ClientResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
+            @ApiResponse(responseCode = "409", description = "Disponibilidade já existe", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
+            ))
     })
     public ResponseEntity<AvailabilityResumeResponseDto> signAvailability(@Valid @RequestBody AvailabilityRequestDto availability) {
         Availability tempAvailability = service.signAvailability(AvailabilityMapper.toEntity(availability));

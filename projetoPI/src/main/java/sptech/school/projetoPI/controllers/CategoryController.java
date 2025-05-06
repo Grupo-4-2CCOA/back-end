@@ -45,6 +45,11 @@ public class CategoryController {
                     schema = @Schema(implementation = ClientResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
+            @ApiResponse(responseCode = "409", description = "Categoria já existe", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
+            ))
     })
     public ResponseEntity<CategoryResumeResponseDto> signCategory(@Valid @RequestBody CategoryRequestDto category) {
         Category tempCategory = service.signCategory(CategoryMapper.toEntity(category));

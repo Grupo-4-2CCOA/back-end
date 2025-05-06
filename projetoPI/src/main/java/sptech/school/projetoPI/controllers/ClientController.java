@@ -47,6 +47,11 @@ public class ClientController {
                     schema = @Schema(implementation = ClientResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
+            @ApiResponse(responseCode = "409", description = "Usuário já existe", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
+            ))
     })
     public ResponseEntity<ClientResumeResponseDto> signClient(@Valid @RequestBody ClientRequestDto client) {
         Client tempClient = service.signClient(ClientMapper.toEntity(client));

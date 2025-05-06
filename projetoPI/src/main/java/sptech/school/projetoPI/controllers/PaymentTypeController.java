@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sptech.school.projetoPI.dto.client.ClientResumeResponseDto;
 import sptech.school.projetoPI.dto.paymentType.PaymentTypeMapper;
 import sptech.school.projetoPI.dto.paymentType.PaymentTypeRequestDto;
 import sptech.school.projetoPI.dto.paymentType.PaymentTypeResponseDto;
@@ -45,6 +46,11 @@ public class PaymentTypeController {
                     schema = @Schema(implementation = PaymentTypeResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
+            @ApiResponse(responseCode = "409", description = "Método de pagamento já existe", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
+            ))
     })
     public ResponseEntity<PaymentTypeResumeResponseDto> signPaymentType(@Valid @RequestBody PaymentTypeRequestDto paymentType) {
         PaymentType tempPaymentType = service.signPaymentType(PaymentTypeMapper.toEntity(paymentType));

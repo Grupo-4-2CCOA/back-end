@@ -45,6 +45,11 @@ public class ServiceController {
                     schema = @Schema(implementation = ServiceResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
+            @ApiResponse(responseCode = "409", description = "Serviço já existe", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
+            ))
     })
     public ResponseEntity<ServiceResumeResponseDto> signService(@Valid @RequestBody ServiceRequestDto service1) {
         Service tempService = service.signService(ServiceMapper.toEntity(service1));

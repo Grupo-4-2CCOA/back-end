@@ -45,6 +45,11 @@ public class EmployeeController {
                     schema = @Schema(implementation = ClientResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
+            @ApiResponse(responseCode = "409", description = "Funcionário já existe", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
+            ))
     })
     public ResponseEntity<EmployeeResumeResponseDto> signEmployee(@Valid @RequestBody EmployeeRequestDto employee) {
         Employee tempEmployee = service.signEmployee(EmployeeMapper.toEntity(employee));

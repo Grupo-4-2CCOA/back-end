@@ -45,6 +45,11 @@ public class RoleController {
                     schema = @Schema(implementation = ClientResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.CREATED)
             )),
+            @ApiResponse(responseCode = "409", description = "Cargo já existe", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
+            ))
     })
     public ResponseEntity<RoleResumeResponseDto> signRole(@Valid @RequestBody RoleRequestDto category) {
         Role tempRole = service.signRole(RoleMapper.toEntity(category));

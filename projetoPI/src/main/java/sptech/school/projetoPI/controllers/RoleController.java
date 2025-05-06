@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class RoleController {
     private final RoleService service;
 
     @PostMapping
+    @SecurityRequirement(name = "Bearer")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Usuário cadastrado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Um ou mais campos estão inválidos"),
@@ -41,6 +43,7 @@ public class RoleController {
     }
 
     @GetMapping
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar cargos", description = "Busca todos os cargos cadastrados no sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "cargos trazidos com sucesso", content = @Content(
@@ -70,6 +73,7 @@ public class RoleController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar cargos por ID", description = "Busca o cargos com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "cargos encontrado", content = @Content(
@@ -98,6 +102,7 @@ public class RoleController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Atualizar cargos por ID", description = "Atualiza um cargos com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso", content = @Content(
@@ -127,6 +132,7 @@ public class RoleController {
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Deletar cargos por ID", description = "Deleta um cargos com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "cargos não encontrado", content = @Content(

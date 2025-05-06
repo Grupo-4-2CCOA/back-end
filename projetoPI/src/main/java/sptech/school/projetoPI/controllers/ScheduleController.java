@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class ScheduleController {
     private final ScheduleService service;
 
     @PostMapping
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Cadastrar agendamento", description = "Cadastra um novo agendamento no sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Agendamento cadastrado com sucesso!", content = @Content(
@@ -47,6 +49,7 @@ public class ScheduleController {
     }
 
     @GetMapping
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar agendamentos", description = "Busca todos os agendamentos cadastrados no sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Agendamentos trazidos com sucesso!", content = @Content(
@@ -76,6 +79,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar agendamento por ID", description = "Busca o agendamento com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Agendamento encontrado", content = @Content(
@@ -104,6 +108,7 @@ public class ScheduleController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Atualizar agendamento por ID", description = "Atualiza um agendamento com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Agendamento atualizado com sucesso", content = @Content(
@@ -133,6 +138,7 @@ public class ScheduleController {
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Deletar agendamento por ID ", description = "Deleta um agendamento com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "Agendamento não encontrado", content = @Content(

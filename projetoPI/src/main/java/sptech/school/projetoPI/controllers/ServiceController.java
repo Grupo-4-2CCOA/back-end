@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class ServiceController {
     private final ServiceService service;
 
     @PostMapping
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Cadastrar novo serviço", description = "Cadastra um novo serviço a partir do json fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Serviço cadastrado com sucesso!", content = @Content(
@@ -50,6 +52,7 @@ public class ServiceController {
     }
 
     @GetMapping
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar todos os serviços", description = "Busca todos os serviços cadastros no sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Serviços trazidos com sucesso!", content = @Content(
@@ -79,6 +82,7 @@ public class ServiceController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar serviço por ID", description = "Busca o serviço pelo ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Serviço encontrado", content = @Content(
@@ -107,6 +111,7 @@ public class ServiceController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Atualizar serviço por ID", description = "Atualiza as informações do serviço com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Serviço atualizado com sucesso", content = @Content(
@@ -136,6 +141,7 @@ public class ServiceController {
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Deletar serviço por ID", description = "Deleta o serviço cujo ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "Serviço não encontrado", content = @Content(

@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class FeedbackController {
     private final FeedbackService service;
 
     @PostMapping
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Cadastrar feedback", description = "Cadastra um novo feedback no sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Feedback cadastrado com sucesso!", content = @Content(
@@ -50,6 +52,7 @@ public class FeedbackController {
     }
 
     @GetMapping
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar todos os feedbacks", description = "Busca todos os feedbacks registrados no sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Feedbacks trazidos com sucesso!", content = @Content(
@@ -79,6 +82,7 @@ public class FeedbackController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar feedback por ID", description = "Busca um feedback com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Feedback encontrado", content = @Content(
@@ -107,6 +111,7 @@ public class FeedbackController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Atualizar feedback por ID", description = "Atualiza as informações de um feedback com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Feedback atualizado com sucesso", content = @Content(
@@ -136,6 +141,7 @@ public class FeedbackController {
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Deletar feedback por ID", description = "Deleta um feedback com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "Feedback não encontrado", content = @Content(

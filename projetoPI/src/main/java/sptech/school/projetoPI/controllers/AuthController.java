@@ -1,6 +1,8 @@
 package sptech.school.projetoPI.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,11 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping
-    @Operation(summary = "Login", description = "xxxxx")
+    @Operation(summary = "Login", description = "Endpoint para autenticação")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Usuário logado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Um ou mais campos estão inválidos"),
+    })
     public ResponseEntity<UserTokenDto> login(@RequestBody UserLoginDto usuarioLoginDto) {
 
         UserTokenDto usuarioTokenDto = service.autenticar(usuarioLoginDto, authenticationManager);

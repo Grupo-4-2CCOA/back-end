@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class AvailabilityController {
     private final AvailabilityService service;
 
     @PostMapping
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Cadastrar uma disponibilidade", description = "Cadastra uma nova disponibilidade no sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Usuário cadastrado com sucesso"),
@@ -42,6 +44,7 @@ public class AvailabilityController {
     }
 
     @GetMapping
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar disponibilidade", description = "Busca todas as disponibilidades cadastrados no sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Disponibilidades trazidos com sucesso", content = @Content(
@@ -71,6 +74,7 @@ public class AvailabilityController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar disponibilidade por ID", description = "Busca a disponibilidade com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Disponibilidades encontrado", content = @Content(
@@ -99,6 +103,7 @@ public class AvailabilityController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Atualizar disponibilidade por ID", description = "Atualiza uma disponibilidade com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Disponibilidades atualizado com sucesso", content = @Content(
@@ -128,6 +133,7 @@ public class AvailabilityController {
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Deletar disponibilidade por ID", description = "Deleta uma disponibilidade com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "Disponibilidades não encontrado", content = @Content(

@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class PaymentTypeController {
     private final PaymentTypeService service;
 
     @PostMapping
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Cadastrar forma de pagamento", description = "Cadastra uma nova forma de pagamento.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Forma de pagamento cadastrada com sucesso", content = @Content(
@@ -50,6 +52,7 @@ public class PaymentTypeController {
     }
 
     @GetMapping
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar formas de pagamento", description = "Busca todas as formas de pagamento cadastradas no sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Formas de pagamento trazidas com sucesso", content = @Content(
@@ -79,6 +82,7 @@ public class PaymentTypeController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar forma de pagamento por ID", description = "Busca a forma de pagamento referente ao ID passado.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Forma de pagamento encontrada", content = @Content(
@@ -107,6 +111,7 @@ public class PaymentTypeController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Atualizar forma de pagamento", description = "Atualiza as informações da forma de pagamento cujo ID passado.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Forma de pagamento atualizada com sucesso", content = @Content(
@@ -136,6 +141,7 @@ public class PaymentTypeController {
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Deletar forma de pagamento por ID", description = "Deleta a forma de pagamento cujo ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "Forma de pagamento não encontrada", content = @Content(

@@ -35,8 +35,16 @@ public class EmployeeController {
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Cadastrar um funcionario", description = "Cadastra um novo funcionario no sistema.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Usuário cadastrado com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Um ou mais campos estão inválidos"),
+            @ApiResponse(responseCode = "201", description = "Funcionário cadastrado com sucesso", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.CREATED)
+            )),
+            @ApiResponse(responseCode = "400", description = "Um ou mais campos estão inválidos", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
+            )),
     })
     public ResponseEntity<EmployeeResumeResponseDto> signEmployee(@Valid @RequestBody EmployeeRequestDto employee) {
         Employee tempEmployee = service.signEmployee(EmployeeMapper.toEntity(employee));

@@ -37,8 +37,16 @@ public class ClientController {
     @PostMapping
     @Operation(summary = "Cadastrar um cliente", description = "Cadastra um novo cliente no sistema.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Usuário cadastrado com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Um ou mais campos estão inválidos"),
+            @ApiResponse(responseCode = "201", description = "Usuário cadastrado com sucesso", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.CREATED)
+            )),
+            @ApiResponse(responseCode = "400", description = "Um ou mais campos estão inválidos", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
+            )),
     })
     public ResponseEntity<ClientResumeResponseDto> signClient(@Valid @RequestBody ClientRequestDto client) {
         Client tempClient = service.signClient(ClientMapper.toEntity(client));

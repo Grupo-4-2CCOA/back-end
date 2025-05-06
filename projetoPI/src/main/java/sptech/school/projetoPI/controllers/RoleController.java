@@ -33,9 +33,18 @@ public class RoleController {
 
     @PostMapping
     @SecurityRequirement(name = "Bearer")
+    @Operation(summary = "Cadastrar um cargo", description = "Cadastra um novo cargo no sistema.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Usuário cadastrado com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Um ou mais campos estão inválidos"),
+            @ApiResponse(responseCode = "201", description = "Cargo cadastrado com sucesso", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.CREATED)
+            )),
+            @ApiResponse(responseCode = "400", description = "Um ou mais campos estão inválidos", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.CREATED)
+            )),
     })
     public ResponseEntity<RoleResumeResponseDto> signRole(@Valid @RequestBody RoleRequestDto category) {
         Role tempRole = service.signRole(RoleMapper.toEntity(category));
@@ -103,9 +112,9 @@ public class RoleController {
 
     @PutMapping("/{id}")
     @SecurityRequirement(name = "Bearer")
-    @Operation(summary = "Atualizar cargos por ID", description = "Atualiza um cargos com base no ID fornecido.")
+    @Operation(summary = "Atualizar cargos por ID", description = "Atualiza um cargo com base no ID fornecido.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso", content = @Content(
+            @ApiResponse(responseCode = "200", description = "Cargo atualizado com sucesso", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = ClientResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)

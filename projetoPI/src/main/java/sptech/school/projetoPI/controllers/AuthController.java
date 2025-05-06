@@ -1,6 +1,7 @@
 package sptech.school.projetoPI.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,13 +18,14 @@ import sptech.school.projetoPI.services.AuthService;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Tag(name = "Login", description = "Endpoints para gerenciar o login")
 public class AuthController {
 
     private final AuthService service;
     private final AuthenticationManager authenticationManager;
 
     @PostMapping
-    @Operation(summary = "xxxxx", description = "xxxxx")
+    @Operation(summary = "Login", description = "xxxxx")
     public ResponseEntity<UserTokenDto> login(@RequestBody UserLoginDto usuarioLoginDto) {
 
         UserTokenDto usuarioTokenDto = service.autenticar(usuarioLoginDto, authenticationManager);

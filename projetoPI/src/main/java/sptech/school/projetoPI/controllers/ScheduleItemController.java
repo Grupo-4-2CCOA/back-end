@@ -36,12 +36,12 @@ public class ScheduleItemController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Agendamento cadastrado com sucesso!", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleItemResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.CREATED)
             )),
             @ApiResponse(responseCode = "400", description = "Um ou mais campos estão inválidos!", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleItemResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
     })
@@ -56,17 +56,17 @@ public class ScheduleItemController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Agendamentos trazidos com sucesso!", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleItemResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
             )),
             @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleItemResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleItemResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
@@ -86,22 +86,22 @@ public class ScheduleItemController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Agendamento encontrado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleItemResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
             )),
             @ApiResponse(responseCode = "404", description = "Agendamento não encontrado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleItemResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
             )),
             @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleItemResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleItemResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
@@ -115,22 +115,22 @@ public class ScheduleItemController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Agendamento atualizado com sucesso", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleItemResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
             )),
             @ApiResponse(responseCode = "400", description = "Um ou mais campos estão inválidos", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleItemResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
             @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleItemResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleItemResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
@@ -145,22 +145,22 @@ public class ScheduleItemController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "Agendamento não encontrado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleItemResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
             )),
             @ApiResponse(responseCode = "204", description = "Agendamento removido com sucesso", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleItemResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NO_CONTENT)
             )),
             @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleItemResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleItemResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })

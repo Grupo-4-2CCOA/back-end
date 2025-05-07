@@ -37,17 +37,17 @@ public class AvailabilityController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Disponibilidade cadastrada com sucesso", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.CREATED)
             )),
             @ApiResponse(responseCode = "400", description = "Um ou mais campos estão inválidos", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
             @ApiResponse(responseCode = "409", description = "Disponibilidade já existe", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
             ))
     })
@@ -62,17 +62,17 @@ public class AvailabilityController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Disponibilidades trazidos com sucesso", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
             )),
             @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
@@ -92,22 +92,22 @@ public class AvailabilityController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Disponibilidades encontrado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
             )),
             @ApiResponse(responseCode = "404", description = "Disponibilidades não encontrado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
             )),
             @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
@@ -121,22 +121,22 @@ public class AvailabilityController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Disponibilidades atualizado com sucesso", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
             )),
             @ApiResponse(responseCode = "400", description = "Um ou mais campos estão inválidos", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
             @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
@@ -151,22 +151,22 @@ public class AvailabilityController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "Disponibilidades não encontrado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
             )),
             @ApiResponse(responseCode = "204", description = "Disponibilidades removido com sucesso", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NO_CONTENT)
             )),
             @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })

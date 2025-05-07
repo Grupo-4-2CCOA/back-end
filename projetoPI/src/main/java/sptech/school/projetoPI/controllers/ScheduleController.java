@@ -45,7 +45,7 @@ public class ScheduleController {
             )),
             @ApiResponse(responseCode = "409", description = "Horário indisponível!", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
             ))
     })

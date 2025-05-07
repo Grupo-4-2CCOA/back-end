@@ -48,7 +48,7 @@ public class PaymentTypeController {
             )),
             @ApiResponse(responseCode = "409", description = "Método de pagamento já existe", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = PaymentTypeResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
             ))
     })

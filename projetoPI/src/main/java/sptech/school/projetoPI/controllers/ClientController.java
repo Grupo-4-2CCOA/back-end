@@ -16,11 +16,7 @@ import sptech.school.projetoPI.dto.client.ClientMapper;
 import sptech.school.projetoPI.dto.client.ClientRequestDto;
 import sptech.school.projetoPI.dto.client.ClientResponseDto;
 import sptech.school.projetoPI.dto.client.ClientResumeResponseDto;
-import sptech.school.projetoPI.dto.login.UserLoginDto;
-import sptech.school.projetoPI.dto.login.UserMapper;
-import sptech.school.projetoPI.dto.login.UserTokenDto;
 import sptech.school.projetoPI.entities.Client;
-import sptech.school.projetoPI.exceptions.ErroResponse;
 import sptech.school.projetoPI.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.services.user.ClientService;
 

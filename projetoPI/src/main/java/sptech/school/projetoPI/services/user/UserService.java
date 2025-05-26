@@ -52,31 +52,31 @@ public class UserService {
         }
     }
 
-    private boolean cpfExists(String cpf) {
+    public boolean cpfExists(String cpf) {
         return clientRepository.existsByCpf(cpf) || employeeRepository.existsByCpf(cpf);
     }
 
-    private boolean emailExists(String email) {
+    public boolean emailExists(String email) {
         return clientRepository.existsByEmailIgnoreCase(email) || employeeRepository.existsByEmailIgnoreCase(email);
     }
 
-    private boolean phoneExists(String phone) {
+    public boolean phoneExists(String phone) {
         return clientRepository.existsByPhone(phone) || employeeRepository.existsByPhone(phone);
     }
 
-    private boolean cpfExists(Integer id, String cpf, boolean isClient) {
+    public boolean cpfExists(Integer id, String cpf, boolean isClient) {
         return isClient?
                 clientRepository.existsByIdNotAndCpf(id, cpf) || employeeRepository.existsByCpf(cpf) :
                 clientRepository.existsByCpf(cpf) || employeeRepository.existsByIdNotAndCpf(id, cpf);
     }
 
-    private boolean emailExists(Integer id, String email, boolean isClient) {
+    public boolean emailExists(Integer id, String email, boolean isClient) {
         return isClient?
                 clientRepository.existsByIdNotAndEmailIgnoreCase(id, email) || employeeRepository.existsByEmailIgnoreCase(email) :
                 clientRepository.existsByEmailIgnoreCase(email) || employeeRepository.existsByIdNotAndEmailIgnoreCase(id, email);
     }
 
-    private boolean phoneExists(Integer id, String phone, boolean isClient) {
+    public boolean phoneExists(Integer id, String phone, boolean isClient) {
         return isClient?
                 clientRepository.existsByIdNotAndPhone(id, phone) || employeeRepository.existsByPhone(phone) :
                 clientRepository.existsByPhone(phone) || employeeRepository.existsByIdNotAndPhone(id, phone);

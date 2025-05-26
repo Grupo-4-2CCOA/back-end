@@ -19,11 +19,6 @@ public class ScheduleUpdateRequestDto {
     @NotNull(message = "Preencha com o ID do Funcionário")
     private Integer employee;
 
-
-    @NotNull(message = "Preencha o horário do agendamento")
-    @FutureOrPresent(message = "Horário deve estar no futuro")
-    private LocalDateTime appointmentDatetime;
-
     @NotBlank(message = "Preencha o Status")
     private String status;
 

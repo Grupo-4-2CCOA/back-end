@@ -60,6 +60,11 @@ public class GlobalExceptionMapper {
         return ResponseEntity.status(403).body("A entidade indicada está inativa: %s".formatted(exception.getMessage()));
     }
 
+    @ExceptionHandler(EnumIsNotValidException.class)
+    public static ResponseEntity<String> handleEnumIsNotValidException(EnumIsNotValidException exception) {
+        return ResponseEntity.status(400).body("Valor de Enum não é válido: %s".formatted(exception.getMessage()));
+    }
+
     @ExceptionHandler(InvalidTimeRangeException.class)
     public static ResponseEntity<String> handleInvalidTimeRangeException(InvalidTimeRangeException exception) {
         return ResponseEntity.status(400).body("O horário inicial não pode ser após o horário final: %s".formatted(exception.getMessage()));

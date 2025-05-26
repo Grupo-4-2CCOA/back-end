@@ -9,7 +9,7 @@ public class RoleMapper {
         return Role.builder()
                 .name(requestObject.getName().toUpperCase())
                 .description(requestObject.getDescription())
-                .active(true)
+                .active(true)       
                 .build();
     }
 

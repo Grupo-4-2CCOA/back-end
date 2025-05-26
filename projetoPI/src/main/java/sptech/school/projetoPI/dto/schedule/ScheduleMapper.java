@@ -27,7 +27,6 @@ public class ScheduleMapper {
         if(updateObject == null) return null;
 
         return Schedule.builder()
-                .appointmentDatetime(updateObject.getAppointmentDatetime())
                 .status(Status.checkValue(updateObject.getStatus().toUpperCase()))
                 .duration(updateObject.getDuration())
                 .transactionHash(updateObject.getTransactionHash())

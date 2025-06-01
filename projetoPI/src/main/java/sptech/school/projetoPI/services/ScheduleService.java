@@ -6,6 +6,7 @@ import sptech.school.projetoPI.entities.Schedule;
 import sptech.school.projetoPI.enums.Status;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.exceptions.exceptionClass.InactiveEntityException;
 import sptech.school.projetoPI.exceptions.exceptionClass.RelatedEntityNotFoundException;
 import sptech.school.projetoPI.repositories.*;
 
@@ -72,6 +73,12 @@ public class ScheduleService {
             );
         }
 
+        if (repository.existsByIdAndStatus(id, Status.CANCELED)) {
+            throw new InactiveEntityException(
+                    "O agendamento com o ID %d já foi cancelado".formatted(id)
+            );
+        }
+
         Schedule schedule = repository.findById(id).get();
         schedule.setStatus(Status.CANCELED);
         schedule.setUpdatedAt(LocalDateTime.now());
@@ -80,19 +87,19 @@ public class ScheduleService {
 
     // Validação do POST & PUT
     private void validateRequestBody(Schedule schedule) {
-        if (!clientRepository.existsById(schedule.getClient().getId())) {
+        if (!clientRepository.existsByIdAndActiveTrue(schedule.getClient().getId())) {
             throw new RelatedEntityNotFoundException(
                     "O cliente com o ID %d não foi encontrado".formatted(schedule.getClient().getId())
             );
         }
 
-        if (!employeeRepository.existsById(schedule.getEmployee().getId())) {
+        if (!employeeRepository.existsByIdAndActiveTrue(schedule.getEmployee().getId())) {
             throw new RelatedEntityNotFoundException(
                     "O funcionário com o ID %d não foi encontrado".formatted(schedule.getEmployee().getId())
             );
         }
 
-        if (schedule.getPaymentType() != null && !paymentTypeRepository.existsById(schedule.getPaymentType().getId())) {
+        if (schedule.getPaymentType() != null && !paymentTypeRepository.existsByIdAndActiveTrue(schedule.getPaymentType().getId())) {
             throw new RelatedEntityNotFoundException(
                     "O tipo de pagamento com o ID %d não foi encontrado".formatted(schedule.getPaymentType().getId())
             );

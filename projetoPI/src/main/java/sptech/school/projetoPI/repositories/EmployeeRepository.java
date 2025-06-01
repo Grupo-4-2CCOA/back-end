@@ -15,6 +15,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     boolean existsByPhone(String phone);
     boolean existsByIdNotAndPhone(Integer id, String phone);
     boolean existsByRoleId(Integer id);
+    boolean existsByIdAndActiveTrue(Integer id);
     boolean existsByIdAndActiveFalse(Integer id);
     boolean existsByRoleName(String roleName);
     boolean existsByIdNotAndRoleName(Integer id, String roleName);

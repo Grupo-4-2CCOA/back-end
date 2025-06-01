@@ -2,10 +2,8 @@ package sptech.school.projetoPI.services;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import sptech.school.projetoPI.entities.Role;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
@@ -23,8 +21,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-class RoleServiceTest {
+class RoleServiceTest extends ServiceTest {
 
     @InjectMocks
     private RoleService service;
@@ -44,10 +41,10 @@ class RoleServiceTest {
             .updatedAt(LocalDateTime.now())
             .build();
 
-
+    @Override
     @Test
     @DisplayName("Quando método SignRole() for chamado com credenciais válidas, deve retornar Role")
-    void executeRoleSignWithValidParametersTest() {
+    void executeEntitySignWithValidParametersTest() {
         when(repository.existsByName(anyString())).thenReturn(false);
         when(repository.save(role)).thenReturn(role);
 
@@ -62,9 +59,10 @@ class RoleServiceTest {
         assertThrows(EntityConflictException.class, () -> service.signRole(role));
     }
 
+    @Override
     @Test
     @DisplayName("Quando existir 3 Roles na lista, método GetAllRoles() deve retornar tamanho 3")
-    void executeRoleFindAllWithThreeEntitiesMustReturnThreeTest() {
+    void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest() {
         List<Role> roles = List.of(
                 Role.builder()
                         .id(1)
@@ -88,25 +86,28 @@ class RoleServiceTest {
         assertEquals(3, response.size());
     }
 
+    @Override
     @Test
     @DisplayName("Quando existir Role com ID 1, método GetRoleById() deve retornar o Role encontrado")
-    void executeRoleFindByIdMustReturnRoleWithIdOneTest() {
+    void executeEntityFindByIdMustReturnEntityWithIdOneTest() {
         when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.of(role));
 
         Role response = service.getRoleById(1);
         assertEquals(role, response);
     }
 
+    @Override
     @Test
     @DisplayName("Quando não existir Role com ID requisitado, método GetRoleById() deve estourar EntityNotFoundException")
-    void executeRoleFindByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
+    void executeEntityFindByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> service.getRoleById(1));
     }
 
+    @Override
     @Test
     @DisplayName("Quando método UpdateRoleById() for chamado com credenciais válidas, deve retornar Role atualizado")
-    void executeRoleUpdateByIdWithValidEntityMustReturnUpdatedRoleTest() {
+    void executeEntityUpdateByIdWithValidEntityMustReturnUpdatedEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(new Role()));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
@@ -117,9 +118,10 @@ class RoleServiceTest {
         assertEquals(role, response);
     }
 
+    @Override
     @Test
     @DisplayName("Quando não existir Role com ID requisitado, método UpdateRoleById() deve estourar EntityNotFoundException")
-    void executeRoleUpdateByIdWithoutValidIdMustThrowEntityNotFoundExceptionTest() {
+    void executeEntityUpdateByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
         assertThrows(EntityNotFoundException.class, () -> service.updateRoleById(role, 1));
     }
@@ -141,9 +143,10 @@ class RoleServiceTest {
         assertThrows(EntityConflictException.class, () -> service.updateRoleById(role, 1));
     }
 
+    @Override
     @Test
     @DisplayName("Quando método DeleteRoleById() for chamado com ID válido, deve inativar entidade")
-    void executeRoleDeleteByIdWithValidIdMustInactiveEntityTest() {
+    void executeEntityDeleteByIdWithValidIdMustInactiveOrDeleteEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(role));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
@@ -154,9 +157,10 @@ class RoleServiceTest {
         assertFalse(role.getActive());
     }
 
+    @Override
     @Test
     @DisplayName("Quando não existir Role com ID requisitado, método DeleteRoleById() deve estourar EntityNotFoundException")
-    void executeRoleDeleteByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
+    void executeEntityDeleteByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
         assertThrows(EntityNotFoundException.class, () -> service.deleteRoleById(1));
     }

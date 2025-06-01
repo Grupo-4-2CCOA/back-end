@@ -1,16 +1,16 @@
-package sptech.school.projetoPI.services.user;
+package sptech.school.projetoPI.services;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import sptech.school.projetoPI.entities.Employee;
 import sptech.school.projetoPI.entities.Role;
 import sptech.school.projetoPI.exceptions.exceptionClass.*;
 import sptech.school.projetoPI.repositories.*;
+import sptech.school.projetoPI.services.user.EmployeeService;
+import sptech.school.projetoPI.services.user.UserService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,8 +21,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-class EmployeeServiceTest {
+class EmployeeServiceTest extends ServiceTest {
 
     @InjectMocks
     private EmployeeService service;
@@ -64,9 +63,10 @@ class EmployeeServiceTest {
             .role(role)
             .build();
 
+    @Override
     @Test
     @DisplayName("Quando método SignEmployee() for chamado com credenciais válidas, deve retornar Employee")
-    void executeEmployeeSignWithValidParametersTest() {
+    void executeEntitySignWithValidParametersTest() {
         when(roleRepository.existsById(anyInt())).thenReturn(true);
         when(roleRepository.findById(anyInt())).thenReturn(Optional.of(role));
         when(repository.existsByRoleName(anyString())).thenReturn(false);
@@ -92,9 +92,10 @@ class EmployeeServiceTest {
         assertThrows(EntityConflictException.class, () -> service.signEmployee(employee));
     }
 
+    @Override
     @Test
     @DisplayName("Quando existir 3 Employees na lista, método GetAllEmployees() deve retornar tamanho 3")
-    void executeEmployeeFindAllWithThreeEntitiesMustReturnThreeTest() {
+    void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest() {
         List<Employee> employees = List.of(
                 Employee.builder()
                         .id(1)
@@ -124,25 +125,28 @@ class EmployeeServiceTest {
         assertEquals(3, response.size());
     }
 
+    @Override
     @Test
     @DisplayName("Quando existir Employee com ID 1, método GetEmployeeById() deve retornar o Employee encontrado")
-    void executeEmployeeFindByIdMustReturnEmployeeWithIdOneTest() {
+    void executeEntityFindByIdMustReturnEntityWithIdOneTest() {
         when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.of(employee));
 
         Employee response = service.getEmployeeById(1);
         assertEquals(employee, response);
     }
 
+    @Override
     @Test
     @DisplayName("Quando não existir Employee com ID requisitado, método GetEmployeeById() deve estourar EntityNotFoundException")
-    void executeEmployeeFindByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
+    void executeEntityFindByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> service.getEmployeeById(1));
     }
 
+    @Override
     @Test
     @DisplayName("Quando método UpdateEmployeeById() for chamado com credenciais válidas, deve retornar Employee atualizado")
-    void executeEmployeeUpdateByIdWithValidEntityMustReturnUpdatedEmployeeTest() {
+    void executeEntityUpdateByIdWithValidEntityMustReturnUpdatedEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(employee));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
@@ -155,9 +159,10 @@ class EmployeeServiceTest {
         assertEquals(employee, response);
     }
 
+    @Override
     @Test
     @DisplayName("Quando não existir Employee com ID requisitado, método UpdateEmployeeById() deve estourar EntityNotFoundException")
-    void executeEmployeeUpdateByIdWithoutValidIdMustThrowEntityNotFoundExceptionTest() {
+    void executeEntityUpdateByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
         assertThrows(EntityNotFoundException.class, () -> service.updateEmployeeById(employee, 1));
     }
@@ -193,9 +198,10 @@ class EmployeeServiceTest {
         assertThrows(EntityConflictException.class, () -> service.updateEmployeeById(employee, 1));
     }
 
+    @Override
     @Test
     @DisplayName("Quando método DeleteEmployeeById() for chamado com ID válido, deve inativar entidade")
-    void executeEmployeeDeleteByIdWithValidIdMustInactiveEntityTest() {
+    void executeEntityDeleteByIdWithValidIdMustInactiveOrDeleteEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(employee));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
@@ -207,9 +213,10 @@ class EmployeeServiceTest {
         assertFalse(employee.getActive());
     }
 
+    @Override
     @Test
     @DisplayName("Quando não existir Employee com ID requisitado, método DeleteEmployeeById() deve estourar EntityNotFoundException")
-    void executeEmployeeDeleteByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
+    void executeEntityDeleteByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
         assertThrows(EntityNotFoundException.class, () -> service.deleteEmployeeById(1));
     }

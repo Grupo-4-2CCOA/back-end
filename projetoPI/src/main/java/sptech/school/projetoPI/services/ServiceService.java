@@ -88,7 +88,7 @@ public class ServiceService {
     // Validação do POST & PUT
     private void validateRequestBody(sptech.school.projetoPI.entities.Service service) {
         if (!categoryRepository.existsByIdAndActiveTrue(service.getCategory().getId())) {
-            throw new EntityNotFoundException(
+            throw new RelatedEntityNotFoundException(
                     "A categoria com o ID %d não foi encontrada".formatted(service.getCategory().getId())
             );
         }

@@ -2,10 +2,8 @@ package sptech.school.projetoPI.services;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import sptech.school.projetoPI.entities.Client;
 import sptech.school.projetoPI.entities.Feedback;
 import sptech.school.projetoPI.entities.Schedule;
@@ -20,8 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-class FeedbackServiceTest {
+class FeedbackServiceTest extends ServiceTest {
 
     @InjectMocks
     private FeedbackService service;
@@ -56,10 +53,10 @@ class FeedbackServiceTest {
             .updatedAt(LocalDateTime.now())
             .build();
 
-
+    @Override
     @Test
     @DisplayName("Quando método SignFeedback() for chamado com credenciais válidas, deve retornar Feedback")
-    void executeFeedbackSignWithValidParametersTest() {
+    void executeEntitySignWithValidParametersTest() {
         when(scheduleRepository.existsById(anyInt())).thenReturn(true);
         when(clientRepository.existsByIdAndActiveTrue(anyInt())).thenReturn(true);
         when(repository.save(feedback)).thenReturn(feedback);
@@ -83,9 +80,10 @@ class FeedbackServiceTest {
         assertThrows(RelatedEntityNotFoundException.class, () -> service.signFeedback(feedback));
     }
 
+    @Override
     @Test
     @DisplayName("Quando existir 3 Feedbacks na lista, método GetAllFeedbacks() deve retornar tamanho 3")
-    void executeFeedbackFindAllWithThreeEntitiesMustReturnThreeTest() {
+    void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest() {
         List<Feedback> feedbacks = List.of(
                 Feedback.builder()
                         .id(1)
@@ -109,25 +107,28 @@ class FeedbackServiceTest {
         assertEquals(3, response.size());
     }
 
+    @Override
     @Test
     @DisplayName("Quando existir Feedback com ID 1, método GetFeedbackById() deve retornar o Feedback encontrado")
-    void executeFeedbackFindByIdMustReturnFeedbackWithIdOneTest() {
+    void executeEntityFindByIdMustReturnEntityWithIdOneTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(feedback));
 
         Feedback response = service.getFeedbackById(1);
         assertEquals(feedback, response);
     }
 
+    @Override
     @Test
     @DisplayName("Quando não existir Feedback com ID requisitado, método GetFeedbackById() deve estourar EntityNotFoundException")
-    void executeFeedbackFindByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
+    void executeEntityFindByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> service.getFeedbackById(1));
     }
 
+    @Override
     @Test
     @DisplayName("Quando método UpdateFeedbackById() for chamado com credenciais válidas, deve retornar Feedback atualizado")
-    void executeFeedbackUpdateByIdWithValidEntityMustReturnUpdatedFeedbackTest() {
+    void executeEntityUpdateByIdWithValidEntityMustReturnUpdatedEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(new Feedback()));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(scheduleRepository.existsById(anyInt())).thenReturn(true);
@@ -138,9 +139,10 @@ class FeedbackServiceTest {
         assertEquals(feedback, response);
     }
 
+    @Override
     @Test
     @DisplayName("Quando não existir Feedback com ID requisitado, método UpdateFeedbackById() deve estourar EntityNotFoundException")
-    void executeFeedbackUpdateByIdWithoutValidIdMustThrowEntityNotFoundExceptionTest() {
+    void executeEntityUpdateByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
         assertThrows(EntityNotFoundException.class, () -> service.updateFeedbackById(feedback, 1));
     }
@@ -162,9 +164,10 @@ class FeedbackServiceTest {
         assertThrows(RelatedEntityNotFoundException.class, () -> service.updateFeedbackById(feedback, 1));
     }
 
+    @Override
     @Test
     @DisplayName("Quando método DeleteFeedbackById() for chamado com ID válido, deve apagar entidade")
-    void executeFeedbackDeleteByIdWithValidIdMustInactiveEntityTest() {
+    void executeEntityDeleteByIdWithValidIdMustInactiveOrDeleteEntityTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
 
         service.deleteFeedbackById(1);
@@ -173,9 +176,10 @@ class FeedbackServiceTest {
         verify(repository, times(1)).deleteById(anyInt());
     }
 
+    @Override
     @Test
     @DisplayName("Quando não existir Feedback com ID requisitado, método DeleteFeedbackById() deve estourar EntityNotFoundException")
-    void executeFeedbackDeleteByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
+    void executeEntityDeleteByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
         assertThrows(EntityNotFoundException.class, () -> service.deleteFeedbackById(1));
     }

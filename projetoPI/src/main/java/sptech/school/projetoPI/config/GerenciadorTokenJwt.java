@@ -19,7 +19,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Configuration
-@PropertySource("classpath:application.properties")
 public class GerenciadorTokenJwt {
 
     private final String secret;

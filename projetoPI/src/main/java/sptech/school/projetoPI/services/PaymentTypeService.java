@@ -52,15 +52,15 @@ public class PaymentTypeService {
             );
         }
 
-        if(repository.existsByIdNotAndNameIgnoreCase(id, paymentType.getName())) {
-            throw new EntityConflictException(
-                    "O tipo de pagamento '%s' já existe na base de dados".formatted(paymentType.getName())
-            );
-        }
-
         if(repository.existsByIdAndActiveFalse(id)) {
             throw new InactiveEntityException(
                     "O tipo de pagamento com o ID %d está inativo".formatted(id)
+            );
+        }
+
+        if(repository.existsByIdNotAndNameIgnoreCase(id, paymentType.getName())) {
+            throw new EntityConflictException(
+                    "O tipo de pagamento '%s' já existe na base de dados".formatted(paymentType.getName())
             );
         }
 

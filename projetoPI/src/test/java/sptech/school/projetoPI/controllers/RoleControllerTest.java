@@ -1,0 +1,108 @@
+package sptech.school.projetoPI.controllers;
+
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import sptech.school.projetoPI.entities.Role;
+import sptech.school.projetoPI.services.RoleService;
+
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
+
+@SpringBootTest
+class RoleControllerTest extends ControllerTest<Role, RoleService> {
+
+    @MockBean
+    private RoleService service;
+
+    @Override
+    protected Role getEntity() {
+        return new Role();
+    }
+
+    @Override
+    protected RoleService getService() {
+        return service;
+    }
+
+    @Override
+    protected String getUrl() {
+        return super.url + "/cargos";
+    }
+
+    @Override
+    protected String getUrlWithId() {
+        return getUrl() + "/{id}";
+    }
+
+    @Override
+    protected String getValidJsonRequestBody() {
+        return """
+                {
+                     "name": "OWNER",
+                     "description": "Description"
+                }
+                """;
+    }
+
+    @Override
+    protected String getJsonWithInvalidFieldContent() {
+        return """
+                {
+                     "name": "",
+                     "description": "Description"
+                }
+                """;
+    }
+
+    @Override
+    protected String getJsonWithMissingField() {
+        return """
+                {
+                     "description": "Description"
+                }
+                """;
+    }
+
+    @Override
+    protected String getJsonWithNullValue() {
+        return """
+                {
+                     "name": null,
+                     "description": "Description"
+                }
+                """;
+    }
+
+    @Override
+    protected String getJsonWithUnprocessableRequestBody() {
+        return """
+                {
+                     "name": OWNER,
+                     "description": "Description"
+                }
+                """;
+    }
+
+    @Override
+    protected void whenSignThenReturn() {
+        when(getService().signRole(any(Role.class))).thenReturn(getEntity());
+    }
+
+    @Override
+    protected void whenGetAllThenReturn(boolean hasContent) {
+        when(getService().getAllRoles()).thenReturn(hasContent? List.of(getEntity()) : List.of());
+    }
+
+    @Override
+    protected void whenGetByIdThenReturn() {
+        when(getService().getRoleById(anyInt())).thenReturn(getEntity());
+    }
+
+    @Override
+    protected void whenUpdateByIdThenReturn() {
+        when(getService().updateRoleById(any(Role.class), anyInt())).thenReturn(getEntity());
+    }
+}

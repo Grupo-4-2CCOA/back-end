@@ -19,7 +19,8 @@ public class ScheduleUpdateRequestDto {
     @NotNull(message = "Preencha com o ID do Funcionário")
     private Integer employee;
 
-    @NotBlank(message = "Preencha o Status")
+    @NotBlank(message = "Insira o status")
+    @Pattern(regexp = "(?i)ACTIVE|COMPLETED|CANCELED", message = "O status deve ser ACTIVE, COMPLETED ou CANCELED")
     private String status;
 
     @Positive(message = "Insira um tempo de duração válida")

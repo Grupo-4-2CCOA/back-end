@@ -1,11 +1,9 @@
-package sptech.school.projetoPI.services.user;
+package sptech.school.projetoPI.services;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import sptech.school.projetoPI.entities.Client;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
@@ -14,6 +12,8 @@ import sptech.school.projetoPI.exceptions.exceptionClass.InactiveEntityException
 import sptech.school.projetoPI.repositories.ClientRepository;
 import sptech.school.projetoPI.repositories.FeedbackRepository;
 import sptech.school.projetoPI.repositories.ScheduleRepository;
+import sptech.school.projetoPI.services.user.ClientService;
+import sptech.school.projetoPI.services.user.UserService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,8 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-class ClientServiceTest {
+class ClientServiceTest extends ServiceTest {
 
     @InjectMocks
     private ClientService service;
@@ -57,18 +56,20 @@ class ClientServiceTest {
             .cep("01234100")
             .build();
 
+    @Override
     @Test
     @DisplayName("Quando método SignClient() for chamado com credenciais válidas, deve retornar Client")
-    void executeClientSignWithValidParametersTest() {
+    void executeEntitySignWithValidParametersTest() {
         when(repository.save(client)).thenReturn(client);
 
         Client response = service.signClient(client);
         assertEquals(client, response);
     }
 
+    @Override
     @Test
     @DisplayName("Quando existir 3 Clients na lista, método GetAllClients() deve retornar tamanho 3")
-    void executeClientFindAllWithThreeEntitiesMustReturnThreeTest() {
+    void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest() {
         List<Client> clients = List.of(
                 Client.builder()
                         .id(1)
@@ -98,25 +99,28 @@ class ClientServiceTest {
         assertEquals(3, response.size());
     }
 
+    @Override
     @Test
     @DisplayName("Quando existir Client com ID 1, método GetClientById() deve retornar o Client encontrado")
-    void executeClientFindByIdMustReturnClientWithIdOneTest() {
+    void executeEntityFindByIdMustReturnEntityWithIdOneTest() {
         when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.of(client));
 
         Client response = service.getClientById(1);
         assertEquals(client, response);
     }
 
+    @Override
     @Test
     @DisplayName("Quando não existir Client com ID requisitado, método GetClientById() deve estourar EntityNotFoundException")
-    void executeClientFindByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
+    void executeEntityFindByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> service.getClientById(1));
     }
 
+    @Override
     @Test
     @DisplayName("Quando método UpdateClientById() for chamado com credenciais válidas, deve retornar Client atualizado")
-    void executeClientUpdateByIdWithValidEntityMustReturnUpdatedClientTest() {
+    void executeEntityUpdateByIdWithValidEntityMustReturnUpdatedEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(new Client()));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
@@ -126,9 +130,10 @@ class ClientServiceTest {
         assertEquals(client, response);
     }
 
+    @Override
     @Test
     @DisplayName("Quando não existir Client com ID requisitado, método UpdateClientById() deve estourar EntityNotFoundException")
-    void executeClientUpdateByIdWithoutValidIdMustThrowEntityNotFoundExceptionTest() {
+    void executeEntityUpdateByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
         assertThrows(EntityNotFoundException.class, () -> service.updateClientById(client, 1));
     }
@@ -141,9 +146,10 @@ class ClientServiceTest {
         assertThrows(InactiveEntityException.class, () -> service.updateClientById(client, 1));
     }
 
+    @Override
     @Test
     @DisplayName("Quando método DeleteClientById() for chamado com ID válido, deve inativar entidade")
-    void executeClientDeleteByIdWithValidIdMustInactiveEntityTest() {
+    void executeEntityDeleteByIdWithValidIdMustInactiveOrDeleteEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(client));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
@@ -155,9 +161,10 @@ class ClientServiceTest {
         assertFalse(client.getActive());
     }
 
+    @Override
     @Test
     @DisplayName("Quando não existir Client com ID requisitado, método DeleteClientById() deve estourar EntityNotFoundException")
-    void executeClientDeleteByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
+    void executeEntityDeleteByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
         assertThrows(EntityNotFoundException.class, () -> service.deleteClientById(1));
     }

@@ -12,10 +12,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.dto.schedule.ScheduleResumeResponseDto;
 import sptech.school.projetoPI.dto.scheduleItem.ScheduleItemMapper;
 import sptech.school.projetoPI.dto.scheduleItem.ScheduleItemRequestDto;
 import sptech.school.projetoPI.dto.scheduleItem.ScheduleItemResponseDto;
+import sptech.school.projetoPI.dto.scheduleItem.ScheduleItemResumeResponseDto;
 import sptech.school.projetoPI.entities.ScheduleItem;
 import sptech.school.projetoPI.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.services.ScheduleItemService;
@@ -45,9 +45,9 @@ public class ScheduleItemController {
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
     })
-    public ResponseEntity<ScheduleItemResponseDto> signScheduleItem(@Valid @RequestBody ScheduleItemRequestDto scheduleItem) {
+    public ResponseEntity<ScheduleItemResumeResponseDto> signScheduleItem(@Valid @RequestBody ScheduleItemRequestDto scheduleItem) {
         ScheduleItem tempScheduleItem = service.signScheduleItem(ScheduleItemMapper.toEntity(scheduleItem));
-        return ResponseEntity.status(201).body(ScheduleItemMapper.toResponseDto(tempScheduleItem));
+        return ResponseEntity.status(201).body(ScheduleItemMapper.toResumeResponseDto(tempScheduleItem));
     }
 
     @GetMapping
@@ -70,14 +70,14 @@ public class ScheduleItemController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<List<ScheduleItemResponseDto>> getAllScheduleItems() {
+    public ResponseEntity<List<ScheduleItemResumeResponseDto>> getAllScheduleItems() {
         List<ScheduleItem> scheduleItems = service.getAllScheduleItems();
 
         if (scheduleItems.isEmpty()) {
             return ResponseEntity.status(204).build();
         }
 
-        return ResponseEntity.status(200).body(scheduleItems.stream().map(ScheduleItemMapper::toResponseDto).toList());
+        return ResponseEntity.status(200).body(scheduleItems.stream().map(ScheduleItemMapper::toResumeResponseDto).toList());
     }
 
     @GetMapping("/{id}")
@@ -134,9 +134,9 @@ public class ScheduleItemController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<ScheduleItemResponseDto> updateScheduleItemById(@Valid @RequestBody ScheduleItemRequestDto scheduleItem, @PathVariable Integer id) {
+    public ResponseEntity<ScheduleItemResumeResponseDto> updateScheduleItemById(@Valid @RequestBody ScheduleItemRequestDto scheduleItem, @PathVariable Integer id) {
         ScheduleItem tempScheduleItem = service.updateScheduleItemById(ScheduleItemMapper.toEntity(scheduleItem), id);
-        return ResponseEntity.status(200).body(ScheduleItemMapper.toResponseDto(tempScheduleItem));
+        return ResponseEntity.status(200).body(ScheduleItemMapper.toResumeResponseDto(tempScheduleItem));
     }
 
     @DeleteMapping("/{id}")

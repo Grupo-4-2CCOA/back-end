@@ -31,4 +31,15 @@ public class ScheduleItemMapper {
                 .service(ServiceResumeResponseDto.builder().id(entity.getId()).build())
                 .build();
     }
+
+    public static ScheduleItemResumeResponseDto toResumeResponseDto(ScheduleItem entity) {
+        if(entity == null) return null;
+
+        return ScheduleItemResumeResponseDto.builder()
+                .id(entity.getId())
+                .finalPrice(entity.getFinalPrice())
+                .schedule(ScheduleResumeResponseDto.builder().id(entity.getId()).build())
+                .service(ServiceResumeResponseDto.builder().id(entity.getId()).build())
+                .build();
+    }
 }

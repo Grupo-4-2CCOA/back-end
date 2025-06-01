@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.services.user;
+package sptech.school.projetoPI.services;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
 import sptech.school.projetoPI.repositories.ClientRepository;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
+import sptech.school.projetoPI.services.user.UserService;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;

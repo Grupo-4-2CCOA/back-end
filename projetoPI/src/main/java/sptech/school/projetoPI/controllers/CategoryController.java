@@ -16,7 +16,6 @@ import sptech.school.projetoPI.dto.category.CategoryMapper;
 import sptech.school.projetoPI.dto.category.CategoryRequestDto;
 import sptech.school.projetoPI.dto.category.CategoryResponseDto;
 import sptech.school.projetoPI.dto.category.CategoryResumeResponseDto;
-import sptech.school.projetoPI.dto.client.ClientResumeResponseDto;
 import sptech.school.projetoPI.entities.Category;
 import sptech.school.projetoPI.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.services.CategoryService;

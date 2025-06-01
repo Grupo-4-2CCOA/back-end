@@ -2,32 +2,25 @@ package sptech.school.projetoPI.services;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import sptech.school.projetoPI.entities.Availability;
 import sptech.school.projetoPI.entities.Employee;
-import sptech.school.projetoPI.entities.Role;
 import sptech.school.projetoPI.exceptions.exceptionClass.*;
 import sptech.school.projetoPI.repositories.AvailabilityRepository;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
-import sptech.school.projetoPI.repositories.RoleRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-class AvailabilityServiceTest {
+class AvailabilityServiceTest extends ServiceTest {
 
     @InjectMocks
     private AvailabilityService service;
@@ -55,10 +48,10 @@ class AvailabilityServiceTest {
             .updatedAt(LocalDateTime.now())
             .build();
 
-
+    @Override
     @Test
     @DisplayName("Quando método SignAvailability() for chamado com credenciais válidas, deve retornar Availability")
-    void executeAvailabilitySignWithValidParametersTest() {
+    void executeEntitySignWithValidParametersTest() {
         when(employeeRepository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByDayAndEmployeeId(any(LocalDate.class), anyInt())).thenReturn(false);
         when(repository.save(availability)).thenReturn(availability);
@@ -91,9 +84,10 @@ class AvailabilityServiceTest {
         assertThrows(EntityConflictException.class, () -> service.signAvailability(availability));
     }
 
+    @Override
     @Test
     @DisplayName("Quando existir 3 Availabilities na lista, método GetAllAvailabilities() deve retornar tamanho 3")
-    void executeAvailabilityFindAllWithThreeEntitiesMustReturnThreeTest() {
+    void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest() {
         List<Availability> availabilities = List.of(
                 Availability.builder()
                         .id(1)
@@ -117,25 +111,28 @@ class AvailabilityServiceTest {
         assertEquals(3, response.size());
     }
 
+    @Override
     @Test
     @DisplayName("Quando existir Availability com ID 1, método GetAvailabilityById() deve retornar o Availability encontrado")
-    void executeAvailabilityFindByIdMustReturnAvailabilityWithIdOneTest() {
+    void executeEntityFindByIdMustReturnEntityWithIdOneTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(availability));
 
         Availability response = service.getAvailabilityById(1);
         assertEquals(availability, response);
     }
 
+    @Override
     @Test
     @DisplayName("Quando não existir Availability com ID requisitado, método GetAvailabilityById() deve estourar EntityNotFoundException")
-    void executeAvailabilityFindByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
+    void executeEntityFindByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> service.getAvailabilityById(1));
     }
 
+    @Override
     @Test
     @DisplayName("Quando método UpdateAvailabilityById() for chamado com credenciais válidas, deve retornar Availability atualizado")
-    void executeAvailabilityUpdateByIdWithValidEntityMustReturnUpdatedAvailabilityTest() {
+    void executeEntityUpdateByIdWithValidEntityMustReturnUpdatedEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(new Availability()));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(employeeRepository.existsById(anyInt())).thenReturn(true);
@@ -157,9 +154,10 @@ class AvailabilityServiceTest {
         assertThrows(InvalidTimeRangeException.class, () -> service.updateAvailabilityById(availability, 1));
     }
 
+    @Override
     @Test
     @DisplayName("Quando não existir Availability com ID requisitado, método UpdateAvailabilityById() deve estourar EntityNotFoundException")
-    void executeAvailabilityUpdateByIdWithoutValidIdMustThrowEntityNotFoundExceptionTest() {
+    void executeEntityUpdateByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
         assertThrows(EntityNotFoundException.class, () -> service.updateAvailabilityById(availability, 1));
     }
@@ -181,9 +179,10 @@ class AvailabilityServiceTest {
         assertThrows(EntityConflictException.class, () -> service.updateAvailabilityById(availability, 1));
     }
 
+    @Override
     @Test
     @DisplayName("Quando método DeleteAvailabilityById() for chamado com ID válido, deve inativar entidade")
-    void executeAvailabilityDeleteByIdWithValidIdMustInactiveEntityTest() {
+    void executeEntityDeleteByIdWithValidIdMustInactiveOrDeleteEntityTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
 
         service.deleteAvailabilityById(1);
@@ -191,9 +190,10 @@ class AvailabilityServiceTest {
         verify(repository, times(1)).deleteById(1);
     }
 
+    @Override
     @Test
     @DisplayName("Quando não existir Availability com ID requisitado, método DeleteAvailabilityById() deve estourar EntityNotFoundException")
-    void executeAvailabilityDeleteByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
+    void executeEntityDeleteByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
         assertThrows(EntityNotFoundException.class, () -> service.deleteAvailabilityById(1));
     }

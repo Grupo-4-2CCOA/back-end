@@ -6,6 +6,7 @@ import sptech.school.projetoPI.entities.Availability;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.exceptions.exceptionClass.InvalidTimeRangeException;
+import sptech.school.projetoPI.exceptions.exceptionClass.RelatedEntityNotFoundException;
 import sptech.school.projetoPI.repositories.AvailabilityRepository;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
 
@@ -91,7 +92,7 @@ public class AvailabilityService {
     // Validação do POST & PUT
     private void validateRequestBody(Availability availability) {
         if(!employeeRepository.existsById(availability.getEmployee().getId())) {
-            throw new EntityNotFoundException(
+            throw new RelatedEntityNotFoundException(
                     "O funcionário de ID %d não foi encontrado".formatted(availability.getEmployee().getId())
             );
         }

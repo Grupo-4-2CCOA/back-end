@@ -12,12 +12,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.dto.client.ClientResumeResponseDto;
 import sptech.school.projetoPI.dto.paymentType.PaymentTypeMapper;
 import sptech.school.projetoPI.dto.paymentType.PaymentTypeRequestDto;
 import sptech.school.projetoPI.dto.paymentType.PaymentTypeResponseDto;
 import sptech.school.projetoPI.dto.paymentType.PaymentTypeResumeResponseDto;
-import sptech.school.projetoPI.dto.service.ServiceResumeResponseDto;
 import sptech.school.projetoPI.entities.PaymentType;
 import sptech.school.projetoPI.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.services.PaymentTypeService;
@@ -141,7 +139,7 @@ public class PaymentTypeController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<PaymentTypeResumeResponseDto> updatePaymentTypeById(@RequestBody PaymentTypeRequestDto paymentType, @PathVariable Integer id) {
+    public ResponseEntity<PaymentTypeResumeResponseDto> updatePaymentTypeById(@Valid @RequestBody PaymentTypeRequestDto paymentType, @PathVariable Integer id) {
         PaymentType tempPaymentType = service.updatePaymentTypeById(PaymentTypeMapper.toEntity(paymentType), id);
         return ResponseEntity.status(200).body(PaymentTypeMapper.toResumeResponseDto(tempPaymentType));
     }

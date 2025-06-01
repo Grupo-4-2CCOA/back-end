@@ -55,7 +55,7 @@ public class FeedbackService {
         return repository.save(feedback);
     }
 
-    public ResponseEntity<Void> deleteFeedbackById(Integer id) {
+    public void deleteFeedbackById(Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O feedback com o ID %d não foi encontrado".formatted(id)
@@ -63,7 +63,6 @@ public class FeedbackService {
         }
 
         repository.deleteById(id);
-        return ResponseEntity.status(204).build();
     }
 
     // Validação do POST & PUT

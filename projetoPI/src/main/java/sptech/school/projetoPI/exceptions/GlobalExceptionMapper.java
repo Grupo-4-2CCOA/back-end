@@ -1,11 +1,13 @@
 package sptech.school.projetoPI.exceptions;
 
+import io.jsonwebtoken.MalformedJwtException;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import sptech.school.projetoPI.exceptions.exceptionClass.*;
 
 @Hidden
@@ -14,20 +16,17 @@ public class GlobalExceptionMapper {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public static ResponseEntity<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        StringBuilder errorMessages = new StringBuilder("Os seguintes campos são inválidos: \n");
-
-        exception.getBindingResult().getFieldErrors().forEach(fieldError -> {
-            errorMessages.append("- %s; \n".formatted(fieldError.getField()));
-        });
-
-        errorMessages.append("\n Detalhes: %s".formatted(exception.getMessage()));
-
-        return ResponseEntity.status(400).body(errorMessages.toString());
+        return ResponseEntity.status(400).body("Campos inválidos: %s".formatted(exception.getMessage()));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public static ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
-        return ResponseEntity.status(400).body("Não foi possível processar o corpo de requisição: %s".formatted(exception.getMessage()));
+        return ResponseEntity.status(400).body("Falha ao processar corpo de requisição: %s".formatted(exception.getMessage()));
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public static ResponseEntity<String> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception) {
+        return ResponseEntity.status(400).body("Tipo de parâmetro da requisição inválida: %s".formatted(exception.getMessage()));
     }
 
     @ExceptionHandler(EntityConflictException.class)
@@ -57,7 +56,12 @@ public class GlobalExceptionMapper {
 
     @ExceptionHandler(InactiveEntityException.class)
     public static ResponseEntity<String> handleInactiveEntityException(InactiveEntityException exception) {
-        return ResponseEntity.status(403).body("A entidade indicada está inativa: %s".formatted(exception.getMessage()));
+        return ResponseEntity.status(400).body("A entidade indicada está inativa: %s".formatted(exception.getMessage()));
+    }
+
+    @ExceptionHandler(EnumIsNotValidException.class)
+    public static ResponseEntity<String> handleEnumIsNotValidException(EnumIsNotValidException exception) {
+        return ResponseEntity.status(400).body("Valor de Enum não é válido: %s".formatted(exception.getMessage()));
     }
 
     @ExceptionHandler(InvalidTimeRangeException.class)

@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sptech.school.projetoPI.dto.client.ClientResumeResponseDto;
 import sptech.school.projetoPI.dto.login.UserLoginDto;
-import sptech.school.projetoPI.dto.login.UserMapper;
 import sptech.school.projetoPI.dto.login.UserTokenDto;
-import sptech.school.projetoPI.entities.Client;
 import sptech.school.projetoPI.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.services.AuthService;
 
@@ -46,9 +44,7 @@ public class AuthController {
             )),
     })
     public ResponseEntity<UserTokenDto> login(@RequestBody UserLoginDto usuarioLoginDto) {
-
         UserTokenDto usuarioTokenDto = service.autenticar(usuarioLoginDto, authenticationManager);
-
         return ResponseEntity.status(200).body(usuarioTokenDto);
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoleService {
     private final RoleRepository repository;
-    private final EmployeeRepository userRepository;
+    private final EmployeeRepository employeeRepository;
 
     public Role signRole(Role role) {
         if(repository.existsByName(role.getName())) {
@@ -80,9 +80,9 @@ public class RoleService {
             );
         }
 
-        if (userRepository.existsByRoleId(id)) {
+        if (employeeRepository.existsByRoleId(id)) {
             throw new ForeignKeyConstraintException(
-                    "Os seguintes usuários estão relacionados com este cargo: %s".formatted(userRepository.findAllByRoleId(id)
+                    "Os seguintes usuários estão relacionados com este cargo: %s".formatted(employeeRepository.findAllByRoleId(id)
                             .stream().map(Employee::getId).toList())
             );
         }

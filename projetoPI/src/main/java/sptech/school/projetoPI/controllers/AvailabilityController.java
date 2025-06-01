@@ -16,7 +16,6 @@ import sptech.school.projetoPI.dto.availability.AvailabilityMapper;
 import sptech.school.projetoPI.dto.availability.AvailabilityRequestDto;
 import sptech.school.projetoPI.dto.availability.AvailabilityResponseDto;
 import sptech.school.projetoPI.dto.availability.AvailabilityResumeResponseDto;
-import sptech.school.projetoPI.dto.client.ClientResumeResponseDto;
 import sptech.school.projetoPI.entities.Availability;
 import sptech.school.projetoPI.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.services.AvailabilityService;
@@ -45,6 +44,11 @@ public class AvailabilityController {
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
+            @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
+            )),
             @ApiResponse(responseCode = "409", description = "Disponibilidade já existe", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
@@ -65,15 +69,15 @@ public class AvailabilityController {
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
             )),
-            @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
-            )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
+            )),
+            @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
     public ResponseEntity<List<AvailabilityResumeResponseDto>> getAllAvailabilities() {
@@ -95,20 +99,20 @@ public class AvailabilityController {
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
             )),
-            @ApiResponse(responseCode = "404", description = "Disponibilidades não encontrado", content = @Content(
+            @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
+                    examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             )),
             @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             )),
-            @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
+            @ApiResponse(responseCode = "404", description = "Disponibilidades não encontrado", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
+                    examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
             ))
     })
     public ResponseEntity<AvailabilityResponseDto> getAvailabilityById(@PathVariable Integer id) {
@@ -129,15 +133,15 @@ public class AvailabilityController {
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
-            @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
-            )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
+            )),
+            @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
     public ResponseEntity<AvailabilityResumeResponseDto> updateAvailabilityById(@Valid @RequestBody AvailabilityRequestDto availability, @PathVariable Integer id) {
@@ -149,25 +153,25 @@ public class AvailabilityController {
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Deletar disponibilidade por ID", description = "Deleta uma disponibilidade com base no ID fornecido.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "404", description = "Disponibilidades não encontrado", content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
-            )),
             @ApiResponse(responseCode = "204", description = "Disponibilidades removido com sucesso", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NO_CONTENT)
+            )),
+            @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             )),
             @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             )),
-            @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
+            @ApiResponse(responseCode = "404", description = "Disponibilidades não encontrado", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
+                    examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
             ))
     })
     public ResponseEntity<Void> deleteAvailabilityById(@PathVariable Integer id) {

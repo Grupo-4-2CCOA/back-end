@@ -18,8 +18,6 @@ import sptech.school.projetoPI.dto.login.UserTokenDto;
 import sptech.school.projetoPI.repositories.ClientRepository;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class AuthService implements UserDetailsService {

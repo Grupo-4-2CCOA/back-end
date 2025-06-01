@@ -10,7 +10,7 @@ public enum Status {
     CANCELED;
 
     public static Status checkValue(String value) {
-        if(Arrays.stream(Entity.values()).anyMatch(enumValue -> enumValue.name().equals(value))) {
+        if(Arrays.stream(Status.values()).anyMatch(enumValue -> enumValue.name().equals(value))) {
             return Status.valueOf(value);
         }
 

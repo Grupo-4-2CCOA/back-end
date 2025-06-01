@@ -24,12 +24,7 @@ public class EmployeeService {
 
     public Employee signEmployee(Employee employee) {
         userService.validateUniqueProperties(employee.getCpf(), employee.getEmail(), employee.getPhone());
-
-        if(!roleRepository.existsById(employee.getRole().getId())) {
-            throw new EntityNotFoundException(
-                    "O cargo de ID %d não foi encontrado".formatted(employee.getRole().getId())
-            );
-        }
+        validateRequestBody(employee);
 
         if (roleRepository.findById(employee.getRole().getId()).get().getName().equals("OWNER") && repository.existsByRoleName("OWNER")) {
             throw new EntityConflictException(
@@ -39,7 +34,6 @@ public class EmployeeService {
 
         String senhaCriptografada = passwordEncoder.encode(employee.getPassword());
 
-        validateRequestBody(employee);
         employee.setId(null);
         employee.setPassword(senhaCriptografada);
         employee.setCreatedAt(LocalDateTime.now());
@@ -72,11 +66,7 @@ public class EmployeeService {
             );
         }
 
-        if(!roleRepository.existsById(employee.getRole().getId())) {
-            throw new EntityNotFoundException(
-                    "O cargo de ID %d não foi encontrado".formatted(employee.getRole().getId())
-            );
-        }
+        validateRequestBody(employee);
 
         if (roleRepository.findById(employee.getRole().getId()).get().getName().equals("OWNER") && repository.existsByIdNotAndRoleName(id, "OWNER")) {
             throw new EntityConflictException(
@@ -85,7 +75,6 @@ public class EmployeeService {
         }
 
         userService.validateUniquePropertiesOnUpdate(id, employee.getCpf(), employee.getEmail(), employee.getPhone(), false);
-        validateRequestBody(employee);
         employee.setId(id);
         employee.setCreatedAt(repository.findById(id).get().getCreatedAt());
         employee.setUpdatedAt(LocalDateTime.now());

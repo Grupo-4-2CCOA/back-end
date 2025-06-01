@@ -12,12 +12,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.dto.client.ClientResumeResponseDto;
 import sptech.school.projetoPI.dto.feedback.FeedbackMapper;
 import sptech.school.projetoPI.dto.feedback.FeedbackRequestDto;
 import sptech.school.projetoPI.dto.feedback.FeedbackResponseDto;
 import sptech.school.projetoPI.dto.feedback.FeedbackResumeResponseDto;
-import sptech.school.projetoPI.dto.service.ServiceResumeResponseDto;
 import sptech.school.projetoPI.entities.Feedback;
 import sptech.school.projetoPI.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.services.FeedbackService;
@@ -167,6 +165,7 @@ public class FeedbackController {
             ))
     })
     public ResponseEntity<Void> deleteFeedbackById(@PathVariable Integer id) {
-        return service.deleteFeedbackById(id);
+        service.deleteFeedbackById(id);
+        return ResponseEntity.status(204).build();
     }
 }

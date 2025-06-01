@@ -27,6 +27,7 @@ public class EmployeeRequestDto {
     @NotBlank(message = "Insira uma senha")
     private String password;
 
+    @NotBlank(message = "Insira o CPF")
     @CPF(message = "CPF inválido")
     private String cpf;
 

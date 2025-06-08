@@ -1,7 +1,6 @@
 package sptech.school.projetoPI.services;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.entities.Feedback;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
@@ -9,19 +8,19 @@ import sptech.school.projetoPI.exceptions.exceptionClass.RelatedEntityNotFoundEx
 import sptech.school.projetoPI.repositories.ClientRepository;
 import sptech.school.projetoPI.repositories.FeedbackRepository;
 import sptech.school.projetoPI.repositories.ScheduleRepository;
-import sptech.school.projetoPI.repositories.EmployeeRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class FeedbackService {
+public class FeedbackService extends AbstractService<Feedback> {
     private final FeedbackRepository repository;
     private final ScheduleRepository scheduleRepository;
     private final ClientRepository clientRepository;
 
-    public Feedback signFeedback(Feedback feedback) {
+    @Override
+    public Feedback postMethod(Feedback feedback) {
         validateRequestBody(feedback);
         feedback.setId(null);
         feedback.setCreatedAt(LocalDateTime.now());
@@ -29,11 +28,13 @@ public class FeedbackService {
         return repository.save(feedback);
     }
 
-    public List<Feedback> getAllFeedbacks() {
+    @Override
+    public List<Feedback> getAllMethod() {
         return repository.findAll();
     }
 
-    public Feedback getFeedbackById(Integer id) {
+    @Override
+    public Feedback getByIdMethod(Integer id) {
         return repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         "O feedback com o ID %d não foi encontrado".formatted(id)
@@ -41,7 +42,8 @@ public class FeedbackService {
         );
     }
 
-    public Feedback updateFeedbackById(Feedback feedback, Integer id) {
+    @Override
+    public Feedback putByIdMethod(Feedback feedback, Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O feedback com o ID %d não foi encontrado".formatted(id)
@@ -55,7 +57,8 @@ public class FeedbackService {
         return repository.save(feedback);
     }
 
-    public void deleteFeedbackById(Integer id) {
+    @Override
+    public void deleteByIdMethod(Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O feedback com o ID %d não foi encontrado".formatted(id)

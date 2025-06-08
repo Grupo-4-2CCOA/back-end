@@ -55,34 +55,34 @@ class FeedbackServiceTest extends ServiceTest {
 
     @Override
     @Test
-    @DisplayName("Quando método SignFeedback() for chamado com credenciais válidas, deve retornar Feedback")
+    @DisplayName("Quando método postMethod() for chamado com credenciais válidas, deve retornar Feedback")
     void executeEntitySignWithValidParametersTest() {
         when(scheduleRepository.existsById(anyInt())).thenReturn(true);
         when(clientRepository.existsByIdAndActiveTrue(anyInt())).thenReturn(true);
         when(repository.save(feedback)).thenReturn(feedback);
 
-        Feedback response = service.signFeedback(feedback);
+        Feedback response = service.postMethod(feedback);
         assertEquals(feedback, response);
     }
 
     @Test
-    @DisplayName("Quando não existir Schedule com ID requisitado, método SignFeedback() deve estourar RelatedEntityNotFoundException")
+    @DisplayName("Quando não existir Schedule com ID requisitado, método postMethod() deve estourar RelatedEntityNotFoundException")
     void executeFeedbackSignWithInvalidScheduleIdMustThrowRelatedEntityNotFoundExceptionTest() {
         when(scheduleRepository.existsById(anyInt())).thenReturn(false);
-        assertThrows(RelatedEntityNotFoundException.class, () -> service.signFeedback(feedback));
+        assertThrows(RelatedEntityNotFoundException.class, () -> service.postMethod(feedback));
     }
 
     @Test
-    @DisplayName("Quando não existir Client com ID requisitado, método SignFeedback() deve estourar RelatedEntityNotFoundException")
+    @DisplayName("Quando não existir Client com ID requisitado, método postMethod() deve estourar RelatedEntityNotFoundException")
     void executeFeedbackSignWithInvalidClientIdMustThrowRelatedEntityNotFoundExceptionTest() {
         when(scheduleRepository.existsById(anyInt())).thenReturn(true);
         when(clientRepository.existsByIdAndActiveTrue(anyInt())).thenReturn(false);
-        assertThrows(RelatedEntityNotFoundException.class, () -> service.signFeedback(feedback));
+        assertThrows(RelatedEntityNotFoundException.class, () -> service.postMethod(feedback));
     }
 
     @Override
     @Test
-    @DisplayName("Quando existir 3 Feedbacks na lista, método GetAllFeedbacks() deve retornar tamanho 3")
+    @DisplayName("Quando existir 3 Feedbacks na lista, método getAllMethod() deve retornar tamanho 3")
     void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest() {
         List<Feedback> feedbacks = List.of(
                 Feedback.builder()
@@ -103,74 +103,74 @@ class FeedbackServiceTest extends ServiceTest {
 
         when(repository.findAll()).thenReturn(feedbacks);
 
-        List<Feedback> response = service.getAllFeedbacks();
+        List<Feedback> response = service.getAllMethod();
         assertEquals(3, response.size());
     }
 
     @Override
     @Test
-    @DisplayName("Quando existir Feedback com ID 1, método GetFeedbackById() deve retornar o Feedback encontrado")
+    @DisplayName("Quando existir Feedback com ID 1, método getByIdMethod() deve retornar o Feedback encontrado")
     void executeEntityFindByIdMustReturnEntityWithIdOneTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(feedback));
 
-        Feedback response = service.getFeedbackById(1);
+        Feedback response = service.getByIdMethod(1);
         assertEquals(feedback, response);
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir Feedback com ID requisitado, método GetFeedbackById() deve estourar EntityNotFoundException")
+    @DisplayName("Quando não existir Feedback com ID requisitado, método getByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityFindByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class, () -> service.getFeedbackById(1));
+        assertThrows(EntityNotFoundException.class, () -> service.getByIdMethod(1));
     }
 
     @Override
     @Test
-    @DisplayName("Quando método UpdateFeedbackById() for chamado com credenciais válidas, deve retornar Feedback atualizado")
-    void executeEntityUpdateByIdWithValidEntityMustReturnUpdatedEntityTest() {
+    @DisplayName("Quando método putByIdMethod() for chamado com credenciais válidas, deve retornar Feedback atualizado")
+    void executeEntityPutByIdWithValidEntityMustReturnUpdatedEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(new Feedback()));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(scheduleRepository.existsById(anyInt())).thenReturn(true);
         when(clientRepository.existsByIdAndActiveTrue(anyInt())).thenReturn(true);
         when(repository.save(feedback)).thenReturn(feedback);
 
-        Feedback response = service.updateFeedbackById(feedback, anyInt());
+        Feedback response = service.putByIdMethod(feedback, anyInt());
         assertEquals(feedback, response);
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir Feedback com ID requisitado, método UpdateFeedbackById() deve estourar EntityNotFoundException")
-    void executeEntityUpdateByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
+    @DisplayName("Quando não existir Feedback com ID requisitado, método putByIdMethod() deve estourar EntityNotFoundException")
+    void executeEntityPutByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.updateFeedbackById(feedback, 1));
+        assertThrows(EntityNotFoundException.class, () -> service.putByIdMethod(feedback, 1));
     }
 
     @Test
-    @DisplayName("Quando não existir Schedule com ID requisitado em Feedback, método UpdateFeedbackById() deve estourar RelatedEntityNotFoundException")
-    void executeFeedbackUpdateByIdWithInvalidScheduleIdMustThrowRelatedEntityNotFoundExceptionTest() {
+    @DisplayName("Quando não existir Schedule com ID requisitado em Feedback, método putByIdMethod() deve estourar RelatedEntityNotFoundException")
+    void executeFeedbackPutByIdWithInvalidScheduleIdMustThrowRelatedEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(scheduleRepository.existsById(anyInt())).thenReturn(false);
-        assertThrows(RelatedEntityNotFoundException.class, () -> service.updateFeedbackById(feedback, 1));
+        assertThrows(RelatedEntityNotFoundException.class, () -> service.putByIdMethod(feedback, 1));
     }
 
     @Test
-    @DisplayName("Quando não existir Client com ID requisitado em Feedback, método UpdateFeedbackById() deve estourar RelatedEntityNotFoundException")
-    void executeFeedbackUpdateByIdWithInvalidClientIdMustThrowRelatedEntityNotFoundExceptionTest() {
+    @DisplayName("Quando não existir Client com ID requisitado em Feedback, método putByIdMethod() deve estourar RelatedEntityNotFoundException")
+    void executeFeedbackPutByIdWithInvalidClientIdMustThrowRelatedEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(scheduleRepository.existsById(anyInt())).thenReturn(true);
         when(clientRepository.existsByIdAndActiveTrue(anyInt())).thenReturn(false);
-        assertThrows(RelatedEntityNotFoundException.class, () -> service.updateFeedbackById(feedback, 1));
+        assertThrows(RelatedEntityNotFoundException.class, () -> service.putByIdMethod(feedback, 1));
     }
 
     @Override
     @Test
-    @DisplayName("Quando método DeleteFeedbackById() for chamado com ID válido, deve apagar entidade")
+    @DisplayName("Quando método deleteByIdMethod() for chamado com ID válido, deve apagar entidade")
     void executeEntityDeleteByIdWithValidIdMustInactiveOrDeleteEntityTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
 
-        service.deleteFeedbackById(1);
+        service.deleteByIdMethod(1);
 
         verify(repository, times(1)).existsById(anyInt());
         verify(repository, times(1)).deleteById(anyInt());
@@ -178,9 +178,9 @@ class FeedbackServiceTest extends ServiceTest {
 
     @Override
     @Test
-    @DisplayName("Quando não existir Feedback com ID requisitado, método DeleteFeedbackById() deve estourar EntityNotFoundException")
+    @DisplayName("Quando não existir Feedback com ID requisitado, método deleteByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityDeleteByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.deleteFeedbackById(1));
+        assertThrows(EntityNotFoundException.class, () -> service.deleteByIdMethod(1));
     }
 }

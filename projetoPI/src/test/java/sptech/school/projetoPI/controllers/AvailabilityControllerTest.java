@@ -32,11 +32,6 @@ class AvailabilityControllerTest extends ControllerTest<Availability, Availabili
     }
 
     @Override
-    protected String getUrlWithId() {
-        return getUrl() + "/{id}";
-    }
-
-    @Override
     protected String getValidJsonRequestBody() {
         return """
                 {
@@ -97,21 +92,21 @@ class AvailabilityControllerTest extends ControllerTest<Availability, Availabili
 
     @Override
     protected void whenSignThenReturn() {
-        when(getService().signAvailability(any(Availability.class))).thenReturn(getEntity());
+        when(getService().postMethod(any(Availability.class))).thenReturn(getEntity());
     }
 
     @Override
     protected void whenGetAllThenReturn(boolean hasContent) {
-        when(getService().getAllAvailabilities()).thenReturn(hasContent? List.of(getEntity()) : List.of());
+        when(getService().getAllMethod()).thenReturn(hasContent? List.of(getEntity()) : List.of());
     }
 
     @Override
     protected void whenGetByIdThenReturn() {
-        when(getService().getAvailabilityById(anyInt())).thenReturn(getEntity());
+        when(getService().getByIdMethod(anyInt())).thenReturn(getEntity());
     }
 
     @Override
     protected void whenUpdateByIdThenReturn() {
-        when(getService().updateAvailabilityById(any(Availability.class), anyInt())).thenReturn(getEntity());
+        when(getService().putByIdMethod(any(Availability.class), anyInt())).thenReturn(getEntity());
     }
 }

@@ -32,10 +32,6 @@ class RoleControllerTest extends ControllerTest<Role, RoleService> {
         return super.url + "/cargos";
     }
 
-    @Override
-    protected String getUrlWithId() {
-        return getUrl() + "/{id}";
-    }
 
     @Override
     protected String getValidJsonRequestBody() {
@@ -88,21 +84,21 @@ class RoleControllerTest extends ControllerTest<Role, RoleService> {
 
     @Override
     protected void whenSignThenReturn() {
-        when(getService().signRole(any(Role.class))).thenReturn(getEntity());
+        when(getService().postMethod(any(Role.class))).thenReturn(getEntity());
     }
 
     @Override
     protected void whenGetAllThenReturn(boolean hasContent) {
-        when(getService().getAllRoles()).thenReturn(hasContent? List.of(getEntity()) : List.of());
+        when(getService().getAllMethod()).thenReturn(hasContent? List.of(getEntity()) : List.of());
     }
 
     @Override
     protected void whenGetByIdThenReturn() {
-        when(getService().getRoleById(anyInt())).thenReturn(getEntity());
+        when(getService().getByIdMethod(anyInt())).thenReturn(getEntity());
     }
 
     @Override
     protected void whenUpdateByIdThenReturn() {
-        when(getService().updateRoleById(any(Role.class), anyInt())).thenReturn(getEntity());
+        when(getService().putByIdMethod(any(Role.class), anyInt())).thenReturn(getEntity());
     }
 }

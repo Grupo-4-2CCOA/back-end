@@ -8,13 +8,14 @@ import sptech.school.projetoPI.entities.Schedule;
 import sptech.school.projetoPI.entities.Employee;
 import sptech.school.projetoPI.exceptions.exceptionClass.*;
 import sptech.school.projetoPI.repositories.*;
+import sptech.school.projetoPI.services.AbstractService;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class EmployeeService {
+public class EmployeeService extends AbstractService<Employee> {
     private final EmployeeRepository repository;
     private final ScheduleRepository scheduleRepository;
     private final AvailabilityRepository availabilityRepository;
@@ -22,7 +23,8 @@ public class EmployeeService {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
-    public Employee signEmployee(Employee employee) {
+    @Override
+    public Employee postMethod(Employee employee) {
         userService.validateUniqueProperties(employee.getCpf(), employee.getEmail(), employee.getPhone());
         validateRequestBody(employee);
 
@@ -41,11 +43,13 @@ public class EmployeeService {
         return repository.save(employee);
     }
 
-    public List<Employee> getAllEmployees() {
+    @Override
+    public List<Employee> getAllMethod() {
         return repository.findAllByActiveTrue();
     }
 
-    public Employee getEmployeeById(Integer id) {
+    @Override
+    public Employee getByIdMethod(Integer id) {
         return repository.findByIdAndActiveTrue(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         "O funcionário de ID %d não foi encontrado".formatted(id)
@@ -53,7 +57,8 @@ public class EmployeeService {
         );
     }
 
-    public Employee updateEmployeeById(Employee employee, Integer id) {
+    @Override
+    public Employee putByIdMethod(Employee employee, Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O funcionário com o ID %d não foi encontrado".formatted(id)
@@ -81,7 +86,8 @@ public class EmployeeService {
         return repository.save(employee);
     }
 
-    public void deleteEmployeeById(Integer id) {
+    @Override
+    public void deleteByIdMethod(Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O funcionário de ID %d não foi encontrado".formatted(id)

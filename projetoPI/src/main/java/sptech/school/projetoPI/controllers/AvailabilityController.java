@@ -26,11 +26,31 @@ import java.util.List;
 @RequestMapping("/disponibilidades")
 @RequiredArgsConstructor
 @Tag(name = "Disponibilidade de horários", description = "Endpoints para gerenciar a disponibilidade de horários")
-public class AvailabilityController {
+public class AvailabilityController extends AbstractController<Availability, AvailabilityRequestDto, AvailabilityResponseDto, AvailabilityResumeResponseDto> {
 
     private final AvailabilityService service;
 
-    @PostMapping
+    @Override
+    public AvailabilityService getService() {
+        return service;
+    }
+
+    @Override
+    public Availability toEntity(AvailabilityRequestDto requestDto) {
+        return AvailabilityMapper.toEntity(requestDto);
+    }
+
+    @Override
+    public AvailabilityResponseDto toResponse(Availability entity) {
+        return AvailabilityMapper.toResponseDto(entity);
+    }
+
+    @Override
+    public AvailabilityResumeResponseDto toResumeResponse(Availability entity) {
+        return AvailabilityMapper.toResumeResponseDto(entity);
+    }
+
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Cadastrar uma disponibilidade", description = "Cadastra uma nova disponibilidade no sistema.")
     @ApiResponses(value = {
@@ -55,12 +75,11 @@ public class AvailabilityController {
                     examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
             ))
     })
-    public ResponseEntity<AvailabilityResumeResponseDto> signAvailability(@Valid @RequestBody AvailabilityRequestDto availability) {
-        Availability tempAvailability = service.signAvailability(AvailabilityMapper.toEntity(availability));
-        return ResponseEntity.status(201).body(AvailabilityMapper.toResumeResponseDto(tempAvailability));
+    public ResponseEntity<AvailabilityResumeResponseDto> postMethod(@Valid @RequestBody AvailabilityRequestDto requestDto) {
+        return super.postMethod(requestDto);
     }
 
-    @GetMapping
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar disponibilidade", description = "Busca todas as disponibilidades cadastrados no sistema.")
     @ApiResponses(value = {
@@ -80,17 +99,11 @@ public class AvailabilityController {
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<List<AvailabilityResumeResponseDto>> getAllAvailabilities() {
-        List<Availability> availabilities = service.getAllAvailabilities();
-
-        if(availabilities.isEmpty()) {
-            return ResponseEntity.status(204).build();
-        }
-
-        return ResponseEntity.status(200).body(availabilities.stream().map(AvailabilityMapper::toResumeResponseDto).toList());
+    public ResponseEntity<List<AvailabilityResumeResponseDto>> getAllMethod() {
+        return super.getAllMethod();
     }
 
-    @GetMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar disponibilidade por ID", description = "Busca a disponibilidade com base no ID fornecido.")
     @ApiResponses(value = {
@@ -115,11 +128,11 @@ public class AvailabilityController {
                     examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
             ))
     })
-    public ResponseEntity<AvailabilityResponseDto> getAvailabilityById(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(AvailabilityMapper.toResponseDto(service.getAvailabilityById(id)));
+    public ResponseEntity<AvailabilityResponseDto> getByIdMethod(@PathVariable Integer id) {
+        return super.getByIdMethod(id);
     }
 
-    @PutMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Atualizar disponibilidade por ID", description = "Atualiza uma disponibilidade com base no ID fornecido.")
     @ApiResponses(value = {
@@ -144,12 +157,11 @@ public class AvailabilityController {
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<AvailabilityResumeResponseDto> updateAvailabilityById(@Valid @RequestBody AvailabilityRequestDto availability, @PathVariable Integer id) {
-        Availability tempAvailability = service.updateAvailabilityById(AvailabilityMapper.toEntity(availability), id);
-        return ResponseEntity.status(200).body(AvailabilityMapper.toResumeResponseDto(tempAvailability));
+    public ResponseEntity<AvailabilityResumeResponseDto> putByIdMethod(@Valid @RequestBody AvailabilityRequestDto requestDto, @PathVariable Integer id) {
+        return super.putByIdMethod(requestDto, id);
     }
 
-    @DeleteMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Deletar disponibilidade por ID", description = "Deleta uma disponibilidade com base no ID fornecido.")
     @ApiResponses(value = {
@@ -174,8 +186,7 @@ public class AvailabilityController {
                     examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
             ))
     })
-    public ResponseEntity<Void> deleteAvailabilityById(@PathVariable Integer id) {
-        service.deleteAvailabilityById(id);
-        return ResponseEntity.status(204).build();
+    public ResponseEntity<Void> deleteByIdMethod(@PathVariable Integer id) {
+        return super.deleteByIdMethod(id);
     }
 }

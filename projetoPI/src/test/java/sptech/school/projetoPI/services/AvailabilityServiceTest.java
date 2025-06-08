@@ -50,43 +50,43 @@ class AvailabilityServiceTest extends ServiceTest {
 
     @Override
     @Test
-    @DisplayName("Quando método SignAvailability() for chamado com credenciais válidas, deve retornar Availability")
+    @DisplayName("Quando método postMethod() for chamado com credenciais válidas, deve retornar Availability")
     void executeEntitySignWithValidParametersTest() {
         when(employeeRepository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByDayAndEmployeeId(any(LocalDate.class), anyInt())).thenReturn(false);
         when(repository.save(availability)).thenReturn(availability);
 
-        Availability response = service.signAvailability(availability);
+        Availability response = service.postMethod(availability);
         assertEquals(availability, response);
     }
 
     @Test
-    @DisplayName("Quando horário inicial for posterior ao horário final, método SignAvailability() deve estourar InvalidTimeRangeException")
+    @DisplayName("Quando horário inicial for posterior ao horário final, método postMethod() deve estourar InvalidTimeRangeException")
     void executeAvailabilitySignWhereInitialTimeIsAfterFinalTimeMustThrowInvalidTimeRangeExceptionTest() {
         availability.setStartTime(LocalTime.of(10,  0));
         availability.setEndTime(LocalTime.of(9, 0));
 
-        assertThrows(InvalidTimeRangeException.class, () -> service.signAvailability(availability));
+        assertThrows(InvalidTimeRangeException.class, () -> service.postMethod(availability));
     }
 
     @Test
-    @DisplayName("Quando não existir Employee com ID requisitado, método SignAvailability() deve estourar RelatedEntityNotFoundException")
+    @DisplayName("Quando não existir Employee com ID requisitado, método postMethod() deve estourar RelatedEntityNotFoundException")
     void executeAvailabilitySignWithInvalidEmployeeIdMustThrowRelatedEntityNotFoundExceptionTest() {
         when(employeeRepository.existsById(anyInt())).thenReturn(false);
-        assertThrows(RelatedEntityNotFoundException.class, () -> service.signAvailability(availability));
+        assertThrows(RelatedEntityNotFoundException.class, () -> service.postMethod(availability));
     }
 
     @Test
-    @DisplayName("Quando já existir horário registrado, método SignAvailability() deve estourar EntityConflictException")
+    @DisplayName("Quando já existir horário registrado, método postMethod() deve estourar EntityConflictException")
     void executeAvailabilitySignWithExistingTimeMustThrowEntityConflictExceptionTest() {
         when(employeeRepository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByDayAndEmployeeId(any(LocalDate.class), anyInt())).thenReturn(true);
-        assertThrows(EntityConflictException.class, () -> service.signAvailability(availability));
+        assertThrows(EntityConflictException.class, () -> service.postMethod(availability));
     }
 
     @Override
     @Test
-    @DisplayName("Quando existir 3 Availabilities na lista, método GetAllAvailabilities() deve retornar tamanho 3")
+    @DisplayName("Quando existir 3 Availabilities na lista, método getAllMethod() deve retornar tamanho 3")
     void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest() {
         List<Availability> availabilities = List.of(
                 Availability.builder()
@@ -107,94 +107,94 @@ class AvailabilityServiceTest extends ServiceTest {
 
         when(repository.findAll()).thenReturn(availabilities);
 
-        List<Availability> response = service.getAllAvailabilities();
+        List<Availability> response = service.getAllMethod();
         assertEquals(3, response.size());
     }
 
     @Override
     @Test
-    @DisplayName("Quando existir Availability com ID 1, método GetAvailabilityById() deve retornar o Availability encontrado")
+    @DisplayName("Quando existir Availability com ID 1, método getByIdMethod() deve retornar o Availability encontrado")
     void executeEntityFindByIdMustReturnEntityWithIdOneTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(availability));
 
-        Availability response = service.getAvailabilityById(1);
+        Availability response = service.getByIdMethod(1);
         assertEquals(availability, response);
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir Availability com ID requisitado, método GetAvailabilityById() deve estourar EntityNotFoundException")
+    @DisplayName("Quando não existir Availability com ID requisitado, método getByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityFindByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class, () -> service.getAvailabilityById(1));
+        assertThrows(EntityNotFoundException.class, () -> service.getByIdMethod(1));
     }
 
     @Override
     @Test
-    @DisplayName("Quando método UpdateAvailabilityById() for chamado com credenciais válidas, deve retornar Availability atualizado")
-    void executeEntityUpdateByIdWithValidEntityMustReturnUpdatedEntityTest() {
+    @DisplayName("Quando método putByIdMethod() for chamado com credenciais válidas, deve retornar Availability atualizado")
+    void executeEntityPutByIdWithValidEntityMustReturnUpdatedEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(new Availability()));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(employeeRepository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdNotAndDayAndEmployeeId(anyInt(), any(LocalDate.class), anyInt())).thenReturn(false);
         when(repository.save(availability)).thenReturn(availability);
 
-        Availability response = service.updateAvailabilityById(availability, anyInt());
+        Availability response = service.putByIdMethod(availability, anyInt());
         assertEquals(availability, response);
     }
 
     @Test
-    @DisplayName("Quando horário inicial for posterior ao horário final, método UpdateAvailabilityById() deve estourar InvalidTimeRangeException")
-    void executeAvailabilityUpdateByIdWhereInitialTimeIsAfterFinalTimeMustThrowInvalidTimeRangeExceptionTest() {
+    @DisplayName("Quando horário inicial for posterior ao horário final, método putByIdMethod() deve estourar InvalidTimeRangeException")
+    void executeAvailabilityPutByIdWhereInitialTimeIsAfterFinalTimeMustThrowInvalidTimeRangeExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
 
         availability.setStartTime(LocalTime.of(10,  0));
         availability.setEndTime(LocalTime.of(9, 0));
 
-        assertThrows(InvalidTimeRangeException.class, () -> service.updateAvailabilityById(availability, 1));
+        assertThrows(InvalidTimeRangeException.class, () -> service.putByIdMethod(availability, 1));
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir Availability com ID requisitado, método UpdateAvailabilityById() deve estourar EntityNotFoundException")
-    void executeEntityUpdateByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
+    @DisplayName("Quando não existir Availability com ID requisitado, método putByIdMethod() deve estourar EntityNotFoundException")
+    void executeEntityPutByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.updateAvailabilityById(availability, 1));
+        assertThrows(EntityNotFoundException.class, () -> service.putByIdMethod(availability, 1));
     }
 
     @Test
-    @DisplayName("Quando não existir Employee com ID requisitado em Availability, método UpdateAvailabilityById() deve estourar RelatedEntityNotFoundException")
-    void executeAvailabilityUpdateByIdWithInvalidEmployeeIdMustThrowRelatedEntityNotFoundExceptionTest() {
+    @DisplayName("Quando não existir Employee com ID requisitado em Availability, método putByIdMethod() deve estourar RelatedEntityNotFoundException")
+    void executeAvailabilityPutByIdWithInvalidEmployeeIdMustThrowRelatedEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(employeeRepository.existsById(anyInt())).thenReturn(false);
-        assertThrows(RelatedEntityNotFoundException.class, () -> service.updateAvailabilityById(availability, 1));
+        assertThrows(RelatedEntityNotFoundException.class, () -> service.putByIdMethod(availability, 1));
     }
 
     @Test
-    @DisplayName("Quando já existir horário registrado, método UpdateAvailabilityById() deve estourar EntityConflictException")
-    void executeAvailabilityUpdateByIdWithExistingTimeMustThrowEntityConflictExceptionTest() {
+    @DisplayName("Quando já existir horário registrado, método putByIdMethod() deve estourar EntityConflictException")
+    void executeAvailabilityPutByIdWithExistingTimeMustThrowEntityConflictExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(employeeRepository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdNotAndDayAndEmployeeId(anyInt(), any(LocalDate.class), anyInt())).thenReturn(true);
-        assertThrows(EntityConflictException.class, () -> service.updateAvailabilityById(availability, 1));
+        assertThrows(EntityConflictException.class, () -> service.putByIdMethod(availability, 1));
     }
 
     @Override
     @Test
-    @DisplayName("Quando método DeleteAvailabilityById() for chamado com ID válido, deve inativar entidade")
+    @DisplayName("Quando método deleteByIdMethod() for chamado com ID válido, deve inativar entidade")
     void executeEntityDeleteByIdWithValidIdMustInactiveOrDeleteEntityTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
 
-        service.deleteAvailabilityById(1);
+        service.deleteByIdMethod(1);
 
         verify(repository, times(1)).deleteById(1);
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir Availability com ID requisitado, método DeleteAvailabilityById() deve estourar EntityNotFoundException")
+    @DisplayName("Quando não existir Availability com ID requisitado, método deleteByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityDeleteByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.deleteAvailabilityById(1));
+        assertThrows(EntityNotFoundException.class, () -> service.deleteByIdMethod(1));
     }
 }

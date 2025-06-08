@@ -29,7 +29,6 @@ public class AuthController {
     private final AuthService service;
     private final AuthenticationManager authenticationManager;
 
-    @PostMapping
     @Operation(summary = "Login", description = "Endpoint para autenticação")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Usuário logado com sucesso", content = @Content(

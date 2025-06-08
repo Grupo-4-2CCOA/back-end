@@ -27,11 +27,31 @@ import java.util.List;
 @RequestMapping("/servicos")
 @RequiredArgsConstructor
 @Tag(name = "Serviços", description = "Endpoints para gerenciar serviços")
-public class ServiceController {
+public class ServiceController extends AbstractController<Service, ServiceRequestDto, ServiceResponseDto, ServiceResumeResponseDto> {
 
     private final ServiceService service;
 
-    @PostMapping
+    @Override
+    public ServiceService getService() {
+        return service;
+    }
+
+    @Override
+    public Service toEntity(ServiceRequestDto requestDto) {
+        return ServiceMapper.toEntity(requestDto);
+    }
+
+    @Override
+    public ServiceResponseDto toResponse(Service entity) {
+        return ServiceMapper.toResponseDto(entity);
+    }
+
+    @Override
+    public ServiceResumeResponseDto toResumeResponse(Service entity) {
+        return ServiceMapper.toResumeResponseDto(entity);
+    }
+
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Cadastrar novo serviço", description = "Cadastra um novo serviço a partir do json fornecido.")
     @ApiResponses(value = {
@@ -51,12 +71,11 @@ public class ServiceController {
                     examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
             ))
     })
-    public ResponseEntity<ServiceResumeResponseDto> signService(@Valid @RequestBody ServiceRequestDto service1) {
-        Service tempService = service.signService(ServiceMapper.toEntity(service1));
-        return ResponseEntity.status(201).body(ServiceMapper.toResumeResponseDto(tempService));
+    public ResponseEntity<ServiceResumeResponseDto> postMethod(@Valid @RequestBody ServiceRequestDto requestDto) {
+        return super.postMethod(requestDto);
     }
 
-    @GetMapping
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar todos os serviços", description = "Busca todos os serviços cadastros no sistema.")
     @ApiResponses(value = {
@@ -76,17 +95,11 @@ public class ServiceController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<List<ServiceResumeResponseDto>> getAllServices() {
-        List<Service> services = service.getAllServices();
-
-        if (services.isEmpty()) {
-            return ResponseEntity.status(204).build();
-        }
-
-        return ResponseEntity.status(200).body(services.stream().map(ServiceMapper::toResumeResponseDto).toList());
+    public ResponseEntity<List<ServiceResumeResponseDto>> getAllMethod() {
+        return super.getAllMethod();
     }
 
-    @GetMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar serviço por ID", description = "Busca o serviço pelo ID fornecido.")
     @ApiResponses(value = {
@@ -111,11 +124,11 @@ public class ServiceController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<ServiceResponseDto> getServicoById(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(ServiceMapper.toResponseDto(service.getServiceById(id)));
+    public ResponseEntity<ServiceResponseDto> getByIdMethod(@PathVariable Integer id) {
+        return super.getByIdMethod(id);
     }
 
-    @PutMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Atualizar serviço por ID", description = "Atualiza as informações do serviço com base no ID fornecido.")
     @ApiResponses(value = {
@@ -140,12 +153,11 @@ public class ServiceController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<ServiceResumeResponseDto> updateServicoById(@Valid @RequestBody ServiceRequestDto service1, @PathVariable Integer id) {
-        Service tempService = service.updateServiceById(ServiceMapper.toEntity(service1), id);
-        return ResponseEntity.status(200).body(ServiceMapper.toResumeResponseDto(tempService));
+    public ResponseEntity<ServiceResumeResponseDto> putByIdMethod(@Valid @RequestBody ServiceRequestDto requestDto, @PathVariable Integer id) {
+        return super.putByIdMethod(requestDto, id);
     }
 
-    @DeleteMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Deletar serviço por ID", description = "Deleta o serviço cujo ID fornecido.")
     @ApiResponses(value = {
@@ -170,8 +182,7 @@ public class ServiceController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<Void> deleteServicoById(@PathVariable Integer id) {
-        service.deleteServiceById(id);
-        return ResponseEntity.status(204).build();
+    public ResponseEntity<Void> deleteByIdMethod(@PathVariable Integer id) {
+        return super.deleteByIdMethod(id);
     }
 }

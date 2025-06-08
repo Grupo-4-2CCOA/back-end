@@ -58,34 +58,34 @@ class ScheduleItemServiceTest extends ServiceTest {
 
     @Override
     @Test
-    @DisplayName("Quando método SignScheduleItem() for chamado com credenciais válidas, deve retornar ScheduleItem")
+    @DisplayName("Quando método postMethod() for chamado com credenciais válidas, deve retornar ScheduleItem")
     void executeEntitySignWithValidParametersTest() {
         when(scheduleRepository.existsById(anyInt())).thenReturn(true);
         when(serviceRepository.existsById(anyInt())).thenReturn(true);
         when(repository.save(scheduleItem)).thenReturn(scheduleItem);
 
-        ScheduleItem response = service.signScheduleItem(scheduleItem);
+        ScheduleItem response = service.postMethod(scheduleItem);
         assertEquals(scheduleItem, response);
     }
 
     @Test
-    @DisplayName("Quando não existir Schedule com ID requisitado, método SignScheduleItem() deve estourar RelatedEntityNotFoundException")
+    @DisplayName("Quando não existir Schedule com ID requisitado, método postMethod() deve estourar RelatedEntityNotFoundException")
     void executeScheduleItemSignWithInvalidScheduleIdMustThrowRelatedEntityNotFoundExceptionTest() {
         when(scheduleRepository.existsById(anyInt())).thenReturn(false);
-        assertThrows(RelatedEntityNotFoundException.class, () -> service.signScheduleItem(scheduleItem));
+        assertThrows(RelatedEntityNotFoundException.class, () -> service.postMethod(scheduleItem));
     }
 
     @Test
-    @DisplayName("Quando não existir Service com ID requisitado, método SignScheduleItem() deve estourar RelatedEntityNotFoundException")
+    @DisplayName("Quando não existir Service com ID requisitado, método postMethod() deve estourar RelatedEntityNotFoundException")
     void executeScheduleItemSignWithInvalidServiceIdMustThrowRelatedEntityNotFoundExceptionTest() {
         when(scheduleRepository.existsById(anyInt())).thenReturn(true);
         when(serviceRepository.existsById(anyInt())).thenReturn(false);
-        assertThrows(RelatedEntityNotFoundException.class, () -> service.signScheduleItem(scheduleItem));
+        assertThrows(RelatedEntityNotFoundException.class, () -> service.postMethod(scheduleItem));
     }
 
     @Override
     @Test
-    @DisplayName("Quando existir 3 ScheduleItems na lista, método GetAllScheduleItems() deve retornar tamanho 3")
+    @DisplayName("Quando existir 3 ScheduleItems na lista, método getAllMethod() deve retornar tamanho 3")
     void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest() {
         List<ScheduleItem> scheduleItems = List.of(
                 ScheduleItem.builder()
@@ -106,83 +106,83 @@ class ScheduleItemServiceTest extends ServiceTest {
 
         when(repository.findAll()).thenReturn(scheduleItems);
 
-        List<ScheduleItem> response = service.getAllScheduleItems();
+        List<ScheduleItem> response = service.getAllMethod();
         assertEquals(3, response.size());
     }
 
     @Override
     @Test
-    @DisplayName("Quando existir ScheduleItem com ID 1, método GetScheduleItemById() deve retornar o ScheduleItem encontrado")
+    @DisplayName("Quando existir ScheduleItem com ID 1, método getByIdMethod() deve retornar o ScheduleItem encontrado")
     void executeEntityFindByIdMustReturnEntityWithIdOneTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(scheduleItem));
 
-        ScheduleItem response = service.getScheduleItemById(1);
+        ScheduleItem response = service.getByIdMethod(1);
         assertEquals(scheduleItem, response);
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir ScheduleItem com ID requisitado, método GetScheduleItemById() deve estourar EntityNotFoundException")
+    @DisplayName("Quando não existir ScheduleItem com ID requisitado, método getByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityFindByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class, () -> service.getScheduleItemById(1));
+        assertThrows(EntityNotFoundException.class, () -> service.getByIdMethod(1));
     }
 
     @Override
     @Test
-    @DisplayName("Quando método UpdateScheduleItemById() for chamado com credenciais válidas, deve retornar ScheduleItem atualizado")
-    void executeEntityUpdateByIdWithValidEntityMustReturnUpdatedEntityTest() {
+    @DisplayName("Quando método putByIdMethod() for chamado com credenciais válidas, deve retornar ScheduleItem atualizado")
+    void executeEntityPutByIdWithValidEntityMustReturnUpdatedEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(new ScheduleItem()));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(scheduleRepository.existsById(anyInt())).thenReturn(true);
         when(serviceRepository.existsById(anyInt())).thenReturn(true);
         when(repository.save(scheduleItem)).thenReturn(scheduleItem);
 
-        ScheduleItem response = service.updateScheduleItemById(scheduleItem, anyInt());
+        ScheduleItem response = service.putByIdMethod(scheduleItem, anyInt());
         assertEquals(scheduleItem, response);
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir ScheduleItem com ID requisitado, método UpdateScheduleItemById() deve estourar EntityNotFoundException")
-    void executeEntityUpdateByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
+    @DisplayName("Quando não existir ScheduleItem com ID requisitado, método putByIdMethod() deve estourar EntityNotFoundException")
+    void executeEntityPutByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.updateScheduleItemById(scheduleItem, 1));
+        assertThrows(EntityNotFoundException.class, () -> service.putByIdMethod(scheduleItem, 1));
     }
 
     @Test
-    @DisplayName("Quando não existir Schedule com ID requisitado, método UpdateScheduleItemById() deve estourar RelatedEntityNotFoundException")
-    void executeScheduleItemUpdateByIdWithInvalidScheduleIdMustThrowRelatedEntityNotFoundExceptionTest() {
+    @DisplayName("Quando não existir Schedule com ID requisitado, método putByIdMethod() deve estourar RelatedEntityNotFoundException")
+    void executeScheduleItemPutByIdWithInvalidScheduleIdMustThrowRelatedEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(scheduleRepository.existsById(anyInt())).thenReturn(false);
-        assertThrows(RelatedEntityNotFoundException.class, () -> service.updateScheduleItemById(scheduleItem, 1));
+        assertThrows(RelatedEntityNotFoundException.class, () -> service.putByIdMethod(scheduleItem, 1));
     }
 
     @Test
-    @DisplayName("Quando não existir Service com ID requisitado, método UpdateScheduleItemById() deve estourar RelatedEntityNotFoundException")
-    void executeScheduleItemUpdateByIdWithInvalidServiceIdMustThrowRelatedEntityNotFoundExceptionTest() {
+    @DisplayName("Quando não existir Service com ID requisitado, método putByIdMethod() deve estourar RelatedEntityNotFoundException")
+    void executeScheduleItemPutByIdWithInvalidServiceIdMustThrowRelatedEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(scheduleRepository.existsById(anyInt())).thenReturn(true);
         when(serviceRepository.existsById(anyInt())).thenReturn(false);
-        assertThrows(RelatedEntityNotFoundException.class, () -> service.updateScheduleItemById(scheduleItem, 1));
+        assertThrows(RelatedEntityNotFoundException.class, () -> service.putByIdMethod(scheduleItem, 1));
     }
 
     @Override
     @Test
-    @DisplayName("Quando método DeleteScheduleItemById() for chamado com ID válido, deve inativar entidade")
+    @DisplayName("Quando método deleteByIdMethod() for chamado com ID válido, deve inativar entidade")
     void executeEntityDeleteByIdWithValidIdMustInactiveOrDeleteEntityTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
 
-        service.deleteScheduleItemById(1);
+        service.deleteByIdMethod(1);
 
         verify(repository, times(1)).deleteById(1);
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir ScheduleItem com ID requisitado, método DeleteScheduleItemById() deve estourar EntityNotFoundException")
+    @DisplayName("Quando não existir ScheduleItem com ID requisitado, método deleteByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityDeleteByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.deleteScheduleItemById(1));
+        assertThrows(EntityNotFoundException.class, () -> service.deleteByIdMethod(1));
     }
 }

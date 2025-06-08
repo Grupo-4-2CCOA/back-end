@@ -27,11 +27,31 @@ import java.util.List;
 @RequestMapping("/cargos")
 @RequiredArgsConstructor
 @Tag(name = "Cargos", description = "Endpoints para gerenciar os cargos")
-public class RoleController {
+public class RoleController extends AbstractController<Role, RoleRequestDto, RoleResponseDto, RoleResumeResponseDto> {
 
     private final RoleService service;
 
-    @PostMapping
+    @Override
+    public RoleService getService() {
+        return service;
+    }
+
+    @Override
+    public Role toEntity(RoleRequestDto requestDto) {
+        return RoleMapper.toEntity(requestDto);
+    }
+
+    @Override
+    public RoleResponseDto toResponse(Role entity) {
+        return RoleMapper.toResponseDto(entity);
+    }
+
+    @Override
+    public RoleResumeResponseDto toResumeResponse(Role entity) {
+        return RoleMapper.toResumeResponseDto(entity);
+    }
+
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Cadastrar um cargo", description = "Cadastra um novo cargo no sistema.")
     @ApiResponses(value = {
@@ -51,12 +71,11 @@ public class RoleController {
                     examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
             ))
     })
-    public ResponseEntity<RoleResumeResponseDto> signRole(@Valid @RequestBody RoleRequestDto category) {
-        Role tempRole = service.signRole(RoleMapper.toEntity(category));
-        return ResponseEntity.status(201).body(RoleMapper.toResumeResponseDto(tempRole));
+    public ResponseEntity<RoleResumeResponseDto> postMethod(@Valid @RequestBody RoleRequestDto requestDto) {
+        return super.postMethod(requestDto);
     }
 
-    @GetMapping
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar cargos", description = "Busca todos os cargos cadastrados no sistema.")
     @ApiResponses(value = {
@@ -76,17 +95,11 @@ public class RoleController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<List<RoleResumeResponseDto>> getAllRoles() {
-        List<Role> categories = service.getAllRoles();
-
-        if(categories.isEmpty()) {
-            return ResponseEntity.status(204).build();
-        }
-
-        return ResponseEntity.status(200).body(categories.stream().map(RoleMapper::toResumeResponseDto).toList());
+    public ResponseEntity<List<RoleResumeResponseDto>> getAllMethod() {
+        return super.getAllMethod();
     }
 
-    @GetMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar cargos por ID", description = "Busca o cargos com base no ID fornecido.")
     @ApiResponses(value = {
@@ -111,11 +124,11 @@ public class RoleController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<RoleResponseDto> getRoleById(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(RoleMapper.toResponseDto(service.getRoleById(id)));
+    public ResponseEntity<RoleResponseDto> getByIdMethod(@PathVariable Integer id) {
+        return super.getByIdMethod(id);
     }
 
-    @PutMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Atualizar cargos por ID", description = "Atualiza um cargo com base no ID fornecido.")
     @ApiResponses(value = {
@@ -140,12 +153,11 @@ public class RoleController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<RoleResumeResponseDto> updateRoleById(@Valid @RequestBody RoleRequestDto category, @PathVariable Integer id) {
-        Role tempRole = service.updateRoleById(RoleMapper.toEntity(category), id);
-        return ResponseEntity.status(200).body(RoleMapper.toResumeResponseDto(tempRole));
+    public ResponseEntity<RoleResumeResponseDto> putByIdMethod(@Valid @RequestBody RoleRequestDto requestDto, @PathVariable Integer id) {
+        return super.putByIdMethod(requestDto, id);
     }
 
-    @DeleteMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Deletar cargos por ID", description = "Deleta um cargos com base no ID fornecido.")
     @ApiResponses(value = {
@@ -170,8 +182,7 @@ public class RoleController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<Void> deleteRoleById(@PathVariable Integer id) {
-        service.deleteRoleById(id);
-        return ResponseEntity.status(204).build();
+    public ResponseEntity<Void> deleteByIdMethod(@PathVariable Integer id) {
+        return super.deleteByIdMethod(id);
     }
 }

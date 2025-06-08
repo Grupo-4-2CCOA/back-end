@@ -26,11 +26,31 @@ import java.util.List;
 @RequestMapping("/feedbacks")
 @RequiredArgsConstructor
 @Tag(name = "Feedback", description = "Endpoints para gerenciar feedbacks")
-public class FeedbackController {
+public class FeedbackController extends AbstractController<Feedback, FeedbackRequestDto, FeedbackResponseDto, FeedbackResumeResponseDto> {
 
     private final FeedbackService service;
 
-    @PostMapping
+    @Override
+    public FeedbackService getService() {
+        return service;
+    }
+
+    @Override
+    public Feedback toEntity(FeedbackRequestDto requestDto) {
+        return FeedbackMapper.toEntity(requestDto);
+    }
+
+    @Override
+    public FeedbackResponseDto toResponse(Feedback entity) {
+        return FeedbackMapper.toResponseDto(entity);
+    }
+
+    @Override
+    public FeedbackResumeResponseDto toResumeResponse(Feedback entity) {
+        return FeedbackMapper.toResumeResponseDto(entity);
+    }
+
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Cadastrar feedback", description = "Cadastra um novo feedback no sistema.")
     @ApiResponses(value = {
@@ -45,12 +65,11 @@ public class FeedbackController {
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
     })
-    public ResponseEntity<FeedbackResumeResponseDto> signFeedback(@Valid @RequestBody FeedbackRequestDto feedback) {
-        Feedback tempFeedback = service.signFeedback(FeedbackMapper.toEntity(feedback));
-        return ResponseEntity.status(201).body(FeedbackMapper.toResumeResponseDto(tempFeedback));
+    public ResponseEntity<FeedbackResumeResponseDto> postMethod(@Valid @RequestBody FeedbackRequestDto requestDto) {
+        return super.postMethod(requestDto);
     }
 
-    @GetMapping
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar todos os feedbacks", description = "Busca todos os feedbacks registrados no sistema.")
     @ApiResponses(value = {
@@ -70,17 +89,11 @@ public class FeedbackController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<List<FeedbackResumeResponseDto>> getAllFeedbacks() {
-        List<Feedback> feedbacks = service.getAllFeedbacks();
-
-        if (feedbacks.isEmpty()) {
-            return ResponseEntity.status(204).build();
-        }
-
-        return ResponseEntity.status(200).body(feedbacks.stream().map(FeedbackMapper::toResumeResponseDto).toList());
+    public ResponseEntity<List<FeedbackResumeResponseDto>> getAllMethod() {
+        return super.getAllMethod();
     }
 
-    @GetMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar feedback por ID", description = "Busca um feedback com base no ID fornecido.")
     @ApiResponses(value = {
@@ -105,11 +118,11 @@ public class FeedbackController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<FeedbackResponseDto> getFeedbackById(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(FeedbackMapper.toResponseDto(service.getFeedbackById(id)));
+    public ResponseEntity<FeedbackResponseDto> getByIdMethod(@PathVariable Integer id) {
+        return super.getByIdMethod(id);
     }
 
-    @PutMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Atualizar feedback por ID", description = "Atualiza as informações de um feedback com base no ID fornecido.")
     @ApiResponses(value = {
@@ -134,12 +147,11 @@ public class FeedbackController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<FeedbackResumeResponseDto> updateFeedbackById(@Valid @RequestBody FeedbackRequestDto feedback, @PathVariable Integer id) {
-        Feedback tempFeedback = service.updateFeedbackById(FeedbackMapper.toEntity(feedback), id);
-        return ResponseEntity.status(200).body(FeedbackMapper.toResumeResponseDto(tempFeedback));
+    public ResponseEntity<FeedbackResumeResponseDto> putByIdMethod(@Valid @RequestBody FeedbackRequestDto requestDto, @PathVariable Integer id) {
+        return super.putByIdMethod(requestDto, id);
     }
 
-    @DeleteMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Deletar feedback por ID", description = "Deleta um feedback com base no ID fornecido.")
     @ApiResponses(value = {
@@ -164,8 +176,7 @@ public class FeedbackController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<Void> deleteFeedbackById(@PathVariable Integer id) {
-        service.deleteFeedbackById(id);
-        return ResponseEntity.status(204).build();
+    public ResponseEntity<Void> deleteByIdMethod(@PathVariable Integer id) {
+        return super.deleteByIdMethod(id);
     }
 }

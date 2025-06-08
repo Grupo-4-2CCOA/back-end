@@ -9,8 +9,8 @@ public abstract class ServiceTest {
     abstract void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest();
     abstract void executeEntityFindByIdMustReturnEntityWithIdOneTest();
     abstract void executeEntityFindByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest();
-    abstract void executeEntityUpdateByIdWithValidEntityMustReturnUpdatedEntityTest();
-    abstract void executeEntityUpdateByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest();
+    abstract void executeEntityPutByIdWithValidEntityMustReturnUpdatedEntityTest();
+    abstract void executeEntityPutByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest();
     abstract void executeEntityDeleteByIdWithValidIdMustInactiveOrDeleteEntityTest();
     abstract void executeEntityDeleteByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest();
 }

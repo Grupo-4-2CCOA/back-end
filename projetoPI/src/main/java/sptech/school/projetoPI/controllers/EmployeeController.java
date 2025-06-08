@@ -26,11 +26,31 @@ import java.util.List;
 @RequestMapping("/funcionarios")
 @RequiredArgsConstructor
 @Tag(name = "Funcionário", description = "Endpoints para gerenciar os funcionários")
-public class EmployeeController {
+public class EmployeeController extends AbstractController<Employee, EmployeeRequestDto, EmployeeResponseDto, EmployeeResumeResponseDto> {
 
     private final EmployeeService service;
 
-    @PostMapping
+    @Override
+    public EmployeeService getService() {
+        return service;
+    }
+
+    @Override
+    public Employee toEntity(EmployeeRequestDto requestDto) {
+        return EmployeeMapper.toEntity(requestDto);
+    }
+
+    @Override
+    public EmployeeResponseDto toResponse(Employee entity) {
+        return EmployeeMapper.toResponseDto(entity);
+    }
+
+    @Override
+    public EmployeeResumeResponseDto toResumeResponse(Employee entity) {
+        return EmployeeMapper.toResumeResponseDto(entity);
+    }
+
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Cadastrar um funcionario", description = "Cadastra um novo funcionario no sistema.")
     @ApiResponses(value = {
@@ -50,12 +70,11 @@ public class EmployeeController {
                     examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
             ))
     })
-    public ResponseEntity<EmployeeResumeResponseDto> signEmployee(@Valid @RequestBody EmployeeRequestDto employee) {
-        Employee tempEmployee = service.signEmployee(EmployeeMapper.toEntity(employee));
-        return ResponseEntity.status(201).body(EmployeeMapper.toResumeResponseDto(tempEmployee));
+    public ResponseEntity<EmployeeResumeResponseDto> postMethod(@Valid @RequestBody EmployeeRequestDto requestDto) {
+        return super.postMethod(requestDto);
     }
 
-    @GetMapping
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar funcionario", description = "Busca todos os funcionarios cadastrados no sistema.")
     @ApiResponses(value = {
@@ -75,17 +94,11 @@ public class EmployeeController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<List<EmployeeResumeResponseDto>> getAllEmployees() {
-        List<Employee> Employees = service.getAllEmployees();
-
-        if (Employees.isEmpty()) {
-            return ResponseEntity.status(204).build();
-        }
-
-        return ResponseEntity.status(200).body(Employees.stream().map(EmployeeMapper::toResumeResponseDto).toList());
+    public ResponseEntity<List<EmployeeResumeResponseDto>> getAllMethod() {
+        return super.getAllMethod();
     }
 
-    @GetMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar funcionario por ID", description = "Busca o funcionario com base no ID fornecido.")
     @ApiResponses(value = {
@@ -110,11 +123,11 @@ public class EmployeeController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<EmployeeResponseDto> getEmployeeById(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(EmployeeMapper.toResponseDto(service.getEmployeeById(id)));
+    public ResponseEntity<EmployeeResponseDto> getByIdMethod(@PathVariable Integer id) {
+        return super.getByIdMethod(id);
     }
 
-    @PutMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Atualizar funcionario por ID", description = "Atualiza um funcionario com base no ID fornecido.")
     @ApiResponses(value = {
@@ -139,12 +152,11 @@ public class EmployeeController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<EmployeeResumeResponseDto> updateEmployeeById(@Valid @RequestBody EmployeeRequestDto Employee, @PathVariable Integer id) {
-        Employee tempEmployee = service.updateEmployeeById(EmployeeMapper.toEntity(Employee), id);
-        return ResponseEntity.status(200).body(EmployeeMapper.toResumeResponseDto(tempEmployee));
+    public ResponseEntity<EmployeeResumeResponseDto> putByIdMethod(@Valid @RequestBody EmployeeRequestDto requestDto, @PathVariable Integer id) {
+        return super.putByIdMethod(requestDto, id);
     }
 
-    @DeleteMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Deletar funcionario por ID", description = "Deleta um funcionario com base no ID fornecido.")
     @ApiResponses(value = {
@@ -169,8 +181,7 @@ public class EmployeeController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<Void> deleteEmployeeById(@PathVariable Integer id) {
-        service.deleteEmployeeById(id);
-        return ResponseEntity.status(204).build();
+    public ResponseEntity<Void> deleteByIdMethod(@PathVariable Integer id) {
+        return super.deleteByIdMethod(id);
     }
 }

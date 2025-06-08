@@ -26,11 +26,31 @@ import java.util.List;
 @RequestMapping("/clientes")
 @RequiredArgsConstructor
 @Tag(name = "Cliente", description = "Endpoints para gerenciar clientes")
-public class ClientController {
+public class ClientController extends AbstractController<Client, ClientRequestDto, ClientResponseDto, ClientResumeResponseDto> {
 
     private final ClientService service;
 
-    @PostMapping
+    @Override
+    public ClientService getService() {
+        return service;
+    }
+
+    @Override
+    public Client toEntity(ClientRequestDto requestDto) {
+        return ClientMapper.toEntity(requestDto);
+    }
+
+    @Override
+    public ClientResponseDto toResponse(Client entity) {
+        return ClientMapper.toResponseDto(entity);
+    }
+
+    @Override
+    public ClientResumeResponseDto toResumeResponse(Client entity) {
+        return ClientMapper.toResumeResponseDto(entity);
+    }
+
+    @Override
     @Operation(summary = "Cadastrar um cliente", description = "Cadastra um novo cliente no sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Usuário cadastrado com sucesso", content = @Content(
@@ -49,12 +69,11 @@ public class ClientController {
                     examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
             ))
     })
-    public ResponseEntity<ClientResumeResponseDto> signClient(@Valid @RequestBody ClientRequestDto client) {
-        Client tempClient = service.signClient(ClientMapper.toEntity(client));
-        return ResponseEntity.status(201).body(ClientMapper.toResumeResponseDto(tempClient));
+    public ResponseEntity<ClientResumeResponseDto> postMethod(@Valid @RequestBody ClientRequestDto requestDto) {
+        return super.postMethod(requestDto);
     }
 
-    @GetMapping
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar clientes", description = "Busca todos os clientes cadastrados no sistema.")
     @ApiResponses(value = {
@@ -74,17 +93,11 @@ public class ClientController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<List<ClientResumeResponseDto>> getAllClients() {
-        List<Client> Clients = service.getAllClients();
-
-        if (Clients.isEmpty()) {
-            return ResponseEntity.status(204).build();
-        }
-
-        return ResponseEntity.status(200).body(Clients.stream().map(ClientMapper::toResumeResponseDto).toList());
+    public ResponseEntity<List<ClientResumeResponseDto>> getAllMethod() {
+        return super.getAllMethod();
     }
 
-    @GetMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar cliente por ID", description = "Busca o cliente com base no ID fornecido.")
     @ApiResponses(value = {
@@ -109,11 +122,11 @@ public class ClientController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<ClientResponseDto> getClientById(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(ClientMapper.toResponseDto(service.getClientById(id)));
+    public ResponseEntity<ClientResponseDto> getByIdMethod(@PathVariable Integer id) {
+        return super.getByIdMethod(id);
     }
 
-    @PutMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Atualizar cliente por ID", description = "Atualiza um cliente com base no ID fornecido.")
     @ApiResponses(value = {
@@ -138,12 +151,11 @@ public class ClientController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<ClientResumeResponseDto> updateClientById(@Valid @RequestBody ClientRequestDto Client, @PathVariable Integer id) {
-        Client tempClient = service.updateClientById(ClientMapper.toEntity(Client), id);
-        return ResponseEntity.status(200).body(ClientMapper.toResumeResponseDto(tempClient));
+    public ResponseEntity<ClientResumeResponseDto> putByIdMethod(@Valid @RequestBody ClientRequestDto requestDto, @PathVariable Integer id) {
+        return super.putByIdMethod(requestDto, id);
     }
 
-    @DeleteMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Deletar cliente por ID", description = "Deleta um cliente com base no ID fornecido.")
     @ApiResponses(value = {
@@ -168,8 +180,7 @@ public class ClientController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<Void> deleteClientById(@PathVariable Integer id) {
-        service.deleteClientById(id);
-        return ResponseEntity.status(204).build();
+    public ResponseEntity<Void> deleteByIdMethod(@PathVariable Integer id) {
+        return super.deleteByIdMethod(id);
     }
 }

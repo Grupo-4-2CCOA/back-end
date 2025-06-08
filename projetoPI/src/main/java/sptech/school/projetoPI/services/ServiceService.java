@@ -11,11 +11,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ServiceService {
+public class ServiceService extends AbstractService<sptech.school.projetoPI.entities.Service> {
     private final ServiceRepository repository;
     private final CategoryRepository categoryRepository;
 
-    public sptech.school.projetoPI.entities.Service signService(sptech.school.projetoPI.entities.Service service) {
+    @Override
+    public sptech.school.projetoPI.entities.Service postMethod(sptech.school.projetoPI.entities.Service service) {
         if (repository.existsByName(service.getName())) {
             throw new EntityConflictException(
                     "Este serviço já está cadastrado"
@@ -29,11 +30,13 @@ public class ServiceService {
         return repository.save(service);
     }
 
-    public List<sptech.school.projetoPI.entities.Service> getAllServices() {
+    @Override
+    public List<sptech.school.projetoPI.entities.Service> getAllMethod() {
         return repository.findAllByActiveTrue();
     }
 
-    public sptech.school.projetoPI.entities.Service getServiceById(Integer id) {
+    @Override
+    public sptech.school.projetoPI.entities.Service getByIdMethod(Integer id) {
         return repository.findByIdAndActiveTrue(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         "O serviço com o ID %d não foi encontrado".formatted(id)
@@ -41,7 +44,8 @@ public class ServiceService {
         );
     }
 
-    public sptech.school.projetoPI.entities.Service updateServiceById(sptech.school.projetoPI.entities.Service service, Integer id) {
+    @Override
+    public sptech.school.projetoPI.entities.Service putByIdMethod(sptech.school.projetoPI.entities.Service service, Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O serviço com o ID %d não foi encontrado".formatted(id)
@@ -67,7 +71,8 @@ public class ServiceService {
         return repository.save(service);
     }
 
-    public void deleteServiceById(Integer id) {
+    @Override
+    public void deleteByIdMethod(Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O serviço com o ID %d não foi encontrado".formatted(id)

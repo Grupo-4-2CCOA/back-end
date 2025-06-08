@@ -43,25 +43,25 @@ class PaymentTypeServiceTest extends ServiceTest {
 
     @Override
     @Test
-    @DisplayName("Quando método SignPaymentType() for chamado com credenciais válidas, deve retornar PaymentType")
+    @DisplayName("Quando método postMethod() for chamado com credenciais válidas, deve retornar PaymentType")
     void executeEntitySignWithValidParametersTest() {
         when(repository.existsByNameIgnoreCase(anyString())).thenReturn(false);
         when(repository.save(paymentType)).thenReturn(paymentType);
 
-        PaymentType response = service.signPaymentType(paymentType);
+        PaymentType response = service.postMethod(paymentType);
         assertEquals(paymentType, response);
     }
 
     @Test
-    @DisplayName("Quando já existir PaymentType com o mesmo nome, método SignPaymentType() deve estourar EntityConflictException")
+    @DisplayName("Quando já existir PaymentType com o mesmo nome, método postMethod() deve estourar EntityConflictException")
     void executePaymentTypeSignWithExistingPaymentTypeNameMustThrowEntityConflictExceptionTest() {
         when(repository.existsByNameIgnoreCase(anyString())).thenReturn(true);
-        assertThrows(EntityConflictException.class, () -> service.signPaymentType(paymentType));
+        assertThrows(EntityConflictException.class, () -> service.postMethod(paymentType));
     }
 
     @Override
     @Test
-    @DisplayName("Quando existir 3 PaymentTypes na lista, método GetAllPaymentTypes() deve retornar tamanho 3")
+    @DisplayName("Quando existir 3 PaymentTypes na lista, método getAllMethod() deve retornar tamanho 3")
     void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest() {
         List<PaymentType> paymentTypes = List.of(
                 PaymentType.builder()
@@ -82,103 +82,103 @@ class PaymentTypeServiceTest extends ServiceTest {
 
         when(repository.findAllByActiveTrue()).thenReturn(paymentTypes);
 
-        List<PaymentType> response = service.getAllPaymentTypes();
+        List<PaymentType> response = service.getAllMethod();
         assertEquals(3, response.size());
     }
 
     @Override
     @Test
-    @DisplayName("Quando existir PaymentType com ID 1, método GetPaymentTypeById() deve retornar o PaymentType encontrado")
+    @DisplayName("Quando existir PaymentType com ID 1, método getByIdMethod() deve retornar o PaymentType encontrado")
     void executeEntityFindByIdMustReturnEntityWithIdOneTest() {
         when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.of(paymentType));
 
-        PaymentType response = service.getPaymentTypeById(1);
+        PaymentType response = service.getByIdMethod(1);
         assertEquals(paymentType, response);
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir PaymentType com ID requisitado, método GetPaymentTypeById() deve estourar EntityNotFoundException")
+    @DisplayName("Quando não existir PaymentType com ID requisitado, método getByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityFindByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class, () -> service.getPaymentTypeById(1));
+        assertThrows(EntityNotFoundException.class, () -> service.getByIdMethod(1));
     }
 
     @Override
     @Test
-    @DisplayName("Quando método UpdatePaymentTypeById() for chamado com credenciais válidas, deve retornar PaymentType atualizado")
-    void executeEntityUpdateByIdWithValidEntityMustReturnUpdatedEntityTest() {
+    @DisplayName("Quando método putByIdMethod() for chamado com credenciais válidas, deve retornar PaymentType atualizado")
+    void executeEntityPutByIdWithValidEntityMustReturnUpdatedEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(new PaymentType()));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(repository.existsByIdNotAndNameIgnoreCase(anyInt(), anyString())).thenReturn(false);
         when(repository.save(paymentType)).thenReturn(paymentType);
 
-        PaymentType response = service.updatePaymentTypeById(paymentType, anyInt());
+        PaymentType response = service.putByIdMethod(paymentType, anyInt());
         assertEquals(paymentType, response);
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir PaymentType com ID requisitado, método UpdatePaymentTypeById() deve estourar EntityNotFoundException")
-    void executeEntityUpdateByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
+    @DisplayName("Quando não existir PaymentType com ID requisitado, método putByIdMethod() deve estourar EntityNotFoundException")
+    void executeEntityPutByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.updatePaymentTypeById(paymentType, 1));
+        assertThrows(EntityNotFoundException.class, () -> service.putByIdMethod(paymentType, 1));
     }
 
     @Test
-    @DisplayName("Quando PaymentType com ID requisitado estiver inativo, método UpdatePaymentTypeById() deve estourar InactiveEntityException")
-    void executePaymentTypeUpdateByIdWithInactiveEntityMustThrowInactiveEntityExceptionTest() {
+    @DisplayName("Quando PaymentType com ID requisitado estiver inativo, método putByIdMethod() deve estourar InactiveEntityException")
+    void executePaymentTypePutByIdWithInactiveEntityMustThrowInactiveEntityExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(true);
-        assertThrows(InactiveEntityException.class, () -> service.updatePaymentTypeById(paymentType, 1));
+        assertThrows(InactiveEntityException.class, () -> service.putByIdMethod(paymentType, 1));
     }
 
     @Test
-    @DisplayName("Quando nome de PaymentType já estiver registrado, método UpdatePaymentTypeById() deve estourar EntityConflictException")
-    void executePaymentTypeUpdateByIdWithExistingPaymentTypeNameMustThrowEntityConflictExceptionTest() {
+    @DisplayName("Quando nome de PaymentType já estiver registrado, método putByIdMethod() deve estourar EntityConflictException")
+    void executePaymentTypePutByIdWithExistingPaymentTypeNameMustThrowEntityConflictExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(repository.existsByIdNotAndNameIgnoreCase(anyInt(), anyString())).thenReturn(true);
-        assertThrows(EntityConflictException.class, () -> service.updatePaymentTypeById(paymentType, 1));
+        assertThrows(EntityConflictException.class, () -> service.putByIdMethod(paymentType, 1));
     }
 
     @Override
     @Test
-    @DisplayName("Quando método DeletePaymentTypeById() for chamado com ID válido, deve inativar entidade")
+    @DisplayName("Quando método deleteByIdMethod() for chamado com ID válido, deve inativar entidade")
     void executeEntityDeleteByIdWithValidIdMustInactiveOrDeleteEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(paymentType));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(scheduleRepository.existsByPaymentTypeId(anyInt())).thenReturn(false);
 
-        service.deletePaymentTypeById(1);
+        service.deleteByIdMethod(1);
 
         assertFalse(paymentType.getActive());
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir PaymentType com ID requisitado, método DeletePaymentTypeById() deve estourar EntityNotFoundException")
+    @DisplayName("Quando não existir PaymentType com ID requisitado, método deleteByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityDeleteByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.deletePaymentTypeById(1));
+        assertThrows(EntityNotFoundException.class, () -> service.deleteByIdMethod(1));
     }
 
     @Test
-    @DisplayName("Quando PaymentType com ID requisitado estiver inativo, método DeletePaymentTypeById() deve estourar InactiveEntityException")
+    @DisplayName("Quando PaymentType com ID requisitado estiver inativo, método deleteByIdMethod() deve estourar InactiveEntityException")
     void executePaymentTypeDeleteByIdWithInactiveEntityMustThrowInactiveEntityExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(true);
-        assertThrows(InactiveEntityException.class, () -> service.deletePaymentTypeById(1));
+        assertThrows(InactiveEntityException.class, () -> service.deleteByIdMethod(1));
     }
 
     @Test
-    @DisplayName("Quando PaymentType com ID requisitado estiver registrado em um Schedule, método DeletePaymentTypeById() deve estourar ForeignKeyConstraintException")
+    @DisplayName("Quando PaymentType com ID requisitado estiver registrado em um Schedule, método deleteByIdMethod() deve estourar ForeignKeyConstraintException")
     void executePaymentTypeDeleteByIdWithScheduleForeignKeyConstraintMustThrowForeignKeyConstraintExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(scheduleRepository.existsByPaymentTypeId(anyInt())).thenReturn(true);
-        assertThrows(ForeignKeyConstraintException.class, () -> service.deletePaymentTypeById(1));
+        assertThrows(ForeignKeyConstraintException.class, () -> service.deleteByIdMethod(1));
     }
 }

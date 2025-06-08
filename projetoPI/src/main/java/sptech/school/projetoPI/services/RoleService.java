@@ -13,11 +13,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class RoleService {
+public class RoleService extends AbstractService<Role> {
     private final RoleRepository repository;
     private final EmployeeRepository employeeRepository;
 
-    public Role signRole(Role role) {
+    @Override
+    public Role postMethod(Role role) {
         if(repository.existsByName(role.getName())) {
             throw new EntityConflictException(
                     "Cargo com o mesmo nome já existe na base de dados"
@@ -30,11 +31,13 @@ public class RoleService {
         return repository.save(role);
     }
 
-    public List<Role> getAllRoles() {
+    @Override
+    public List<Role> getAllMethod() {
         return repository.findAllByActiveTrue();
     }
 
-    public Role getRoleById(Integer id) {
+    @Override
+    public Role getByIdMethod(Integer id) {
         return repository.findByIdAndActiveTrue(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         "O cargo com o ID %d não foi encontrada".formatted(id)
@@ -42,7 +45,8 @@ public class RoleService {
         );
     }
 
-    public Role updateRoleById(Role role, Integer id) {
+    @Override
+    public Role putByIdMethod(Role role, Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O cargo com o ID %d não foi encontrada".formatted(id)
@@ -67,7 +71,8 @@ public class RoleService {
         return repository.save(role);
     }
 
-    public void deleteRoleById(Integer id) {
+    @Override
+    public void deleteByIdMethod(Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O cargo com o ID %d não foi encontrada".formatted(id)

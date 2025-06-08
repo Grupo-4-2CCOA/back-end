@@ -32,10 +32,6 @@ class ServiceControllerTest extends ControllerTest<Service, ServiceService> {
         return super.url + "/servicos";
     }
 
-    @Override
-    protected String getUrlWithId() {
-        return getUrl() + "/{id}";
-    }
 
     @Override
     protected String getValidJsonRequestBody() {
@@ -108,21 +104,21 @@ class ServiceControllerTest extends ControllerTest<Service, ServiceService> {
 
     @Override
     protected void whenSignThenReturn() {
-        when(getService().signService(any(Service.class))).thenReturn(getEntity());
+        when(getService().postMethod(any(Service.class))).thenReturn(getEntity());
     }
 
     @Override
     protected void whenGetAllThenReturn(boolean hasContent) {
-        when(getService().getAllServices()).thenReturn(hasContent? List.of(getEntity()) : List.of());
+        when(getService().getAllMethod()).thenReturn(hasContent? List.of(getEntity()) : List.of());
     }
 
     @Override
     protected void whenGetByIdThenReturn() {
-        when(getService().getServiceById(anyInt())).thenReturn(getEntity());
+        when(getService().getByIdMethod(anyInt())).thenReturn(getEntity());
     }
 
     @Override
     protected void whenUpdateByIdThenReturn() {
-        when(getService().updateServiceById(any(Service.class), anyInt())).thenReturn(getEntity());
+        when(getService().putByIdMethod(any(Service.class), anyInt())).thenReturn(getEntity());
     }
 }

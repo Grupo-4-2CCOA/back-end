@@ -26,11 +26,31 @@ import java.util.List;
 @RequestMapping("/itens-agendamento")
 @RequiredArgsConstructor
 @Tag(name = "Item do pedido", description = "Endpoints para gerenciar os itens do pedido")
-public class ScheduleItemController {
+public class ScheduleItemController extends AbstractController<ScheduleItem, ScheduleItemRequestDto, ScheduleItemResponseDto, ScheduleItemResumeResponseDto> {
 
     private final ScheduleItemService service;
 
-    @PostMapping
+    @Override
+    public ScheduleItemService getService() {
+        return service;
+    }
+
+    @Override
+    public ScheduleItem toEntity(ScheduleItemRequestDto requestDto) {
+        return ScheduleItemMapper.toEntity(requestDto);
+    }
+
+    @Override
+    public ScheduleItemResponseDto toResponse(ScheduleItem entity) {
+        return ScheduleItemMapper.toResponseDto(entity);
+    }
+
+    @Override
+    public ScheduleItemResumeResponseDto toResumeResponse(ScheduleItem entity) {
+        return ScheduleItemMapper.toResumeResponseDto(entity);
+    }
+
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Cadastrar agendamento", description = "Cadastra um novo agendamento no sistema.")
     @ApiResponses(value = {
@@ -45,12 +65,11 @@ public class ScheduleItemController {
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
     })
-    public ResponseEntity<ScheduleItemResumeResponseDto> signScheduleItem(@Valid @RequestBody ScheduleItemRequestDto scheduleItem) {
-        ScheduleItem tempScheduleItem = service.signScheduleItem(ScheduleItemMapper.toEntity(scheduleItem));
-        return ResponseEntity.status(201).body(ScheduleItemMapper.toResumeResponseDto(tempScheduleItem));
+    public ResponseEntity<ScheduleItemResumeResponseDto> postMethod(@Valid @RequestBody ScheduleItemRequestDto requestDto) {
+        return super.postMethod(requestDto);
     }
 
-    @GetMapping
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar agendamentos", description = "Busca todos os agendamentos cadastrados no sistema.")
     @ApiResponses(value = {
@@ -70,17 +89,11 @@ public class ScheduleItemController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<List<ScheduleItemResumeResponseDto>> getAllScheduleItems() {
-        List<ScheduleItem> scheduleItems = service.getAllScheduleItems();
-
-        if (scheduleItems.isEmpty()) {
-            return ResponseEntity.status(204).build();
-        }
-
-        return ResponseEntity.status(200).body(scheduleItems.stream().map(ScheduleItemMapper::toResumeResponseDto).toList());
+    public ResponseEntity<List<ScheduleItemResumeResponseDto>> getAllMethod() {
+        return super.getAllMethod();
     }
 
-    @GetMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar agendamento por ID", description = "Busca o agendamento com base no ID fornecido.")
     @ApiResponses(value = {
@@ -105,11 +118,11 @@ public class ScheduleItemController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<ScheduleItemResponseDto> getScheduleItemById(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(ScheduleItemMapper.toResponseDto(service.getScheduleItemById(id)));
+    public ResponseEntity<ScheduleItemResponseDto> getByIdMethod(@PathVariable Integer id) {
+        return super.getByIdMethod(id);
     }
 
-    @PutMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Atualizar agendamento por ID", description = "Atualiza um agendamento com base no ID fornecido.")
     @ApiResponses(value = {
@@ -134,12 +147,11 @@ public class ScheduleItemController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<ScheduleItemResumeResponseDto> updateScheduleItemById(@Valid @RequestBody ScheduleItemRequestDto scheduleItem, @PathVariable Integer id) {
-        ScheduleItem tempScheduleItem = service.updateScheduleItemById(ScheduleItemMapper.toEntity(scheduleItem), id);
-        return ResponseEntity.status(200).body(ScheduleItemMapper.toResumeResponseDto(tempScheduleItem));
+    public ResponseEntity<ScheduleItemResumeResponseDto> putByIdMethod(@Valid @RequestBody ScheduleItemRequestDto requestDto, @PathVariable Integer id) {
+        return super.putByIdMethod(requestDto, id);
     }
 
-    @DeleteMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Deletar agendamento por ID ", description = "Deleta um agendamento com base no ID fornecido.")
     @ApiResponses(value = {
@@ -164,8 +176,7 @@ public class ScheduleItemController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<Void> deleteScheduleItemById(@PathVariable Integer id) {
-        service.deleteScheduleItemById(id);
-        return ResponseEntity.status(204).build();
+    public ResponseEntity<Void> deleteByIdMethod(@PathVariable Integer id) {
+        return super.deleteByIdMethod(id);
     }
 }

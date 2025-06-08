@@ -26,11 +26,31 @@ import java.util.List;
 @RequestMapping("/categorias")
 @RequiredArgsConstructor
 @Tag(name = "Categoria", description = "Endpoints para gerenciar as categorias")
-public class CategoryController {
+public class CategoryController extends AbstractController<Category, CategoryRequestDto, CategoryResponseDto, CategoryResumeResponseDto> {
 
     private final CategoryService service;
 
-    @PostMapping
+    @Override
+    public CategoryService getService() {
+        return service;
+    }
+
+    @Override
+    public Category toEntity(CategoryRequestDto requestDto) {
+        return CategoryMapper.toEntity(requestDto);
+    }
+
+    @Override
+    public CategoryResponseDto toResponse(Category entity) {
+        return CategoryMapper.toResponseDto(entity);
+    }
+
+    @Override
+    public CategoryResumeResponseDto toResumeResponse(Category entity) {
+        return CategoryMapper.toResumeResponseDto(entity);
+    }
+
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Cadastrar uma categoria", description = "Cadastra uma categoria no sistema.")
     @ApiResponses(value = {
@@ -50,12 +70,11 @@ public class CategoryController {
                     examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
             ))
     })
-    public ResponseEntity<CategoryResumeResponseDto> signCategory(@Valid @RequestBody CategoryRequestDto category) {
-        Category tempCategory = service.signCategory(CategoryMapper.toEntity(category));
-        return ResponseEntity.status(201).body(CategoryMapper.toResumeResponseDto(tempCategory));
+    public ResponseEntity<CategoryResumeResponseDto> postMethod(@Valid @RequestBody  CategoryRequestDto requestDto) {
+        return super.postMethod(requestDto);
     }
 
-    @GetMapping
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar categoria", description = "Busca todos as categoria cadastrados no sistema.")
     @ApiResponses(value = {
@@ -75,17 +94,11 @@ public class CategoryController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<List<CategoryResumeResponseDto>> getAllCategories() {
-        List<Category> categories = service.getAllCategories();
-
-        if(categories.isEmpty()) {
-            return ResponseEntity.status(204).build();
-        }
-
-        return ResponseEntity.status(200).body(categories.stream().map(CategoryMapper::toResumeResponseDto).toList());
+    public ResponseEntity<List<CategoryResumeResponseDto>> getAllMethod() {
+        return super.getAllMethod();
     }
 
-    @GetMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Buscar categoria por ID", description = "Busca o categoria com base no ID fornecido.")
     @ApiResponses(value = {
@@ -110,11 +123,11 @@ public class CategoryController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<CategoryResponseDto> getCategoryById(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(CategoryMapper.toResponseDto(service.getCategoryById(id)));
+    public ResponseEntity<CategoryResponseDto> getByIdMethod(@PathVariable Integer id) {
+        return super.getByIdMethod(id);
     }
 
-    @PutMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Atualizar categoria por ID", description = "Atualiza uma categoria com base no ID fornecido.")
     @ApiResponses(value = {
@@ -139,12 +152,11 @@ public class CategoryController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<CategoryResumeResponseDto> updateCategoryById(@Valid @RequestBody CategoryRequestDto category, @PathVariable Integer id) {
-        Category tempCategory = service.updateCategoryById(CategoryMapper.toEntity(category), id);
-        return ResponseEntity.status(200).body(CategoryMapper.toResumeResponseDto(tempCategory));
+    public ResponseEntity<CategoryResumeResponseDto> putByIdMethod(@Valid @RequestBody CategoryRequestDto requestDto, @PathVariable Integer id) {
+        return super.putByIdMethod(requestDto, id);
     }
 
-    @DeleteMapping("/{id}")
+    @Override
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Deletar categoria por ID", description = "Deleta uma categoria com base no ID fornecido.")
     @ApiResponses(value = {
@@ -169,8 +181,7 @@ public class CategoryController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<Void> deleteCategoryById(@PathVariable Integer id) {
-        service.deleteCategoryById(id);
-        return ResponseEntity.status(204).build();
+    public ResponseEntity<Void> deleteByIdMethod(@PathVariable Integer id) {
+        return super.deleteByIdMethod(id);
     }
 }

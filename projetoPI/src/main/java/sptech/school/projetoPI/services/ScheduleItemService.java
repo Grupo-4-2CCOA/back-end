@@ -14,12 +14,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ScheduleItemService {
+public class ScheduleItemService extends AbstractService<ScheduleItem> {
     private final ScheduleItemRepository repository;
     private final ScheduleRepository scheduleRepository;
     private final ServiceRepository serviceRepository;
 
-    public ScheduleItem signScheduleItem(ScheduleItem scheduleItem) {
+    @Override
+    public ScheduleItem postMethod(ScheduleItem scheduleItem) {
         validateRequestBody(scheduleItem);
         scheduleItem.setId(null);
         scheduleItem.setCreatedAt(LocalDateTime.now());
@@ -27,11 +28,13 @@ public class ScheduleItemService {
         return repository.save(scheduleItem);
     }
 
-    public List<ScheduleItem> getAllScheduleItems() {
+    @Override
+    public List<ScheduleItem> getAllMethod() {
         return repository.findAll();
     }
 
-    public ScheduleItem getScheduleItemById(Integer id) {
+    @Override
+    public ScheduleItem getByIdMethod(Integer id) {
         return repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         "O item de agendamento com o ID %d não foi encontrado".formatted(id)
@@ -39,7 +42,8 @@ public class ScheduleItemService {
         );
     }
 
-    public ScheduleItem updateScheduleItemById(ScheduleItem scheduleItem, Integer id) {
+    @Override
+    public ScheduleItem putByIdMethod(ScheduleItem scheduleItem, Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O item de agendamento com o ID %d não foi encontrado".formatted(id)
@@ -53,7 +57,8 @@ public class ScheduleItemService {
         return repository.save(scheduleItem);
     }
 
-    public void deleteScheduleItemById(Integer id) {
+    @Override
+    public void deleteByIdMethod(Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O item de agendamento com o ID %d não foi encontrado".formatted(id)

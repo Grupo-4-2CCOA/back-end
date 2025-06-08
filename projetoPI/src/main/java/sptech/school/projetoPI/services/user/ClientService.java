@@ -1,16 +1,8 @@
 package sptech.school.projetoPI.services.user;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-import sptech.school.projetoPI.config.GerenciadorTokenJwt;
-import sptech.school.projetoPI.dto.login.UserMapper;
-import sptech.school.projetoPI.dto.login.UserTokenDto;
 import sptech.school.projetoPI.entities.*;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.exceptions.exceptionClass.ForeignKeyConstraintException;
@@ -18,20 +10,22 @@ import sptech.school.projetoPI.exceptions.exceptionClass.InactiveEntityException
 import sptech.school.projetoPI.repositories.ClientRepository;
 import sptech.school.projetoPI.repositories.FeedbackRepository;
 import sptech.school.projetoPI.repositories.ScheduleRepository;
+import sptech.school.projetoPI.services.AbstractService;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ClientService {
+public class ClientService extends AbstractService<Client> {
     private final ClientRepository repository;
     private final ScheduleRepository scheduleRepository;
     private final FeedbackRepository feedbackRepository;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
-    public Client signClient(Client client) {
+    @Override
+    public Client postMethod(Client client) {
         userService.validateUniqueProperties(client.getCpf(), client.getEmail(), client.getPhone());
 
         String senhaCriptografada = passwordEncoder.encode(client.getPassword());
@@ -43,11 +37,13 @@ public class ClientService {
         return repository.save(client);
     }
 
-    public List<Client> getAllClients() {
+    @Override
+    public List<Client> getAllMethod() {
         return repository.findAllByActiveTrue();
     }
 
-    public Client getClientById(Integer id) {
+    @Override
+    public Client getByIdMethod(Integer id) {
         return repository.findByIdAndActiveTrue(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         "O cliente de ID %d não foi encontrado".formatted(id)
@@ -55,7 +51,8 @@ public class ClientService {
         );
     }
 
-    public Client updateClientById(Client client, Integer id) {
+    @Override
+    public Client putByIdMethod(Client client, Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O cliente com o ID %d não foi encontrado".formatted(id)
@@ -75,7 +72,8 @@ public class ClientService {
         return repository.save(client);
     }
 
-    public void deleteClientById(Integer id) {
+    @Override
+    public void deleteByIdMethod(Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O cliente de ID %d não foi encontrado".formatted(id)

@@ -32,10 +32,6 @@ class FeedbackControllerTest extends ControllerTest<Feedback, FeedbackService> {
         return super.url + "/feedbacks";
     }
 
-    @Override
-    protected String getUrlWithId() {
-        return getUrl() + "/{id}";
-    }
 
     @Override
     protected String getValidJsonRequestBody() {
@@ -98,21 +94,21 @@ class FeedbackControllerTest extends ControllerTest<Feedback, FeedbackService> {
 
     @Override
     protected void whenSignThenReturn() {
-        when(getService().signFeedback(any(Feedback.class))).thenReturn(getEntity());
+        when(getService().postMethod(any(Feedback.class))).thenReturn(getEntity());
     }
 
     @Override
     protected void whenGetAllThenReturn(boolean hasContent) {
-        when(getService().getAllFeedbacks()).thenReturn(hasContent? List.of(getEntity()) : List.of());
+        when(getService().getAllMethod()).thenReturn(hasContent? List.of(getEntity()) : List.of());
     }
 
     @Override
     protected void whenGetByIdThenReturn() {
-        when(getService().getFeedbackById(anyInt())).thenReturn(getEntity());
+        when(getService().getByIdMethod(anyInt())).thenReturn(getEntity());
     }
 
     @Override
     protected void whenUpdateByIdThenReturn() {
-        when(getService().updateFeedbackById(any(Feedback.class), anyInt())).thenReturn(getEntity());
+        when(getService().putByIdMethod(any(Feedback.class), anyInt())).thenReturn(getEntity());
     }
 }

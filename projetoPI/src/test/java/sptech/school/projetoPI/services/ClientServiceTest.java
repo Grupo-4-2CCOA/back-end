@@ -58,17 +58,17 @@ class ClientServiceTest extends ServiceTest {
 
     @Override
     @Test
-    @DisplayName("Quando método SignClient() for chamado com credenciais válidas, deve retornar Client")
+    @DisplayName("Quando método postMethod() for chamado com credenciais válidas, deve retornar Client")
     void executeEntitySignWithValidParametersTest() {
         when(repository.save(client)).thenReturn(client);
 
-        Client response = service.signClient(client);
+        Client response = service.postMethod(client);
         assertEquals(client, response);
     }
 
     @Override
     @Test
-    @DisplayName("Quando existir 3 Clients na lista, método GetAllClients() deve retornar tamanho 3")
+    @DisplayName("Quando existir 3 Clients na lista, método getAllMethod() deve retornar tamanho 3")
     void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest() {
         List<Client> clients = List.of(
                 Client.builder()
@@ -95,60 +95,60 @@ class ClientServiceTest extends ServiceTest {
 
         when(repository.findAllByActiveTrue()).thenReturn(clients);
 
-        List<Client> response = service.getAllClients();
+        List<Client> response = service.getAllMethod();
         assertEquals(3, response.size());
     }
 
     @Override
     @Test
-    @DisplayName("Quando existir Client com ID 1, método GetClientById() deve retornar o Client encontrado")
+    @DisplayName("Quando existir Client com ID 1, método getByIdMethod() deve retornar o Client encontrado")
     void executeEntityFindByIdMustReturnEntityWithIdOneTest() {
         when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.of(client));
 
-        Client response = service.getClientById(1);
+        Client response = service.getByIdMethod(1);
         assertEquals(client, response);
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir Client com ID requisitado, método GetClientById() deve estourar EntityNotFoundException")
+    @DisplayName("Quando não existir Client com ID requisitado, método getByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityFindByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class, () -> service.getClientById(1));
+        assertThrows(EntityNotFoundException.class, () -> service.getByIdMethod(1));
     }
 
     @Override
     @Test
-    @DisplayName("Quando método UpdateClientById() for chamado com credenciais válidas, deve retornar Client atualizado")
-    void executeEntityUpdateByIdWithValidEntityMustReturnUpdatedEntityTest() {
+    @DisplayName("Quando método putByIdMethod() for chamado com credenciais válidas, deve retornar Client atualizado")
+    void executeEntityPutByIdWithValidEntityMustReturnUpdatedEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(new Client()));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(repository.save(client)).thenReturn(client);
 
-        Client response = service.updateClientById(client, anyInt());
+        Client response = service.putByIdMethod(client, anyInt());
         assertEquals(client, response);
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir Client com ID requisitado, método UpdateClientById() deve estourar EntityNotFoundException")
-    void executeEntityUpdateByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
+    @DisplayName("Quando não existir Client com ID requisitado, método putByIdMethod() deve estourar EntityNotFoundException")
+    void executeEntityPutByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.updateClientById(client, 1));
+        assertThrows(EntityNotFoundException.class, () -> service.putByIdMethod(client, 1));
     }
 
     @Test
-    @DisplayName("Quando Client com ID requisitado estiver inativo, método UpdateClientById() deve estourar InactiveEntityException")
-    void executeClientUpdateByIdWithInactiveEntityMustThrowInactiveEntityExceptionTest() {
+    @DisplayName("Quando Client com ID requisitado estiver inativo, método putByIdMethod() deve estourar InactiveEntityException")
+    void executeClientPutByIdWithInactiveEntityMustThrowInactiveEntityExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(true);
-        assertThrows(InactiveEntityException.class, () -> service.updateClientById(client, 1));
+        assertThrows(InactiveEntityException.class, () -> service.putByIdMethod(client, 1));
     }
 
     @Override
     @Test
-    @DisplayName("Quando método DeleteClientById() for chamado com ID válido, deve inativar entidade")
+    @DisplayName("Quando método deleteByIdMethod() for chamado com ID válido, deve inativar entidade")
     void executeEntityDeleteByIdWithValidIdMustInactiveOrDeleteEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(client));
         when(repository.existsById(anyInt())).thenReturn(true);
@@ -156,43 +156,43 @@ class ClientServiceTest extends ServiceTest {
         when(scheduleRepository.existsByClientId(anyInt())).thenReturn(false);
         when(feedbackRepository.existsByClientId(anyInt())).thenReturn(false);
 
-        service.deleteClientById(1);
+        service.deleteByIdMethod(1);
 
         assertFalse(client.getActive());
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir Client com ID requisitado, método DeleteClientById() deve estourar EntityNotFoundException")
+    @DisplayName("Quando não existir Client com ID requisitado, método deleteByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityDeleteByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.deleteClientById(1));
+        assertThrows(EntityNotFoundException.class, () -> service.deleteByIdMethod(1));
     }
 
     @Test
-    @DisplayName("Quando Client com ID requisitado estiver inativo, método DeleteClientById() deve estourar InactiveEntityException")
+    @DisplayName("Quando Client com ID requisitado estiver inativo, método deleteByIdMethod() deve estourar InactiveEntityException")
     void executeClientDeleteByIdWithInactiveEntityMustThrowInactiveEntityExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(true);
-        assertThrows(InactiveEntityException.class, () -> service.deleteClientById(1));
+        assertThrows(InactiveEntityException.class, () -> service.deleteByIdMethod(1));
     }
 
     @Test
-    @DisplayName("Quando Client com ID requisitado estiver registrado em um Schedule, método DeleteClientById() deve estourar ForeignKeyConstraintException")
+    @DisplayName("Quando Client com ID requisitado estiver registrado em um Schedule, método deleteByIdMethod() deve estourar ForeignKeyConstraintException")
     void executeClientDeleteByIdWithScheduleForeignKeyConstraintMustThrowForeignKeyConstraintExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(scheduleRepository.existsByClientId(anyInt())).thenReturn(true);
-        assertThrows(ForeignKeyConstraintException.class, () -> service.deleteClientById(1));
+        assertThrows(ForeignKeyConstraintException.class, () -> service.deleteByIdMethod(1));
     }
 
     @Test
-    @DisplayName("Quando Client com ID requisitado estiver registrado em um Feedback, método DeleteClientById() deve estourar ForeignKeyConstraintException")
+    @DisplayName("Quando Client com ID requisitado estiver registrado em um Feedback, método deleteByIdMethod() deve estourar ForeignKeyConstraintException")
     void executeClientDeleteByIdWithFeedbackForeignKeyConstraintMustThrowForeignKeyConstraintExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(scheduleRepository.existsByClientId(anyInt())).thenReturn(false);
         when(feedbackRepository.existsByClientId(anyInt())).thenReturn(true);
-        assertThrows(ForeignKeyConstraintException.class, () -> service.deleteClientById(1));
+        assertThrows(ForeignKeyConstraintException.class, () -> service.deleteByIdMethod(1));
     }
 }

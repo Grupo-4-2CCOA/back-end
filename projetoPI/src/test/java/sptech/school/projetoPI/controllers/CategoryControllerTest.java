@@ -32,10 +32,6 @@ class CategoryControllerTest extends ControllerTest<Category, CategoryService> {
         return super.url + "/categorias";
     }
 
-    @Override
-    protected String getUrlWithId() {
-        return getUrl() + "/{id}";
-    }
 
     @Override
     protected String getValidJsonRequestBody() {
@@ -88,21 +84,21 @@ class CategoryControllerTest extends ControllerTest<Category, CategoryService> {
 
     @Override
     protected void whenSignThenReturn() {
-        when(getService().signCategory(any(Category.class))).thenReturn(getEntity());
+        when(getService().postMethod(any(Category.class))).thenReturn(getEntity());
     }
 
     @Override
     protected void whenGetAllThenReturn(boolean hasContent) {
-        when(getService().getAllCategories()).thenReturn(hasContent? List.of(getEntity()) : List.of());
+        when(getService().getAllMethod()).thenReturn(hasContent? List.of(getEntity()) : List.of());
     }
 
     @Override
     protected void whenGetByIdThenReturn() {
-        when(getService().getCategoryById(anyInt())).thenReturn(getEntity());
+        when(getService().getByIdMethod(anyInt())).thenReturn(getEntity());
     }
 
     @Override
     protected void whenUpdateByIdThenReturn() {
-        when(getService().updateCategoryById(any(Category.class), anyInt())).thenReturn(getEntity());
+        when(getService().putByIdMethod(any(Category.class), anyInt())).thenReturn(getEntity());
     }
 }

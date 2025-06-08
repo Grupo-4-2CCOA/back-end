@@ -32,10 +32,6 @@ class ScheduleItemControllerTest extends ControllerTest<ScheduleItem, ScheduleIt
         return super.url + "/itens-agendamento";
     }
 
-    @Override
-    protected String getUrlWithId() {
-        return getUrl() + "/{id}";
-    }
 
     @Override
     protected String getValidJsonRequestBody() {
@@ -98,21 +94,21 @@ class ScheduleItemControllerTest extends ControllerTest<ScheduleItem, ScheduleIt
 
     @Override
     protected void whenSignThenReturn() {
-        when(getService().signScheduleItem(any(ScheduleItem.class))).thenReturn(getEntity());
+        when(getService().postMethod(any(ScheduleItem.class))).thenReturn(getEntity());
     }
 
     @Override
     protected void whenGetAllThenReturn(boolean hasContent) {
-        when(getService().getAllScheduleItems()).thenReturn(hasContent? List.of(getEntity()) : List.of());
+        when(getService().getAllMethod()).thenReturn(hasContent? List.of(getEntity()) : List.of());
     }
 
     @Override
     protected void whenGetByIdThenReturn() {
-        when(getService().getScheduleItemById(anyInt())).thenReturn(getEntity());
+        when(getService().getByIdMethod(anyInt())).thenReturn(getEntity());
     }
 
     @Override
     protected void whenUpdateByIdThenReturn() {
-        when(getService().updateScheduleItemById(any(ScheduleItem.class), anyInt())).thenReturn(getEntity());
+        when(getService().putByIdMethod(any(ScheduleItem.class), anyInt())).thenReturn(getEntity());
     }
 }

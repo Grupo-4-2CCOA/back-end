@@ -15,11 +15,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AvailabilityService {
+public class AvailabilityService extends AbstractService<Availability> {
     private final AvailabilityRepository repository;
     private final EmployeeRepository employeeRepository;
 
-    public Availability signAvailability(Availability availability) {
+    @Override
+    public Availability postMethod(Availability availability) {
         if(availability.getStartTime().isAfter(availability.getEndTime())) {
             throw new InvalidTimeRangeException(
                     "O horário inicial %s é posterior ao horário final %s".formatted(availability.getStartTime(), availability.getEndTime())
@@ -40,11 +41,13 @@ public class AvailabilityService {
         return repository.save(availability);
     }
 
-    public List<Availability> getAllAvailabilities() {
+    @Override
+    public List<Availability> getAllMethod() {
         return repository.findAll();
     }
 
-    public Availability getAvailabilityById(Integer id) {
+    @Override
+    public Availability getByIdMethod(Integer id) {
         return repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         "O dia de disponibilidade com o ID %d não foi encontrada".formatted(id)
@@ -52,7 +55,8 @@ public class AvailabilityService {
         );
     }
 
-    public Availability updateAvailabilityById(Availability availability, Integer id) {
+    @Override
+    public Availability putByIdMethod(Availability availability, Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O dia de disponibilidade com o ID %d não foi encontrada".formatted(id)
@@ -79,7 +83,8 @@ public class AvailabilityService {
         return repository.save(availability);
     }
 
-    public void deleteAvailabilityById(Integer id) {
+    @Override
+    public void deleteByIdMethod(Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O dia de disponibilidade com o ID %d não foi encontrada".formatted(id)

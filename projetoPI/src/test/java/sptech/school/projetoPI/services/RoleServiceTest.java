@@ -43,25 +43,25 @@ class RoleServiceTest extends ServiceTest {
 
     @Override
     @Test
-    @DisplayName("Quando método SignRole() for chamado com credenciais válidas, deve retornar Role")
+    @DisplayName("Quando método postMethod() for chamado com credenciais válidas, deve retornar Role")
     void executeEntitySignWithValidParametersTest() {
         when(repository.existsByName(anyString())).thenReturn(false);
         when(repository.save(role)).thenReturn(role);
 
-        Role response = service.signRole(role);
+        Role response = service.postMethod(role);
         assertEquals(role, response);
     }
 
     @Test
-    @DisplayName("Quando já existir Role com o mesmo nome, método SignRole() deve estourar EntityConflictException")
+    @DisplayName("Quando já existir Role com o mesmo nome, método postMethod() deve estourar EntityConflictException")
     void executeRoleSignWithExistingRoleNameMustThrowEntityConflictExceptionTest() {
         when(repository.existsByName(anyString())).thenReturn(true);
-        assertThrows(EntityConflictException.class, () -> service.signRole(role));
+        assertThrows(EntityConflictException.class, () -> service.postMethod(role));
     }
 
     @Override
     @Test
-    @DisplayName("Quando existir 3 Roles na lista, método GetAllRoles() deve retornar tamanho 3")
+    @DisplayName("Quando existir 3 Roles na lista, método getAllMethod() deve retornar tamanho 3")
     void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest() {
         List<Role> roles = List.of(
                 Role.builder()
@@ -82,103 +82,103 @@ class RoleServiceTest extends ServiceTest {
 
         when(repository.findAllByActiveTrue()).thenReturn(roles);
 
-        List<Role> response = service.getAllRoles();
+        List<Role> response = service.getAllMethod();
         assertEquals(3, response.size());
     }
 
     @Override
     @Test
-    @DisplayName("Quando existir Role com ID 1, método GetRoleById() deve retornar o Role encontrado")
+    @DisplayName("Quando existir Role com ID 1, método getByIdMethod() deve retornar o Role encontrado")
     void executeEntityFindByIdMustReturnEntityWithIdOneTest() {
         when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.of(role));
 
-        Role response = service.getRoleById(1);
+        Role response = service.getByIdMethod(1);
         assertEquals(role, response);
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir Role com ID requisitado, método GetRoleById() deve estourar EntityNotFoundException")
+    @DisplayName("Quando não existir Role com ID requisitado, método getByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityFindByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class, () -> service.getRoleById(1));
+        assertThrows(EntityNotFoundException.class, () -> service.getByIdMethod(1));
     }
 
     @Override
     @Test
-    @DisplayName("Quando método UpdateRoleById() for chamado com credenciais válidas, deve retornar Role atualizado")
-    void executeEntityUpdateByIdWithValidEntityMustReturnUpdatedEntityTest() {
+    @DisplayName("Quando método putByIdMethod() for chamado com credenciais válidas, deve retornar Role atualizado")
+    void executeEntityPutByIdWithValidEntityMustReturnUpdatedEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(new Role()));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(repository.existsByIdNotAndName(anyInt(), anyString())).thenReturn(false);
         when(repository.save(role)).thenReturn(role);
 
-        Role response = service.updateRoleById(role, anyInt());
+        Role response = service.putByIdMethod(role, anyInt());
         assertEquals(role, response);
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir Role com ID requisitado, método UpdateRoleById() deve estourar EntityNotFoundException")
-    void executeEntityUpdateByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
+    @DisplayName("Quando não existir Role com ID requisitado, método putByIdMethod() deve estourar EntityNotFoundException")
+    void executeEntityPutByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.updateRoleById(role, 1));
+        assertThrows(EntityNotFoundException.class, () -> service.putByIdMethod(role, 1));
     }
 
     @Test
-    @DisplayName("Quando Role com ID requisitado estiver inativo, método UpdateRoleById() deve estourar InactiveEntityException")
-    void executeRoleUpdateByIdWithInactiveEntityMustThrowInactiveEntityExceptionTest() {
+    @DisplayName("Quando Role com ID requisitado estiver inativo, método putByIdMethod() deve estourar InactiveEntityException")
+    void executeRolePutByIdWithInactiveEntityMustThrowInactiveEntityExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(true);
-        assertThrows(InactiveEntityException.class, () -> service.updateRoleById(role, 1));
+        assertThrows(InactiveEntityException.class, () -> service.putByIdMethod(role, 1));
     }
 
     @Test
-    @DisplayName("Quando nome de Role já estiver registrado, método UpdateRoleById() deve estourar EntityConflictException")
-    void executeRoleUpdateByIdWithExistingRoleNameMustThrowEntityConflictExceptionTest() {
+    @DisplayName("Quando nome de Role já estiver registrado, método putByIdMethod() deve estourar EntityConflictException")
+    void executeRolePutByIdWithExistingRoleNameMustThrowEntityConflictExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(repository.existsByIdNotAndName(anyInt(), anyString())).thenReturn(true);
-        assertThrows(EntityConflictException.class, () -> service.updateRoleById(role, 1));
+        assertThrows(EntityConflictException.class, () -> service.putByIdMethod(role, 1));
     }
 
     @Override
     @Test
-    @DisplayName("Quando método DeleteRoleById() for chamado com ID válido, deve inativar entidade")
+    @DisplayName("Quando método deleteByIdMethod() for chamado com ID válido, deve inativar entidade")
     void executeEntityDeleteByIdWithValidIdMustInactiveOrDeleteEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(role));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(employeeRepository.existsByRoleId(anyInt())).thenReturn(false);
 
-        service.deleteRoleById(1);
+        service.deleteByIdMethod(1);
 
         assertFalse(role.getActive());
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir Role com ID requisitado, método DeleteRoleById() deve estourar EntityNotFoundException")
+    @DisplayName("Quando não existir Role com ID requisitado, método deleteByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityDeleteByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.deleteRoleById(1));
+        assertThrows(EntityNotFoundException.class, () -> service.deleteByIdMethod(1));
     }
 
     @Test
-    @DisplayName("Quando Role com ID requisitado estiver inativo, método DeleteRoleById() deve estourar InactiveEntityException")
+    @DisplayName("Quando Role com ID requisitado estiver inativo, método deleteByIdMethod() deve estourar InactiveEntityException")
     void executeRoleDeleteByIdWithInactiveEntityMustThrowInactiveEntityExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(true);
-        assertThrows(InactiveEntityException.class, () -> service.deleteRoleById(1));
+        assertThrows(InactiveEntityException.class, () -> service.deleteByIdMethod(1));
     }
 
     @Test
-    @DisplayName("Quando Role com ID requisitado estiver registrado em um Schedule, método DeleteRoleById() deve estourar ForeignKeyConstraintException")
+    @DisplayName("Quando Role com ID requisitado estiver registrado em um Schedule, método deleteByIdMethod() deve estourar ForeignKeyConstraintException")
     void executeRoleDeleteByIdWithScheduleForeignKeyConstraintMustThrowForeignKeyConstraintExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(employeeRepository.existsByRoleId(anyInt())).thenReturn(true);
-        assertThrows(ForeignKeyConstraintException.class, () -> service.deleteRoleById(1));
+        assertThrows(ForeignKeyConstraintException.class, () -> service.deleteByIdMethod(1));
     }
 }

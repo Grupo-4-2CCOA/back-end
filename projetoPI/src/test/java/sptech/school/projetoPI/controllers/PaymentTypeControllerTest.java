@@ -32,10 +32,6 @@ class PaymentTypeControllerTest extends ControllerTest<PaymentType, PaymentTypeS
         return super.url + "/pagamentos";
     }
 
-    @Override
-    protected String getUrlWithId() {
-        return getUrl() + "/{id}";
-    }
 
     @Override
     protected String getValidJsonRequestBody() {
@@ -88,21 +84,21 @@ class PaymentTypeControllerTest extends ControllerTest<PaymentType, PaymentTypeS
 
     @Override
     protected void whenSignThenReturn() {
-        when(getService().signPaymentType(any(PaymentType.class))).thenReturn(getEntity());
+        when(getService().postMethod(any(PaymentType.class))).thenReturn(getEntity());
     }
 
     @Override
     protected void whenGetAllThenReturn(boolean hasContent) {
-        when(getService().getAllPaymentTypes()).thenReturn(hasContent? List.of(getEntity()) : List.of());
+        when(getService().getAllMethod()).thenReturn(hasContent? List.of(getEntity()) : List.of());
     }
 
     @Override
     protected void whenGetByIdThenReturn() {
-        when(getService().getPaymentTypeById(anyInt())).thenReturn(getEntity());
+        when(getService().getByIdMethod(anyInt())).thenReturn(getEntity());
     }
 
     @Override
     protected void whenUpdateByIdThenReturn() {
-        when(getService().updatePaymentTypeById(any(PaymentType.class), anyInt())).thenReturn(getEntity());
+        when(getService().putByIdMethod(any(PaymentType.class), anyInt())).thenReturn(getEntity());
     }
 }

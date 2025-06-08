@@ -32,10 +32,6 @@ class EmployeeControllerTest extends ControllerTest<Employee, EmployeeService> {
         return super.url + "/funcionarios";
     }
 
-    @Override
-    protected String getUrlWithId() {
-        return getUrl() + "/{id}";
-    }
 
     @Override
     protected String getValidJsonRequestBody() {
@@ -113,21 +109,21 @@ class EmployeeControllerTest extends ControllerTest<Employee, EmployeeService> {
 
     @Override
     protected void whenSignThenReturn() {
-        when(getService().signEmployee(any(Employee.class))).thenReturn(getEntity());
+        when(getService().postMethod(any(Employee.class))).thenReturn(getEntity());
     }
 
     @Override
     protected void whenGetAllThenReturn(boolean hasContent) {
-        when(getService().getAllEmployees()).thenReturn(hasContent? List.of(getEntity()) : List.of());
+        when(getService().getAllMethod()).thenReturn(hasContent? List.of(getEntity()) : List.of());
     }
 
     @Override
     protected void whenGetByIdThenReturn() {
-        when(getService().getEmployeeById(anyInt())).thenReturn(getEntity());
+        when(getService().getByIdMethod(anyInt())).thenReturn(getEntity());
     }
 
     @Override
     protected void whenUpdateByIdThenReturn() {
-        when(getService().updateEmployeeById(any(Employee.class), anyInt())).thenReturn(getEntity());
+        when(getService().putByIdMethod(any(Employee.class), anyInt())).thenReturn(getEntity());
     }
 }

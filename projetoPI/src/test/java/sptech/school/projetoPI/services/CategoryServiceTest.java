@@ -43,25 +43,25 @@ class CategoryServiceTest extends ServiceTest {
 
     @Override
     @Test
-    @DisplayName("Quando método SignCategory() for chamado com credenciais válidas, deve retornar Category")
+    @DisplayName("Quando método postMethod() for chamado com credenciais válidas, deve retornar Category")
     void executeEntitySignWithValidParametersTest() {
         when(repository.existsByName(anyString())).thenReturn(false);
         when(repository.save(category)).thenReturn(category);
 
-        Category response = service.signCategory(category);
+        Category response = service.postMethod(category);
         assertEquals(category, response);
     }
 
     @Test
-    @DisplayName("Quando já existir Category com o mesmo nome, método SignCategory() deve estourar EntityConflictException")
+    @DisplayName("Quando já existir Category com o mesmo nome, método postMethod() deve estourar EntityConflictException")
     void executeCategorySignWithExistingCategoryNameMustThrowEntityConflictExceptionTest() {
         when(repository.existsByName(anyString())).thenReturn(true);
-        assertThrows(EntityConflictException.class, () -> service.signCategory(category));
+        assertThrows(EntityConflictException.class, () -> service.postMethod(category));
     }
 
     @Override
     @Test
-    @DisplayName("Quando existir 3 Categories na lista, método GetAllCategories() deve retornar tamanho 3")
+    @DisplayName("Quando existir 3 Categories na lista, método getAllMethod() deve retornar tamanho 3")
     void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest() {
         List<Category> categories = List.of(
                 Category.builder()
@@ -82,103 +82,103 @@ class CategoryServiceTest extends ServiceTest {
 
         when(repository.findAllByActiveTrue()).thenReturn(categories);
 
-        List<Category> response = service.getAllCategories();
+        List<Category> response = service.getAllMethod();
         assertEquals(3, response.size());
     }
 
     @Override
     @Test
-    @DisplayName("Quando existir Category com ID 1, método GetCategoryById() deve retornar o Category encontrado")
+    @DisplayName("Quando existir Category com ID 1, método getByIdMethod() deve retornar o Category encontrado")
     void executeEntityFindByIdMustReturnEntityWithIdOneTest() {
         when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.of(category));
 
-        Category response = service.getCategoryById(1);
+        Category response = service.getByIdMethod(1);
         assertEquals(category, response);
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir Category com ID requisitado, método GetCategoryById() deve estourar EntityNotFoundException")
+    @DisplayName("Quando não existir Category com ID requisitado, método getByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityFindByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class, () -> service.getCategoryById(1));
+        assertThrows(EntityNotFoundException.class, () -> service.getByIdMethod(1));
     }
 
     @Override
     @Test
-    @DisplayName("Quando método UpdateCategoryById() for chamado com credenciais válidas, deve retornar Category atualizado")
-    void executeEntityUpdateByIdWithValidEntityMustReturnUpdatedEntityTest() {
+    @DisplayName("Quando método putByIdMethod() for chamado com credenciais válidas, deve retornar Category atualizado")
+    void executeEntityPutByIdWithValidEntityMustReturnUpdatedEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(new Category()));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(repository.existsByIdNotAndName(anyInt(), anyString())).thenReturn(false);
         when(repository.save(category)).thenReturn(category);
 
-        Category response = service.updateCategoryById(category, anyInt());
+        Category response = service.putByIdMethod(category, anyInt());
         assertEquals(category, response);
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir Category com ID requisitado, método UpdateCategoryById() deve estourar EntityNotFoundException")
-    void executeEntityUpdateByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
+    @DisplayName("Quando não existir Category com ID requisitado, método putByIdMethod() deve estourar EntityNotFoundException")
+    void executeEntityPutByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.updateCategoryById(category, 1));
+        assertThrows(EntityNotFoundException.class, () -> service.putByIdMethod(category, 1));
     }
 
     @Test
-    @DisplayName("Quando Category com ID requisitado estiver inativo, método UpdateCategoryById() deve estourar InactiveEntityException")
-    void executeCategoryUpdateByIdWithInactiveEntityMustThrowInactiveEntityExceptionTest() {
+    @DisplayName("Quando Category com ID requisitado estiver inativo, método putByIdMethod() deve estourar InactiveEntityException")
+    void executeCategoryPutByIdWithInactiveEntityMustThrowInactiveEntityExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(true);
-        assertThrows(InactiveEntityException.class, () -> service.updateCategoryById(category, 1));
+        assertThrows(InactiveEntityException.class, () -> service.putByIdMethod(category, 1));
     }
 
     @Test
-    @DisplayName("Quando nome de Category já estiver registrado, método UpdateCategoryById() deve estourar EntityConflictException")
-    void executeCategoryUpdateByIdWithExistingCategoryNameMustThrowEntityConflictExceptionTest() {
+    @DisplayName("Quando nome de Category já estiver registrado, método putByIdMethod() deve estourar EntityConflictException")
+    void executeCategoryPutByIdWithExistingCategoryNameMustThrowEntityConflictExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(repository.existsByIdNotAndName(anyInt(), anyString())).thenReturn(true);
-        assertThrows(EntityConflictException.class, () -> service.updateCategoryById(category, 1));
+        assertThrows(EntityConflictException.class, () -> service.putByIdMethod(category, 1));
     }
 
     @Override
     @Test
-    @DisplayName("Quando método DeleteCategoryById() for chamado com ID válido, deve inativar entidade")
+    @DisplayName("Quando método deleteByIdMethod() for chamado com ID válido, deve inativar entidade")
     void executeEntityDeleteByIdWithValidIdMustInactiveOrDeleteEntityTest() {
         when(repository.findById(anyInt())).thenReturn(Optional.of(category));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(serviceRepository.existsByCategoryId(anyInt())).thenReturn(false);
 
-        service.deleteCategoryById(1);
+        service.deleteByIdMethod(1);
 
         assertFalse(category.getActive());
     }
 
     @Override
     @Test
-    @DisplayName("Quando não existir Category com ID requisitado, método DeleteCategoryById() deve estourar EntityNotFoundException")
+    @DisplayName("Quando não existir Category com ID requisitado, método deleteByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityDeleteByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.deleteCategoryById(1));
+        assertThrows(EntityNotFoundException.class, () -> service.deleteByIdMethod(1));
     }
 
     @Test
-    @DisplayName("Quando Category com ID requisitado estiver inativo, método DeleteCategoryById() deve estourar InactiveEntityException")
+    @DisplayName("Quando Category com ID requisitado estiver inativo, método deleteByIdMethod() deve estourar InactiveEntityException")
     void executeCategoryDeleteByIdWithInactiveEntityMustThrowInactiveEntityExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(true);
-        assertThrows(InactiveEntityException.class, () -> service.deleteCategoryById(1));
+        assertThrows(InactiveEntityException.class, () -> service.deleteByIdMethod(1));
     }
 
     @Test
-    @DisplayName("Quando Category com ID requisitado estiver registrado em um Schedule, método DeleteCategoryById() deve estourar ForeignKeyConstraintException")
+    @DisplayName("Quando Category com ID requisitado estiver registrado em um Schedule, método deleteByIdMethod() deve estourar ForeignKeyConstraintException")
     void executeCategoryDeleteByIdWithScheduleForeignKeyConstraintMustThrowForeignKeyConstraintExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(serviceRepository.existsByCategoryId(anyInt())).thenReturn(true);
-        assertThrows(ForeignKeyConstraintException.class, () -> service.deleteCategoryById(1));
+        assertThrows(ForeignKeyConstraintException.class, () -> service.deleteByIdMethod(1));
     }
 }

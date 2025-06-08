@@ -15,11 +15,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryService {
+public class CategoryService extends AbstractService<Category> {
     private final CategoryRepository repository;
     private final ServiceRepository serviceRepository;
 
-    public Category signCategory(Category category) {
+    @Override
+    public Category postMethod(Category category) {
         if(repository.existsByName(category.getName())) {
             throw new EntityConflictException(
                     "Categoria com o mesmo nome já existe na base de dados"
@@ -32,11 +33,13 @@ public class CategoryService {
         return repository.save(category);
     }
 
-    public List<Category> getAllCategories() {
+    @Override
+    public List<Category> getAllMethod() {
         return repository.findAllByActiveTrue();
     }
 
-    public Category getCategoryById(Integer id) {
+    @Override
+    public Category getByIdMethod(Integer id) {
         return repository.findByIdAndActiveTrue(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         "A categoria com o ID %d não foi encontrada".formatted(id)
@@ -44,7 +47,8 @@ public class CategoryService {
         );
     }
 
-    public Category updateCategoryById(Category category, Integer id) {
+    @Override
+    public Category putByIdMethod(Category category, Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "A categoria com o ID %d não foi encontrada".formatted(id)
@@ -69,7 +73,8 @@ public class CategoryService {
         return repository.save(category);
     }
 
-    public void deleteCategoryById(Integer id) {
+    @Override
+    public void deleteByIdMethod(Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "A categoria com o ID %d não foi encontrada".formatted(id)

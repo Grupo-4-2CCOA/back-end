@@ -31,7 +31,10 @@ public abstract class ControllerTest<Entity, Service> {
     protected abstract void whenUpdateByIdThenReturn();
 
     protected abstract String getUrl();
-    protected abstract String getUrlWithId();
+    protected String getUrlWithId() {
+        return getUrl() + "/{id}";
+    }
+
     protected abstract String getValidJsonRequestBody();
     protected abstract String getJsonWithInvalidFieldContent();
     protected abstract String getJsonWithMissingField();

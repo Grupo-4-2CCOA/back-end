@@ -16,11 +16,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PaymentTypeService {
+public class PaymentTypeService extends AbstractService<PaymentType> {
     private final PaymentTypeRepository repository;
     private final ScheduleRepository scheduleRepository;
 
-    public PaymentType signPaymentType(PaymentType paymentType) {
+    @Override
+    public PaymentType postMethod(PaymentType paymentType) {
         if(repository.existsByNameIgnoreCase(paymentType.getName())) {
             throw new EntityConflictException(
                  "O tipo de pagamento '%s' já existe na base de dados".formatted(paymentType.getName())
@@ -33,11 +34,13 @@ public class PaymentTypeService {
         return repository.save(paymentType);
     }
 
-    public List<PaymentType> getAllPaymentTypes() {
+    @Override
+    public List<PaymentType> getAllMethod() {
         return repository.findAllByActiveTrue();
     }
 
-    public PaymentType getPaymentTypeById(Integer id) {
+    @Override
+    public PaymentType getByIdMethod(Integer id) {
         return repository.findByIdAndActiveTrue(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         "O pagamento com o ID %d não foi encontrado".formatted(id)
@@ -45,7 +48,8 @@ public class PaymentTypeService {
         );
     }
 
-    public PaymentType updatePaymentTypeById(PaymentType paymentType, Integer id) {
+    @Override
+    public PaymentType putByIdMethod(PaymentType paymentType, Integer id) {
         if(!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O tipo de pagamento com o ID %d não foi encontrada".formatted(id)
@@ -70,7 +74,8 @@ public class PaymentTypeService {
         return repository.save(paymentType);
     }
 
-    public void deletePaymentTypeById(Integer id) {
+    @Override
+    public void deleteByIdMethod(Integer id) {
         if(!repository.existsById(id)) {
             throw new EntityNotFoundException(
                     "O tipo de pagamento com o ID %d não foi encontrado".formatted(id)

@@ -32,10 +32,6 @@ class ClientControllerTest extends ControllerTest<Client, ClientService> {
         return super.url + "/clientes";
     }
 
-    @Override
-    protected String getUrlWithId() {
-        return getUrl() + "/{id}";
-    }
 
     @Override
     protected String getValidJsonRequestBody() {
@@ -108,22 +104,22 @@ class ClientControllerTest extends ControllerTest<Client, ClientService> {
 
     @Override
     protected void whenSignThenReturn() {
-        when(getService().signClient(any(Client.class))).thenReturn(getEntity());
+        when(getService().postMethod(any(Client.class))).thenReturn(getEntity());
     }
 
     @Override
     protected void whenGetAllThenReturn(boolean hasContent) {
-        when(getService().getAllClients()).thenReturn(hasContent? List.of(getEntity()) : List.of());
+        when(getService().getAllMethod()).thenReturn(hasContent? List.of(getEntity()) : List.of());
     }
 
     @Override
     protected void whenGetByIdThenReturn() {
-        when(getService().getClientById(anyInt())).thenReturn(getEntity());
+        when(getService().getByIdMethod(anyInt())).thenReturn(getEntity());
     }
 
     @Override
     protected void whenUpdateByIdThenReturn() {
-        when(getService().updateClientById(any(Client.class), anyInt())).thenReturn(getEntity());
+        when(getService().putByIdMethod(any(Client.class), anyInt())).thenReturn(getEntity());
     }
 
     @Override

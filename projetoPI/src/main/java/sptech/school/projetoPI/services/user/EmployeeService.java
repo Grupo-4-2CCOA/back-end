@@ -1,11 +1,11 @@
 package sptech.school.projetoPI.services.user;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import sptech.school.projetoPI.entities.Availability;
-import sptech.school.projetoPI.entities.Schedule;
 import sptech.school.projetoPI.entities.Employee;
+import sptech.school.projetoPI.enums.Logs;
 import sptech.school.projetoPI.exceptions.exceptionClass.*;
 import sptech.school.projetoPI.repositories.*;
 import sptech.school.projetoPI.services.AbstractService;
@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class EmployeeService extends AbstractService<Employee> {
     private final EmployeeRepository repository;
@@ -29,8 +30,9 @@ public class EmployeeService extends AbstractService<Employee> {
         validateRequestBody(employee);
 
         if (roleRepository.findById(employee.getRole().getId()).get().getName().equals("OWNER") && repository.existsByRoleName("OWNER")) {
+            log.error(Logs.POST_ROLE_CONFLICT.getMessage());
             throw new EntityConflictException(
-                    "Já existe um funcionário como 'dono'"
+                    Logs.POST_ROLE_CONFLICT.getMessage()
             );
         }
 
@@ -40,42 +42,55 @@ public class EmployeeService extends AbstractService<Employee> {
         employee.setPassword(senhaCriptografada);
         employee.setCreatedAt(LocalDateTime.now());
         employee.setUpdatedAt(LocalDateTime.now());
+        log.info(Logs.POST_SUCCESSFULLY.getMessage());
         return repository.save(employee);
     }
 
     @Override
     public List<Employee> getAllMethod() {
+        if (repository.findAllByActiveTrue().isEmpty()) log.info(Logs.GET_ALL_SUCCESSFULLY_EMPTY.getMessage());
+        else log.info(Logs.GET_ALL_SUCCESSFULLY.getMessage());
+
         return repository.findAllByActiveTrue();
     }
 
     @Override
     public Employee getByIdMethod(Integer id) {
-        return repository.findByIdAndActiveTrue(id).orElseThrow(
-                () -> new EntityNotFoundException(
-                        "O funcionário de ID %d não foi encontrado".formatted(id)
-                )
-        );
+        return repository.findByIdAndActiveTrue(id)
+                .map((entity) -> {
+                    log.info(Logs.GET_BY_ID_SUCCESSFULLY.getMessage().formatted(id));
+                    return entity;
+                })
+                .orElseThrow(() -> {
+                    log.error(Logs.GET_BY_ID_NOT_FOUND.getMessage().formatted(id));
+                    return new EntityNotFoundException(
+                            Logs.GET_BY_ID_NOT_FOUND.getMessage().formatted(id)
+                    );
+                });
     }
 
     @Override
     public Employee putByIdMethod(Employee employee, Integer id) {
         if (!repository.existsById(id)) {
+            log.error(Logs.PUT_NOT_FOUND.getMessage().formatted(id));
             throw new EntityNotFoundException(
-                    "O funcionário com o ID %d não foi encontrado".formatted(id)
+                    Logs.PUT_NOT_FOUND.getMessage().formatted(id)
             );
         }
 
         if(repository.existsByIdAndActiveFalse(id)) {
+            log.error(Logs.PUT_INACTIVE_ENTITY.getMessage().formatted(id));
             throw new InactiveEntityException(
-                    "O funcionário com o ID %d está inativo".formatted(id)
+                    Logs.PUT_INACTIVE_ENTITY.getMessage().formatted(id)
             );
         }
 
         validateRequestBody(employee);
 
         if (roleRepository.findById(employee.getRole().getId()).get().getName().equals("OWNER") && repository.existsByIdNotAndRoleName(id, "OWNER")) {
+            log.error(Logs.PUT_ROLE_CONFLICT.getMessage());
             throw new EntityConflictException(
-                    "Já existe um funcionário como 'dono'"
+                    Logs.PUT_ROLE_CONFLICT.getMessage()
             );
         }
 
@@ -83,34 +98,37 @@ public class EmployeeService extends AbstractService<Employee> {
         employee.setId(id);
         employee.setCreatedAt(repository.findById(id).get().getCreatedAt());
         employee.setUpdatedAt(LocalDateTime.now());
+        log.info(Logs.PUT_SUCCESSFULLY.getMessage().formatted(id));
         return repository.save(employee);
     }
 
     @Override
     public void deleteByIdMethod(Integer id) {
         if (!repository.existsById(id)) {
+            log.error(Logs.DELETE_NOT_FOUND.getMessage().formatted(id));
             throw new EntityNotFoundException(
-                    "O funcionário de ID %d não foi encontrado".formatted(id)
+                    Logs.DELETE_NOT_FOUND.getMessage().formatted(id)
             );
         }
 
         if (repository.existsByIdAndActiveFalse(id)) {
+            log.error(Logs.DELETE_INACTIVE_ENTITY.getMessage().formatted(id));
             throw new InactiveEntityException(
-                    "O funcionário com o ID %d já está inativo".formatted(id)
+                    Logs.DELETE_INACTIVE_ENTITY.getMessage().formatted(id)
             );
         }
 
         if (scheduleRepository.existsByEmployeeId(id)) {
+            log.error(Logs.DELETE_FOREIGN_KEY_CONFLICT.getMessage().formatted("Schedules", "Employee"));
             throw new ForeignKeyConstraintException(
-                    "Os seguintes agendamentos estão relacionados com este funcionário: %s".formatted(scheduleRepository.findAllByEmployeeId(id)
-                            .stream().map(Schedule::getId).toList())
+                    Logs.DELETE_FOREIGN_KEY_CONFLICT.getMessage().formatted("Schedules", "Employee")
             );
         }
 
         if (availabilityRepository.existsByEmployeeId(id)) {
+            log.error(Logs.DELETE_FOREIGN_KEY_CONFLICT.getMessage().formatted("Availabilities", "Employee"));
             throw new ForeignKeyConstraintException(
-                    "Os seguintes dias de disponibilidade estão relacionados com este funcionário: %s".formatted(availabilityRepository.findAllByEmployeeId(id)
-                            .stream().map(Availability::getId).toList())
+                    Logs.DELETE_FOREIGN_KEY_CONFLICT.getMessage().formatted("Availabilities", "Employee")
             );
         }
 
@@ -118,13 +136,14 @@ public class EmployeeService extends AbstractService<Employee> {
         employee.setActive(false);
         employee.setUpdatedAt(LocalDateTime.now());
         repository.save(employee);
+        log.info(Logs.DELETE_SUCCESSFULLY.getMessage().formatted(id));
     }
 
-    // Validação do POST & PUT
     private void validateRequestBody(Employee employee) {
         if (!roleRepository.existsById(employee.getRole().getId())) {
+            log.error(Logs.VALIDATE_REQUEST_BODY_ENTITY_NOT_FOUND.getMessage().formatted(employee.getRole().getId()));
             throw new RelatedEntityNotFoundException(
-                    "O cargo com o ID %d não foi encontrado".formatted(employee.getRole().getId())
+                    Logs.VALIDATE_REQUEST_BODY_ENTITY_NOT_FOUND.getMessage().formatted(employee.getRole().getId())
             );
         }
     }

@@ -1,11 +1,14 @@
 package sptech.school.projetoPI.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.services.AbstractService;
 
+import java.time.LocalTime;
 import java.util.List;
 
+@Slf4j
 public abstract class AbstractController<Entity, Request, Response, ResumeResponse> {
 
     protected abstract AbstractService<Entity> getService();
@@ -15,6 +18,7 @@ public abstract class AbstractController<Entity, Request, Response, ResumeRespon
 
     @PostMapping
     protected ResponseEntity<ResumeResponse> postMethod(Request requestDto) {
+        log.info("{} - POST: Executando cadastro de entidade", LocalTime.now());
         return ResponseEntity.status(201).body(
                 toResumeResponse(
                         getService().postMethod(toEntity(requestDto))

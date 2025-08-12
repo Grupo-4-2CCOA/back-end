@@ -90,7 +90,6 @@ public class ServiceService extends AbstractService<sptech.school.projetoPI.enti
         repository.save(service);
     }
 
-    // Validação do POST & PUT
     private void validateRequestBody(sptech.school.projetoPI.entities.Service service) {
         if (!categoryRepository.existsByIdAndActiveTrue(service.getCategory().getId())) {
             throw new RelatedEntityNotFoundException(

@@ -90,7 +90,6 @@ public class ScheduleService extends AbstractService<Schedule> {
         repository.save(schedule);
     }
 
-    // Validação do POST & PUT
     private void validateRequestBody(Schedule schedule) {
         if (!clientRepository.existsByIdAndActiveTrue(schedule.getClient().getId())) {
             throw new RelatedEntityNotFoundException(

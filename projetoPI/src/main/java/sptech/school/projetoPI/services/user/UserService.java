@@ -1,12 +1,15 @@
 package sptech.school.projetoPI.services.user;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import sptech.school.projetoPI.enums.Logs;
 import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
 import sptech.school.projetoPI.repositories.ClientRepository;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserService {
     private final ClientRepository clientRepository;
@@ -14,40 +17,46 @@ public class UserService {
 
     public void validateUniqueProperties(String cpf, String email, String phone) {
         if(cpfExists(cpf)) {
+            log.error(Logs.POST_CPF_CONFLICT.getMessage().formatted(cpf));
             throw new EntityConflictException(
-                    "Já existe um usuário com este CPF"
+                    Logs.POST_CPF_CONFLICT.getMessage().formatted(cpf)
             );
         }
 
         if(emailExists(email)) {
+            log.error(Logs.POST_EMAIL_CONFLICT.getMessage().formatted(email));
             throw new EntityConflictException(
-                    "Já existe um usuário com este E-mail"
+                    Logs.POST_EMAIL_CONFLICT.getMessage().formatted(email)
             );
         }
 
         if(phoneExists(phone)) {
+            log.error(Logs.POST_PHONE_CONFLICT.getMessage().formatted(phone));
             throw new EntityConflictException(
-                    "Já existe um usuário com este número de telefone"
+                    Logs.POST_PHONE_CONFLICT.getMessage().formatted(phone)
             );
         }
     }
 
     public void validateUniquePropertiesOnUpdate(Integer id, String cpf, String email, String phone, boolean isClient) {
         if(cpfExists(id, cpf, isClient)) {
+            log.error(Logs.PUT_CPF_CONFLICT.getMessage().formatted(cpf));
             throw new EntityConflictException(
-                    "Já existe um usuário com este CPF"
+                    Logs.PUT_CPF_CONFLICT.getMessage().formatted(cpf)
             );
         }
 
         if(emailExists(id, email, isClient)) {
+            log.error(Logs.PUT_EMAIL_CONFLICT.getMessage().formatted(email));
             throw new EntityConflictException(
-                    "Já existe um usuário com este E-mail"
+                    Logs.PUT_EMAIL_CONFLICT.getMessage().formatted(email)
             );
         }
 
         if(phoneExists(id, phone, isClient)) {
+            log.error(Logs.PUT_PHONE_CONFLICT.getMessage().formatted(phone));
             throw new EntityConflictException(
-                    "Já existe um usuário com este número de telefone"
+                    Logs.PUT_PHONE_CONFLICT.getMessage().formatted(phone)
             );
         }
     }

@@ -68,7 +68,6 @@ public class FeedbackService extends AbstractService<Feedback> {
         repository.deleteById(id);
     }
 
-    // Validação do POST & PUT
     private void validateRequestBody(Feedback feedback) {
         if (!scheduleRepository.existsById(feedback.getSchedule().getId())) {
             throw new RelatedEntityNotFoundException(

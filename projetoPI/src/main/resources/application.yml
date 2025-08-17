@@ -2,7 +2,7 @@ spring:
   application:
     name: projetoPI
   profiles:
-    active: test
+    active: hml
 #    active: hml
 #    active: prod
 

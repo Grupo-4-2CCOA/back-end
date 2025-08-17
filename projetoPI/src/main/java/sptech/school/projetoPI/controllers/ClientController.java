@@ -1,5 +1,6 @@
 package sptech.school.projetoPI.controllers;
 
+import org.springframework.security.oauth2.jwt.Jwt;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -11,6 +12,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.dto.client.ClientMapper;
 import sptech.school.projetoPI.dto.client.ClientRequestDto;
@@ -20,7 +23,9 @@ import sptech.school.projetoPI.entities.Client;
 import sptech.school.projetoPI.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.services.user.ClientService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/clientes")
@@ -48,6 +53,30 @@ public class ClientController extends AbstractController<Client, ClientRequestDt
     @Override
     public ClientResumeResponseDto toResumeResponse(Client entity) {
         return ClientMapper.toResumeResponseDto(entity);
+    }
+
+    @GetMapping("/dashboard")
+    public ResponseEntity<Map<String, String>> getClientDashboard() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String nome = "Usuário";
+        String email = authentication.getName(); // O nome de autenticação é o email do usuário
+        String role = "USER";
+
+        if (authentication.getPrincipal() instanceof Jwt) {
+            Jwt jwt = (Jwt) authentication.getPrincipal();
+            nome = (String) jwt.getClaims().get("name");
+            role = (String) jwt.getClaims().get("role");
+        } else if (authentication.getPrincipal() instanceof String) {
+            email = authentication.getPrincipal().toString();
+        }
+
+        Map<String, String> response = new HashMap<>();
+        response.put("nome", nome);
+        response.put("email", email);
+        response.put("tipoUsuario", role);
+
+        return ResponseEntity.ok(response);
     }
 
     @Override

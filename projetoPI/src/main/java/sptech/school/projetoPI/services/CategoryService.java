@@ -3,12 +3,12 @@ package sptech.school.projetoPI.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import sptech.school.projetoPI.entities.Category;
-import sptech.school.projetoPI.enums.Logs;
-import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
-import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
-import sptech.school.projetoPI.exceptions.exceptionClass.ForeignKeyConstraintException;
-import sptech.school.projetoPI.exceptions.exceptionClass.InactiveEntityException;
+import sptech.school.projetoPI.core.domains.Category;
+import sptech.school.projetoPI.core.enums.Logs;
+import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityConflictException;
+import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.ForeignKeyConstraintException;
+import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.InactiveEntityException;
 import sptech.school.projetoPI.repositories.CategoryRepository;
 import sptech.school.projetoPI.repositories.ServiceRepository;
 
@@ -110,7 +110,7 @@ public class CategoryService extends AbstractService<Category> {
             log.error("{} - [ERROR 409] DELETE: Entidade de ID {} relacionada com Services. Abortar execução", LocalTime.now(), id);
             throw new ForeignKeyConstraintException(
                     "Os seguintes serviços estão relacionados com esta categoria: %s".formatted(serviceRepository.findAllByCategoryId(id)
-                            .stream().map(sptech.school.projetoPI.entities.Service::getId).toList())
+                            .stream().map(sptech.school.projetoPI.core.domains.Service::getId).toList())
             );
         }
 

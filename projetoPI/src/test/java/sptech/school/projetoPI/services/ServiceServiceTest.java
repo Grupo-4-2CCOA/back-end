@@ -4,9 +4,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import sptech.school.projetoPI.entities.Category;
-import sptech.school.projetoPI.entities.Service;
-import sptech.school.projetoPI.exceptions.exceptionClass.*;
+import sptech.school.projetoPI.core.domains.Category;
+import sptech.school.projetoPI.core.domains.Service;
+import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityConflictException;
+import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.InactiveEntityException;
+import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.RelatedEntityNotFoundException;
 import sptech.school.projetoPI.repositories.CategoryRepository;
 import sptech.school.projetoPI.repositories.ServiceRepository;
 

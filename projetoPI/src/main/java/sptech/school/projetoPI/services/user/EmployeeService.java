@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import sptech.school.projetoPI.entities.Employee;
-import sptech.school.projetoPI.enums.Logs;
-import sptech.school.projetoPI.exceptions.exceptionClass.*;
+import sptech.school.projetoPI.core.domains.Employee;
+import sptech.school.projetoPI.core.enums.Logs;
+import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.*;
 import sptech.school.projetoPI.repositories.*;
 import sptech.school.projetoPI.services.AbstractService;
 

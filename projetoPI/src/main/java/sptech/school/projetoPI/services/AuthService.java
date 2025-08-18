@@ -10,11 +10,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import sptech.school.projetoPI.config.GerenciadorTokenJwt;
-import sptech.school.projetoPI.dto.login.UserDetailsDto;
-import sptech.school.projetoPI.dto.login.UserLoginDto;
-import sptech.school.projetoPI.dto.login.UserMapper;
-import sptech.school.projetoPI.dto.login.UserTokenDto;
+import sptech.school.projetoPI.infrastructure.config.GerenciadorTokenJwt;
+import sptech.school.projetoPI.infrastructure.dto.login.UserDetailsDto;
+import sptech.school.projetoPI.infrastructure.dto.login.UserLoginDto;
+import sptech.school.projetoPI.infrastructure.dto.login.UserMapper;
+import sptech.school.projetoPI.infrastructure.dto.login.UserTokenDto;
 import sptech.school.projetoPI.repositories.ClientRepository;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
 

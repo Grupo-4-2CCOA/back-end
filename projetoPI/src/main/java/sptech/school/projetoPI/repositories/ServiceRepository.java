@@ -1,7 +1,7 @@
 package sptech.school.projetoPI.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import sptech.school.projetoPI.entities.Service;
+import sptech.school.projetoPI.core.domains.Service;
 
 import java.util.List;
 import java.util.Optional;

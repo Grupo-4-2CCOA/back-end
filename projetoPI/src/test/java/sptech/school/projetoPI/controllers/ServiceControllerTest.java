@@ -2,7 +2,7 @@ package sptech.school.projetoPI.controllers;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import sptech.school.projetoPI.entities.Service;
+import sptech.school.projetoPI.core.domains.Service;
 import sptech.school.projetoPI.services.ServiceService;
 
 import java.util.List;

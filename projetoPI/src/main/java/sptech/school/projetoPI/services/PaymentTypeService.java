@@ -2,12 +2,12 @@ package sptech.school.projetoPI.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import sptech.school.projetoPI.entities.PaymentType;
-import sptech.school.projetoPI.entities.Schedule;
-import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
-import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
-import sptech.school.projetoPI.exceptions.exceptionClass.ForeignKeyConstraintException;
-import sptech.school.projetoPI.exceptions.exceptionClass.InactiveEntityException;
+import sptech.school.projetoPI.core.domains.PaymentType;
+import sptech.school.projetoPI.core.domains.Schedule;
+import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityConflictException;
+import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.ForeignKeyConstraintException;
+import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.InactiveEntityException;
 import sptech.school.projetoPI.repositories.PaymentTypeRepository;
 import sptech.school.projetoPI.repositories.ScheduleRepository;
 

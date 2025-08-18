@@ -1,7 +1,7 @@
 package sptech.school.projetoPI.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import sptech.school.projetoPI.entities.PaymentType;
+import sptech.school.projetoPI.core.domains.PaymentType;
 
 import java.util.List;
 import java.util.Optional;

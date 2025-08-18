@@ -3,8 +3,8 @@ package sptech.school.projetoPI.services.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import sptech.school.projetoPI.enums.Logs;
-import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
+import sptech.school.projetoPI.core.enums.Logs;
+import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityConflictException;
 import sptech.school.projetoPI.repositories.ClientRepository;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
 

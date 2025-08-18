@@ -1,8 +1,8 @@
 package sptech.school.projetoPI.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import sptech.school.projetoPI.entities.Schedule;
-import sptech.school.projetoPI.enums.Status;
+import sptech.school.projetoPI.core.domains.Schedule;
+import sptech.school.projetoPI.core.enums.Status;
 
 import java.time.LocalDateTime;
 import java.util.List;

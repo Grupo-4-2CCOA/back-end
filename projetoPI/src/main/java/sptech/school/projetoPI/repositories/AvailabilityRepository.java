@@ -1,7 +1,6 @@
 package sptech.school.projetoPI.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import sptech.school.projetoPI.entities.Availability;
 
 import java.time.LocalDate;
 import java.util.List;

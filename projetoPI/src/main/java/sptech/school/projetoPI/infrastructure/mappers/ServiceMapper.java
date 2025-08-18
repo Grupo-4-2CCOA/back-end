@@ -1,6 +1,8 @@
-package sptech.school.projetoPI.infrastructure.dto.service;
+package sptech.school.projetoPI.infrastructure.mappers;
 
-import sptech.school.projetoPI.infrastructure.dto.category.CategoryMapper;
+import sptech.school.projetoPI.infrastructure.dto.service.ServiceRequestDto;
+import sptech.school.projetoPI.infrastructure.dto.service.ServiceResponseDto;
+import sptech.school.projetoPI.infrastructure.dto.service.ServiceResumeResponseDto;
 import sptech.school.projetoPI.core.domains.Category;
 import sptech.school.projetoPI.core.domains.Service;
 

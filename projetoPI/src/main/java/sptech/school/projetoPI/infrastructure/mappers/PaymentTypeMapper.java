@@ -1,6 +1,9 @@
-package sptech.school.projetoPI.infrastructure.dto.paymentType;
+package sptech.school.projetoPI.infrastructure.mappers;
 
 import sptech.school.projetoPI.core.domains.PaymentType;
+import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeRequestDto;
+import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeResponseDto;
+import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeResumeResponseDto;
 
 public class PaymentTypeMapper {
     public static PaymentType toEntity(PaymentTypeRequestDto requestObject) {

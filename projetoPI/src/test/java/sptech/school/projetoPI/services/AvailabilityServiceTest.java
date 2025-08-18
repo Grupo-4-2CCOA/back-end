@@ -9,7 +9,6 @@ import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityCo
 import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.InvalidTimeRangeException;
 import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.RelatedEntityNotFoundException;
-import sptech.school.projetoPI.repositories.AvailabilityRepository;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
 
 import java.time.LocalDate;

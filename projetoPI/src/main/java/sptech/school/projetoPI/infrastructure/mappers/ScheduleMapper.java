@@ -1,7 +1,8 @@
-package sptech.school.projetoPI.infrastructure.dto.schedule;
+package sptech.school.projetoPI.infrastructure.mappers;
 
-import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeMapper;
-import sptech.school.projetoPI.infrastructure.mappers.EmployeeMapper;
+import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleRequestDto;
+import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleResponseDto;
+import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleResumeResponseDto;
 import sptech.school.projetoPI.core.domains.Schedule;
 import sptech.school.projetoPI.core.domains.Employee;
 import sptech.school.projetoPI.core.enums.Status;

@@ -1,6 +1,9 @@
-package sptech.school.projetoPI.infrastructure.dto.scheduleItem;
+package sptech.school.projetoPI.infrastructure.mappers;
 
 import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleResumeResponseDto;
+import sptech.school.projetoPI.infrastructure.dto.scheduleItem.ScheduleItemRequestDto;
+import sptech.school.projetoPI.infrastructure.dto.scheduleItem.ScheduleItemResponseDto;
+import sptech.school.projetoPI.infrastructure.dto.scheduleItem.ScheduleItemResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.service.ServiceResumeResponseDto;
 import sptech.school.projetoPI.core.domains.Schedule;
 import sptech.school.projetoPI.core.domains.ScheduleItem;

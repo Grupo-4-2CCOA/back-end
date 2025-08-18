@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.controllers.AbstractController;
-import sptech.school.projetoPI.infrastructure.dto.feedback.FeedbackMapper;
+import sptech.school.projetoPI.infrastructure.mappers.FeedbackMapper;
 import sptech.school.projetoPI.infrastructure.dto.feedback.FeedbackRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.feedback.FeedbackResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.feedback.FeedbackResumeResponseDto;

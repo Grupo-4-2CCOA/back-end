@@ -1,6 +1,9 @@
-package sptech.school.projetoPI.infrastructure.dto.category;
+package sptech.school.projetoPI.infrastructure.mappers;
 
 import sptech.school.projetoPI.core.domains.Category;
+import sptech.school.projetoPI.infrastructure.dto.category.CategoryRequestDto;
+import sptech.school.projetoPI.infrastructure.dto.category.CategoryResponseDto;
+import sptech.school.projetoPI.infrastructure.dto.category.CategoryResumeResponseDto;
 
 public class CategoryMapper {
     public static Category toEntity(CategoryRequestDto requestObject) {

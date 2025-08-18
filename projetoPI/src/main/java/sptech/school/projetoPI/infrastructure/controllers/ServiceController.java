@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.controllers.AbstractController;
 import sptech.school.projetoPI.infrastructure.dto.client.ClientResumeResponseDto;
-import sptech.school.projetoPI.infrastructure.dto.service.ServiceMapper;
+import sptech.school.projetoPI.infrastructure.mappers.ServiceMapper;
 import sptech.school.projetoPI.infrastructure.dto.service.ServiceRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.service.ServiceResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.service.ServiceResumeResponseDto;

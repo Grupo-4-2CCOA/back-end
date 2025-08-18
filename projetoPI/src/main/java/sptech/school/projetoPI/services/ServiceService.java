@@ -6,8 +6,6 @@ import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityCo
 import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.InactiveEntityException;
 import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.RelatedEntityNotFoundException;
-import sptech.school.projetoPI.repositories.CategoryRepository;
-import sptech.school.projetoPI.repositories.ServiceRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;

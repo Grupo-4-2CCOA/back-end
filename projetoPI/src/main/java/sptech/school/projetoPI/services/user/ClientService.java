@@ -9,9 +9,6 @@ import sptech.school.projetoPI.core.enums.Logs;
 import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.ForeignKeyConstraintException;
 import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.InactiveEntityException;
-import sptech.school.projetoPI.repositories.ClientRepository;
-import sptech.school.projetoPI.repositories.FeedbackRepository;
-import sptech.school.projetoPI.repositories.ScheduleRepository;
 import sptech.school.projetoPI.services.AbstractService;
 
 import java.time.LocalDateTime;

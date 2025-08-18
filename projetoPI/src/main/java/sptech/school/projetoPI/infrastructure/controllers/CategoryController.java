@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.controllers.AbstractController;
-import sptech.school.projetoPI.infrastructure.dto.category.CategoryMapper;
+import sptech.school.projetoPI.infrastructure.mappers.CategoryMapper;
 import sptech.school.projetoPI.infrastructure.dto.category.CategoryRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.category.CategoryResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.category.CategoryResumeResponseDto;

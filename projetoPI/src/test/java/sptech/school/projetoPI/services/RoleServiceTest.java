@@ -10,7 +10,6 @@ import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityNo
 import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.ForeignKeyConstraintException;
 import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.InactiveEntityException;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
-import sptech.school.projetoPI.repositories.RoleRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;

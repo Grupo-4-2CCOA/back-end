@@ -15,7 +15,7 @@ public interface JpaRoleRepository extends JpaRepository<RoleJpaEntity, Integer>
     boolean existsByIdNotAndName(Integer id, String name);
     boolean existsByRoleId(Integer id);
     Optional<Role> findByIdAndActiveTrue(Integer id);
-    Optional<Role> findById(Integer id);
+    Optional<RoleJpaEntity> findById(Integer id);
     Optional<Role> findAllByRoleId(Integer id);
     List<Role> findAllByActiveTrue();
 }

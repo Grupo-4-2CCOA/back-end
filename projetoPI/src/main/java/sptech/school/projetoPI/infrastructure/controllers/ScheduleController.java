@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.controllers.AbstractController;
 import sptech.school.projetoPI.core.domains.Schedule;
-import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleMapper;
+import sptech.school.projetoPI.infrastructure.mappers.ScheduleMapper;
 import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleResumeResponseDto;

@@ -1,7 +1,6 @@
 package sptech.school.projetoPI.infrastructure.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import sptech.school.projetoPI.core.domains.Employee;
 import sptech.school.projetoPI.infrastructure.persistence.EmployeeJpaEntity;
 
 import java.util.List;
@@ -19,8 +18,8 @@ public interface JpaEmployeeRepository extends JpaRepository<EmployeeJpaEntity, 
     boolean existsByIdAndActiveFalse(Integer id);
     boolean existsByRoleName(String roleName);
     boolean existsByIdNotAndRoleName(Integer id, String roleName);
-    Optional<Employee> findByIdAndActiveTrue(Integer id);
-    List<Employee> findAllByActiveTrue();
-    List<Employee> findAllByRoleId(Integer id);
-    Optional<Employee> findByEmail(String email);
+    Optional<EmployeeJpaEntity> findByIdAndActiveTrue(Integer id);
+    List<EmployeeJpaEntity> findAllByActiveTrue();
+    List<EmployeeJpaEntity> findAllByRoleId(Integer id);
+    Optional<EmployeeJpaEntity> findByEmail(String email);
 }

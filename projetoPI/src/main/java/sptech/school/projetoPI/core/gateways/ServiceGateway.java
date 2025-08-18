@@ -1,12 +1,11 @@
-package sptech.school.projetoPI.repositories;
+package sptech.school.projetoPI.core.gateways;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import sptech.school.projetoPI.core.domains.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ServiceRepository extends JpaRepository<Service, Integer> {
+public interface ServiceGateway {
     boolean existsByName(String name);
     boolean existsByCategoryId(Integer id);
     boolean existsByIdAndActiveFalse(Integer id);

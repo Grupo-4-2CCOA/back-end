@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.controllers.AbstractController;
-import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeMapper;
+import sptech.school.projetoPI.infrastructure.mappers.PaymentTypeMapper;
 import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeResumeResponseDto;

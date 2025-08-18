@@ -13,9 +13,8 @@ import org.springframework.web.server.ResponseStatusException;
 import sptech.school.projetoPI.infrastructure.config.GerenciadorTokenJwt;
 import sptech.school.projetoPI.infrastructure.dto.login.UserDetailsDto;
 import sptech.school.projetoPI.infrastructure.dto.login.UserLoginDto;
-import sptech.school.projetoPI.infrastructure.dto.login.UserMapper;
+import sptech.school.projetoPI.infrastructure.mappers.UserMapper;
 import sptech.school.projetoPI.infrastructure.dto.login.UserTokenDto;
-import sptech.school.projetoPI.repositories.ClientRepository;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
 
 @Service

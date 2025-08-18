@@ -1,12 +1,12 @@
-package sptech.school.projetoPI.repositories;
+package sptech.school.projetoPI.core.gateways;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import sptech.school.projetoPI.core.domains.Category;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface CategoryRepository extends JpaRepository<Category, Integer> {
+public interface CategoryGateway {
+    Category save(Category category);
     boolean existsByName(String name);
     boolean existsByIdAndActiveTrue(Integer id);
     boolean existsByIdAndActiveFalse(Integer id);

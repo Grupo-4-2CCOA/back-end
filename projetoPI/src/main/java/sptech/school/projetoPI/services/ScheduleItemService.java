@@ -5,9 +5,6 @@ import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.core.domains.ScheduleItem;
 import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.RelatedEntityNotFoundException;
-import sptech.school.projetoPI.repositories.ScheduleItemRepository;
-import sptech.school.projetoPI.repositories.ScheduleRepository;
-import sptech.school.projetoPI.repositories.ServiceRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;

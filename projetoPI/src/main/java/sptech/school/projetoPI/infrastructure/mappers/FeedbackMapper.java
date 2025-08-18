@@ -1,6 +1,8 @@
-package sptech.school.projetoPI.infrastructure.dto.feedback;
+package sptech.school.projetoPI.infrastructure.mappers;
 
-import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleMapper;
+import sptech.school.projetoPI.infrastructure.dto.feedback.FeedbackRequestDto;
+import sptech.school.projetoPI.infrastructure.dto.feedback.FeedbackResponseDto;
+import sptech.school.projetoPI.infrastructure.dto.feedback.FeedbackResumeResponseDto;
 import sptech.school.projetoPI.core.domains.Feedback;
 import sptech.school.projetoPI.core.domains.Schedule;
 

@@ -9,8 +9,6 @@ import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityCo
 import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.ForeignKeyConstraintException;
 import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.InactiveEntityException;
-import sptech.school.projetoPI.repositories.PaymentTypeRepository;
-import sptech.school.projetoPI.repositories.ScheduleRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;

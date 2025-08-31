@@ -1,6 +1,6 @@
 package sptech.school.projetoPI.core.enums;
 
-import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EnumIsNotValidException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EnumIsNotValidException;
 
 import java.util.Arrays;
 

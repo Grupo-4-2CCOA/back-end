@@ -18,8 +18,7 @@ import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeRequest
 import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeResumeResponseDto;
 import sptech.school.projetoPI.core.domains.PaymentType;
-import sptech.school.projetoPI.infrastructure.exceptions.ErroResponseExamples;
-import sptech.school.projetoPI.services.PaymentTypeService;
+import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
 
 import java.util.List;
 

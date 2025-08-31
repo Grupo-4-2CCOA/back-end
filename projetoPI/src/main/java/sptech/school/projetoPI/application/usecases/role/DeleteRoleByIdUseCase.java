@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.core.domains.Employee;
 import sptech.school.projetoPI.core.domains.Role;
 import sptech.school.projetoPI.core.gateways.RoleGateway;
-import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityNotFoundException;
-import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.ForeignKeyConstraintException;
-import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.InactiveEntityException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.ForeignKeyConstraintException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.InactiveEntityException;
 
 import java.time.LocalDateTime;
 

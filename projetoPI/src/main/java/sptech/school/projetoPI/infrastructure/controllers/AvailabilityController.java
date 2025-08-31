@@ -18,7 +18,7 @@ import sptech.school.projetoPI.infrastructure.mappers.AvailabilityMapper;
 import sptech.school.projetoPI.infrastructure.dto.availability.AvailabilityRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.availability.AvailabilityResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.availability.AvailabilityResumeResponseDto;
-import sptech.school.projetoPI.infrastructure.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
 
 import java.util.List;
 

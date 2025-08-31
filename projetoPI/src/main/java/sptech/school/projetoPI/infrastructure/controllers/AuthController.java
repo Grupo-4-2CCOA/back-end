@@ -38,7 +38,7 @@ public class AuthController {
                 .getAttribute("OAUTH2_AUTHENTICATION");
 
         if (authentication == null || !(authentication.getPrincipal() instanceof OAuth2User)) {
-            response.sendRedirect("http://localhost:3000/login?error=auth_failed");
+            response.sendRedirect("http://localhost:5173/login?error=auth_failed");
             return;
         }
 
@@ -64,7 +64,7 @@ public class AuthController {
         response.addCookie(userRoleCookie);
 
         // 5. Redireciona para a página de loading do frontend
-        response.sendRedirect("http://localhost:3000/auth-loading");
+        response.sendRedirect("http://localhost:5173/auth-loading");
     }
 
     @GetMapping("/check-auth")

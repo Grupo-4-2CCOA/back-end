@@ -56,11 +56,11 @@ public class SecurityConfig {
                             response.sendRedirect("/auth/oauth2/success"); // Redireciona para o endpoint de sucesso
                         })
                         .failureHandler((request, response, exception) -> {
-                            response.sendRedirect("http://localhost:3000/login?error=auth_failed");
+                            response.sendRedirect("http://localhost:5173/login?error=auth_failed");
                         })
                 ).logout(logout -> logout
                         .logoutUrl("/auth/logout")
-                        .logoutSuccessUrl("http://localhost:3000/login")
+                        .logoutSuccessUrl("http://localhost:5173/login")
                         .deleteCookies("AUTH_TOKEN", "JSESSIONID")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
@@ -77,8 +77,7 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
 
-        // Especifique a origem exata em vez de usar wildcard *
-        config.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        config.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
         config.setAllowCredentials(true); // Isso é crucial
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");

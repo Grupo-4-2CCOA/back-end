@@ -18,7 +18,7 @@ import sptech.school.projetoPI.infrastructure.dto.scheduleItem.ScheduleItemReque
 import sptech.school.projetoPI.infrastructure.dto.scheduleItem.ScheduleItemResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.scheduleItem.ScheduleItemResumeResponseDto;
 import sptech.school.projetoPI.core.domains.ScheduleItem;
-import sptech.school.projetoPI.infrastructure.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.services.ScheduleItemService;
 
 import java.util.List;

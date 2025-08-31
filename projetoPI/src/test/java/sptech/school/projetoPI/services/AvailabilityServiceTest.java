@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import sptech.school.projetoPI.core.domains.Employee;
-import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityConflictException;
-import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityNotFoundException;
-import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.InvalidTimeRangeException;
-import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.RelatedEntityNotFoundException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityConflictException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.InvalidTimeRangeException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.RelatedEntityNotFoundException;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
 
 import java.time.LocalDate;

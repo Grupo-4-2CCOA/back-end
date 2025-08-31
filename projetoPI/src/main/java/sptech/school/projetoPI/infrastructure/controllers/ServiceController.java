@@ -19,7 +19,7 @@ import sptech.school.projetoPI.infrastructure.dto.service.ServiceRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.service.ServiceResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.service.ServiceResumeResponseDto;
 import sptech.school.projetoPI.core.domains.Service;
-import sptech.school.projetoPI.infrastructure.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.services.ServiceService;
 
 import java.util.List;

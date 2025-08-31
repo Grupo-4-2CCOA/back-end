@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.infrastructure.exceptions;
+package sptech.school.projetoPI.application.usecases.exceptions;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.*;
 import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.*;
 
 @Hidden

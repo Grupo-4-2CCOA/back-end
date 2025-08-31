@@ -8,8 +8,8 @@ import sptech.school.projetoPI.core.domains.Schedule;
 import sptech.school.projetoPI.core.domains.ScheduleItem;
 import sptech.school.projetoPI.core.domains.Service;
 import sptech.school.projetoPI.core.enums.Status;
-import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityNotFoundException;
-import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.RelatedEntityNotFoundException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.RelatedEntityNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -3,7 +3,7 @@ package sptech.school.projetoPI.application.usecases.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.core.gateways.ClientGateway;
-import sptech.school.projetoPI.infrastructure.exceptions.ConflictException;
+import sptech.school.projetoPI.application.usecases.exceptions.ConflictException;
 
 @Service
 @RequiredArgsConstructor

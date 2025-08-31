@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.core.domains.Role;
 import sptech.school.projetoPI.core.gateways.RoleGateway;
-import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
 
 @Service
 @Slf4j

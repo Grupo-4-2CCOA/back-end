@@ -18,7 +18,7 @@ import sptech.school.projetoPI.core.domains.Client;
 import sptech.school.projetoPI.infrastructure.mappers.ClientMapper;
 import sptech.school.projetoPI.infrastructure.dto.client.ClientRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.client.ClientResumeResponseDto;
-import sptech.school.projetoPI.infrastructure.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.infrastructure.exceptions.exceptionClass;
+package sptech.school.projetoPI.application.usecases.exceptions.exceptionClass;
 
 public class EntityConflictException extends RuntimeException {
     public EntityConflictException(String message) {

@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.infrastructure.exceptions;
+package sptech.school.projetoPI.application.usecases.exceptions;
 
 public class ErroResponseExamples {
         public static final String NOT_FOUND = """

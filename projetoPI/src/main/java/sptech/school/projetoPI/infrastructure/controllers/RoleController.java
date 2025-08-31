@@ -19,7 +19,7 @@ import sptech.school.projetoPI.infrastructure.dto.role.RoleRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.role.RoleResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.role.RoleResumeResponseDto;
 import sptech.school.projetoPI.core.domains.Role;
-import sptech.school.projetoPI.infrastructure.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
 
 import java.util.List;
 

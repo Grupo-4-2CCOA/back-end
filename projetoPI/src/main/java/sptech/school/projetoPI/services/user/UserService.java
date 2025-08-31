@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.core.enums.Logs;
-import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityConflictException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityConflictException;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
 
 @Service

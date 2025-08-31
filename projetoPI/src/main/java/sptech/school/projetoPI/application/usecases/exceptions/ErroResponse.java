@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.infrastructure.exceptions;
+package sptech.school.projetoPI.application.usecases.exceptions;
 
 import lombok.Getter;
 import lombok.Setter;

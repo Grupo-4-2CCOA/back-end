@@ -18,8 +18,7 @@ import sptech.school.projetoPI.infrastructure.dto.employee.EmployeeRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.employee.EmployeeResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.employee.EmployeeResumeResponseDto;
 import sptech.school.projetoPI.core.domains.Employee;
-import sptech.school.projetoPI.infrastructure.exceptions.ErroResponseExamples;
-import sptech.school.projetoPI.services.user.EmployeeService;
+import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
 
 import java.util.List;
 

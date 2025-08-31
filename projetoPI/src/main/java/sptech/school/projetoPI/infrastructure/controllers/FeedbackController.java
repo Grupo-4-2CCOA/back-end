@@ -18,8 +18,7 @@ import sptech.school.projetoPI.infrastructure.dto.feedback.FeedbackRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.feedback.FeedbackResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.feedback.FeedbackResumeResponseDto;
 import sptech.school.projetoPI.core.domains.Feedback;
-import sptech.school.projetoPI.infrastructure.exceptions.ErroResponseExamples;
-import sptech.school.projetoPI.services.FeedbackService;
+import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
 
 import java.util.List;
 

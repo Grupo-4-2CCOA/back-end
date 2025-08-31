@@ -18,8 +18,7 @@ import sptech.school.projetoPI.infrastructure.dto.category.CategoryRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.category.CategoryResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.category.CategoryResumeResponseDto;
 import sptech.school.projetoPI.core.domains.Category;
-import sptech.school.projetoPI.infrastructure.exceptions.ErroResponseExamples;
-import sptech.school.projetoPI.services.CategoryService;
+import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
 
 import java.util.List;
 

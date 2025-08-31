@@ -5,11 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.*;
 import sptech.school.projetoPI.core.domains.Employee;
 import sptech.school.projetoPI.core.domains.Role;
-import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.*;
 import sptech.school.projetoPI.repositories.*;
-import sptech.school.projetoPI.services.user.EmployeeService;
 import sptech.school.projetoPI.services.user.UserService;
 
 import java.time.LocalDateTime;

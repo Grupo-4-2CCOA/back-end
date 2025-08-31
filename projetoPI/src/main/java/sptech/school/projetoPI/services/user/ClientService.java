@@ -6,9 +6,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.entities.*;
 import sptech.school.projetoPI.core.enums.Logs;
-import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.EntityNotFoundException;
-import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.ForeignKeyConstraintException;
-import sptech.school.projetoPI.infrastructure.exceptions.exceptionClass.InactiveEntityException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.ForeignKeyConstraintException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.InactiveEntityException;
 import sptech.school.projetoPI.services.AbstractService;
 
 import java.time.LocalDateTime;

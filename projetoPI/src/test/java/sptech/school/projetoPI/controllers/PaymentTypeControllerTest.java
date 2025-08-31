@@ -3,7 +3,6 @@ package sptech.school.projetoPI.controllers;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import sptech.school.projetoPI.core.domains.PaymentType;
-import sptech.school.projetoPI.services.PaymentTypeService;
 
 import java.util.List;
 

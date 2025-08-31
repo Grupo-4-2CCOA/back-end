@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeGateway {
+    Employee save(Employee employee);
     boolean existsByCpf(String cpf);
     boolean existsByIdNotAndCpf(Integer id, String cpf);
     boolean existsByEmailIgnoreCase(String email);
@@ -17,8 +18,10 @@ public interface EmployeeGateway {
     boolean existsByIdAndActiveFalse(Integer id);
     boolean existsByRoleName(String roleName);
     boolean existsByIdNotAndRoleName(Integer id, String roleName);
+    boolean existsById(Integer id);
     Optional<Employee> findByIdAndActiveTrue(Integer id);
     List<Employee> findAllByActiveTrue();
+    Optional<Employee> findById(Integer id);
     List<Employee> findAllByRoleId(Integer id);
     Optional<Employee> findByEmail(String email);
 }

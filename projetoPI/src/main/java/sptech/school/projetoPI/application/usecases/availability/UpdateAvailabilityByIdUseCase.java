@@ -1,8 +1,5 @@
 package sptech.school.projetoPI.application.usecases.availability;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.core.domains.Availability;
 import sptech.school.projetoPI.core.gateways.AvailabilityGateway;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityConflictException;
@@ -10,7 +7,6 @@ import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.En
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.InvalidTimeRangeException;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class UpdateAvailabilityByIdUseCase {
 
@@ -22,7 +18,7 @@ public class UpdateAvailabilityByIdUseCase {
         this.validateRequestBody = validateRequestBody;
     }
 
-    public Availability execute(Availability availability, Integer id) {
+    public Availability execute(Integer id, Availability availability) {
         if (!availabilityGateway.existsById(id)) {
             throw new EntityNotFoundException(
                     "Availability com o ID %d não foi encontrado".formatted(id)

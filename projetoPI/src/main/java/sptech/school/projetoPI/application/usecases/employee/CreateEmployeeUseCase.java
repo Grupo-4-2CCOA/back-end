@@ -6,6 +6,7 @@ import sptech.school.projetoPI.core.domains.Employee;
 import sptech.school.projetoPI.core.enums.Logs;
 import sptech.school.projetoPI.core.gateways.ClientGateway;
 import sptech.school.projetoPI.core.gateways.EmployeeGateway;
+import sptech.school.projetoPI.core.gateways.RoleGateway;
 
 import java.time.LocalDateTime;
 
@@ -14,10 +15,12 @@ public class CreateEmployeeUseCase {
     private final EmployeeGateway repository;
     private final ClientGateway clientGateway;
     private final EmployeeValidationUseCase employeeValidationUseCase;
+    private final RoleGateway roleGateway;
 
-    public CreateEmployeeUseCase(EmployeeGateway repository, ClientGateway clientGateway, EmployeeValidationUseCase employeeValidationUseCase) {
+    public CreateEmployeeUseCase(EmployeeGateway repository, ClientGateway clientGateway,RoleGateway roleGateway ,EmployeeValidationUseCase employeeValidationUseCase) {
         this.repository = repository;
         this.clientGateway = clientGateway;
+        this.roleGateway = roleGateway;
         this.employeeValidationUseCase = employeeValidationUseCase;
     }
 
@@ -25,7 +28,7 @@ public class CreateEmployeeUseCase {
         clientGateway.validateUniqueProperties(employee.getCpf(), employee.getEmail(), employee.getPhone());
         employeeValidationUseCase.validateRequestBody(employee);
 
-        if (roleRepository.findById(employee.getRole().getId()).get().getName().equals("OWNER") && repository.existsByRoleName("OWNER")) {
+        if (roleGateway.findById(employee.getRole().getId()).get().getName().equals("OWNER") && repository.existsByRoleName("OWNER")) {
             throw new EntityConflictException(
                     Logs.POST_ROLE_CONFLICT.getMessage()
             );

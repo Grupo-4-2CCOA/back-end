@@ -10,48 +10,34 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.controllers.AbstractController;
-import sptech.school.projetoPI.infrastructure.mappers.CategoryMapper;
+import sptech.school.projetoPI.core.domains.Category;
 import sptech.school.projetoPI.infrastructure.dto.category.CategoryRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.category.CategoryResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.category.CategoryResumeResponseDto;
-import sptech.school.projetoPI.core.domains.Category;
+import sptech.school.projetoPI.infrastructure.mappers.CategoryMapper;
+import sptech.school.projetoPI.application.usecases.category.*; // Importar os UseCases
 import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/categorias")
 @RequiredArgsConstructor
 @Tag(name = "Categoria", description = "Endpoints para gerenciar as categorias")
-public class CategoryController extends AbstractController<Category, CategoryRequestDto, CategoryResponseDto, CategoryResumeResponseDto> {
+public class CategoryController {
 
-    private final CategoryService service;
+    private final CreateCategoryUseCase createCategoryUseCase;
+    private final GetAllCategoryUseCase getAllCategoriesUseCase;
+    private final GetCategoryByIdUseCase getCategoryByIdUseCase;
+    private final UpdateCategoryByIdUseCase updateCategoryByIdUseCase;
+    private final DeleteCategoryByIdUseCase deleteCategoryByIdUseCase;
 
-    @Override
-    public CategoryService getService() {
-        return service;
-    }
-
-    @Override
-    public Category toEntity(CategoryRequestDto requestDto) {
-        return CategoryMapper.toEntity(requestDto);
-    }
-
-    @Override
-    public CategoryResponseDto toResponse(Category entity) {
-        return CategoryMapper.toResponseDto(entity);
-    }
-
-    @Override
-    public CategoryResumeResponseDto toResumeResponse(Category entity) {
-        return CategoryMapper.toResumeResponseDto(entity);
-    }
-
-    @Override
     @SecurityRequirement(name = "Bearer")
+    @PostMapping
     @Operation(summary = "Cadastrar uma categoria", description = "Cadastra uma categoria no sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Categoria cadastrada com sucesso", content = @Content(
@@ -70,15 +56,17 @@ public class CategoryController extends AbstractController<Category, CategoryReq
                     examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
             ))
     })
-    public ResponseEntity<CategoryResumeResponseDto> postMethod(@Valid @RequestBody  CategoryRequestDto requestDto) {
-        return super.postMethod(requestDto);
+    public ResponseEntity<CategoryResumeResponseDto> createCategory(@Valid @RequestBody CategoryRequestDto requestDto) {
+        Category category = CategoryMapper.toDomain(requestDto);
+        Category createdCategory = createCategoryUseCase.execute(category);
+        return new ResponseEntity<>(CategoryMapper.toResumeResponseDto(createdCategory), HttpStatus.CREATED);
     }
 
-    @Override
     @SecurityRequirement(name = "Bearer")
-    @Operation(summary = "Buscar categoria", description = "Busca todos as categoria cadastrados no sistema.")
+    @GetMapping
+    @Operation(summary = "Buscar categoria", description = "Busca todos as categorias cadastradas no sistema.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Categoria trazidos com sucesso", content = @Content(
+            @ApiResponse(responseCode = "200", description = "Categorias trazidas com sucesso", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = CategoryResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
@@ -94,44 +82,39 @@ public class CategoryController extends AbstractController<Category, CategoryReq
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<List<CategoryResumeResponseDto>> getAllMethod() {
-        return super.getAllMethod();
+    public ResponseEntity<List<CategoryResumeResponseDto>> getAllCategories() {
+        List<Category> categories = getAllCategoriesUseCase.execute();
+        List<CategoryResumeResponseDto> responseDtos = categories.stream()
+                .map(CategoryMapper::toResumeResponseDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(responseDtos);
     }
 
-    @Override
     @SecurityRequirement(name = "Bearer")
-    @Operation(summary = "Buscar categoria por ID", description = "Busca o categoria com base no ID fornecido.")
+    @GetMapping("/{id}")
+    @Operation(summary = "Buscar categoria por ID", description = "Busca a categoria com base no ID fornecido.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Categoria encontrado", content = @Content(
+            @ApiResponse(responseCode = "200", description = "Categoria encontrada", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = CategoryResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
             )),
-            @ApiResponse(responseCode = "404", description = "Categoria não encontrado", content = @Content(
+            @ApiResponse(responseCode = "404", description = "Categoria não encontrada", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = CategoryResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
-            )),
-            @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = CategoryResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
-            )),
-            @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = CategoryResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<CategoryResponseDto> getByIdMethod(@PathVariable Integer id) {
-        return super.getByIdMethod(id);
+    public ResponseEntity<CategoryResponseDto> getCategoryById(@PathVariable Integer id) {
+        Category category = getCategoryByIdUseCase.execute(id);
+        return ResponseEntity.ok(CategoryMapper.toResponseDto(category));
     }
 
-    @Override
     @SecurityRequirement(name = "Bearer")
+    @PutMapping("/{id}")
     @Operation(summary = "Atualizar categoria por ID", description = "Atualiza uma categoria com base no ID fornecido.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Categoria atualizado com sucesso", content = @Content(
+            @ApiResponse(responseCode = "200", description = "Categoria atualizada com sucesso", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = CategoryResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
@@ -152,20 +135,26 @@ public class CategoryController extends AbstractController<Category, CategoryReq
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<CategoryResumeResponseDto> putByIdMethod(@Valid @RequestBody CategoryRequestDto requestDto, @PathVariable Integer id) {
-        return super.putByIdMethod(requestDto, id);
+    public ResponseEntity<CategoryResumeResponseDto> updateCategoryById(
+            @Valid @RequestBody CategoryRequestDto requestDto,
+            @PathVariable Integer id) {
+
+        Category category = CategoryMapper.toDomain(requestDto);
+        Category updatedCategory = updateCategoryByIdUseCase.execute(category,id);
+        return ResponseEntity.ok(CategoryMapper.toResumeResponseDto(updatedCategory));
     }
 
-    @Override
     @SecurityRequirement(name = "Bearer")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Deletar categoria por ID", description = "Deleta uma categoria com base no ID fornecido.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "404", description = "Categoria não encontrado", content = @Content(
+            @ApiResponse(responseCode = "404", description = "Categoria não encontrada", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = CategoryResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
             )),
-            @ApiResponse(responseCode = "204", description = "Categoria removido com sucesso", content = @Content(
+            @ApiResponse(responseCode = "204", description = "Categoria removida com sucesso", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = CategoryResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NO_CONTENT)
@@ -181,7 +170,7 @@ public class CategoryController extends AbstractController<Category, CategoryReq
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<Void> deleteByIdMethod(@PathVariable Integer id) {
-        return super.deleteByIdMethod(id);
+    public void deleteCategoryById(@PathVariable Integer id) {
+        deleteCategoryByIdUseCase.execute(id);
     }
 }

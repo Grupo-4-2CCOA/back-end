@@ -14,7 +14,7 @@ public interface JpaCategoryRepository extends JpaRepository<CategoryJpaEntity, 
     boolean existsByIdAndActiveTrue(Integer id);
     boolean existsByIdAndActiveFalse(Integer id);
     boolean existsByIdNotAndName(Integer id, String name);
-    Optional<Category> findByIdAndActiveTrue(Integer id);
-    List<Category> findAllByActiveTrue();
+    Optional<CategoryJpaEntity> findByIdAndActiveTrue(Integer id);
+    List<CategoryJpaEntity> findAllByActiveTrue();
     Optional<CategoryJpaEntity> findById(Integer id);
 }

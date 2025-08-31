@@ -1,22 +1,18 @@
 package sptech.school.projetoPI.application.usecases.availability;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.core.domains.Availability;
 import sptech.school.projetoPI.core.gateways.AvailabilityGateway;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityConflictException;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.InvalidTimeRangeException;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class CreateAvailabilityUseCase {
 
     private final AvailabilityGateway availabilityGateway;
     private final ValidateRequestBodyUseCase validateRequestBody;
 
-    public CreateAvailabilityUseCase(AvailabilityGateway availabilityGateway, ValidateRequestBodyUseCase validateRequestBody) {
+    public CreateAvailabilityUseCase(AvailabilityGateway availabilityGateway, ValidateRequestBodyUseCase validateRequestBody)  {
         this.availabilityGateway = availabilityGateway;
         this.validateRequestBody = validateRequestBody;
     }

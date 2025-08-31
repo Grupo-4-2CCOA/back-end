@@ -28,5 +28,5 @@ public class AvailabilityJpaEntity {
 
     @ManyToOne
     @JoinColumn(name = "fk_employee")
-    private Employee employee;
+    private EmployeeJpaEntity employee;
 }

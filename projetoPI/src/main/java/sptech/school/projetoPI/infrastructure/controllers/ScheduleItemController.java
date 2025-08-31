@@ -12,7 +12,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.controllers.AbstractController;
 import sptech.school.projetoPI.infrastructure.mappers.ScheduleItemMapper;
 import sptech.school.projetoPI.infrastructure.dto.scheduleItem.ScheduleItemRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.scheduleItem.ScheduleItemResponseDto;

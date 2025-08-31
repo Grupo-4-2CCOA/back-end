@@ -10,48 +10,34 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.controllers.AbstractController;
-import sptech.school.projetoPI.infrastructure.mappers.PaymentTypeMapper;
+import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.application.usecases.paymentType.*;
+import sptech.school.projetoPI.core.domains.PaymentType;
 import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeResumeResponseDto;
-import sptech.school.projetoPI.core.domains.PaymentType;
-import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.infrastructure.mappers.PaymentTypeMapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/pagamentos")
 @RequiredArgsConstructor
 @Tag(name = "Tipo de pagamento", description = "Endpoints para gerenciar os tipos de pagamento")
-public class PaymentTypeController extends AbstractController<PaymentType, PaymentTypeRequestDto, PaymentTypeResponseDto, PaymentTypeResumeResponseDto> {
+public class PaymentTypeController {
 
-    private final PaymentTypeService service;
+    private final CreatePaymentTypeUseCase createPaymentTypeUseCase;
+    private final GetAllPaymentTypeUseCase getAllPaymentTypesUseCase;
+    private final GetPaymentTypeByIdUseCase getPaymentTypeByIdUseCase;
+    private final UpdatePaymentTypeByIdUseCase updatePaymentTypeByIdUseCase;
+    private final DeletePaymentTypeByIdUseCase deletePaymentTypeByIdUseCase;
 
-    @Override
-    public PaymentTypeService getService() {
-        return service;
-    }
-
-    @Override
-    public PaymentType toEntity(PaymentTypeRequestDto requestDto) {
-        return PaymentTypeMapper.toEntity(requestDto);
-    }
-
-    @Override
-    public PaymentTypeResponseDto toResponse(PaymentType entity) {
-        return PaymentTypeMapper.toResponseDto(entity);
-    }
-
-    @Override
-    public PaymentTypeResumeResponseDto toResumeResponse(PaymentType entity) {
-        return PaymentTypeMapper.toResumeResponseDto(entity);
-    }
-
-    @Override
     @SecurityRequirement(name = "Bearer")
+    @PostMapping
     @Operation(summary = "Cadastrar forma de pagamento", description = "Cadastra uma nova forma de pagamento.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Forma de pagamento cadastrada com sucesso", content = @Content(
@@ -70,12 +56,14 @@ public class PaymentTypeController extends AbstractController<PaymentType, Payme
                     examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
             ))
     })
-    public ResponseEntity<PaymentTypeResumeResponseDto> postMethod(@Valid @RequestBody PaymentTypeRequestDto requestDto) {
-        return super.postMethod(requestDto);
+    public ResponseEntity<PaymentTypeResumeResponseDto> createPaymentType(@Valid @RequestBody PaymentTypeRequestDto requestDto) {
+        PaymentType paymentType = PaymentTypeMapper.toDomain(requestDto);
+        PaymentType createdPaymentType = createPaymentTypeUseCase.execute(paymentType);
+        return new ResponseEntity<>(PaymentTypeMapper.toResumeResponseDto(createdPaymentType), HttpStatus.CREATED);
     }
 
-    @Override
     @SecurityRequirement(name = "Bearer")
+    @GetMapping
     @Operation(summary = "Buscar formas de pagamento", description = "Busca todas as formas de pagamento cadastradas no sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Formas de pagamento trazidas com sucesso", content = @Content(
@@ -94,12 +82,16 @@ public class PaymentTypeController extends AbstractController<PaymentType, Payme
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<List<PaymentTypeResumeResponseDto>> getAllMethod() {
-        return super.getAllMethod();
+    public ResponseEntity<List<PaymentTypeResumeResponseDto>> getAllPaymentTypes() {
+        List<PaymentType> paymentTypes = getAllPaymentTypesUseCase.execute();
+        List<PaymentTypeResumeResponseDto> responseDtos = paymentTypes.stream()
+                .map(PaymentTypeMapper::toResumeResponseDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(responseDtos);
     }
 
-    @Override
     @SecurityRequirement(name = "Bearer")
+    @GetMapping("/{id}")
     @Operation(summary = "Buscar forma de pagamento por ID", description = "Busca a forma de pagamento referente ao ID passado.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Forma de pagamento encontrada", content = @Content(
@@ -123,12 +115,13 @@ public class PaymentTypeController extends AbstractController<PaymentType, Payme
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<PaymentTypeResponseDto> getByIdMethod(@PathVariable Integer id) {
-        return super.getByIdMethod(id);
+    public ResponseEntity<PaymentTypeResponseDto> getPaymentTypeById(@PathVariable Integer id) {
+        PaymentType paymentType = getPaymentTypeByIdUseCase.execute(id);
+        return ResponseEntity.ok(PaymentTypeMapper.toResponseDto(paymentType));
     }
 
-    @Override
     @SecurityRequirement(name = "Bearer")
+    @PutMapping("/{id}")
     @Operation(summary = "Atualizar forma de pagamento", description = "Atualiza as informações da forma de pagamento cujo ID passado.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Forma de pagamento atualizada com sucesso", content = @Content(
@@ -152,12 +145,17 @@ public class PaymentTypeController extends AbstractController<PaymentType, Payme
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<PaymentTypeResumeResponseDto> putByIdMethod(@Valid @RequestBody PaymentTypeRequestDto requestDto, @PathVariable Integer id) {
-        return super.putByIdMethod(requestDto, id);
+    public ResponseEntity<PaymentTypeResumeResponseDto> updatePaymentTypeById(
+            @Valid @RequestBody PaymentTypeRequestDto requestDto,
+            @PathVariable Integer id) {
+        PaymentType paymentType = PaymentTypeMapper.toDomain(requestDto);
+        PaymentType updatedPaymentType = updatePaymentTypeByIdUseCase.execute(paymentType,id);
+        return ResponseEntity.ok(PaymentTypeMapper.toResumeResponseDto(updatedPaymentType));
     }
 
-    @Override
     @SecurityRequirement(name = "Bearer")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Deletar forma de pagamento por ID", description = "Deleta a forma de pagamento cujo ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "Forma de pagamento não encontrada", content = @Content(
@@ -181,7 +179,7 @@ public class PaymentTypeController extends AbstractController<PaymentType, Payme
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<Void> deleteByIdMethod(@PathVariable Integer id) {
-        return super.deleteByIdMethod(id);
+    public void deletePaymentTypeById(@PathVariable Integer id) {
+        deletePaymentTypeByIdUseCase.execute(id);
     }
 }

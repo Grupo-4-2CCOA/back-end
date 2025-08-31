@@ -3,8 +3,9 @@ package sptech.school.projetoPI.infrastructure.persistence;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import sptech.school.projetoPI.core.domains.Role;
 import sptech.school.projetoPI.core.domains.User;
+
+import javax.management.relation.Role;
 
 @Getter
 @Setter
@@ -12,8 +13,8 @@ import sptech.school.projetoPI.core.domains.User;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class EmployeeJpaEntity extends User {
+public class EmployeeJpaEntity extends UserJpaEntity {
     @ManyToOne
     @JoinColumn(name = "fk_role")
-    private Role role;
+    private RoleJpaEntity role;
 }

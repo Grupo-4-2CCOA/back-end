@@ -25,9 +25,9 @@ public class FeedbackJpaEntity {
 
     @ManyToOne
     @JoinColumn(name="fk_schedule")
-    private Schedule schedule;
+    private ScheduleJpaEntity schedule;
 
     @ManyToOne
     @JoinColumn(name="fk_client")
-    private Client client;
+    private ClientJpaEntity client;
 }

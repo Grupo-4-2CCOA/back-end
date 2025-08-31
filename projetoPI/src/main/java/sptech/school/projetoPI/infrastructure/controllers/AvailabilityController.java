@@ -10,48 +10,38 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.controllers.AbstractController;
+import sptech.school.projetoPI.application.usecases.availability.CreateAvailabilityUseCase;
+import sptech.school.projetoPI.application.usecases.availability.DeleteAvailabilityByIdUseCase;
+import sptech.school.projetoPI.application.usecases.availability.GetAllAvailabilityUseCase;
+import sptech.school.projetoPI.application.usecases.availability.GetAvailabilityByIdUseCase;
+import sptech.school.projetoPI.application.usecases.availability.UpdateAvailabilityByIdUseCase;
+import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.core.domains.Availability;
 import sptech.school.projetoPI.infrastructure.mappers.AvailabilityMapper;
 import sptech.school.projetoPI.infrastructure.dto.availability.AvailabilityRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.availability.AvailabilityResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.availability.AvailabilityResumeResponseDto;
-import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/disponibilidades")
 @RequiredArgsConstructor
 @Tag(name = "Disponibilidade de horários", description = "Endpoints para gerenciar a disponibilidade de horários")
-public class AvailabilityController extends AbstractController<Availability, AvailabilityRequestDto, AvailabilityResponseDto, AvailabilityResumeResponseDto> {
+public class AvailabilityController {
 
-    private final AvailabilityService service;
+    private final CreateAvailabilityUseCase createAvailabilityUseCase;
+    private final DeleteAvailabilityByIdUseCase deleteAvailabilityByIdUseCase;
+    private final GetAllAvailabilityUseCase getAllAvailabilityUseCase;
+    private final GetAvailabilityByIdUseCase getAvailabilityByIdUseCase;
+    private final UpdateAvailabilityByIdUseCase updateAvailabilityByIdUseCase;
 
-    @Override
-    public AvailabilityService getService() {
-        return service;
-    }
-
-    @Override
-    public Availability toEntity(AvailabilityRequestDto requestDto) {
-        return AvailabilityMapper.toEntity(requestDto);
-    }
-
-    @Override
-    public AvailabilityResponseDto toResponse(Availability entity) {
-        return AvailabilityMapper.toResponseDto(entity);
-    }
-
-    @Override
-    public AvailabilityResumeResponseDto toResumeResponse(Availability entity) {
-        return AvailabilityMapper.toResumeResponseDto(entity);
-    }
-
-    @Override
     @SecurityRequirement(name = "Bearer")
+    @PostMapping
     @Operation(summary = "Cadastrar uma disponibilidade", description = "Cadastra uma nova disponibilidade no sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Disponibilidade cadastrada com sucesso", content = @Content(
@@ -75,13 +65,15 @@ public class AvailabilityController extends AbstractController<Availability, Ava
                     examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
             ))
     })
-    public ResponseEntity<AvailabilityResumeResponseDto> postMethod(@Valid @RequestBody AvailabilityRequestDto requestDto) {
-        return super.postMethod(requestDto);
+    public ResponseEntity<AvailabilityResumeResponseDto> createAvailability(@Valid @RequestBody AvailabilityRequestDto requestDto) {
+        Availability availability = AvailabilityMapper.toDomain(requestDto);
+        Availability createdAvailability = createAvailabilityUseCase.execute(availability);
+        return new ResponseEntity<>(AvailabilityMapper.toResumeResponseDto(createdAvailability), HttpStatus.CREATED);
     }
 
-    @Override
     @SecurityRequirement(name = "Bearer")
-    @Operation(summary = "Buscar disponibilidade", description = "Busca todas as disponibilidades cadastrados no sistema.")
+    @GetMapping
+    @Operation(summary = "Buscar disponibilidade", description = "Busca todas as disponibilidades cadastradas no sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Disponibilidades trazidos com sucesso", content = @Content(
                     mediaType = "application/json",
@@ -99,15 +91,19 @@ public class AvailabilityController extends AbstractController<Availability, Ava
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<List<AvailabilityResumeResponseDto>> getAllMethod() {
-        return super.getAllMethod();
+    public ResponseEntity<List<AvailabilityResumeResponseDto>> getAllAvailabilities() {
+        List<Availability> availabilities = getAllAvailabilityUseCase.execute();
+        List<AvailabilityResumeResponseDto> responseDtos = availabilities.stream()
+                .map(AvailabilityMapper::toResumeResponseDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(responseDtos);
     }
 
-    @Override
     @SecurityRequirement(name = "Bearer")
+    @GetMapping("/{id}")
     @Operation(summary = "Buscar disponibilidade por ID", description = "Busca a disponibilidade com base no ID fornecido.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Disponibilidades encontrado", content = @Content(
+            @ApiResponse(responseCode = "200", description = "Disponibilidade encontrada", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
@@ -122,21 +118,22 @@ public class AvailabilityController extends AbstractController<Availability, Ava
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             )),
-            @ApiResponse(responseCode = "404", description = "Disponibilidades não encontrado", content = @Content(
+            @ApiResponse(responseCode = "404", description = "Disponibilidade não encontrada", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
             ))
     })
-    public ResponseEntity<AvailabilityResponseDto> getByIdMethod(@PathVariable Integer id) {
-        return super.getByIdMethod(id);
+    public ResponseEntity<AvailabilityResponseDto> getAvailabilityById(@PathVariable Integer id) {
+        Availability availability = getAvailabilityByIdUseCase.execute(id);
+        return ResponseEntity.ok(AvailabilityMapper.toResponseDto(availability));
     }
 
-    @Override
     @SecurityRequirement(name = "Bearer")
+    @PutMapping("/{id}")
     @Operation(summary = "Atualizar disponibilidade por ID", description = "Atualiza uma disponibilidade com base no ID fornecido.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Disponibilidades atualizado com sucesso", content = @Content(
+            @ApiResponse(responseCode = "200", description = "Disponibilidade atualizada com sucesso", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
@@ -157,15 +154,18 @@ public class AvailabilityController extends AbstractController<Availability, Ava
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<AvailabilityResumeResponseDto> putByIdMethod(@Valid @RequestBody AvailabilityRequestDto requestDto, @PathVariable Integer id) {
-        return super.putByIdMethod(requestDto, id);
+    public ResponseEntity<AvailabilityResumeResponseDto> updateAvailabilityById(@Valid @RequestBody AvailabilityRequestDto requestDto, @PathVariable Integer id) {
+        Availability availability = AvailabilityMapper.toDomain(requestDto);
+        Availability updatedAvailability = updateAvailabilityByIdUseCase.execute(id, availability);
+        return ResponseEntity.ok(AvailabilityMapper.toResumeResponseDto(updatedAvailability));
     }
 
-    @Override
     @SecurityRequirement(name = "Bearer")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Deletar disponibilidade por ID", description = "Deleta uma disponibilidade com base no ID fornecido.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Disponibilidades removido com sucesso", content = @Content(
+            @ApiResponse(responseCode = "204", description = "Disponibilidade removida com sucesso", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NO_CONTENT)
@@ -180,13 +180,13 @@ public class AvailabilityController extends AbstractController<Availability, Ava
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             )),
-            @ApiResponse(responseCode = "404", description = "Disponibilidades não encontrado", content = @Content(
+            @ApiResponse(responseCode = "404", description = "Disponibilidade não encontrada", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = AvailabilityResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
             ))
     })
-    public ResponseEntity<Void> deleteByIdMethod(@PathVariable Integer id) {
-        return super.deleteByIdMethod(id);
+    public void deleteAvailabilityById(@PathVariable Integer id) {
+        deleteAvailabilityByIdUseCase.execute(id);
     }
 }

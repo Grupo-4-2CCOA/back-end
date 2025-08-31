@@ -3,8 +3,8 @@ package sptech.school.projetoPI.infrastructure.di;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import sptech.school.projetoPI.application.usecases.paymentType.*;
-import sptech.school.projetoPI.application.usecases.paymenttype.*;
 import sptech.school.projetoPI.core.gateways.PaymentTypeGateway;
+import sptech.school.projetoPI.core.gateways.ScheduleGateway;
 
 @Configuration
 public class PaymentTypeConfig {
@@ -30,7 +30,7 @@ public class PaymentTypeConfig {
     }
 
     @Bean
-    public DeletePaymentTypeByIdUseCase deletePaymentTypeByIdUseCase(PaymentTypeGateway paymentTypeGateway) {
-        return new DeletePaymentTypeByIdUseCase(paymentTypeGateway);
+    public DeletePaymentTypeByIdUseCase deletePaymentTypeByIdUseCase(PaymentTypeGateway paymentTypeGateway, ScheduleGateway scheduleGateway) {
+        return new DeletePaymentTypeByIdUseCase(paymentTypeGateway,scheduleGateway);
     }
 }

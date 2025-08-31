@@ -1,7 +1,9 @@
 package sptech.school.projetoPI.application.usecases.employee;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityConflictException;
 import sptech.school.projetoPI.application.usecases.user.EmployeeValidationUseCase;
+import sptech.school.projetoPI.application.usecases.user.UserValidationUseCase;
 import sptech.school.projetoPI.core.domains.Employee;
 import sptech.school.projetoPI.core.enums.Logs;
 import sptech.school.projetoPI.core.gateways.ClientGateway;
@@ -13,19 +15,21 @@ import java.time.LocalDateTime;
 public class CreateEmployeeUseCase {
 
     private final EmployeeGateway repository;
-    private final ClientGateway clientGateway;
+    private final UserValidationUseCase userValidationUseCase;
     private final EmployeeValidationUseCase employeeValidationUseCase;
     private final RoleGateway roleGateway;
+    private final PasswordEncoder passwordEncoder;
 
-    public CreateEmployeeUseCase(EmployeeGateway repository, ClientGateway clientGateway,RoleGateway roleGateway ,EmployeeValidationUseCase employeeValidationUseCase) {
+    public CreateEmployeeUseCase(EmployeeGateway repository, PasswordEncoder passwordEncoder,UserValidationUseCase userValidationUseCase,RoleGateway roleGateway ,EmployeeValidationUseCase employeeValidationUseCase) {
         this.repository = repository;
-        this.clientGateway = clientGateway;
+        this.userValidationUseCase = userValidationUseCase;
         this.roleGateway = roleGateway;
+        this.passwordEncoder = passwordEncoder;
         this.employeeValidationUseCase = employeeValidationUseCase;
     }
 
     public Employee execute(Employee employee) {
-        clientGateway.validateUniqueProperties(employee.getCpf(), employee.getEmail(), employee.getPhone());
+        userValidationUseCase.validateUniqueProperties(employee.getCpf(), employee.getEmail(), employee.getPhone());
         employeeValidationUseCase.validateRequestBody(employee);
 
         if (roleGateway.findById(employee.getRole().getId()).get().getName().equals("OWNER") && repository.existsByRoleName("OWNER")) {

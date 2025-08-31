@@ -3,6 +3,7 @@ package sptech.school.projetoPI.infrastructure.di;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import sptech.school.projetoPI.application.usecases.feedback.*;
+import sptech.school.projetoPI.application.usecases.user.FeedbackValidationUseCase;
 import sptech.school.projetoPI.core.gateways.FeedbackGateway;
 import sptech.school.projetoPI.core.gateways.ClientGateway; // Para validação de relacionamento
 import sptech.school.projetoPI.core.gateways.ScheduleGateway; // Para validação de relacionamento
@@ -11,8 +12,8 @@ import sptech.school.projetoPI.core.gateways.ScheduleGateway; // Para validaçã
 public class FeedbackConfig {
 
     @Bean
-    public CreateFeedbackUseCase createFeedbackUseCase(FeedbackGateway feedbackGateway, ClientGateway clientGateway, ScheduleGateway scheduleGateway) {
-        return new CreateFeedbackUseCase(feedbackGateway, clientGateway, scheduleGateway);
+    public CreateFeedbackUseCase createFeedbackUseCase(FeedbackGateway feedbackGateway, FeedbackValidationUseCase feedbackValidationUseCase) {
+        return new CreateFeedbackUseCase(feedbackGateway, feedbackValidationUseCase);
     }
 
     @Bean
@@ -26,8 +27,8 @@ public class FeedbackConfig {
     }
 
     @Bean
-    public UpdateFeedbackByIdUseCase updateFeedbackByIdUseCase(FeedbackGateway feedbackGateway) {
-        return new UpdateFeedbackByIdUseCase(feedbackGateway);
+    public UpdateFeedbackByIdUseCase updateFeedbackByIdUseCase(FeedbackGateway feedbackGateway, FeedbackValidationUseCase feedbackValidationUseCase) {
+        return new UpdateFeedbackByIdUseCase(feedbackGateway,feedbackValidationUseCase);
     }
 
     @Bean

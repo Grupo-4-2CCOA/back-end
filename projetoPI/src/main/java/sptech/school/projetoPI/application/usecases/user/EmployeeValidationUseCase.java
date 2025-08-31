@@ -13,14 +13,11 @@ public class EmployeeValidationUseCase {
         this.roleGateway = roleGateway;
     }
 
-    /*
-    private void validateRequestBody(Employee employee) {
+    public void validateRequestBody(Employee employee) {
         if (!roleGateway.existsById(employee.getRole().getId())) {
             throw new RelatedEntityNotFoundException(
                     Logs.VALIDATE_REQUEST_BODY_ENTITY_NOT_FOUND.getMessage().formatted(employee.getRole().getId())
             );
         }
     }
-
-     */
 }

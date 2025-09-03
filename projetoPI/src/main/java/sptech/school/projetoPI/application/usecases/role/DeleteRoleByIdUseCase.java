@@ -33,8 +33,7 @@ public class DeleteRoleByIdUseCase {
 
         if (roleGateway.existsByRoleId(id)) {
             throw new ForeignKeyConstraintException(
-                    "Os seguintes usuários estão relacionados com este cargo: %s".formatted(roleGateway.findAllByRoleId(id)
-                            .stream().map(Employee::getId).toList())
+                    "Os seguintes usuários estão relacionados com este cargo: %s".formatted(roleGateway.findAllByRoleId(id))
             );
         }
 

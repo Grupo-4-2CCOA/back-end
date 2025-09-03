@@ -6,7 +6,6 @@ import sptech.school.projetoPI.core.domains.PaymentType;
 import sptech.school.projetoPI.core.gateways.PaymentTypeGateway;
 import sptech.school.projetoPI.infrastructure.mappers.PaymentTypeMapper;
 import sptech.school.projetoPI.infrastructure.persistence.PaymentTypeJpaEntity;
-import sptech.school.projetoPI.infrastructure.persistence.PaymentTypeJpaRepository;
 import sptech.school.projetoPI.infrastructure.repositories.JpaPaymentTypeRepository;
 
 import java.util.List;

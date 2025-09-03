@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class UpdateRoleUseCase {
+public class UpdateRoleByIdUseCase {
     private final RoleGateway roleGateway;
 
     public Role execute(Role role, Integer id) {

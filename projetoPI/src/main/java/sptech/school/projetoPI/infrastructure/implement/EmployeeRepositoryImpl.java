@@ -6,7 +6,6 @@ import sptech.school.projetoPI.core.domains.Employee;
 import sptech.school.projetoPI.core.gateways.EmployeeGateway;
 import sptech.school.projetoPI.infrastructure.mappers.EmployeeMapper;
 import sptech.school.projetoPI.infrastructure.persistence.EmployeeJpaEntity;
-import sptech.school.projetoPI.infrastructure.persistence.EmployeeJpaRepository;
 import sptech.school.projetoPI.infrastructure.repositories.JpaEmployeeRepository;
 
 import java.util.List;

@@ -8,7 +8,7 @@ import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.En
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.InactiveEntityException;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.RelatedEntityNotFoundException;
-import sptech.school.projetoPI.repositories.*;
+import sptech.school.projetoPI.infrastructure.repositories.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,10 +16,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ScheduleService extends AbstractService<Schedule> {
-    private final ScheduleRepository repository;
-    private final EmployeeRepository employeeRepository;
-    private final ClientRepository clientRepository;
-    private final PaymentTypeRepository paymentTypeRepository;
+    private final JpaScheduleRepository repository;
+    private final JpaEmployeeRepository employeeRepository;
+    private final JpaClientRepository clientRepository;
+    private final JpaPaymentTypeRepository paymentTypeRepository;
 
     @Override
     public Schedule postMethod(Schedule schedule) {

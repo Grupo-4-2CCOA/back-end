@@ -16,7 +16,7 @@ public class CreateScheduleUseCase {
 
     private final ScheduleGateway scheduleGateway;
 
-    public Schedule postMethod(Schedule schedule) {
+    public Schedule execute(Schedule schedule) {
         if (scheduleGateway.existsByAppointmentDatetime(schedule.getAppointmentDatetime())) {
             throw new EntityConflictException(
                     "Um atendimento para este horário neste dia já existe"

@@ -10,179 +10,179 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.controllers.AbstractController;
-import sptech.school.projetoPI.infrastructure.dto.client.ClientResumeResponseDto;
-import sptech.school.projetoPI.infrastructure.mappers.RoleMapper;
+import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.application.usecases.role.CreateRoleUseCase;
+import sptech.school.projetoPI.application.usecases.role.DeleteRoleByIdUseCase;
+import sptech.school.projetoPI.application.usecases.role.GetAllRoleUseCase;
+import sptech.school.projetoPI.application.usecases.role.GetRoleByIdUseCase;
+import sptech.school.projetoPI.application.usecases.role.UpdateRoleByIdUseCase;
+import sptech.school.projetoPI.core.domains.Role;
 import sptech.school.projetoPI.infrastructure.dto.role.RoleRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.role.RoleResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.role.RoleResumeResponseDto;
-import sptech.school.projetoPI.core.domains.Role;
-import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.infrastructure.mappers.RoleMapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/cargos")
 @RequiredArgsConstructor
 @Tag(name = "Cargos", description = "Endpoints para gerenciar os cargos")
-public class RoleController extends AbstractController<Role, RoleRequestDto, RoleResponseDto, RoleResumeResponseDto> {
+public class RoleController {
 
-    private final RoleService service;
+    private final CreateRoleUseCase createRoleUseCase;
+    private final DeleteRoleByIdUseCase deleteRoleByIdUseCase;
+    private final GetAllRoleUseCase getAllRoleUseCase;
+    private final GetRoleByIdUseCase getRoleByIdUseCase;
+    private final UpdateRoleByIdUseCase updateRoleByIdUseCase;
 
-    @Override
-    public RoleService getService() {
-        return service;
-    }
-
-    @Override
-    public Role toEntity(RoleRequestDto requestDto) {
-        return RoleMapper.toEntity(requestDto);
-    }
-
-    @Override
-    public RoleResponseDto toResponse(Role entity) {
-        return RoleMapper.toResponseDto(entity);
-    }
-
-    @Override
-    public RoleResumeResponseDto toResumeResponse(Role entity) {
-        return RoleMapper.toResumeResponseDto(entity);
-    }
-
-    @Override
     @SecurityRequirement(name = "Bearer")
+    @PostMapping
     @Operation(summary = "Cadastrar um cargo", description = "Cadastra um novo cargo no sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Cargo cadastrado com sucesso", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = RoleResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.CREATED)
             )),
             @ApiResponse(responseCode = "400", description = "Um ou mais campos estão inválidos", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.CREATED)
+                    schema = @Schema(implementation = RoleResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
             @ApiResponse(responseCode = "409", description = "Cargo já existe", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = RoleResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
             ))
     })
-    public ResponseEntity<RoleResumeResponseDto> postMethod(@Valid @RequestBody RoleRequestDto requestDto) {
-        return super.postMethod(requestDto);
+    public ResponseEntity<RoleResumeResponseDto> createRole(@Valid @RequestBody RoleRequestDto requestDto) {
+        Role role = RoleMapper.toDomain(requestDto);
+        Role createdRole = createRoleUseCase.execute(role);
+        return new ResponseEntity<>(RoleMapper.toResumeResponseDto(createdRole), HttpStatus.CREATED);
     }
 
-    @Override
     @SecurityRequirement(name = "Bearer")
+    @GetMapping
     @Operation(summary = "Buscar cargos", description = "Busca todos os cargos cadastrados no sistema.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "cargos trazidos com sucesso", content = @Content(
+            @ApiResponse(responseCode = "200", description = "Cargos trazidos com sucesso", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = RoleResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
-            )),
-            @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = RoleResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
+            )),
+            @ApiResponse(responseCode = "403", description = "Acesso proibido", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = RoleResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<List<RoleResumeResponseDto>> getAllMethod() {
-        return super.getAllMethod();
+    public ResponseEntity<List<RoleResumeResponseDto>> getAllRoles() {
+        List<Role> roles = getAllRoleUseCase.execute();
+        List<RoleResumeResponseDto> responseDtos = roles.stream()
+                .map(RoleMapper::toResumeResponseDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(responseDtos);
     }
 
-    @Override
     @SecurityRequirement(name = "Bearer")
-    @Operation(summary = "Buscar cargos por ID", description = "Busca o cargos com base no ID fornecido.")
+    @GetMapping("/{id}")
+    @Operation(summary = "Buscar cargo por ID", description = "Busca o cargo com base no ID fornecido.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "cargos encontrado", content = @Content(
+            @ApiResponse(responseCode = "200", description = "Cargo encontrado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = RoleResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
             )),
-            @ApiResponse(responseCode = "404", description = "cargos não encontrado", content = @Content(
+            @ApiResponse(responseCode = "404", description = "Cargo não encontrado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = RoleResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
             )),
-            @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
-            )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = RoleResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
+            )),
+            @ApiResponse(responseCode = "403", description = "Acesso proibido", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = RoleResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<RoleResponseDto> getByIdMethod(@PathVariable Integer id) {
-        return super.getByIdMethod(id);
+    public ResponseEntity<RoleResponseDto> getRoleById(@PathVariable Integer id) {
+        Role role = getRoleByIdUseCase.execute(id);
+        return ResponseEntity.ok(RoleMapper.toResponseDto(role));
     }
 
-    @Override
     @SecurityRequirement(name = "Bearer")
-    @Operation(summary = "Atualizar cargos por ID", description = "Atualiza um cargo com base no ID fornecido.")
+    @PutMapping("/{id}")
+    @Operation(summary = "Atualizar cargo por ID", description = "Atualiza um cargo com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cargo atualizado com sucesso", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = RoleResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
             )),
             @ApiResponse(responseCode = "400", description = "Um ou mais campos estão inválidos", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = RoleResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
-            @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
-            )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = RoleResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
+            )),
+            @ApiResponse(responseCode = "403", description = "Acesso proibido", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = RoleResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<RoleResumeResponseDto> putByIdMethod(@Valid @RequestBody RoleRequestDto requestDto, @PathVariable Integer id) {
-        return super.putByIdMethod(requestDto, id);
+    public ResponseEntity<RoleResumeResponseDto> updateRoleById(@Valid @RequestBody RoleRequestDto requestDto,
+                                                                @PathVariable Integer id) {
+        Role role = RoleMapper.toDomain(requestDto);
+        Role updatedRole = updateRoleByIdUseCase.execute(role, id);
+        return ResponseEntity.ok(RoleMapper.toResumeResponseDto(updatedRole));
     }
 
-    @Override
     @SecurityRequirement(name = "Bearer")
-    @Operation(summary = "Deletar cargos por ID", description = "Deleta um cargos com base no ID fornecido.")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Deletar cargo por ID", description = "Deleta um cargo com base no ID fornecido.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "404", description = "cargos não encontrado", content = @Content(
+            @ApiResponse(responseCode = "204", description = "Cargo removido com sucesso", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
-            )),
-            @ApiResponse(responseCode = "204", description = "cargos removido com sucesso", content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = RoleResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NO_CONTENT)
             )),
-            @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
+            @ApiResponse(responseCode = "404", description = "Cargo não encontrado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
+                    schema = @Schema(implementation = RoleResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
             )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ClientResumeResponseDto.class),
+                    schema = @Schema(implementation = RoleResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
+            )),
+            @ApiResponse(responseCode = "403", description = "Acesso proibido", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = RoleResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<Void> deleteByIdMethod(@PathVariable Integer id) {
-        return super.deleteByIdMethod(id);
+    public void deleteRoleById(@PathVariable Integer id) {
+        deleteRoleByIdUseCase.execute(id);
     }
 }

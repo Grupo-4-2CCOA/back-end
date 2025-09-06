@@ -5,18 +5,28 @@ import org.springframework.stereotype.Repository;
 import sptech.school.projetoPI.core.domains.Schedule;
 import sptech.school.projetoPI.core.enums.Status;
 import sptech.school.projetoPI.core.gateways.ScheduleGateway;
-import sptech.school.projetoPI.infrastructure.mappers.ScheduleMapper;
+import sptech.school.projetoPI.infrastructure.persistence.ScheduleJpaEntity;
 import sptech.school.projetoPI.infrastructure.repositories.JpaScheduleRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
 public class ScheduleRepositoryImpl implements ScheduleGateway {
 
     private final JpaScheduleRepository repository;
+
+    @Override
+    public Schedule save(Schedule schedule) {
+        return repository.save(schedule);
+    }
+
+    @Override
+    public boolean existsById(Integer id) {
+        return repository.existsById(id);
+    }
 
     @Override
     public boolean existsByAppointmentDatetime(LocalDateTime appointmentDatetime) {
@@ -46,6 +56,16 @@ public class ScheduleRepositoryImpl implements ScheduleGateway {
     @Override
     public boolean existsByIdAndStatus(Integer id, Status status) {
         return repository.existsByIdAndStatus(id, status);
+    }
+
+    @Override
+    public Optional<ScheduleJpaEntity> findById(Integer id) {
+        return repository.findById(id);
+    }
+
+    @Override
+    public List<ScheduleJpaEntity> findAll() {
+        return repository.findAll();
     }
 
     @Override

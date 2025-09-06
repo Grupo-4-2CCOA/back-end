@@ -5,22 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8ed9cf5b-230f-4a08-b13c-50b6a376d262" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/schedule/CreateScheduleUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/schedule/DeleteScheduleByIdUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/schedule/GetAllScheduleUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/schedule/GetSchedulebyIdUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/schedule/UpdateScheduleByIdUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/di/RoleConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/di/ScheduleConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/implement/RoleRepositoryImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/implement/ScheduleRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/role/DeleteRoleByIdUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/role/DeleteRoleByIdUseCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/role/UpdateRoleUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/role/UpdateRoleByIdUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/scheduleItem/CreateScheduleItemUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/scheduleItem/DeleteScheduleItemByIdUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/scheduleItem/GetAllScheduleItemUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/scheduleItem/GetScheduleItemByIdUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/scheduleItem/UpdateScheduleItemByIdUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/di/ScheduleItemConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/implement/ScheduleItemRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/schedule/CreateScheduleUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/schedule/CreateScheduleUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/schedule/GetSchedulebyIdUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/schedule/GetScheduleByIdUseCase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/core/gateways/ScheduleGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/core/gateways/ScheduleGateway.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/implement/EmployeeRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/implement/EmployeeRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/implement/PaymentTypeRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/implement/PaymentTypeRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/mappers/ScheduleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/mappers/ScheduleMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/services/ScheduleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/services/ScheduleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/core/gateways/ScheduleItemGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/core/gateways/ScheduleItemGateway.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/controllers/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/controllers/RoleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/controllers/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/controllers/ScheduleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/di/ScheduleConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/di/ScheduleConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/implement/ScheduleRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/implement/ScheduleRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/repositories/JpaScheduleItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/repositories/JpaScheduleItemRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,5 +78,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/controllers/AvailabilityController.java</url>
+          <line>141</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

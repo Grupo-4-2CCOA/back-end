@@ -10,49 +10,34 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.controllers.AbstractController;
+import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.application.usecases.schedule.*;
 import sptech.school.projetoPI.core.domains.Schedule;
-import sptech.school.projetoPI.infrastructure.mappers.ScheduleMapper;
 import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleResumeResponseDto;
-import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
-import sptech.school.projetoPI.services.ScheduleService;
+import sptech.school.projetoPI.infrastructure.mappers.ScheduleMapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/agendamentos")
 @RequiredArgsConstructor
 @Tag(name = "Agendamentos", description = "Endpoints para gerenciar agendamentos")
-public class ScheduleController extends AbstractController<Schedule, ScheduleRequestDto, ScheduleResponseDto, ScheduleResumeResponseDto> {
+public class ScheduleController {
 
-    private final ScheduleService service;
+    private final CreateScheduleUseCase createScheduleUseCase;
+    private final DeleteScheduleByIdUseCase deleteScheduleByIdUseCase;
+    private final GetAllScheduleUseCase getAllScheduleUseCase;
+    private final GetScheduleByIdUseCase getScheduleByIdUseCase;
+    private final UpdateScheduleByIdUseCase updateScheduleByIdUseCase;
 
-    @Override
-    public ScheduleService getService() {
-        return service;
-    }
-
-    @Override
-    public Schedule toEntity(ScheduleRequestDto requestDto) {
-        return ScheduleMapper.toEntity(requestDto);
-    }
-
-    @Override
-    public ScheduleResponseDto toResponse(Schedule entity) {
-        return ScheduleMapper.toResponseDto(entity);
-    }
-
-    @Override
-    public ScheduleResumeResponseDto toResumeResponse(Schedule entity) {
-        return ScheduleMapper.toResumeResponseDto(entity);
-    }
-
-    @Override
     @SecurityRequirement(name = "Bearer")
+    @PostMapping
     @Operation(summary = "Cadastrar agendamento", description = "Cadastra um novo agendamento no sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Agendamento cadastrado com sucesso!", content = @Content(
@@ -71,12 +56,14 @@ public class ScheduleController extends AbstractController<Schedule, ScheduleReq
                     examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
             ))
     })
-    public ResponseEntity<ScheduleResumeResponseDto> postMethod(@Valid @RequestBody ScheduleRequestDto requestDto) {
-        return super.postMethod(requestDto);
+    public ResponseEntity<ScheduleResumeResponseDto> createSchedule(@Valid @RequestBody ScheduleRequestDto requestDto) {
+        Schedule schedule = ScheduleMapper.toDomain(requestDto);
+        Schedule created = createScheduleUseCase.execute(schedule);
+        return new ResponseEntity<>(ScheduleMapper.toResumeResponseDto(created), HttpStatus.CREATED);
     }
 
-    @Override
     @SecurityRequirement(name = "Bearer")
+    @GetMapping
     @Operation(summary = "Buscar agendamentos", description = "Busca todos os agendamentos cadastrados no sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Agendamentos trazidos com sucesso!", content = @Content(
@@ -84,53 +71,57 @@ public class ScheduleController extends AbstractController<Schedule, ScheduleReq
                     schema = @Schema(implementation = ScheduleResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
             )),
-            @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
-            )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = ScheduleResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
+            )),
+            @ApiResponse(responseCode = "403", description = "Acesso proibido", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<List<ScheduleResumeResponseDto>> getAllMethod() {
-        return super.getAllMethod();
+    public ResponseEntity<List<ScheduleResumeResponseDto>> getAllSchedules() {
+        List<Schedule> schedules = getAllScheduleUseCase.execute();
+        List<ScheduleResumeResponseDto> responseDtos = schedules.stream()
+                .map(ScheduleMapper::toResumeResponseDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(responseDtos);
     }
 
-    @Override
     @SecurityRequirement(name = "Bearer")
+    @GetMapping("/{id}")
     @Operation(summary = "Buscar agendamento por ID", description = "Busca o agendamento com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Agendamento encontrado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
             )),
             @ApiResponse(responseCode = "404", description = "Agendamento não encontrado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
-            )),
-            @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    schema = @Schema(implementation = ScheduleResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
+            )),
+            @ApiResponse(responseCode = "403", description = "Acesso proibido", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ScheduleResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<ScheduleResponseDto> getByIdMethod(@PathVariable Integer id) {
-        return super.getByIdMethod(id);
+    public ResponseEntity<ScheduleResponseDto> getScheduleById(@PathVariable Integer id) {
+        Schedule schedule = getScheduleByIdUseCase.execute(id);
+        return ResponseEntity.ok(ScheduleMapper.toResponseDto(schedule));
     }
 
-    @Override
-    @PutMapping("/{id}")
     @SecurityRequirement(name = "Bearer")
+    @PutMapping("/{id}")
     @Operation(summary = "Atualizar agendamento por ID", description = "Atualiza um agendamento com base no ID fornecido.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Agendamento atualizado com sucesso", content = @Content(
@@ -143,47 +134,50 @@ public class ScheduleController extends AbstractController<Schedule, ScheduleReq
                     schema = @Schema(implementation = ScheduleResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
-            @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
-            )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = ScheduleResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
-            ))
-    })
-    public ResponseEntity<ScheduleResumeResponseDto> putByIdMethod(@Valid @RequestBody ScheduleRequestDto requestDto, @PathVariable Integer id) {
-        return super.putByIdMethod(requestDto, id);
-    }
-
-    @Override
-    @SecurityRequirement(name = "Bearer")
-    @Operation(summary = "Deletar agendamento por ID ", description = "Deleta um agendamento com base no ID fornecido.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "404", description = "Agendamento não encontrado", content = @Content(
+            )),
+            @ApiResponse(responseCode = "403", description = "Acesso proibido", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = ScheduleResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
-            )),
+                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
+            ))
+    })
+    public ResponseEntity<ScheduleResumeResponseDto> updateScheduleById(@Valid @RequestBody ScheduleRequestDto requestDto, @PathVariable Integer id) {
+        Schedule schedule = ScheduleMapper.toDomain(requestDto);
+        Schedule updated = updateScheduleByIdUseCase.execute(schedule, id);
+        return ResponseEntity.ok(ScheduleMapper.toResumeResponseDto(updated));
+    }
+
+    @SecurityRequirement(name = "Bearer")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Deletar agendamento por ID", description = "Deleta um agendamento com base no ID fornecido.")
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Agendamento removido com sucesso", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = ScheduleResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NO_CONTENT)
             )),
-            @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
+            @ApiResponse(responseCode = "404", description = "Agendamento não encontrado", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = ScheduleResumeResponseDto.class),
-                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
+                    examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
             )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = ScheduleResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
+            )),
+            @ApiResponse(responseCode = "403", description = "Acesso proibido", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ScheduleResumeResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<Void> deleteByIdMethod(@PathVariable Integer id) {
-        return super.deleteByIdMethod(id);
+    public void deleteScheduleById(@PathVariable Integer id) {
+        deleteScheduleByIdUseCase.execute(id);
     }
 }

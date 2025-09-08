@@ -13,12 +13,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.application.usecases.scheduleItem.*;
-import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
-import sptech.school.projetoPI.core.domains.ScheduleItem;
-import sptech.school.projetoPI.infrastructure.dto.scheduleItem.ScheduleItemRequestDto;
-import sptech.school.projetoPI.infrastructure.dto.scheduleItem.ScheduleItemResponseDto;
-import sptech.school.projetoPI.infrastructure.dto.scheduleItem.ScheduleItemResumeResponseDto;
+import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.core.application.usecases.scheduleItem.*;
+import sptech.school.projetoPI.core.domains.ScheduleItemDomain;
+import sptech.school.projetoPI.core.application.command.scheduleItem.ScheduleItemRequestDto;
+import sptech.school.projetoPI.core.application.command.scheduleItem.ScheduleItemResponseDto;
+import sptech.school.projetoPI.core.application.command.scheduleItem.ScheduleItemResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.mappers.ScheduleItemMapper;
 
 import java.util.List;
@@ -52,9 +52,9 @@ public class ScheduleItemController {
             )),
     })
     public ResponseEntity<ScheduleItemResumeResponseDto> createScheduleItem(@Valid @RequestBody ScheduleItemRequestDto requestDto) {
-        ScheduleItem scheduleItem = ScheduleItemMapper.toDomain(requestDto);
-        ScheduleItem createdScheduleItem = createScheduleItemUseCase.execute(scheduleItem);
-        return new ResponseEntity<>(ScheduleItemMapper.toResumeResponseDto(createdScheduleItem), HttpStatus.CREATED);
+        ScheduleItemDomain scheduleItemDomain = ScheduleItemMapper.toDomain(requestDto);
+        ScheduleItemDomain createdScheduleItemDomain = createScheduleItemUseCase.execute(scheduleItemDomain);
+        return new ResponseEntity<>(ScheduleItemMapper.toResumeResponseDto(createdScheduleItemDomain), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -78,8 +78,8 @@ public class ScheduleItemController {
             ))
     })
     public ResponseEntity<List<ScheduleItemResumeResponseDto>> getAllScheduleItems() {
-        List<ScheduleItem> scheduleItems = getAllScheduleItemsUseCase.execute();
-        List<ScheduleItemResumeResponseDto> responseDtos = scheduleItems.stream()
+        List<ScheduleItemDomain> scheduleItemDomains = getAllScheduleItemsUseCase.execute();
+        List<ScheduleItemResumeResponseDto> responseDtos = scheduleItemDomains.stream()
                 .map(ScheduleItemMapper::toResumeResponseDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responseDtos);
@@ -111,8 +111,8 @@ public class ScheduleItemController {
             ))
     })
     public ResponseEntity<ScheduleItemResponseDto> getScheduleItemById(@PathVariable Integer id) {
-        ScheduleItem scheduleItem = getScheduleItemByIdUseCase.execute(id);
-        return ResponseEntity.ok(ScheduleItemMapper.toResponseDto(scheduleItem));
+        ScheduleItemDomain scheduleItemDomain = getScheduleItemByIdUseCase.execute(id);
+        return ResponseEntity.ok(ScheduleItemMapper.toResponseDto(scheduleItemDomain));
     }
 
     @PutMapping("/{id}")
@@ -141,9 +141,9 @@ public class ScheduleItemController {
             ))
     })
     public ResponseEntity<ScheduleItemResumeResponseDto> updateScheduleItemById(@Valid @RequestBody ScheduleItemRequestDto requestDto, @PathVariable Integer id) {
-        ScheduleItem scheduleItem = ScheduleItemMapper.toDomain(requestDto);
-        ScheduleItem updatedScheduleItem = updateScheduleItemByIdUseCase.execute(scheduleItem, id);
-        return ResponseEntity.ok(ScheduleItemMapper.toResumeResponseDto(updatedScheduleItem));
+        ScheduleItemDomain scheduleItemDomain = ScheduleItemMapper.toDomain(requestDto);
+        ScheduleItemDomain updatedScheduleItemDomain = updateScheduleItemByIdUseCase.execute(scheduleItemDomain, id);
+        return ResponseEntity.ok(ScheduleItemMapper.toResumeResponseDto(updatedScheduleItemDomain));
     }
 
     @DeleteMapping("/{id}")

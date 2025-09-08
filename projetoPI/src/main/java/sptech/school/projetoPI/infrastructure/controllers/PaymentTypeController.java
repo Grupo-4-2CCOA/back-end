@@ -13,12 +13,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
-import sptech.school.projetoPI.application.usecases.paymentType.*;
-import sptech.school.projetoPI.core.domains.PaymentType;
-import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeRequestDto;
-import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeResponseDto;
-import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeResumeResponseDto;
+import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.core.application.usecases.paymentType.*;
+import sptech.school.projetoPI.core.domains.PaymentTypeDomain;
+import sptech.school.projetoPI.core.application.command.paymentType.PaymentTypeRequestDto;
+import sptech.school.projetoPI.core.application.command.paymentType.PaymentTypeResponseDto;
+import sptech.school.projetoPI.core.application.command.paymentType.PaymentTypeResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.mappers.PaymentTypeMapper;
 
 import java.util.List;
@@ -57,9 +57,9 @@ public class PaymentTypeController {
             ))
     })
     public ResponseEntity<PaymentTypeResumeResponseDto> createPaymentType(@Valid @RequestBody PaymentTypeRequestDto requestDto) {
-        PaymentType paymentType = PaymentTypeMapper.toDomain(requestDto);
-        PaymentType createdPaymentType = createPaymentTypeUseCase.execute(paymentType);
-        return new ResponseEntity<>(PaymentTypeMapper.toResumeResponseDto(createdPaymentType), HttpStatus.CREATED);
+        PaymentTypeDomain paymentTypeDomain = PaymentTypeMapper.toDomain(requestDto);
+        PaymentTypeDomain createdPaymentTypeDomain = createPaymentTypeUseCase.execute(paymentTypeDomain);
+        return new ResponseEntity<>(PaymentTypeMapper.toResumeResponseDto(createdPaymentTypeDomain), HttpStatus.CREATED);
     }
 
     @SecurityRequirement(name = "Bearer")
@@ -83,8 +83,8 @@ public class PaymentTypeController {
             ))
     })
     public ResponseEntity<List<PaymentTypeResumeResponseDto>> getAllPaymentTypes() {
-        List<PaymentType> paymentTypes = getAllPaymentTypesUseCase.execute();
-        List<PaymentTypeResumeResponseDto> responseDtos = paymentTypes.stream()
+        List<PaymentTypeDomain> paymentTypeDomains = getAllPaymentTypesUseCase.execute();
+        List<PaymentTypeResumeResponseDto> responseDtos = paymentTypeDomains.stream()
                 .map(PaymentTypeMapper::toResumeResponseDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responseDtos);
@@ -116,8 +116,8 @@ public class PaymentTypeController {
             ))
     })
     public ResponseEntity<PaymentTypeResponseDto> getPaymentTypeById(@PathVariable Integer id) {
-        PaymentType paymentType = getPaymentTypeByIdUseCase.execute(id);
-        return ResponseEntity.ok(PaymentTypeMapper.toResponseDto(paymentType));
+        PaymentTypeDomain paymentTypeDomain = getPaymentTypeByIdUseCase.execute(id);
+        return ResponseEntity.ok(PaymentTypeMapper.toResponseDto(paymentTypeDomain));
     }
 
     @SecurityRequirement(name = "Bearer")
@@ -148,9 +148,9 @@ public class PaymentTypeController {
     public ResponseEntity<PaymentTypeResumeResponseDto> updatePaymentTypeById(
             @Valid @RequestBody PaymentTypeRequestDto requestDto,
             @PathVariable Integer id) {
-        PaymentType paymentType = PaymentTypeMapper.toDomain(requestDto);
-        PaymentType updatedPaymentType = updatePaymentTypeByIdUseCase.execute(paymentType,id);
-        return ResponseEntity.ok(PaymentTypeMapper.toResumeResponseDto(updatedPaymentType));
+        PaymentTypeDomain paymentTypeDomain = PaymentTypeMapper.toDomain(requestDto);
+        PaymentTypeDomain updatedPaymentTypeDomain = updatePaymentTypeByIdUseCase.execute(paymentTypeDomain,id);
+        return ResponseEntity.ok(PaymentTypeMapper.toResumeResponseDto(updatedPaymentTypeDomain));
     }
 
     @SecurityRequirement(name = "Bearer")

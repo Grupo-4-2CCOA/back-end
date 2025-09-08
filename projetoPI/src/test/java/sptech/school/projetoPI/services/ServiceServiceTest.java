@@ -4,12 +4,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import sptech.school.projetoPI.core.domains.Category;
+import sptech.school.projetoPI.core.domains.CategoryDomain;
 import sptech.school.projetoPI.core.domains.ServiceDomain;
-import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityConflictException;
-import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
-import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.InactiveEntityException;
-import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.RelatedEntityNotFoundException;
+import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.EntityConflictException;
+import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.InactiveEntityException;
+import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.RelatedEntityNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,7 +30,7 @@ class ServiceServiceTest extends ServiceTest {
     @Mock
     private CategoryRepository categoryRepository;
 
-    private final Category category = Category.builder()
+    private final CategoryDomain categoryDomain = CategoryDomain.builder()
             .id(1)
             .name("Default Category")
             .active(true)
@@ -38,7 +38,7 @@ class ServiceServiceTest extends ServiceTest {
 
     private final ServiceDomain serviceEntity = ServiceDomain.builder()
             .id(1)
-            .category(category)
+            .category(categoryDomain)
             .active(true)
             .createdAt(LocalDateTime.now())
             .updatedAt(LocalDateTime.now())

@@ -13,12 +13,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.application.usecases.service.*;
-import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.core.application.usecases.service.*;
 import sptech.school.projetoPI.core.domains.ServiceDomain;
-import sptech.school.projetoPI.infrastructure.dto.service.ServiceRequestDto;
-import sptech.school.projetoPI.infrastructure.dto.service.ServiceResponseDto;
-import sptech.school.projetoPI.infrastructure.dto.service.ServiceResumeResponseDto;
+import sptech.school.projetoPI.core.application.command.service.ServiceRequestDto;
+import sptech.school.projetoPI.core.application.command.service.ServiceResponseDto;
+import sptech.school.projetoPI.core.application.command.service.ServiceResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.mappers.ServiceMapper;
 
 import java.util.List;

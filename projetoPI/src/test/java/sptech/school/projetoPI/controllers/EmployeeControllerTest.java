@@ -2,7 +2,7 @@ package sptech.school.projetoPI.controllers;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import sptech.school.projetoPI.core.domains.Employee;
+import sptech.school.projetoPI.core.domains.EmployeeDomain;
 
 import java.util.List;
 
@@ -11,14 +11,14 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class EmployeeControllerTest extends ControllerTest<Employee, EmployeeService> {
+class EmployeeControllerTest extends ControllerTest<EmployeeDomain, EmployeeService> {
 
     @MockBean
     private EmployeeService service;
 
     @Override
-    protected Employee getEntity() {
-        return new Employee();
+    protected EmployeeDomain getEntity() {
+        return new EmployeeDomain();
     }
 
     @Override
@@ -42,7 +42,7 @@ class EmployeeControllerTest extends ControllerTest<Employee, EmployeeService> {
                      "password": "123456789",
                      "phone": "11999994444",
                      "cep": "01234500",
-                     "role": 1
+                     "roleDomain": 1
                 }
                 """;
     }
@@ -57,7 +57,7 @@ class EmployeeControllerTest extends ControllerTest<Employee, EmployeeService> {
                      "password": "123456789",
                      "phone": "11999994444",
                      "cep": "01234500",
-                     "role": 1
+                     "roleDomain": 1
                 }
                 """;
     }
@@ -71,7 +71,7 @@ class EmployeeControllerTest extends ControllerTest<Employee, EmployeeService> {
                      "password": "123456789",
                      "phone": "11999994444",
                      "cep": "01234500",
-                     "role": 1
+                     "roleDomain": 1
                 }
                 """;
     }
@@ -86,7 +86,7 @@ class EmployeeControllerTest extends ControllerTest<Employee, EmployeeService> {
                      "password": null,
                      "phone": "11999994444",
                      "cep": "01234500",
-                     "role": 1
+                     "roleDomain": 1
                 }
                 """;
     }
@@ -101,14 +101,14 @@ class EmployeeControllerTest extends ControllerTest<Employee, EmployeeService> {
                      "password": "123456789",
                      "phone": "11999994444",
                      "cep": "01234500",
-                     "role": 1
+                     "roleDomain": 1
                 }
                 """;
     }
 
     @Override
     protected void whenSignThenReturn() {
-        when(getService().postMethod(any(Employee.class))).thenReturn(getEntity());
+        when(getService().postMethod(any(EmployeeDomain.class))).thenReturn(getEntity());
     }
 
     @Override
@@ -123,6 +123,6 @@ class EmployeeControllerTest extends ControllerTest<Employee, EmployeeService> {
 
     @Override
     protected void whenUpdateByIdThenReturn() {
-        when(getService().putByIdMethod(any(Employee.class), anyInt())).thenReturn(getEntity());
+        when(getService().putByIdMethod(any(EmployeeDomain.class), anyInt())).thenReturn(getEntity());
     }
 }

@@ -13,14 +13,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
-import sptech.school.projetoPI.core.domains.Feedback;
-import sptech.school.projetoPI.infrastructure.dto.feedback.FeedbackRequestDto;
-import sptech.school.projetoPI.infrastructure.dto.feedback.FeedbackResponseDto;
-import sptech.school.projetoPI.infrastructure.dto.feedback.FeedbackResumeResponseDto;
+import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.core.application.usecases.feedback.*;
+import sptech.school.projetoPI.core.domains.FeedbackDomain;
+import sptech.school.projetoPI.core.application.command.feedback.FeedbackRequestDto;
+import sptech.school.projetoPI.core.application.command.feedback.FeedbackResponseDto;
+import sptech.school.projetoPI.core.application.command.feedback.FeedbackResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.mappers.FeedbackMapper;
-
-import sptech.school.projetoPI.application.usecases.feedback.*; // Importar os UseCases
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,9 +52,9 @@ public class FeedbackController {
             )),
     })
     public ResponseEntity<FeedbackResumeResponseDto> createFeedback(@Valid @RequestBody FeedbackRequestDto requestDto) {
-        Feedback feedback = FeedbackMapper.toDomain(requestDto);
-        Feedback createdFeedback = createFeedbackUseCase.execute(feedback);
-        return new ResponseEntity<>(FeedbackMapper.toResumeResponseDto(createdFeedback), HttpStatus.CREATED);
+        FeedbackDomain feedbackDomain = FeedbackMapper.toDomain(requestDto);
+        FeedbackDomain createdFeedbackDomain = createFeedbackUseCase.execute(feedbackDomain);
+        return new ResponseEntity<>(FeedbackMapper.toResumeResponseDto(createdFeedbackDomain), HttpStatus.CREATED);
     }
 
     @SecurityRequirement(name = "Bearer")
@@ -79,8 +78,8 @@ public class FeedbackController {
             ))
     })
     public ResponseEntity<List<FeedbackResumeResponseDto>> getAllFeedbacks() {
-        List<Feedback> feedbacks = getAllFeedbacksUseCase.execute();
-        List<FeedbackResumeResponseDto> responseDtos = feedbacks.stream()
+        List<FeedbackDomain> feedbackDomains = getAllFeedbacksUseCase.execute();
+        List<FeedbackResumeResponseDto> responseDtos = feedbackDomains.stream()
                 .map(FeedbackMapper::toResumeResponseDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responseDtos);
@@ -112,8 +111,8 @@ public class FeedbackController {
             ))
     })
     public ResponseEntity<FeedbackResponseDto> getFeedbackById(@PathVariable Integer id) {
-        Feedback feedback = getFeedbackByIdUseCase.execute(id);
-        return ResponseEntity.ok(FeedbackMapper.toResponseDto(feedback));
+        FeedbackDomain feedbackDomain = getFeedbackByIdUseCase.execute(id);
+        return ResponseEntity.ok(FeedbackMapper.toResponseDto(feedbackDomain));
     }
 
     @SecurityRequirement(name = "Bearer")
@@ -144,9 +143,9 @@ public class FeedbackController {
     public ResponseEntity<FeedbackResumeResponseDto> updateFeedbackById(
             @Valid @RequestBody FeedbackRequestDto requestDto,
             @PathVariable Integer id) {
-        Feedback feedback = FeedbackMapper.toDomain(requestDto);
-        Feedback updatedFeedback = updateFeedbackByIdUseCase.execute(feedback, id);
-        return ResponseEntity.ok(FeedbackMapper.toResumeResponseDto(updatedFeedback));
+        FeedbackDomain feedbackDomain = FeedbackMapper.toDomain(requestDto);
+        FeedbackDomain updatedFeedbackDomain = updateFeedbackByIdUseCase.execute(feedbackDomain, id);
+        return ResponseEntity.ok(FeedbackMapper.toResumeResponseDto(updatedFeedbackDomain));
     }
 
     @SecurityRequirement(name = "Bearer")

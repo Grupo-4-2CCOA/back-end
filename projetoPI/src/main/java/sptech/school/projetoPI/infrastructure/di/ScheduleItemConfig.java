@@ -2,7 +2,7 @@ package sptech.school.projetoPI.infrastructure.di;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import sptech.school.projetoPI.application.usecases.scheduleItem.*;
+import sptech.school.projetoPI.core.application.usecases.scheduleItem.*;
 import sptech.school.projetoPI.core.gateways.ScheduleGateway;
 import sptech.school.projetoPI.core.gateways.ScheduleItemGateway;
 import sptech.school.projetoPI.core.gateways.ServiceGateway;

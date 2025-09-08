@@ -37,7 +37,7 @@ class AvailabilityDomainControllerTest extends ControllerTest<AvailabilityDomain
                      "day": "2026-01-01",
                      "startTime": "00:00:00",
                      "endTime": "23:59:59",
-                     "employee": 1
+                     "employeeDomain": 1
                 }
                 """;
     }
@@ -49,7 +49,7 @@ class AvailabilityDomainControllerTest extends ControllerTest<AvailabilityDomain
                      "day": 2026,
                      "startTime": "00:00:00",
                      "endTime": "23:59:59",
-                     "employee": 1
+                     "employeeDomain": 1
                 }
                 """;
     }
@@ -60,7 +60,7 @@ class AvailabilityDomainControllerTest extends ControllerTest<AvailabilityDomain
                 {
                      "startTime": "00:00:00",
                      "endTime": "23:59:59",
-                     "employee": 1
+                     "employeeDomain": 1
                 }
                 """;
     }
@@ -72,7 +72,7 @@ class AvailabilityDomainControllerTest extends ControllerTest<AvailabilityDomain
                      "day": null,
                      "startTime": "00:00:00",
                      "endTime": "23:59:59",
-                     "employee": 1
+                     "employeeDomain": 1
                 }
                 """;
     }
@@ -84,7 +84,7 @@ class AvailabilityDomainControllerTest extends ControllerTest<AvailabilityDomain
                      "day": "2026-02-29",
                      "startTime": "00:00:00",
                      "endTime": "23:59:59",
-                     "employee": 1
+                     "employeeDomain": 1
                 }
                 """;
     }

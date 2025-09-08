@@ -2,7 +2,7 @@ package sptech.school.projetoPI.controllers;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import sptech.school.projetoPI.core.domains.Category;
+import sptech.school.projetoPI.core.domains.CategoryDomain;
 
 import java.util.List;
 
@@ -11,14 +11,14 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class CategoryControllerTest extends ControllerTest<Category, CategoryService> {
+class CategoryControllerTest extends ControllerTest<CategoryDomain, CategoryService> {
 
     @MockBean
     private CategoryService service;
 
     @Override
-    protected Category getEntity() {
-        return new Category();
+    protected CategoryDomain getEntity() {
+        return new CategoryDomain();
     }
 
     @Override
@@ -83,7 +83,7 @@ class CategoryControllerTest extends ControllerTest<Category, CategoryService> {
 
     @Override
     protected void whenSignThenReturn() {
-        when(getService().postMethod(any(Category.class))).thenReturn(getEntity());
+        when(getService().postMethod(any(CategoryDomain.class))).thenReturn(getEntity());
     }
 
     @Override
@@ -98,6 +98,6 @@ class CategoryControllerTest extends ControllerTest<Category, CategoryService> {
 
     @Override
     protected void whenUpdateByIdThenReturn() {
-        when(getService().putByIdMethod(any(Category.class), anyInt())).thenReturn(getEntity());
+        when(getService().putByIdMethod(any(CategoryDomain.class), anyInt())).thenReturn(getEntity());
     }
 }

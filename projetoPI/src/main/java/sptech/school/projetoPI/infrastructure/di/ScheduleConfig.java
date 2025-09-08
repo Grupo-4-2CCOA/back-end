@@ -2,7 +2,7 @@ package sptech.school.projetoPI.infrastructure.di;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import sptech.school.projetoPI.application.usecases.schedule.*;
+import sptech.school.projetoPI.core.application.usecases.schedule.*;
 import sptech.school.projetoPI.core.gateways.ClientGateway;
 import sptech.school.projetoPI.core.gateways.EmployeeGateway;
 import sptech.school.projetoPI.core.gateways.PaymentTypeGateway;

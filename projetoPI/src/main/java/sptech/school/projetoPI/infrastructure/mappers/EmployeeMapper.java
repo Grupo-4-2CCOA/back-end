@@ -1,44 +1,44 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
-import sptech.school.projetoPI.core.domains.Employee;
-import sptech.school.projetoPI.core.domains.Role;
-import sptech.school.projetoPI.infrastructure.dto.employee.EmployeeRequestDto;
-import sptech.school.projetoPI.infrastructure.dto.employee.EmployeeResponseDto;
-import sptech.school.projetoPI.infrastructure.dto.employee.EmployeeResumeResponseDto;
-import sptech.school.projetoPI.infrastructure.persistence.EmployeeJpaEntity;
+import sptech.school.projetoPI.core.domains.EmployeeDomain;
+import sptech.school.projetoPI.core.domains.RoleDomain;
+import sptech.school.projetoPI.core.application.command.employee.EmployeeRequestDto;
+import sptech.school.projetoPI.core.application.command.employee.EmployeeResponseDto;
+import sptech.school.projetoPI.core.application.command.employee.EmployeeResumeResponseDto;
+import sptech.school.projetoPI.infrastructure.persistence.entity.EmployeeJpaEntity;
 
 public class EmployeeMapper {
 
     /* ========= DTO -> DOMAIN ========= */
-    public static Employee toDomain(EmployeeRequestDto request) {
+    public static EmployeeDomain toDomain(EmployeeRequestDto request) {
         if (request == null) return null;
 
-        Employee employee = new Employee();
-        employee.setName(request.getName());
-        employee.setCpf(request.getCpf());
-        employee.setEmail(request.getEmail());
-        employee.setPassword(request.getPassword());
-        employee.setCep(request.getCep());
-        employee.setPhone(request.getPhone());
-        employee.setActive(true);
+        EmployeeDomain employeeDomain = new EmployeeDomain();
+        employeeDomain.setName(request.getName());
+        employeeDomain.setCpf(request.getCpf());
+        employeeDomain.setEmail(request.getEmail());
+        employeeDomain.setPassword(request.getPassword());
+        employeeDomain.setCep(request.getCep());
+        employeeDomain.setPhone(request.getPhone());
+        employeeDomain.setActive(true);
         // ✨ CORREÇÃO AQUI: Use o RoleMapper para converter
-        employee.setRole(RoleMapper.toDomain(request.getRole()));
+        employeeDomain.setRole(RoleMapper.toDomain(request.getRole()));
 
-        return employee;
+        return employeeDomain;
     }
 
-    public static Employee toDomain(Integer id) {
+    public static EmployeeDomain toDomain(Integer id) {
         if (id == null) {
             return null;
         }
 
-        Employee employee = new Employee();
-        employee.setId(id);
-        return employee;
+        EmployeeDomain employeeDomain = new EmployeeDomain();
+        employeeDomain.setId(id);
+        return employeeDomain;
     }
 
     /* ========= DOMAIN -> DTO (Response completo) ========= */
-    public static EmployeeResponseDto toResponseDto(Employee domain) {
+    public static EmployeeResponseDto toResponseDto(EmployeeDomain domain) {
         if (domain == null) return null;
 
         return EmployeeResponseDto.builder()
@@ -55,7 +55,7 @@ public class EmployeeMapper {
     }
 
     /* ========= DOMAIN -> DTO (Response resumido) ========= */
-    public static EmployeeResumeResponseDto toResumeResponseDto(Employee domain) {
+    public static EmployeeResumeResponseDto toResumeResponseDto(EmployeeDomain domain) {
         if (domain == null) {
             return null;
         }
@@ -67,7 +67,7 @@ public class EmployeeMapper {
     }
 
     /* ========= DOMAIN -> JPA ========= */
-    public static EmployeeJpaEntity toJpaEntity(Employee domain) {
+    public static EmployeeJpaEntity toJpaEntity(EmployeeDomain domain) {
         if (domain == null) return null;
 
         return EmployeeJpaEntity.builder()
@@ -86,10 +86,10 @@ public class EmployeeMapper {
     }
 
     /* ========= JPA -> DOMAIN ========= */
-    public static Employee toDomain(EmployeeJpaEntity jpa) {
+    public static EmployeeDomain toDomain(EmployeeJpaEntity jpa) {
         if (jpa == null) return null;
 
-        Employee domain = new Employee(RoleMapper.toDomain(jpa.getRole()));
+        EmployeeDomain domain = new EmployeeDomain(RoleMapper.toDomain(jpa.getRole()));
         domain.setId(jpa.getId());
         domain.setName(jpa.getName());
         domain.setCpf(jpa.getCpf());
@@ -105,9 +105,9 @@ public class EmployeeMapper {
     }
 
     /* ========= Referência simples ========= */
-    public static Employee ref(Integer id) {
+    public static EmployeeDomain ref(Integer id) {
         if (id == null) return null;
-        Employee e = new Employee((Role) null);
+        EmployeeDomain e = new EmployeeDomain((RoleDomain) null);
         e.setId(id);
         return e;
     }

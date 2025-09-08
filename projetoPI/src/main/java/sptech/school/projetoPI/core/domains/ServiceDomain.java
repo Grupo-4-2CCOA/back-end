@@ -12,9 +12,9 @@ public class ServiceDomain {
     private Integer baseDuration;
     private String description;
     private String image;
-    private Category category;
+    private CategoryDomain categoryDomain;
 
-    public ServiceDomain(Integer id, Boolean active, LocalDateTime createdAt, LocalDateTime updatedAt, String name, Double basePrice, Integer baseDuration, String description, String image, Category category) {
+    public ServiceDomain(Integer id, Boolean active, LocalDateTime createdAt, LocalDateTime updatedAt, String name, Double basePrice, Integer baseDuration, String description, String image, CategoryDomain categoryDomain) {
         this.id = id;
         this.active = active;
         this.createdAt = createdAt;
@@ -24,7 +24,7 @@ public class ServiceDomain {
         this.baseDuration = baseDuration;
         this.description = description;
         this.image = image;
-        this.category = category;
+        this.categoryDomain = categoryDomain;
     }
 
     public ServiceDomain() {
@@ -102,11 +102,11 @@ public class ServiceDomain {
         this.image = image;
     }
 
-    public Category getCategory() {
-        return category;
+    public CategoryDomain getCategory() {
+        return categoryDomain;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategory(CategoryDomain categoryDomain) {
+        this.categoryDomain = categoryDomain;
     }
 }

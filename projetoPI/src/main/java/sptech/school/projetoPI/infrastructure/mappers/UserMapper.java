@@ -1,11 +1,11 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
-import sptech.school.projetoPI.core.domains.Client;
-import sptech.school.projetoPI.core.domains.Employee;
-import sptech.school.projetoPI.infrastructure.dto.login.UserTokenDto;
+import sptech.school.projetoPI.core.domains.ClientDomain;
+import sptech.school.projetoPI.core.domains.EmployeeDomain;
+import sptech.school.projetoPI.core.application.command.login.UserTokenDto;
 
 public class UserMapper {
-    public static UserTokenDto of(Client usuario, String token) {
+    public static UserTokenDto of(ClientDomain usuario, String token) {
         UserTokenDto dto = new UserTokenDto();
         dto.setUserId(usuario.getId());
         dto.setEmail(usuario.getEmail());
@@ -15,7 +15,7 @@ public class UserMapper {
         return dto;
     }
 
-    public static UserTokenDto of(Employee usuario, String token) {
+    public static UserTokenDto of(EmployeeDomain usuario, String token) {
         UserTokenDto dto = new UserTokenDto();
         dto.setUserId(usuario.getId());
         dto.setEmail(usuario.getEmail());

@@ -13,16 +13,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
-import sptech.school.projetoPI.application.usecases.role.CreateRoleUseCase;
-import sptech.school.projetoPI.application.usecases.role.DeleteRoleByIdUseCase;
-import sptech.school.projetoPI.application.usecases.role.GetAllRoleUseCase;
-import sptech.school.projetoPI.application.usecases.role.GetRoleByIdUseCase;
-import sptech.school.projetoPI.application.usecases.role.UpdateRoleByIdUseCase;
-import sptech.school.projetoPI.core.domains.Role;
-import sptech.school.projetoPI.infrastructure.dto.role.RoleRequestDto;
-import sptech.school.projetoPI.infrastructure.dto.role.RoleResponseDto;
-import sptech.school.projetoPI.infrastructure.dto.role.RoleResumeResponseDto;
+import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.core.application.usecases.role.CreateRoleUseCase;
+import sptech.school.projetoPI.core.application.usecases.role.DeleteRoleByIdUseCase;
+import sptech.school.projetoPI.core.application.usecases.role.GetAllRoleUseCase;
+import sptech.school.projetoPI.core.application.usecases.role.GetRoleByIdUseCase;
+import sptech.school.projetoPI.core.application.usecases.role.UpdateRoleByIdUseCase;
+import sptech.school.projetoPI.core.domains.RoleDomain;
+import sptech.school.projetoPI.core.application.command.role.RoleRequestDto;
+import sptech.school.projetoPI.core.application.command.role.RoleResponseDto;
+import sptech.school.projetoPI.core.application.command.role.RoleResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.mappers.RoleMapper;
 
 import java.util.List;
@@ -61,9 +61,9 @@ public class RoleController {
             ))
     })
     public ResponseEntity<RoleResumeResponseDto> createRole(@Valid @RequestBody RoleRequestDto requestDto) {
-        Role role = RoleMapper.toDomain(requestDto);
-        Role createdRole = createRoleUseCase.execute(role);
-        return new ResponseEntity<>(RoleMapper.toResumeResponseDto(createdRole), HttpStatus.CREATED);
+        RoleDomain roleDomain = RoleMapper.toDomain(requestDto);
+        RoleDomain createdRoleDomain = createRoleUseCase.execute(roleDomain);
+        return new ResponseEntity<>(RoleMapper.toResumeResponseDto(createdRoleDomain), HttpStatus.CREATED);
     }
 
     @SecurityRequirement(name = "Bearer")
@@ -87,8 +87,8 @@ public class RoleController {
             ))
     })
     public ResponseEntity<List<RoleResumeResponseDto>> getAllRoles() {
-        List<Role> roles = getAllRoleUseCase.execute();
-        List<RoleResumeResponseDto> responseDtos = roles.stream()
+        List<RoleDomain> roleDomains = getAllRoleUseCase.execute();
+        List<RoleResumeResponseDto> responseDtos = roleDomains.stream()
                 .map(RoleMapper::toResumeResponseDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responseDtos);
@@ -120,8 +120,8 @@ public class RoleController {
             ))
     })
     public ResponseEntity<RoleResponseDto> getRoleById(@PathVariable Integer id) {
-        Role role = getRoleByIdUseCase.execute(id);
-        return ResponseEntity.ok(RoleMapper.toResponseDto(role));
+        RoleDomain roleDomain = getRoleByIdUseCase.execute(id);
+        return ResponseEntity.ok(RoleMapper.toResponseDto(roleDomain));
     }
 
     @SecurityRequirement(name = "Bearer")
@@ -151,9 +151,9 @@ public class RoleController {
     })
     public ResponseEntity<RoleResumeResponseDto> updateRoleById(@Valid @RequestBody RoleRequestDto requestDto,
                                                                 @PathVariable Integer id) {
-        Role role = RoleMapper.toDomain(requestDto);
-        Role updatedRole = updateRoleByIdUseCase.execute(role, id);
-        return ResponseEntity.ok(RoleMapper.toResumeResponseDto(updatedRole));
+        RoleDomain roleDomain = RoleMapper.toDomain(requestDto);
+        RoleDomain updatedRoleDomain = updateRoleByIdUseCase.execute(roleDomain, id);
+        return ResponseEntity.ok(RoleMapper.toResumeResponseDto(updatedRoleDomain));
     }
 
     @SecurityRequirement(name = "Bearer")

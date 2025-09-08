@@ -41,7 +41,7 @@ class ServiceControllerTest extends ControllerTest<ServiceDomain, ServiceService
                      "basePrice": 50,
                      "baseDuration": 10,
                      "image": "Image",
-                     "category": 1
+                     "categoryDomain": 1
                 }
                 """;
     }
@@ -55,7 +55,7 @@ class ServiceControllerTest extends ControllerTest<ServiceDomain, ServiceService
                      "basePrice": -50,
                      "baseDuration": 10,
                      "image": "Image",
-                     "category": 1
+                     "categoryDomain": 1
                 }
                 """;
     }
@@ -68,7 +68,7 @@ class ServiceControllerTest extends ControllerTest<ServiceDomain, ServiceService
                      "basePrice": 50,
                      "baseDuration": 10,
                      "image": "Image",
-                     "category": 1
+                     "categoryDomain": 1
                 }
                 """;
     }
@@ -82,7 +82,7 @@ class ServiceControllerTest extends ControllerTest<ServiceDomain, ServiceService
                      "basePrice": 50,
                      "baseDuration": 10,
                      "image": "Image",
-                     "category": 1
+                     "categoryDomain": 1
                 }
                 """;
     }
@@ -96,7 +96,7 @@ class ServiceControllerTest extends ControllerTest<ServiceDomain, ServiceService
                      "basePrice": 50,
                      "baseDuration": 10,
                      "image": "Image",
-                     "category": 1
+                     "categoryDomain": 1
                 }
                 """;
     }

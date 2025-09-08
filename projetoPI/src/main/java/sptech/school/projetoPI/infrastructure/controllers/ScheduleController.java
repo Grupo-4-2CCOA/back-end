@@ -13,12 +13,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
-import sptech.school.projetoPI.application.usecases.schedule.*;
-import sptech.school.projetoPI.core.domains.Schedule;
-import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleRequestDto;
-import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleResponseDto;
-import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleResumeResponseDto;
+import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.core.application.usecases.schedule.*;
+import sptech.school.projetoPI.core.domains.ScheduleDomain;
+import sptech.school.projetoPI.core.application.command.schedule.ScheduleRequestDto;
+import sptech.school.projetoPI.core.application.command.schedule.ScheduleResponseDto;
+import sptech.school.projetoPI.core.application.command.schedule.ScheduleResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.mappers.ScheduleMapper;
 
 import java.util.List;
@@ -57,8 +57,8 @@ public class ScheduleController {
             ))
     })
     public ResponseEntity<ScheduleResumeResponseDto> createSchedule(@Valid @RequestBody ScheduleRequestDto requestDto) {
-        Schedule schedule = ScheduleMapper.toDomain(requestDto);
-        Schedule created = createScheduleUseCase.execute(schedule);
+        ScheduleDomain scheduleDomain = ScheduleMapper.toDomain(requestDto);
+        ScheduleDomain created = createScheduleUseCase.execute(scheduleDomain);
         return new ResponseEntity<>(ScheduleMapper.toResumeResponseDto(created), HttpStatus.CREATED);
     }
 
@@ -83,8 +83,8 @@ public class ScheduleController {
             ))
     })
     public ResponseEntity<List<ScheduleResumeResponseDto>> getAllSchedules() {
-        List<Schedule> schedules = getAllScheduleUseCase.execute();
-        List<ScheduleResumeResponseDto> responseDtos = schedules.stream()
+        List<ScheduleDomain> scheduleDomains = getAllScheduleUseCase.execute();
+        List<ScheduleResumeResponseDto> responseDtos = scheduleDomains.stream()
                 .map(ScheduleMapper::toResumeResponseDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responseDtos);
@@ -116,8 +116,8 @@ public class ScheduleController {
             ))
     })
     public ResponseEntity<ScheduleResponseDto> getScheduleById(@PathVariable Integer id) {
-        Schedule schedule = getScheduleByIdUseCase.execute(id);
-        return ResponseEntity.ok(ScheduleMapper.toResponseDto(schedule));
+        ScheduleDomain scheduleDomain = getScheduleByIdUseCase.execute(id);
+        return ResponseEntity.ok(ScheduleMapper.toResponseDto(scheduleDomain));
     }
 
     @SecurityRequirement(name = "Bearer")
@@ -146,8 +146,8 @@ public class ScheduleController {
             ))
     })
     public ResponseEntity<ScheduleResumeResponseDto> updateScheduleById(@Valid @RequestBody ScheduleRequestDto requestDto, @PathVariable Integer id) {
-        Schedule schedule = ScheduleMapper.toDomain(requestDto);
-        Schedule updated = updateScheduleByIdUseCase.execute(schedule, id);
+        ScheduleDomain scheduleDomain = ScheduleMapper.toDomain(requestDto);
+        ScheduleDomain updated = updateScheduleByIdUseCase.execute(scheduleDomain, id);
         return ResponseEntity.ok(ScheduleMapper.toResumeResponseDto(updated));
     }
 

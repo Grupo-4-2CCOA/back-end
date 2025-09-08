@@ -1,6 +1,6 @@
 package sptech.school.projetoPI.core.gateways;
 
-import sptech.school.projetoPI.core.domains.Schedule;
+import sptech.school.projetoPI.core.domains.ScheduleDomain;
 import sptech.school.projetoPI.core.enums.Status;
 
 import java.time.LocalDateTime;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ScheduleGateway {
-    Schedule save(Schedule schedule);
+    ScheduleDomain save(ScheduleDomain scheduleDomain);
     boolean existsById(Integer id);
     boolean existsByAppointmentDatetime(LocalDateTime appointmentDatetime);
     boolean existsByPaymentTypeId(Integer id);
@@ -16,9 +16,9 @@ public interface ScheduleGateway {
     boolean existsByIdNotAndAppointmentDatetime(Integer id, LocalDateTime appointmentDatetime);
     boolean existsByClientId(Integer clientId);
     boolean existsByIdAndStatus(Integer id, Status status);
-    Optional<Schedule> findById(Integer id);
-    List<Schedule> findAll();
-    List<Schedule> findAllByPaymentTypeId(Integer id);
-    List<Schedule> findAllByEmployeeId(Integer id);
-    List<Schedule> findAllByClientId(Integer clientId);
+    Optional<ScheduleDomain> findById(Integer id);
+    List<ScheduleDomain> findAll();
+    List<ScheduleDomain> findAllByPaymentTypeId(Integer id);
+    List<ScheduleDomain> findAllByEmployeeId(Integer id);
+    List<ScheduleDomain> findAllByClientId(Integer clientId);
 }

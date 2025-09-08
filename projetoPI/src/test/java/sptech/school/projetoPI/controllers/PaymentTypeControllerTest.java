@@ -2,7 +2,7 @@ package sptech.school.projetoPI.controllers;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import sptech.school.projetoPI.core.domains.PaymentType;
+import sptech.school.projetoPI.core.domains.PaymentTypeDomain;
 
 import java.util.List;
 
@@ -11,14 +11,14 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class PaymentTypeControllerTest extends ControllerTest<PaymentType, PaymentTypeService> {
+class PaymentTypeControllerTest extends ControllerTest<PaymentTypeDomain, PaymentTypeService> {
 
     @MockBean
     private PaymentTypeService service;
 
     @Override
-    protected PaymentType getEntity() {
-        return new PaymentType();
+    protected PaymentTypeDomain getEntity() {
+        return new PaymentTypeDomain();
     }
 
     @Override
@@ -83,7 +83,7 @@ class PaymentTypeControllerTest extends ControllerTest<PaymentType, PaymentTypeS
 
     @Override
     protected void whenSignThenReturn() {
-        when(getService().postMethod(any(PaymentType.class))).thenReturn(getEntity());
+        when(getService().postMethod(any(PaymentTypeDomain.class))).thenReturn(getEntity());
     }
 
     @Override
@@ -98,6 +98,6 @@ class PaymentTypeControllerTest extends ControllerTest<PaymentType, PaymentTypeS
 
     @Override
     protected void whenUpdateByIdThenReturn() {
-        when(getService().putByIdMethod(any(PaymentType.class), anyInt())).thenReturn(getEntity());
+        when(getService().putByIdMethod(any(PaymentTypeDomain.class), anyInt())).thenReturn(getEntity());
     }
 }

@@ -3,7 +3,7 @@ package sptech.school.projetoPI.infrastructure.di;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import sptech.school.projetoPI.application.usecases.employee.*;
+import sptech.school.projetoPI.core.application.usecases.employee.*;
 import sptech.school.projetoPI.core.gateways.*;
 
 @Configuration

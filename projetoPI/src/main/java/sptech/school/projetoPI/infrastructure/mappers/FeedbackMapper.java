@@ -1,31 +1,31 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
-import sptech.school.projetoPI.infrastructure.dto.feedback.FeedbackRequestDto;
-import sptech.school.projetoPI.infrastructure.dto.feedback.FeedbackResponseDto;
-import sptech.school.projetoPI.infrastructure.dto.feedback.FeedbackResumeResponseDto;
-import sptech.school.projetoPI.infrastructure.persistence.FeedbackJpaEntity;
-import sptech.school.projetoPI.core.domains.Feedback;
+import sptech.school.projetoPI.core.application.command.feedback.FeedbackRequestDto;
+import sptech.school.projetoPI.core.application.command.feedback.FeedbackResponseDto;
+import sptech.school.projetoPI.core.application.command.feedback.FeedbackResumeResponseDto;
+import sptech.school.projetoPI.infrastructure.persistence.entity.FeedbackJpaEntity;
+import sptech.school.projetoPI.core.domains.FeedbackDomain;
 
 public class FeedbackMapper {
 
     /* ========= DTO -> DOMAIN ========= */
-    public static Feedback toDomain(FeedbackRequestDto requestObject) {
+    public static FeedbackDomain toDomain(FeedbackRequestDto requestObject) {
         if (requestObject == null) return null;
 
-        Feedback feedback = new Feedback();
-        feedback.setComment(requestObject.getComment());
-        feedback.setRating(requestObject.getRating());
+        FeedbackDomain feedbackDomain = new FeedbackDomain();
+        feedbackDomain.setComment(requestObject.getComment());
+        feedbackDomain.setRating(requestObject.getRating());
 
-        feedback.setClient(ClientMapper.toDomain(requestObject.getClient()));
-        feedback.setSchedule(ScheduleMapper.toDomain(requestObject.getSchedule()));
+        feedbackDomain.setClient(ClientMapper.toDomain(requestObject.getClient()));
+        feedbackDomain.setSchedule(ScheduleMapper.toDomain(requestObject.getSchedule()));
 
-        return feedback;
+        return feedbackDomain;
     }
 
 
 
     /* ========= DOMAIN -> DTO (Full Response) ========= */
-    public static FeedbackResponseDto toResponseDto(Feedback domain) {
+    public static FeedbackResponseDto toResponseDto(FeedbackDomain domain) {
         if (domain == null) return null;
 
         return FeedbackResponseDto.builder()
@@ -40,7 +40,7 @@ public class FeedbackMapper {
     }
 
     /* ========= DOMAIN -> DTO (Resume Response) ========= */
-    public static FeedbackResumeResponseDto toResumeResponseDto(Feedback domain) {
+    public static FeedbackResumeResponseDto toResumeResponseDto(FeedbackDomain domain) {
         if (domain == null) return null;
 
         return FeedbackResumeResponseDto.builder()
@@ -51,7 +51,7 @@ public class FeedbackMapper {
     }
 
     /* ========= DOMAIN -> JPA ========= */
-    public static FeedbackJpaEntity toJpaEntity(Feedback domain) {
+    public static FeedbackJpaEntity toJpaEntity(FeedbackDomain domain) {
         if (domain == null) return null;
 
         return FeedbackJpaEntity.builder()
@@ -66,10 +66,10 @@ public class FeedbackMapper {
     }
 
     /* ========= JPA -> DOMAIN ========= */
-    public static Feedback toDomain(FeedbackJpaEntity jpa) {
+    public static FeedbackDomain toDomain(FeedbackJpaEntity jpa) {
         if (jpa == null) return null;
 
-        Feedback domain = new Feedback();
+        FeedbackDomain domain = new FeedbackDomain();
         domain.setId(jpa.getId());
         domain.setComment(jpa.getComment());
         domain.setRating(jpa.getRating());

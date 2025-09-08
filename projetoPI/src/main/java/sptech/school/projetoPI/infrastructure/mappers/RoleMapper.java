@@ -1,37 +1,37 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
-import sptech.school.projetoPI.core.domains.Role;
-import sptech.school.projetoPI.infrastructure.dto.role.RoleRequestDto;
-import sptech.school.projetoPI.infrastructure.dto.role.RoleResponseDto;
-import sptech.school.projetoPI.infrastructure.dto.role.RoleResumeResponseDto;
-import sptech.school.projetoPI.infrastructure.persistence.RoleJpaEntity;
+import sptech.school.projetoPI.core.domains.RoleDomain;
+import sptech.school.projetoPI.core.application.command.role.RoleRequestDto;
+import sptech.school.projetoPI.core.application.command.role.RoleResponseDto;
+import sptech.school.projetoPI.core.application.command.role.RoleResumeResponseDto;
+import sptech.school.projetoPI.infrastructure.persistence.entity.RoleJpaEntity;
 
 public class RoleMapper {
 
     /* ========= DTO -> DOMAIN ========= */
-    public static Role toDomain(RoleRequestDto request) {
+    public static RoleDomain toDomain(RoleRequestDto request) {
         if (request == null) return null;
-        Role role = new Role();
-        role.setName(request.getName());
-        role.setDescription(request.getDescription());
-        return role;
+        RoleDomain roleDomain = new RoleDomain();
+        roleDomain.setName(request.getName());
+        roleDomain.setDescription(request.getDescription());
+        return roleDomain;
     }
 
     /* ========= ID -> DOMAIN (para referências) ========= */
-    public static Role toDomain(Integer id) {
+    public static RoleDomain toDomain(Integer id) {
         if (id == null) return null;
-        Role role = new Role();
-        role.setId(id);
-        return role;
+        RoleDomain roleDomain = new RoleDomain();
+        roleDomain.setId(id);
+        return roleDomain;
     }
 
     /* ========= JPA -> DOMAIN ========= */
-    public static Role toDomain(RoleJpaEntity jpa) {
+    public static RoleDomain toDomain(RoleJpaEntity jpa) {
         if (jpa == null) {
             return null;
         }
 
-        Role domain = new Role();
+        RoleDomain domain = new RoleDomain();
         domain.setId(jpa.getId());
         domain.setName(jpa.getName());
         domain.setDescription(jpa.getDescription());
@@ -49,7 +49,7 @@ public class RoleMapper {
     // Removi o método 'toEntity' para evitar essa violação.
 
     /* ========= DOMAIN -> DTO (completo) ========= */
-    public static RoleResponseDto toResponseDto(Role domain) { // Renomeado para 'domain' para consistência
+    public static RoleResponseDto toResponseDto(RoleDomain domain) { // Renomeado para 'domain' para consistência
         if(domain == null) return null;
 
         return RoleResponseDto.builder()
@@ -62,7 +62,7 @@ public class RoleMapper {
     }
 
     /* ========= DOMAIN -> DTO (resumido) ========= */
-    public static RoleResumeResponseDto toResumeResponseDto(Role domain) { // Renomeado para 'domain'
+    public static RoleResumeResponseDto toResumeResponseDto(RoleDomain domain) { // Renomeado para 'domain'
         if(domain == null) return null;
 
         return RoleResumeResponseDto.builder()
@@ -72,7 +72,7 @@ public class RoleMapper {
     }
 
     /* ========= DOMAIN -> JPA ========= */
-    public static RoleJpaEntity toJpaEntity(Role domain) {
+    public static RoleJpaEntity toJpaEntity(RoleDomain domain) {
         if (domain == null) return null;
 
         return RoleJpaEntity.builder()

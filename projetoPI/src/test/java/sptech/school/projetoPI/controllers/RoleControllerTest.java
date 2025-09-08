@@ -2,7 +2,7 @@ package sptech.school.projetoPI.controllers;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import sptech.school.projetoPI.core.domains.Role;
+import sptech.school.projetoPI.core.domains.RoleDomain;
 
 import java.util.List;
 
@@ -11,14 +11,14 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class RoleControllerTest extends ControllerTest<Role, RoleService> {
+class RoleControllerTest extends ControllerTest<RoleDomain, RoleService> {
 
     @MockBean
     private RoleService service;
 
     @Override
-    protected Role getEntity() {
-        return new Role();
+    protected RoleDomain getEntity() {
+        return new RoleDomain();
     }
 
     @Override
@@ -83,7 +83,7 @@ class RoleControllerTest extends ControllerTest<Role, RoleService> {
 
     @Override
     protected void whenSignThenReturn() {
-        when(getService().postMethod(any(Role.class))).thenReturn(getEntity());
+        when(getService().postMethod(any(RoleDomain.class))).thenReturn(getEntity());
     }
 
     @Override
@@ -98,6 +98,6 @@ class RoleControllerTest extends ControllerTest<Role, RoleService> {
 
     @Override
     protected void whenUpdateByIdThenReturn() {
-        when(getService().putByIdMethod(any(Role.class), anyInt())).thenReturn(getEntity());
+        when(getService().putByIdMethod(any(RoleDomain.class), anyInt())).thenReturn(getEntity());
     }
 }

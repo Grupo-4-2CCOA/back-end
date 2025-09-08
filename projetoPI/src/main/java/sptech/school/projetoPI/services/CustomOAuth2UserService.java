@@ -11,8 +11,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import sptech.school.projetoPI.core.domains.Client;
-import sptech.school.projetoPI.core.domains.Employee;
+import sptech.school.projetoPI.core.domains.ClientDomain;
+import sptech.school.projetoPI.core.domains.EmployeeDomain;
 import sptech.school.projetoPI.core.gateways.ClientGateway;
 import sptech.school.projetoPI.core.gateways.EmployeeGateway;
 
@@ -37,10 +37,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         logger.info("Processando login com Google para o email: {}", email);
 
-        Optional<Employee> employeeOptional = employeeGateway.findByEmail(email);
+        Optional<EmployeeDomain> employeeOptional = employeeGateway.findByEmail(email);
         if (employeeOptional.isPresent()) {
-            Employee employee = employeeOptional.get();
-            if (employee.getRole() != null && "OWNER".equals(employee.getRole().getName())) {
+            EmployeeDomain employeeDomain = employeeOptional.get();
+            if (employeeDomain.getRole() != null && "OWNER".equals(employeeDomain.getRole().getName())) {
                 role = "ADMIN";
             } else {
                 role = "FUNC";
@@ -48,13 +48,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         } else {
             clientGateway.findByEmail(email).orElseGet(() -> {
                 logger.info("Email {} não encontrado. Criando novo cliente.", email);
-                Client newClient = new Client();
-                newClient.setCreatedAt(LocalDateTime.now());
-                newClient.setUpdatedAt(LocalDateTime.now());
-                newClient.setActive(true);
-                newClient.setEmail(email);
-                newClient.setName(name);
-                return clientGateway.save(newClient);
+                ClientDomain newClientDomain = new ClientDomain();
+                newClientDomain.setCreatedAt(LocalDateTime.now());
+                newClientDomain.setUpdatedAt(LocalDateTime.now());
+                newClientDomain.setActive(true);
+                newClientDomain.setEmail(email);
+                newClientDomain.setName(name);
+                return clientGateway.save(newClientDomain);
             });
             role = "USER";
         }

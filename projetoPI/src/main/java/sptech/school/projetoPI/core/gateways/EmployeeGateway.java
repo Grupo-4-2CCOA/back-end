@@ -1,12 +1,12 @@
 package sptech.school.projetoPI.core.gateways;
 
-import sptech.school.projetoPI.core.domains.Employee;
+import sptech.school.projetoPI.core.domains.EmployeeDomain;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeGateway {
-    Employee save(Employee employee);
+    EmployeeDomain save(EmployeeDomain employeeDomain);
     boolean existsByCpf(String cpf);
     boolean existsByIdNotAndCpf(Integer id, String cpf);
     boolean existsByEmailIgnoreCase(String email);
@@ -19,9 +19,9 @@ public interface EmployeeGateway {
     boolean existsByRoleName(String roleName);
     boolean existsByIdNotAndRoleName(Integer id, String roleName);
     boolean existsById(Integer id);
-    Optional<Employee> findByIdAndActiveTrue(Integer id);
-    List<Employee> findAllByActiveTrue();
-    Optional<Employee> findById(Integer id);
-    List<Employee> findAllByRoleId(Integer id);
-    Optional<Employee> findByEmail(String email);
+    Optional<EmployeeDomain> findByIdAndActiveTrue(Integer id);
+    List<EmployeeDomain> findAllByActiveTrue();
+    Optional<EmployeeDomain> findById(Integer id);
+    List<EmployeeDomain> findAllByRoleId(Integer id);
+    Optional<EmployeeDomain> findByEmail(String email);
 }

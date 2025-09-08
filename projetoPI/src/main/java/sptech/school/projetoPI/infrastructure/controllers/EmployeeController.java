@@ -13,13 +13,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.core.domains.Employee;
-import sptech.school.projetoPI.infrastructure.dto.employee.EmployeeRequestDto;
-import sptech.school.projetoPI.infrastructure.dto.employee.EmployeeResponseDto;
-import sptech.school.projetoPI.infrastructure.dto.employee.EmployeeResumeResponseDto;
+import sptech.school.projetoPI.core.application.usecases.employee.*;
+import sptech.school.projetoPI.core.domains.EmployeeDomain;
+import sptech.school.projetoPI.core.application.command.employee.EmployeeRequestDto;
+import sptech.school.projetoPI.core.application.command.employee.EmployeeResponseDto;
+import sptech.school.projetoPI.core.application.command.employee.EmployeeResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.mappers.EmployeeMapper;
-import sptech.school.projetoPI.application.usecases.employee.*;
-import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,9 +57,9 @@ public class EmployeeController {
             ))
     })
     public ResponseEntity<EmployeeResumeResponseDto> createEmployee(@Valid @RequestBody EmployeeRequestDto requestDto) {
-        Employee employee = EmployeeMapper.toDomain(requestDto);
-        Employee createdEmployee = createEmployeeUseCase.execute(employee);
-        return new ResponseEntity<>(EmployeeMapper.toResumeResponseDto(createdEmployee), HttpStatus.CREATED);
+        EmployeeDomain employeeDomain = EmployeeMapper.toDomain(requestDto);
+        EmployeeDomain createdEmployeeDomain = createEmployeeUseCase.execute(employeeDomain);
+        return new ResponseEntity<>(EmployeeMapper.toResumeResponseDto(createdEmployeeDomain), HttpStatus.CREATED);
     }
 
     @SecurityRequirement(name = "Bearer")
@@ -83,8 +83,8 @@ public class EmployeeController {
             ))
     })
     public ResponseEntity<List<EmployeeResumeResponseDto>> getAllEmployees() {
-        List<Employee> employees = getAllEmployeesUseCase.execute();
-        List<EmployeeResumeResponseDto> responseDtos = employees.stream()
+        List<EmployeeDomain> employeeDomains = getAllEmployeesUseCase.execute();
+        List<EmployeeResumeResponseDto> responseDtos = employeeDomains.stream()
                 .map(EmployeeMapper::toResumeResponseDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responseDtos);
@@ -116,8 +116,8 @@ public class EmployeeController {
             ))
     })
     public ResponseEntity<EmployeeResponseDto> getEmployeeById(@PathVariable Integer id) {
-        Employee employee = getEmployeeByIdUseCase.execute(id);
-        return ResponseEntity.ok(EmployeeMapper.toResponseDto(employee));
+        EmployeeDomain employeeDomain = getEmployeeByIdUseCase.execute(id);
+        return ResponseEntity.ok(EmployeeMapper.toResponseDto(employeeDomain));
     }
 
     @SecurityRequirement(name = "Bearer")
@@ -148,9 +148,9 @@ public class EmployeeController {
     public ResponseEntity<EmployeeResumeResponseDto> updateEmployeeById(
             @Valid @RequestBody EmployeeRequestDto requestDto,
             @PathVariable Integer id) {
-        Employee employee = EmployeeMapper.toDomain(requestDto);
-        Employee updatedEmployee = updateEmployeeByIdUseCase.execute(employee, id);
-        return ResponseEntity.ok(EmployeeMapper.toResumeResponseDto(updatedEmployee));
+        EmployeeDomain employeeDomain = EmployeeMapper.toDomain(requestDto);
+        EmployeeDomain updatedEmployeeDomain = updateEmployeeByIdUseCase.execute(employeeDomain, id);
+        return ResponseEntity.ok(EmployeeMapper.toResumeResponseDto(updatedEmployeeDomain));
     }
 
     @SecurityRequirement(name = "Bearer")

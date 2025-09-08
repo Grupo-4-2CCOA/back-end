@@ -12,9 +12,9 @@ public class AvailabilityDomain {
     private LocalDate day;
     private LocalTime startTime;
     private LocalTime endTime;
-    private Employee employee;
+    private EmployeeDomain employeeDomain;
 
-    public AvailabilityDomain(Integer id, Boolean isAvailable, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDate day, LocalTime startTime, LocalTime endTime, Employee employee) {
+    public AvailabilityDomain(Integer id, Boolean isAvailable, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDate day, LocalTime startTime, LocalTime endTime, EmployeeDomain employeeDomain) {
         this.id = id;
         this.isAvailable = isAvailable;
         this.createdAt = createdAt;
@@ -22,7 +22,7 @@ public class AvailabilityDomain {
         this.day = day;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.employee = employee;
+        this.employeeDomain = employeeDomain;
     }
 
     public AvailabilityDomain() {}
@@ -83,11 +83,11 @@ public class AvailabilityDomain {
         this.endTime = endTime;
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public EmployeeDomain getEmployee() {
+        return employeeDomain;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setEmployee(EmployeeDomain employeeDomain) {
+        this.employeeDomain = employeeDomain;
     }
 }

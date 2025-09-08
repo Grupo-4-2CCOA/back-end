@@ -1,34 +1,34 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
-import sptech.school.projetoPI.core.domains.Category;
-import sptech.school.projetoPI.infrastructure.dto.category.CategoryRequestDto;
-import sptech.school.projetoPI.infrastructure.dto.category.CategoryResponseDto;
-import sptech.school.projetoPI.infrastructure.dto.category.CategoryResumeResponseDto;
-import sptech.school.projetoPI.infrastructure.persistence.CategoryJpaEntity;
+import sptech.school.projetoPI.core.domains.CategoryDomain;
+import sptech.school.projetoPI.core.application.command.category.CategoryRequestDto;
+import sptech.school.projetoPI.core.application.command.category.CategoryResponseDto;
+import sptech.school.projetoPI.core.application.command.category.CategoryResumeResponseDto;
+import sptech.school.projetoPI.infrastructure.persistence.entity.CategoryJpaEntity;
 
 public class CategoryMapper {
 
     /* ========= DTO -> DOMAIN (Controller to Use Case) ========= */
-    public static Category toDomain(CategoryRequestDto requestObject) {
+    public static CategoryDomain toDomain(CategoryRequestDto requestObject) {
         if (requestObject == null) return null;
 
-        Category category = new Category();
-        category.setName(requestObject.getName());
-        category.setDescription(requestObject.getDescription());
-        category.setActive(true);
-        return category;
+        CategoryDomain categoryDomain = new CategoryDomain();
+        categoryDomain.setName(requestObject.getName());
+        categoryDomain.setDescription(requestObject.getDescription());
+        categoryDomain.setActive(true);
+        return categoryDomain;
     }
 
-    public static Category toDomain(Integer id) {
+    public static CategoryDomain toDomain(Integer id) {
         if (id == null) return null;
 
-        Category category = new Category();
-        category.setId(id);
-        return category;
+        CategoryDomain categoryDomain = new CategoryDomain();
+        categoryDomain.setId(id);
+        return categoryDomain;
     }
 
     /* ========= DOMAIN -> DTO (Full Response) ========= */
-    public static CategoryResponseDto toResponseDto(Category domain) {
+    public static CategoryResponseDto toResponseDto(CategoryDomain domain) {
         if (domain == null) return null;
 
         return CategoryResponseDto.builder()
@@ -41,7 +41,7 @@ public class CategoryMapper {
     }
 
     /* ========= DOMAIN -> DTO (Resume Response) ========= */
-    public static CategoryResumeResponseDto toResumeResponseDto(Category domain) {
+    public static CategoryResumeResponseDto toResumeResponseDto(CategoryDomain domain) {
         if (domain == null) return null;
 
         return CategoryResumeResponseDto.builder()
@@ -54,7 +54,7 @@ public class CategoryMapper {
     // Mapeamento bidirecional para a camada de persistência (JPA)
 
     /* ========= DOMAIN -> JPA (Use Case to Repository) ========= */
-    public static CategoryJpaEntity toJpaEntity(Category domain) {
+    public static CategoryJpaEntity toJpaEntity(CategoryDomain domain) {
         if (domain == null) return null;
 
         // O tipo de retorno foi corrigido para CategoryJpaEntity
@@ -69,10 +69,10 @@ public class CategoryMapper {
     }
 
     /* ========= JPA -> DOMAIN (Repository to Use Case) ========= */
-    public static Category toDomain(CategoryJpaEntity jpa) {
+    public static CategoryDomain toDomain(CategoryJpaEntity jpa) {
         if (jpa == null) return null;
 
-        Category domain = new Category();
+        CategoryDomain domain = new CategoryDomain();
         domain.setId(jpa.getId());
         domain.setName(jpa.getName());
         domain.setDescription(jpa.getDescription());

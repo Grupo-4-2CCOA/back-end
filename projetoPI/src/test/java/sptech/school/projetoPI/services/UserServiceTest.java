@@ -6,7 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityConflictException;
+import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.EntityConflictException;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
 import sptech.school.projetoPI.services.user.UserService;
 

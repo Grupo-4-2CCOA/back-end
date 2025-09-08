@@ -13,13 +13,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.core.domains.Category;
-import sptech.school.projetoPI.infrastructure.dto.category.CategoryRequestDto;
-import sptech.school.projetoPI.infrastructure.dto.category.CategoryResponseDto;
-import sptech.school.projetoPI.infrastructure.dto.category.CategoryResumeResponseDto;
+import sptech.school.projetoPI.core.application.usecases.category.*;
+import sptech.school.projetoPI.core.domains.CategoryDomain;
+import sptech.school.projetoPI.core.application.command.category.CategoryRequestDto;
+import sptech.school.projetoPI.core.application.command.category.CategoryResponseDto;
+import sptech.school.projetoPI.core.application.command.category.CategoryResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.mappers.CategoryMapper;
-import sptech.school.projetoPI.application.usecases.category.*; // Importar os UseCases
-import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,9 +57,9 @@ public class CategoryController {
             ))
     })
     public ResponseEntity<CategoryResumeResponseDto> createCategory(@Valid @RequestBody CategoryRequestDto requestDto) {
-        Category category = CategoryMapper.toDomain(requestDto);
-        Category createdCategory = createCategoryUseCase.execute(category);
-        return new ResponseEntity<>(CategoryMapper.toResumeResponseDto(createdCategory), HttpStatus.CREATED);
+        CategoryDomain categoryDomain = CategoryMapper.toDomain(requestDto);
+        CategoryDomain createdCategoryDomain = createCategoryUseCase.execute(categoryDomain);
+        return new ResponseEntity<>(CategoryMapper.toResumeResponseDto(createdCategoryDomain), HttpStatus.CREATED);
     }
 
     @SecurityRequirement(name = "Bearer")
@@ -83,7 +83,7 @@ public class CategoryController {
             ))
     })
     public ResponseEntity<List<CategoryResumeResponseDto>> getAllCategories() {
-        List<Category> categories = getAllCategoriesUseCase.execute();
+        List<CategoryDomain> categories = getAllCategoriesUseCase.execute();
         List<CategoryResumeResponseDto> responseDtos = categories.stream()
                 .map(CategoryMapper::toResumeResponseDto)
                 .collect(Collectors.toList());
@@ -106,8 +106,8 @@ public class CategoryController {
             ))
     })
     public ResponseEntity<CategoryResponseDto> getCategoryById(@PathVariable Integer id) {
-        Category category = getCategoryByIdUseCase.execute(id);
-        return ResponseEntity.ok(CategoryMapper.toResponseDto(category));
+        CategoryDomain categoryDomain = getCategoryByIdUseCase.execute(id);
+        return ResponseEntity.ok(CategoryMapper.toResponseDto(categoryDomain));
     }
 
     @SecurityRequirement(name = "Bearer")
@@ -139,9 +139,9 @@ public class CategoryController {
             @Valid @RequestBody CategoryRequestDto requestDto,
             @PathVariable Integer id) {
 
-        Category category = CategoryMapper.toDomain(requestDto);
-        Category updatedCategory = updateCategoryByIdUseCase.execute(category,id);
-        return ResponseEntity.ok(CategoryMapper.toResumeResponseDto(updatedCategory));
+        CategoryDomain categoryDomain = CategoryMapper.toDomain(requestDto);
+        CategoryDomain updatedCategoryDomain = updateCategoryByIdUseCase.execute(categoryDomain,id);
+        return ResponseEntity.ok(CategoryMapper.toResumeResponseDto(updatedCategoryDomain));
     }
 
     @SecurityRequirement(name = "Bearer")

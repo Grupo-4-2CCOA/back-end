@@ -1,42 +1,42 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
-import sptech.school.projetoPI.core.domains.Schedule;
+import sptech.school.projetoPI.core.domains.ScheduleDomain;
 import sptech.school.projetoPI.core.enums.Status;
-import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleRequestDto;
-import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleResponseDto;
-import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleResumeResponseDto;
-import sptech.school.projetoPI.infrastructure.persistence.ScheduleJpaEntity;
+import sptech.school.projetoPI.core.application.command.schedule.ScheduleRequestDto;
+import sptech.school.projetoPI.core.application.command.schedule.ScheduleResponseDto;
+import sptech.school.projetoPI.core.application.command.schedule.ScheduleResumeResponseDto;
+import sptech.school.projetoPI.infrastructure.persistence.entity.ScheduleJpaEntity;
 
 
 public class ScheduleMapper {
 
 
     /* ========= DTO -> DOMAIN ========= */
-    public static Schedule toDomain(ScheduleRequestDto requestObject) {
+    public static ScheduleDomain toDomain(ScheduleRequestDto requestObject) {
         if(requestObject == null) return null;
 
-        Schedule schedule = new Schedule();
-        schedule.setAppointmentDatetime(requestObject.getAppointmentDatetime());
-        schedule.setStatus(Status.valueOf(requestObject.getStatus())); // Correção aqui
+        ScheduleDomain scheduleDomain = new ScheduleDomain();
+        scheduleDomain.setAppointmentDatetime(requestObject.getAppointmentDatetime());
+        scheduleDomain.setStatus(Status.valueOf(requestObject.getStatus())); // Correção aqui
 
         // Delegação de mapeamento para outras entidades
-        schedule.setEmployee(EmployeeMapper.toDomain(requestObject.getEmployee()));
-        schedule.setClient(ClientMapper.toDomain(requestObject.getClient()));
-        schedule.setPaymentType(PaymentTypeMapper.toDomain(requestObject.getPaymentType()));
+        scheduleDomain.setEmployee(EmployeeMapper.toDomain(requestObject.getEmployee()));
+        scheduleDomain.setClient(ClientMapper.toDomain(requestObject.getClient()));
+        scheduleDomain.setPaymentType(PaymentTypeMapper.toDomain(requestObject.getPaymentType()));
 
-        return schedule;
+        return scheduleDomain;
     }
 
-    public static Schedule toDomain(Integer id) {
+    public static ScheduleDomain toDomain(Integer id) {
         if (id == null) return null;
 
-        Schedule schedule = new Schedule();
-        schedule.setId(id);
-        return schedule;
+        ScheduleDomain scheduleDomain = new ScheduleDomain();
+        scheduleDomain.setId(id);
+        return scheduleDomain;
     }
 
     /* ========= DOMAIN -> DTO (Completo) ========= */
-    public static ScheduleResponseDto toResponseDto(Schedule domain) {
+    public static ScheduleResponseDto toResponseDto(ScheduleDomain domain) {
         if(domain == null) return null;
 
         return ScheduleResponseDto.builder()
@@ -52,7 +52,7 @@ public class ScheduleMapper {
     }
 
     /* ========= DOMAIN -> DTO (Resumo) ========= */
-    public static ScheduleResumeResponseDto toResumeResponseDto(Schedule domain) {
+    public static ScheduleResumeResponseDto toResumeResponseDto(ScheduleDomain domain) {
         if(domain == null) return null;
 
         return ScheduleResumeResponseDto.builder()
@@ -65,7 +65,7 @@ public class ScheduleMapper {
     }
 
     // Mapeamento de Domínio para Entidade de Persistência (usado no Repositório)
-    public static ScheduleJpaEntity toJpaEntity(Schedule domain) {
+    public static ScheduleJpaEntity toJpaEntity(ScheduleDomain domain) {
         if (domain == null) return null;
 
         ScheduleJpaEntity jpaEntity = new ScheduleJpaEntity();
@@ -92,10 +92,10 @@ public class ScheduleMapper {
     }
 
     // Mapeamento de Entidade de Persistência para Domínio (usado no Repositório)
-    public static Schedule toDomain(ScheduleJpaEntity jpaEntity) {
+    public static ScheduleDomain toDomain(ScheduleJpaEntity jpaEntity) {
         if (jpaEntity == null) return null;
 
-        Schedule domain = new Schedule();
+        ScheduleDomain domain = new ScheduleDomain();
         domain.setId(jpaEntity.getId());
         domain.setStatus(jpaEntity.getStatus());
         domain.setAppointmentDatetime(jpaEntity.getAppointmentDatetime());

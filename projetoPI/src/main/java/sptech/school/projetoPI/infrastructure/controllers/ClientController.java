@@ -16,12 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.application.usecases.client.*; // Importar os UseCases
-import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
-import sptech.school.projetoPI.core.domains.Client;
-import sptech.school.projetoPI.infrastructure.dto.client.ClientRequestDto;
-import sptech.school.projetoPI.infrastructure.dto.client.ClientResponseDto;
-import sptech.school.projetoPI.infrastructure.dto.client.ClientResumeResponseDto;
+import sptech.school.projetoPI.core.application.usecases.client.*;
+import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.core.domains.ClientDomain;
+import sptech.school.projetoPI.core.application.command.client.ClientRequestDto;
+import sptech.school.projetoPI.core.application.command.client.ClientResponseDto;
+import sptech.school.projetoPI.core.application.command.client.ClientResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.mappers.ClientMapper;
 
 import java.util.HashMap;
@@ -85,9 +85,9 @@ public class ClientController {
             ))
     })
     public ResponseEntity<ClientResumeResponseDto> createClient(@Valid @RequestBody ClientRequestDto requestDto) {
-        Client client = ClientMapper.toDomain(requestDto);
-        Client createdClient = createClientUseCase.execute(client);
-        return new ResponseEntity<>(ClientMapper.toResumeResponseDto(createdClient), HttpStatus.CREATED);
+        ClientDomain clientDomain = ClientMapper.toDomain(requestDto);
+        ClientDomain createdClientDomain = createClientUseCase.execute(clientDomain);
+        return new ResponseEntity<>(ClientMapper.toResumeResponseDto(createdClientDomain), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -111,8 +111,8 @@ public class ClientController {
             ))
     })
     public ResponseEntity<List<ClientResumeResponseDto>> getAllClients() {
-        List<Client> clients = getAllClientsUseCase.execute();
-        List<ClientResumeResponseDto> responseDtos = clients.stream()
+        List<ClientDomain> clientDomains = getAllClientsUseCase.execute();
+        List<ClientResumeResponseDto> responseDtos = clientDomains.stream()
                 .map(ClientMapper::toResumeResponseDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responseDtos);
@@ -144,8 +144,8 @@ public class ClientController {
             ))
     })
     public ResponseEntity<ClientResponseDto> getClientById(@PathVariable Integer id) {
-        Client client = getClientByIdUseCase.execute(id);
-        return ResponseEntity.ok(ClientMapper.toResponseDto(client));
+        ClientDomain clientDomain = getClientByIdUseCase.execute(id);
+        return ResponseEntity.ok(ClientMapper.toResponseDto(clientDomain));
     }
 
     @PutMapping("/{id}")
@@ -174,9 +174,9 @@ public class ClientController {
             ))
     })
     public ResponseEntity<ClientResumeResponseDto> updateClientById(@Valid @RequestBody ClientRequestDto requestDto, @PathVariable Integer id) {
-        Client client = ClientMapper.toDomain(requestDto);
-        Client updatedClient = updateClientByIdUseCase.execute(client, id);
-        return ResponseEntity.ok(ClientMapper.toResumeResponseDto(updatedClient));
+        ClientDomain clientDomain = ClientMapper.toDomain(requestDto);
+        ClientDomain updatedClientDomain = updateClientByIdUseCase.execute(clientDomain, id);
+        return ResponseEntity.ok(ClientMapper.toResumeResponseDto(updatedClientDomain));
     }
 
     @DeleteMapping("/{id}")

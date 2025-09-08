@@ -1,35 +1,34 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
-import sptech.school.projetoPI.core.domains.PaymentType;
-import sptech.school.projetoPI.core.domains.Schedule;
-import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeRequestDto;
-import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeResponseDto;
-import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeResumeResponseDto;
-import sptech.school.projetoPI.infrastructure.persistence.PaymentTypeJpaEntity;
+import sptech.school.projetoPI.core.domains.PaymentTypeDomain;
+import sptech.school.projetoPI.core.application.command.paymentType.PaymentTypeRequestDto;
+import sptech.school.projetoPI.core.application.command.paymentType.PaymentTypeResponseDto;
+import sptech.school.projetoPI.core.application.command.paymentType.PaymentTypeResumeResponseDto;
+import sptech.school.projetoPI.infrastructure.persistence.entity.PaymentTypeJpaEntity;
 
 public class PaymentTypeMapper {
 
     /* ========= DTO -> DOMAIN ========= */
-    public static PaymentType toDomain(PaymentTypeRequestDto requestObject) {
+    public static PaymentTypeDomain toDomain(PaymentTypeRequestDto requestObject) {
         if(requestObject == null) return null;
 
-        PaymentType paymentType = new PaymentType();
-        paymentType.setName(requestObject.getName());
-        paymentType.setDescription(requestObject.getDescription());
-        paymentType.setActive(true);
-        return paymentType;
+        PaymentTypeDomain paymentTypeDomain = new PaymentTypeDomain();
+        paymentTypeDomain.setName(requestObject.getName());
+        paymentTypeDomain.setDescription(requestObject.getDescription());
+        paymentTypeDomain.setActive(true);
+        return paymentTypeDomain;
     }
 
-    public static PaymentType toDomain(Integer id) {
+    public static PaymentTypeDomain toDomain(Integer id) {
         if (id == null) return null;
 
-        PaymentType paymentType = new PaymentType();
-        paymentType.setId(id);
-        return paymentType;
+        PaymentTypeDomain paymentTypeDomain = new PaymentTypeDomain();
+        paymentTypeDomain.setId(id);
+        return paymentTypeDomain;
     }
 
     /* ========= DOMAIN -> DTO (Completo) ========= */
-    public static PaymentTypeResponseDto toResponseDto(PaymentType domain) {
+    public static PaymentTypeResponseDto toResponseDto(PaymentTypeDomain domain) {
         if(domain == null) return null;
 
         return PaymentTypeResponseDto.builder()
@@ -42,7 +41,7 @@ public class PaymentTypeMapper {
     }
 
     /* ========= DOMAIN -> DTO (Resumo) ========= */
-    public static PaymentTypeResumeResponseDto toResumeResponseDto(PaymentType domain) {
+    public static PaymentTypeResumeResponseDto toResumeResponseDto(PaymentTypeDomain domain) {
         if(domain == null) return null;
 
         return PaymentTypeResumeResponseDto.builder()
@@ -52,7 +51,7 @@ public class PaymentTypeMapper {
     }
 
     /* ========= DOMAIN -> JPA ========= */
-    public static PaymentTypeJpaEntity toJpaEntity(PaymentType domain) {
+    public static PaymentTypeJpaEntity toJpaEntity(PaymentTypeDomain domain) {
         if (domain == null) return null;
 
         return PaymentTypeJpaEntity.builder()
@@ -66,10 +65,10 @@ public class PaymentTypeMapper {
     }
 
     /* ========= JPA -> DOMAIN ========= */
-    public static PaymentType toDomain(PaymentTypeJpaEntity jpa) {
+    public static PaymentTypeDomain toDomain(PaymentTypeJpaEntity jpa) {
         if (jpa == null) return null;
 
-        PaymentType domain = new PaymentType();
+        PaymentTypeDomain domain = new PaymentTypeDomain();
         domain.setId(jpa.getId());
         domain.setName(jpa.getName());
         domain.setDescription(jpa.getDescription());

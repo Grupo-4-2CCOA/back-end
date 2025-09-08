@@ -2,9 +2,9 @@ package sptech.school.projetoPI.infrastructure.di;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import sptech.school.projetoPI.core.application.usecase.paymentType.*;
-import sptech.school.projetoPI.core.gateway.PaymentTypeGateway;
-import sptech.school.projetoPI.core.gateway.ScheduleGateway;
+import sptech.school.projetoPI.application.usecases.paymentType.*;
+import sptech.school.projetoPI.core.gateways.PaymentTypeGateway;
+import sptech.school.projetoPI.core.gateways.ScheduleGateway;
 
 @Configuration
 public class PaymentTypeConfig {

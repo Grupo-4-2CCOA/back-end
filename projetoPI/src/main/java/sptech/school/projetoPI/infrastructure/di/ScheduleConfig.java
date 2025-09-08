@@ -2,11 +2,11 @@ package sptech.school.projetoPI.infrastructure.di;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import sptech.school.projetoPI.core.application.usecase.schedule.*;
-import sptech.school.projetoPI.core.gateway.ClientGateway;
-import sptech.school.projetoPI.core.gateway.EmployeeGateway;
-import sptech.school.projetoPI.core.gateway.PaymentTypeGateway;
-import sptech.school.projetoPI.core.gateway.ScheduleGateway;
+import sptech.school.projetoPI.application.usecases.schedule.*;
+import sptech.school.projetoPI.core.gateways.ClientGateway;
+import sptech.school.projetoPI.core.gateways.EmployeeGateway;
+import sptech.school.projetoPI.core.gateways.PaymentTypeGateway;
+import sptech.school.projetoPI.core.gateways.ScheduleGateway;
 
 @Configuration
 public class ScheduleConfig {

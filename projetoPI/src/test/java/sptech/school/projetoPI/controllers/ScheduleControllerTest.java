@@ -2,7 +2,7 @@ package sptech.school.projetoPI.controllers;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import sptech.school.projetoPI.core.domain.ScheduleDomain;
+import sptech.school.projetoPI.core.domains.Schedule;
 
 import java.util.List;
 
@@ -11,14 +11,14 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class ScheduleControllerTest extends ControllerTest<ScheduleDomain, ScheduleService> {
+class ScheduleControllerTest extends ControllerTest<Schedule, ScheduleService> {
 
     @MockBean
     private ScheduleService service;
 
     @Override
-    protected ScheduleDomain getEntity() {
-        return new ScheduleDomain();
+    protected Schedule getEntity() {
+        return new Schedule();
     }
 
     @Override
@@ -36,8 +36,8 @@ class ScheduleControllerTest extends ControllerTest<ScheduleDomain, ScheduleServ
     protected String getValidJsonRequestBody() {
         return """
                 {
-                     "clientDomain": 1,
-                     "employeeDomain": 1,
+                     "client": 1,
+                     "employee": 1,
                      "appointmentDatetime": "2025-12-31T23:59:59",
                      "status": "ACTIVE"
                 }
@@ -48,8 +48,8 @@ class ScheduleControllerTest extends ControllerTest<ScheduleDomain, ScheduleServ
     protected String getJsonWithInvalidFieldContent() {
         return """
                 {
-                     "clientDomain": -1,
-                     "employeeDomain": 1,
+                     "client": -1,
+                     "employee": 1,
                      "appointmentDatetime": "2025-12-31T23:59:59",
                      "status": "ACTIVE"
                 }
@@ -60,7 +60,7 @@ class ScheduleControllerTest extends ControllerTest<ScheduleDomain, ScheduleServ
     protected String getJsonWithMissingField() {
         return """
                 {
-                     "clientDomain": 1,
+                     "client": 1,
                      "appointmentDatetime": "2025-12-31T23:59:59",
                      "status": "ACTIVE"
                 }
@@ -71,8 +71,8 @@ class ScheduleControllerTest extends ControllerTest<ScheduleDomain, ScheduleServ
     protected String getJsonWithNullValue() {
         return """
                 {
-                     "clientDomain": null,
-                     "employeeDomain": 1,
+                     "client": null,
+                     "employee": 1,
                      "appointmentDatetime": "2025-12-31T23:59:59",
                      "status": "ACTIVE"
                 }
@@ -83,8 +83,8 @@ class ScheduleControllerTest extends ControllerTest<ScheduleDomain, ScheduleServ
     protected String getJsonWithUnprocessableRequestBody() {
         return """
                 {
-                     "clientDomain": 1,
-                     "employeeDomain": 1,
+                     "client": 1,
+                     "employee": 1,
                      "appointmentDatetime": "2025-12-31T23:59:59",
                      "status": ACTIVE
                 }
@@ -93,7 +93,7 @@ class ScheduleControllerTest extends ControllerTest<ScheduleDomain, ScheduleServ
 
     @Override
     protected void whenSignThenReturn() {
-        when(getService().postMethod(any(ScheduleDomain.class))).thenReturn(getEntity());
+        when(getService().postMethod(any(Schedule.class))).thenReturn(getEntity());
     }
 
     @Override
@@ -108,6 +108,6 @@ class ScheduleControllerTest extends ControllerTest<ScheduleDomain, ScheduleServ
 
     @Override
     protected void whenUpdateByIdThenReturn() {
-        when(getService().putByIdMethod(any(ScheduleDomain.class), anyInt())).thenReturn(getEntity());
+        when(getService().putByIdMethod(any(Schedule.class), anyInt())).thenReturn(getEntity());
     }
 }

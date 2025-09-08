@@ -4,12 +4,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import sptech.school.projetoPI.core.domain.ScheduleDomain;
-import sptech.school.projetoPI.core.domain.ScheduleItemDomain;
-import sptech.school.projetoPI.core.domain.ServiceDomain;
+import sptech.school.projetoPI.core.domains.Schedule;
+import sptech.school.projetoPI.core.domains.ScheduleItem;
+import sptech.school.projetoPI.core.domains.ServiceDomain;
 import sptech.school.projetoPI.core.enums.Status;
-import sptech.school.projetoPI.core.application.usecase.exceptions.exceptionClass.EntityNotFoundException;
-import sptech.school.projetoPI.core.application.usecase.exceptions.exceptionClass.RelatedEntityNotFoundException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.RelatedEntityNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,15 +39,15 @@ class ScheduleItemServiceTest extends ServiceTest {
             .name("Service")
             .build();
 
-    private final ScheduleDomain scheduleDomain = ScheduleDomain.builder()
+    private final Schedule schedule = Schedule.builder()
             .id(1)
             .status(Status.ACTIVE)
             .build();
 
-    private final ScheduleItemDomain scheduleItemDomain = ScheduleItemDomain.builder()
+    private final ScheduleItem scheduleItem = ScheduleItem.builder()
             .id(1)
             .service(serviceEntity)
-            .schedule(scheduleDomain)
+            .schedule(schedule)
             .discount(10.0)
             .finalPrice(10.0)
             .createdAt(LocalDateTime.now())
@@ -60,17 +60,17 @@ class ScheduleItemServiceTest extends ServiceTest {
     void executeEntitySignWithValidParametersTest() {
         when(scheduleRepository.existsById(anyInt())).thenReturn(true);
         when(serviceRepository.existsById(anyInt())).thenReturn(true);
-        when(repository.save(scheduleItemDomain)).thenReturn(scheduleItemDomain);
+        when(repository.save(scheduleItem)).thenReturn(scheduleItem);
 
-        ScheduleItemDomain response = service.postMethod(scheduleItemDomain);
-        assertEquals(scheduleItemDomain, response);
+        ScheduleItem response = service.postMethod(scheduleItem);
+        assertEquals(scheduleItem, response);
     }
 
     @Test
     @DisplayName("Quando não existir Schedule com ID requisitado, método postMethod() deve estourar RelatedEntityNotFoundException")
     void executeScheduleItemSignWithInvalidScheduleIdMustThrowRelatedEntityNotFoundExceptionTest() {
         when(scheduleRepository.existsById(anyInt())).thenReturn(false);
-        assertThrows(RelatedEntityNotFoundException.class, () -> service.postMethod(scheduleItemDomain));
+        assertThrows(RelatedEntityNotFoundException.class, () -> service.postMethod(scheduleItem));
     }
 
     @Test
@@ -78,33 +78,33 @@ class ScheduleItemServiceTest extends ServiceTest {
     void executeScheduleItemSignWithInvalidServiceIdMustThrowRelatedEntityNotFoundExceptionTest() {
         when(scheduleRepository.existsById(anyInt())).thenReturn(true);
         when(serviceRepository.existsById(anyInt())).thenReturn(false);
-        assertThrows(RelatedEntityNotFoundException.class, () -> service.postMethod(scheduleItemDomain));
+        assertThrows(RelatedEntityNotFoundException.class, () -> service.postMethod(scheduleItem));
     }
 
     @Override
     @Test
     @DisplayName("Quando existir 3 ScheduleItems na lista, método getAllMethod() deve retornar tamanho 3")
     void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest() {
-        List<ScheduleItemDomain> scheduleItemDomains = List.of(
-                ScheduleItemDomain.builder()
+        List<ScheduleItem> scheduleItems = List.of(
+                ScheduleItem.builder()
                         .id(1)
                         .finalPrice(10.0)
                         .build(),
 
-                ScheduleItemDomain.builder()
+                ScheduleItem.builder()
                         .id(2)
                         .finalPrice(20.0)
                         .build(),
 
-                ScheduleItemDomain.builder()
+                ScheduleItem.builder()
                         .id(3)
                         .finalPrice(30.0)
                         .build()
         );
 
-        when(repository.findAll()).thenReturn(scheduleItemDomains);
+        when(repository.findAll()).thenReturn(scheduleItems);
 
-        List<ScheduleItemDomain> response = service.getAllMethod();
+        List<ScheduleItem> response = service.getAllMethod();
         assertEquals(3, response.size());
     }
 
@@ -112,10 +112,10 @@ class ScheduleItemServiceTest extends ServiceTest {
     @Test
     @DisplayName("Quando existir ScheduleItem com ID 1, método getByIdMethod() deve retornar o ScheduleItem encontrado")
     void executeEntityFindByIdMustReturnEntityWithIdOneTest() {
-        when(repository.findById(anyInt())).thenReturn(Optional.of(scheduleItemDomain));
+        when(repository.findById(anyInt())).thenReturn(Optional.of(scheduleItem));
 
-        ScheduleItemDomain response = service.getByIdMethod(1);
-        assertEquals(scheduleItemDomain, response);
+        ScheduleItem response = service.getByIdMethod(1);
+        assertEquals(scheduleItem, response);
     }
 
     @Override
@@ -130,14 +130,14 @@ class ScheduleItemServiceTest extends ServiceTest {
     @Test
     @DisplayName("Quando método putByIdMethod() for chamado com credenciais válidas, deve retornar ScheduleItem atualizado")
     void executeEntityPutByIdWithValidEntityMustReturnUpdatedEntityTest() {
-        when(repository.findById(anyInt())).thenReturn(Optional.of(new ScheduleItemDomain()));
+        when(repository.findById(anyInt())).thenReturn(Optional.of(new ScheduleItem()));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(scheduleRepository.existsById(anyInt())).thenReturn(true);
         when(serviceRepository.existsById(anyInt())).thenReturn(true);
-        when(repository.save(scheduleItemDomain)).thenReturn(scheduleItemDomain);
+        when(repository.save(scheduleItem)).thenReturn(scheduleItem);
 
-        ScheduleItemDomain response = service.putByIdMethod(scheduleItemDomain, anyInt());
-        assertEquals(scheduleItemDomain, response);
+        ScheduleItem response = service.putByIdMethod(scheduleItem, anyInt());
+        assertEquals(scheduleItem, response);
     }
 
     @Override
@@ -145,7 +145,7 @@ class ScheduleItemServiceTest extends ServiceTest {
     @DisplayName("Quando não existir ScheduleItem com ID requisitado, método putByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityPutByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.putByIdMethod(scheduleItemDomain, 1));
+        assertThrows(EntityNotFoundException.class, () -> service.putByIdMethod(scheduleItem, 1));
     }
 
     @Test
@@ -153,7 +153,7 @@ class ScheduleItemServiceTest extends ServiceTest {
     void executeScheduleItemPutByIdWithInvalidScheduleIdMustThrowRelatedEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(scheduleRepository.existsById(anyInt())).thenReturn(false);
-        assertThrows(RelatedEntityNotFoundException.class, () -> service.putByIdMethod(scheduleItemDomain, 1));
+        assertThrows(RelatedEntityNotFoundException.class, () -> service.putByIdMethod(scheduleItem, 1));
     }
 
     @Test
@@ -162,7 +162,7 @@ class ScheduleItemServiceTest extends ServiceTest {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(scheduleRepository.existsById(anyInt())).thenReturn(true);
         when(serviceRepository.existsById(anyInt())).thenReturn(false);
-        assertThrows(RelatedEntityNotFoundException.class, () -> service.putByIdMethod(scheduleItemDomain, 1));
+        assertThrows(RelatedEntityNotFoundException.class, () -> service.putByIdMethod(scheduleItem, 1));
     }
 
     @Override

@@ -2,7 +2,7 @@ package sptech.school.projetoPI.controllers;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import sptech.school.projetoPI.core.domain.ScheduleItemDomain;
+import sptech.school.projetoPI.core.domains.ScheduleItem;
 
 import java.util.List;
 
@@ -11,14 +11,14 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class ScheduleItemControllerTest extends ControllerTest<ScheduleItemDomain, ScheduleItemService> {
+class ScheduleItemControllerTest extends ControllerTest<ScheduleItem, ScheduleItemService> {
 
     @MockBean
     private ScheduleItemService service;
 
     @Override
-    protected ScheduleItemDomain getEntity() {
-        return new ScheduleItemDomain();
+    protected ScheduleItem getEntity() {
+        return new ScheduleItem();
     }
 
     @Override
@@ -38,7 +38,7 @@ class ScheduleItemControllerTest extends ControllerTest<ScheduleItemDomain, Sche
                 {
                      "finalPrice": 10,
                      "discount": 5.5,
-                     "scheduleDomain": 1,
+                     "schedule": 1,
                      "service": 1
                 }
                 """;
@@ -50,7 +50,7 @@ class ScheduleItemControllerTest extends ControllerTest<ScheduleItemDomain, Sche
                 {
                      "finalPrice": -10,
                      "discount": 5.5,
-                     "scheduleDomain": 1,
+                     "schedule": 1,
                      "service": 1
                 }
                 """;
@@ -61,7 +61,7 @@ class ScheduleItemControllerTest extends ControllerTest<ScheduleItemDomain, Sche
         return """
                 {
                      "discount": 5.5,
-                     "scheduleDomain": 1,
+                     "schedule": 1,
                      "service": 1
                 }
                 """;
@@ -73,7 +73,7 @@ class ScheduleItemControllerTest extends ControllerTest<ScheduleItemDomain, Sche
                 {
                      "finalPrice": 10,
                      "discount": null,
-                     "scheduleDomain": 1,
+                     "schedule": 1,
                      "service": 1
                 }
                 """;
@@ -85,7 +85,7 @@ class ScheduleItemControllerTest extends ControllerTest<ScheduleItemDomain, Sche
                 {
                      "finalPrice": "ABC",
                      "discount": 5.5,
-                     "scheduleDomain": 1,
+                     "schedule": 1,
                      "service": 1
                 }
                 """;
@@ -93,7 +93,7 @@ class ScheduleItemControllerTest extends ControllerTest<ScheduleItemDomain, Sche
 
     @Override
     protected void whenSignThenReturn() {
-        when(getService().postMethod(any(ScheduleItemDomain.class))).thenReturn(getEntity());
+        when(getService().postMethod(any(ScheduleItem.class))).thenReturn(getEntity());
     }
 
     @Override
@@ -108,6 +108,6 @@ class ScheduleItemControllerTest extends ControllerTest<ScheduleItemDomain, Sche
 
     @Override
     protected void whenUpdateByIdThenReturn() {
-        when(getService().putByIdMethod(any(ScheduleItemDomain.class), anyInt())).thenReturn(getEntity());
+        when(getService().putByIdMethod(any(ScheduleItem.class), anyInt())).thenReturn(getEntity());
     }
 }

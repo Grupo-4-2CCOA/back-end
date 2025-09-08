@@ -5,7 +5,7 @@ import static org.mockito.Mockito.when;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import sptech.school.projetoPI.core.domain.AvailabilityDomain;
+import sptech.school.projetoPI.core.domains.AvailabilityDomain;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ class AvailabilityDomainControllerTest extends ControllerTest<AvailabilityDomain
                      "day": "2026-01-01",
                      "startTime": "00:00:00",
                      "endTime": "23:59:59",
-                     "employeeDomain": 1
+                     "employee": 1
                 }
                 """;
     }
@@ -49,7 +49,7 @@ class AvailabilityDomainControllerTest extends ControllerTest<AvailabilityDomain
                      "day": 2026,
                      "startTime": "00:00:00",
                      "endTime": "23:59:59",
-                     "employeeDomain": 1
+                     "employee": 1
                 }
                 """;
     }
@@ -60,7 +60,7 @@ class AvailabilityDomainControllerTest extends ControllerTest<AvailabilityDomain
                 {
                      "startTime": "00:00:00",
                      "endTime": "23:59:59",
-                     "employeeDomain": 1
+                     "employee": 1
                 }
                 """;
     }
@@ -72,7 +72,7 @@ class AvailabilityDomainControllerTest extends ControllerTest<AvailabilityDomain
                      "day": null,
                      "startTime": "00:00:00",
                      "endTime": "23:59:59",
-                     "employeeDomain": 1
+                     "employee": 1
                 }
                 """;
     }
@@ -84,7 +84,7 @@ class AvailabilityDomainControllerTest extends ControllerTest<AvailabilityDomain
                      "day": "2026-02-29",
                      "startTime": "00:00:00",
                      "endTime": "23:59:59",
-                     "employeeDomain": 1
+                     "employee": 1
                 }
                 """;
     }

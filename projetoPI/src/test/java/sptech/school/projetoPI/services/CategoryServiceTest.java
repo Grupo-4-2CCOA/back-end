@@ -4,11 +4,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import sptech.school.projetoPI.core.domain.CategoryDomain;
-import sptech.school.projetoPI.core.application.usecase.exceptions.exceptionClass.EntityConflictException;
-import sptech.school.projetoPI.core.application.usecase.exceptions.exceptionClass.EntityNotFoundException;
-import sptech.school.projetoPI.core.application.usecase.exceptions.exceptionClass.ForeignKeyConstraintException;
-import sptech.school.projetoPI.core.application.usecase.exceptions.exceptionClass.InactiveEntityException;
+import sptech.school.projetoPI.core.domains.Category;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityConflictException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.ForeignKeyConstraintException;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.InactiveEntityException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,7 +30,7 @@ class CategoryServiceTest extends ServiceTest {
     @Mock
     private ServiceRepository serviceRepository;
 
-    private final CategoryDomain categoryDomain = CategoryDomain.builder()
+    private final Category category = Category.builder()
             .id(1)
             .name("Manicure")
             .description("Manicure")
@@ -44,35 +44,35 @@ class CategoryServiceTest extends ServiceTest {
     @DisplayName("Quando método postMethod() for chamado com credenciais válidas, deve retornar Category")
     void executeEntitySignWithValidParametersTest() {
         when(repository.existsByName(anyString())).thenReturn(false);
-        when(repository.save(categoryDomain)).thenReturn(categoryDomain);
+        when(repository.save(category)).thenReturn(category);
 
-        CategoryDomain response = service.postMethod(categoryDomain);
-        assertEquals(categoryDomain, response);
+        Category response = service.postMethod(category);
+        assertEquals(category, response);
     }
 
     @Test
     @DisplayName("Quando já existir Category com o mesmo nome, método postMethod() deve estourar EntityConflictException")
     void executeCategorySignWithExistingCategoryNameMustThrowEntityConflictExceptionTest() {
         when(repository.existsByName(anyString())).thenReturn(true);
-        assertThrows(EntityConflictException.class, () -> service.postMethod(categoryDomain));
+        assertThrows(EntityConflictException.class, () -> service.postMethod(category));
     }
 
     @Override
     @Test
     @DisplayName("Quando existir 3 Categories na lista, método getAllMethod() deve retornar tamanho 3")
     void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest() {
-        List<CategoryDomain> categories = List.of(
-                CategoryDomain.builder()
+        List<Category> categories = List.of(
+                Category.builder()
                         .id(1)
                         .name("Manicure")
                         .build(),
 
-                CategoryDomain.builder()
+                Category.builder()
                         .id(2)
                         .name("Depilação")
                         .build(),
 
-                CategoryDomain.builder()
+                Category.builder()
                         .id(3)
                         .name("Hidratação")
                         .build()
@@ -80,7 +80,7 @@ class CategoryServiceTest extends ServiceTest {
 
         when(repository.findAllByActiveTrue()).thenReturn(categories);
 
-        List<CategoryDomain> response = service.getAllMethod();
+        List<Category> response = service.getAllMethod();
         assertEquals(3, response.size());
     }
 
@@ -88,10 +88,10 @@ class CategoryServiceTest extends ServiceTest {
     @Test
     @DisplayName("Quando existir Category com ID 1, método getByIdMethod() deve retornar o Category encontrado")
     void executeEntityFindByIdMustReturnEntityWithIdOneTest() {
-        when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.of(categoryDomain));
+        when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.of(category));
 
-        CategoryDomain response = service.getByIdMethod(1);
-        assertEquals(categoryDomain, response);
+        Category response = service.getByIdMethod(1);
+        assertEquals(category, response);
     }
 
     @Override
@@ -106,14 +106,14 @@ class CategoryServiceTest extends ServiceTest {
     @Test
     @DisplayName("Quando método putByIdMethod() for chamado com credenciais válidas, deve retornar Category atualizado")
     void executeEntityPutByIdWithValidEntityMustReturnUpdatedEntityTest() {
-        when(repository.findById(anyInt())).thenReturn(Optional.of(new CategoryDomain()));
+        when(repository.findById(anyInt())).thenReturn(Optional.of(new Category()));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(repository.existsByIdNotAndName(anyInt(), anyString())).thenReturn(false);
-        when(repository.save(categoryDomain)).thenReturn(categoryDomain);
+        when(repository.save(category)).thenReturn(category);
 
-        CategoryDomain response = service.putByIdMethod(categoryDomain, anyInt());
-        assertEquals(categoryDomain, response);
+        Category response = service.putByIdMethod(category, anyInt());
+        assertEquals(category, response);
     }
 
     @Override
@@ -121,7 +121,7 @@ class CategoryServiceTest extends ServiceTest {
     @DisplayName("Quando não existir Category com ID requisitado, método putByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityPutByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.putByIdMethod(categoryDomain, 1));
+        assertThrows(EntityNotFoundException.class, () -> service.putByIdMethod(category, 1));
     }
 
     @Test
@@ -129,7 +129,7 @@ class CategoryServiceTest extends ServiceTest {
     void executeCategoryPutByIdWithInactiveEntityMustThrowInactiveEntityExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(true);
-        assertThrows(InactiveEntityException.class, () -> service.putByIdMethod(categoryDomain, 1));
+        assertThrows(InactiveEntityException.class, () -> service.putByIdMethod(category, 1));
     }
 
     @Test
@@ -138,21 +138,21 @@ class CategoryServiceTest extends ServiceTest {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(repository.existsByIdNotAndName(anyInt(), anyString())).thenReturn(true);
-        assertThrows(EntityConflictException.class, () -> service.putByIdMethod(categoryDomain, 1));
+        assertThrows(EntityConflictException.class, () -> service.putByIdMethod(category, 1));
     }
 
     @Override
     @Test
     @DisplayName("Quando método deleteByIdMethod() for chamado com ID válido, deve inativar entidade")
     void executeEntityDeleteByIdWithValidIdMustInactiveOrDeleteEntityTest() {
-        when(repository.findById(anyInt())).thenReturn(Optional.of(categoryDomain));
+        when(repository.findById(anyInt())).thenReturn(Optional.of(category));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(serviceRepository.existsByCategoryId(anyInt())).thenReturn(false);
 
         service.deleteByIdMethod(1);
 
-        assertFalse(categoryDomain.getActive());
+        assertFalse(category.getActive());
     }
 
     @Override

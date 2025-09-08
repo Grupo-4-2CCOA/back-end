@@ -16,12 +16,13 @@ public class FeedbackMapper {
         feedback.setComment(requestObject.getComment());
         feedback.setRating(requestObject.getRating());
 
-        // Delega o mapeamento de entidades relacionadas para os mappers apropriados
         feedback.setClient(ClientMapper.toDomain(requestObject.getClient()));
         feedback.setSchedule(ScheduleMapper.toDomain(requestObject.getSchedule()));
 
         return feedback;
     }
+
+
 
     /* ========= DOMAIN -> DTO (Full Response) ========= */
     public static FeedbackResponseDto toResponseDto(Feedback domain) {

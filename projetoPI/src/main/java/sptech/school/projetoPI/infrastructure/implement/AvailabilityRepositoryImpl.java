@@ -1,8 +1,8 @@
 package sptech.school.projetoPI.infrastructure.implement;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
-import sptech.school.projetoPI.core.domains.Availability;
+import org.springframework.stereotype.Service;
+import sptech.school.projetoPI.core.domains.AvailabilityDomain;
 import sptech.school.projetoPI.core.gateways.AvailabilityGateway;
 import sptech.school.projetoPI.infrastructure.mappers.AvailabilityMapper;
 import sptech.school.projetoPI.infrastructure.repositories.JpaAvailabilityRepository;
@@ -12,15 +12,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Repository
+@Service
 @RequiredArgsConstructor
 public class AvailabilityRepositoryImpl implements AvailabilityGateway {
 
     private final JpaAvailabilityRepository jpaRepository;
 
     @Override
-    public Availability save(Availability availability) {
-        var entity = AvailabilityMapper.toJpaEntity(availability);
+    public AvailabilityDomain save(AvailabilityDomain availabilityDomain) {
+        var entity = AvailabilityMapper.toJpaEntity(availabilityDomain);
         var saved = jpaRepository.save(entity);
         return AvailabilityMapper.toDomain(saved);
     }
@@ -46,29 +46,28 @@ public class AvailabilityRepositoryImpl implements AvailabilityGateway {
     }
 
     @Override
-    public List<Availability> findAll() {
+    public List<AvailabilityDomain> findAll() {
         return jpaRepository.findAll().stream()
                 .map(AvailabilityMapper::toDomain)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Availability> findById(Integer id) {
+    public Optional<AvailabilityDomain> findById(Integer id) {
         return jpaRepository.findById(id).map(AvailabilityMapper::toDomain);
     }
 
     @Override
-    public Availability deleteById(Integer id) {
-        Optional<Availability> availabilityOpt = findById(id);
+    public AvailabilityDomain deleteById(Integer id) {
+        Optional<AvailabilityDomain> availabilityOpt = findById(id);
         availabilityOpt.ifPresent(a -> jpaRepository.deleteById(id));
         return availabilityOpt.orElse(null);
     }
 
     @Override
-    public List<Availability> findAllByEmployeeId(Integer employeeId) {
+    public List<AvailabilityDomain> findAllByEmployeeId(Integer employeeId) {
         return jpaRepository.findAllByEmployeeId(employeeId).stream()
                 .map(AvailabilityMapper::toDomain)
                 .collect(Collectors.toList());
     }
 }
-

@@ -2,8 +2,7 @@ package sptech.school.projetoPI.controllers;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import sptech.school.projetoPI.core.domains.Service;
-import sptech.school.projetoPI.services.ServiceService;
+import sptech.school.projetoPI.core.domains.ServiceDomain;
 
 import java.util.List;
 
@@ -12,14 +11,14 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class ServiceControllerTest extends ControllerTest<Service, ServiceService> {
+class ServiceControllerTest extends ControllerTest<ServiceDomain, ServiceService> {
 
     @MockBean
     private ServiceService service;
 
     @Override
-    protected Service getEntity() {
-        return new Service();
+    protected ServiceDomain getEntity() {
+        return new ServiceDomain();
     }
 
     @Override
@@ -104,7 +103,7 @@ class ServiceControllerTest extends ControllerTest<Service, ServiceService> {
 
     @Override
     protected void whenSignThenReturn() {
-        when(getService().postMethod(any(Service.class))).thenReturn(getEntity());
+        when(getService().postMethod(any(ServiceDomain.class))).thenReturn(getEntity());
     }
 
     @Override
@@ -119,6 +118,6 @@ class ServiceControllerTest extends ControllerTest<Service, ServiceService> {
 
     @Override
     protected void whenUpdateByIdThenReturn() {
-        when(getService().putByIdMethod(any(Service.class), anyInt())).thenReturn(getEntity());
+        when(getService().putByIdMethod(any(ServiceDomain.class), anyInt())).thenReturn(getEntity());
     }
 }

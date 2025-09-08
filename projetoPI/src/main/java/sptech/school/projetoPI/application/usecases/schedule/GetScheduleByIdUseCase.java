@@ -6,16 +6,16 @@ import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.core.domains.Schedule;
 import sptech.school.projetoPI.core.gateways.ScheduleGateway;
 
-@Service
-@Slf4j
-@RequiredArgsConstructor
 public class GetScheduleByIdUseCase {
 
     private final ScheduleGateway scheduleGateway;
 
+    public GetScheduleByIdUseCase(ScheduleGateway scheduleGateway) {
+        this.scheduleGateway = scheduleGateway;
+    }
+
     public Schedule execute(Integer id) {
-        return scheduleGateway.findById(id);
-        // TODO: VALIDAR O ID CASO ELE FOR NULO/INVÁLIDO
+        return scheduleGateway.findById(id).get();
     }
 
 }

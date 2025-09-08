@@ -2,8 +2,6 @@ package sptech.school.projetoPI.infrastructure.persistence;
 
 import jakarta.persistence.*;
 import lombok.*;
-import sptech.school.projetoPI.core.domains.Client;
-import sptech.school.projetoPI.core.domains.Schedule;
 
 import java.time.LocalDateTime;
 

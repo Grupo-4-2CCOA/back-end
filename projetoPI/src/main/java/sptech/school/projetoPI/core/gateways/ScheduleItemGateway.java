@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface ScheduleItemGateway {
     ScheduleItem save(ScheduleItem scheduleItem);
     boolean existsById(Integer id);
-    Optional<ScheduleItemJpaEntity> findById(Integer id);
-    List<ScheduleItemJpaEntity> findAll();
+    Optional<ScheduleItem> findById(Integer id);
+    List<ScheduleItem> findAll();
+    ScheduleItem deleteById(Integer id);
 }

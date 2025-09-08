@@ -19,7 +19,7 @@ import sptech.school.projetoPI.application.usecases.availability.GetAllAvailabil
 import sptech.school.projetoPI.application.usecases.availability.GetAvailabilityByIdUseCase;
 import sptech.school.projetoPI.application.usecases.availability.UpdateAvailabilityByIdUseCase;
 import sptech.school.projetoPI.application.usecases.exceptions.ErroResponseExamples;
-import sptech.school.projetoPI.core.domains.Availability;
+import sptech.school.projetoPI.core.domains.AvailabilityDomain;
 import sptech.school.projetoPI.infrastructure.mappers.AvailabilityMapper;
 import sptech.school.projetoPI.infrastructure.dto.availability.AvailabilityRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.availability.AvailabilityResponseDto;
@@ -66,9 +66,9 @@ public class AvailabilityController {
             ))
     })
     public ResponseEntity<AvailabilityResumeResponseDto> createAvailability(@Valid @RequestBody AvailabilityRequestDto requestDto) {
-        Availability availability = AvailabilityMapper.toDomain(requestDto);
-        Availability createdAvailability = createAvailabilityUseCase.execute(availability);
-        return new ResponseEntity<>(AvailabilityMapper.toResumeResponseDto(createdAvailability), HttpStatus.CREATED);
+        AvailabilityDomain availabilityDomain = AvailabilityMapper.toDomain(requestDto);
+        AvailabilityDomain createdAvailabilityDomain = createAvailabilityUseCase.execute(availabilityDomain);
+        return new ResponseEntity<>(AvailabilityMapper.toResumeResponseDto(createdAvailabilityDomain), HttpStatus.CREATED);
     }
 
     @SecurityRequirement(name = "Bearer")
@@ -92,7 +92,7 @@ public class AvailabilityController {
             ))
     })
     public ResponseEntity<List<AvailabilityResumeResponseDto>> getAllAvailabilities() {
-        List<Availability> availabilities = getAllAvailabilityUseCase.execute();
+        List<AvailabilityDomain> availabilities = getAllAvailabilityUseCase.execute();
         List<AvailabilityResumeResponseDto> responseDtos = availabilities.stream()
                 .map(AvailabilityMapper::toResumeResponseDto)
                 .collect(Collectors.toList());
@@ -125,8 +125,8 @@ public class AvailabilityController {
             ))
     })
     public ResponseEntity<AvailabilityResponseDto> getAvailabilityById(@PathVariable Integer id) {
-        Availability availability = getAvailabilityByIdUseCase.execute(id);
-        return ResponseEntity.ok(AvailabilityMapper.toResponseDto(availability));
+        AvailabilityDomain availabilityDomain = getAvailabilityByIdUseCase.execute(id);
+        return ResponseEntity.ok(AvailabilityMapper.toResponseDto(availabilityDomain));
     }
 
     @SecurityRequirement(name = "Bearer")
@@ -155,9 +155,9 @@ public class AvailabilityController {
             ))
     })
     public ResponseEntity<AvailabilityResumeResponseDto> updateAvailabilityById(@Valid @RequestBody AvailabilityRequestDto requestDto, @PathVariable Integer id) {
-        Availability availability = AvailabilityMapper.toDomain(requestDto);
-        Availability updatedAvailability = updateAvailabilityByIdUseCase.execute(id, availability);
-        return ResponseEntity.ok(AvailabilityMapper.toResumeResponseDto(updatedAvailability));
+        AvailabilityDomain availabilityDomain = AvailabilityMapper.toDomain(requestDto);
+        AvailabilityDomain updatedAvailabilityDomain = updateAvailabilityByIdUseCase.execute(id, availabilityDomain);
+        return ResponseEntity.ok(AvailabilityMapper.toResumeResponseDto(updatedAvailabilityDomain));
     }
 
     @SecurityRequirement(name = "Bearer")

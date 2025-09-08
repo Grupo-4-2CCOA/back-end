@@ -1,8 +1,5 @@
 package sptech.school.projetoPI.application.usecases.availability;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.core.gateways.AvailabilityGateway;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
 

@@ -9,8 +9,8 @@ import sptech.school.projetoPI.core.gateways.AvailabilityGateway;
 public class AvailabilityConfig {
 
     @Bean
-    public CreateAvailabilityUseCase createAvailabilityUseCase(AvailabilityGateway availabilityGateway, ValidateRequestBodyUseCase validateRequestBodyUseCase) {
-        return new CreateAvailabilityUseCase(availabilityGateway, validateRequestBodyUseCase);
+    public CreateAvailabilityUseCase createAvailabilityUseCase(AvailabilityGateway availabilityGateway) {
+        return new CreateAvailabilityUseCase(availabilityGateway);
     }
 
     @Bean
@@ -24,8 +24,8 @@ public class AvailabilityConfig {
     }
 
     @Bean
-    public UpdateAvailabilityByIdUseCase updateAvailabilityByIdUseCase(AvailabilityGateway availabilityGateway, ValidateRequestBodyUseCase validateRequestBodyUseCase) {
-        return new UpdateAvailabilityByIdUseCase(availabilityGateway, validateRequestBodyUseCase);
+    public UpdateAvailabilityByIdUseCase updateAvailabilityByIdUseCase(AvailabilityGateway availabilityGateway) {
+        return new UpdateAvailabilityByIdUseCase(availabilityGateway);
     }
 
     @Bean

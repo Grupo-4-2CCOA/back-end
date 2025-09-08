@@ -4,18 +4,20 @@ import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.En
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.ForeignKeyConstraintException;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.InactiveEntityException;
 import sptech.school.projetoPI.core.domains.Category;
+import sptech.school.projetoPI.core.domains.ServiceDomain;
 import sptech.school.projetoPI.core.gateways.CategoryGateway;
 import sptech.school.projetoPI.core.gateways.ServiceGateway;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class DeleteCategoryByIdUseCase {
 
     private final CategoryGateway repository;
+    private final ServiceGateway serviceRepository;
 
-    public DeleteCategoryByIdUseCase(CategoryGateway repository) {
+    public DeleteCategoryByIdUseCase(CategoryGateway repository, ServiceGateway serviceRepository) {
         this.repository = repository;
+        this.serviceRepository = serviceRepository;
     }
 
     public void execute(Integer id) {
@@ -30,14 +32,13 @@ public class DeleteCategoryByIdUseCase {
                     "Category com o ID %d já está inativa".formatted(id)
             );
         }
-/*
-        if (serviceGateway.existsByCategoryId(id)) {
+
+        if (serviceRepository.existsByCategoryId(id)) {
             throw new ForeignKeyConstraintException(
                     "Os seguintes serviços estão relacionados com esta categoria: %s".formatted(serviceRepository.findAllByCategoryId(id)
-                            .stream().map(sptech.school.projetoPI.core.domains.Service::getId).toList())
+                            .stream().map(ServiceDomain::getId).toList())
             );
         }
- */
 
         Category category = repository.findById(id).get();
         category.setActive(false);

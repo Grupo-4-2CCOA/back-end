@@ -8,14 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface JpaRoleRepository extends JpaRepository<RoleJpaEntity, Integer> {
-    Role save(Role client);
+    Optional<RoleJpaEntity> findById(Integer id);
     boolean existsByName(String name);
     boolean existsById(Integer id);
     boolean existsByIdAndActiveFalse(Integer id);
     boolean existsByIdNotAndName(Integer id, String name);
-    boolean existsByRoleId(Integer id);
-    Optional<Role> findByIdAndActiveTrue(Integer id);
-    Optional<RoleJpaEntity> findById(Integer id);
-    Optional<Role> findAllByRoleId(Integer id);
-    List<Role> findAllByActiveTrue();
+    Optional<RoleJpaEntity> findByIdAndActiveTrue(Integer id);
+    List<RoleJpaEntity> findAllByActiveTrue();
 }

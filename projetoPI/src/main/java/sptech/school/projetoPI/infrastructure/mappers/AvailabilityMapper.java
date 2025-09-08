@@ -1,6 +1,6 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
-import sptech.school.projetoPI.core.domains.Availability;
+import sptech.school.projetoPI.core.domains.AvailabilityDomain;
 import sptech.school.projetoPI.core.domains.Employee;
 import sptech.school.projetoPI.infrastructure.dto.availability.AvailabilityRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.availability.AvailabilityResponseDto;
@@ -12,7 +12,7 @@ import sptech.school.projetoPI.infrastructure.persistence.EmployeeJpaEntity;
 public class AvailabilityMapper {
 
     // Método para converter do DTO de requisição para o objeto de DOMÍNIO
-    public static Availability toDomain(AvailabilityRequestDto requestObject) {
+    public static AvailabilityDomain toDomain(AvailabilityRequestDto requestObject) {
         if (requestObject == null) {
             return null;
         }
@@ -20,16 +20,16 @@ public class AvailabilityMapper {
         Employee employee = (requestObject.getEmployee() != null) ?
                 EmployeeMapper.toDomain(requestObject.getEmployee()) : null;
 
-        Availability availability = new Availability();
-        availability.setDay(requestObject.getDay());
-        availability.setStartTime(requestObject.getStartTime());
-        availability.setEndTime(requestObject.getEndTime());
-        availability.setEmployee(employee);
+        AvailabilityDomain availabilityDomain = new AvailabilityDomain();
+        availabilityDomain.setDay(requestObject.getDay());
+        availabilityDomain.setStartTime(requestObject.getStartTime());
+        availabilityDomain.setEndTime(requestObject.getEndTime());
+        availabilityDomain.setEmployee(employee);
 
-        return availability;
+        return availabilityDomain;
     }
 
-    public static AvailabilityResponseDto toResponseDto(Availability domain) {
+    public static AvailabilityResponseDto toResponseDto(AvailabilityDomain domain) {
         if (domain == null) {
             return null;
         }
@@ -49,7 +49,7 @@ public class AvailabilityMapper {
     }
 
     // Método para converter do DOMÍNIO para a ENTIDADE JPA
-    public static AvailabilityJpaEntity toJpaEntity(Availability domain) {
+    public static AvailabilityJpaEntity toJpaEntity(AvailabilityDomain domain) {
         if (domain == null) {
             return null;
         }
@@ -71,7 +71,7 @@ public class AvailabilityMapper {
     }
 
     // Método para converter da ENTIDADE JPA para o DOMÍNIO
-    public static Availability toDomain(AvailabilityJpaEntity jpaEntity) {
+    public static AvailabilityDomain toDomain(AvailabilityJpaEntity jpaEntity) {
         if (jpaEntity == null) {
             return null;
         }
@@ -80,20 +80,20 @@ public class AvailabilityMapper {
         Employee employeeDomain = (jpaEntity.getEmployee() != null) ?
                 EmployeeMapper.toDomain(jpaEntity.getEmployee()) : null;
 
-        Availability availability = new Availability();
-        availability.setId(jpaEntity.getId());
-        availability.setAvailable(jpaEntity.getIsAvailable());
-        availability.setDay(jpaEntity.getDay());
-        availability.setStartTime(jpaEntity.getStartTime());
-        availability.setEndTime(jpaEntity.getEndTime());
-        availability.setEmployee(employeeDomain);
-        availability.setCreatedAt(jpaEntity.getCreatedAt());
-        availability.setUpdatedAt(jpaEntity.getUpdatedAt());
-        return availability;
+        AvailabilityDomain availabilityDomain = new AvailabilityDomain();
+        availabilityDomain.setId(jpaEntity.getId());
+        availabilityDomain.setAvailable(jpaEntity.getIsAvailable());
+        availabilityDomain.setDay(jpaEntity.getDay());
+        availabilityDomain.setStartTime(jpaEntity.getStartTime());
+        availabilityDomain.setEndTime(jpaEntity.getEndTime());
+        availabilityDomain.setEmployee(employeeDomain);
+        availabilityDomain.setCreatedAt(jpaEntity.getCreatedAt());
+        availabilityDomain.setUpdatedAt(jpaEntity.getUpdatedAt());
+        return availabilityDomain;
     }
 
     // Método para converter do objeto de DOMÍNIO para o DTO de resposta resumido
-    public static AvailabilityResumeResponseDto toResumeResponseDto(Availability domain) {
+    public static AvailabilityResumeResponseDto toResumeResponseDto(AvailabilityDomain domain) {
         if (domain == null) {
             return null;
         }

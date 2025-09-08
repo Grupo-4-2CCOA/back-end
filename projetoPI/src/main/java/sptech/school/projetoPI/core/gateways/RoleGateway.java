@@ -7,13 +7,12 @@ import java.util.Optional;
 
 public interface RoleGateway {
     Role save(Role client);
-    boolean existsByName(String name);
     boolean existsById(Integer id);
+    List<Role> findAll();
+    boolean existsByName(String name);
     boolean existsByIdAndActiveFalse(Integer id);
     boolean existsByIdNotAndName(Integer id, String name);
-    boolean existsByRoleId(Integer id);
     Optional<Role> findByIdAndActiveTrue(Integer id);
     Optional<Role> findById(Integer id);
-    Optional<Role> findAllByRoleId(Integer id);
     List<Role> findAllByActiveTrue();
 }

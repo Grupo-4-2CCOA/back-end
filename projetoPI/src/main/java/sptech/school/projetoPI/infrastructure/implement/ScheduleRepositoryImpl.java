@@ -1,18 +1,20 @@
 package sptech.school.projetoPI.infrastructure.implement;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.core.domains.Schedule;
 import sptech.school.projetoPI.core.enums.Status;
 import sptech.school.projetoPI.core.gateways.ScheduleGateway;
+import sptech.school.projetoPI.infrastructure.mappers.ScheduleMapper;
 import sptech.school.projetoPI.infrastructure.persistence.ScheduleJpaEntity;
 import sptech.school.projetoPI.infrastructure.repositories.JpaScheduleRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-@Repository
+@Service
 @RequiredArgsConstructor
 public class ScheduleRepositoryImpl implements ScheduleGateway {
 
@@ -20,7 +22,9 @@ public class ScheduleRepositoryImpl implements ScheduleGateway {
 
     @Override
     public Schedule save(Schedule schedule) {
-        return repository.save(schedule);
+        ScheduleJpaEntity jpaEntity = ScheduleMapper.toJpaEntity(schedule);
+        ScheduleJpaEntity savedEntity = repository.save(jpaEntity);
+        return ScheduleMapper.toDomain(savedEntity);
     }
 
     @Override
@@ -59,27 +63,35 @@ public class ScheduleRepositoryImpl implements ScheduleGateway {
     }
 
     @Override
-    public Optional<ScheduleJpaEntity> findById(Integer id) {
-        return repository.findById(id);
+    public Optional<Schedule> findById(Integer id) {
+        return repository.findById(id).map(ScheduleMapper::toDomain);
     }
 
     @Override
-    public List<ScheduleJpaEntity> findAll() {
-        return repository.findAll();
+    public List<Schedule> findAll() {
+        return repository.findAll().stream()
+                .map(ScheduleMapper::toDomain)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Schedule> findAllByPaymentTypeId(Integer id) {
-        return repository.findAllByPaymentTypeId(id);
+        return repository.findAllByPaymentTypeId(id).stream()
+                .map(ScheduleMapper::toDomain)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Schedule> findAllByEmployeeId(Integer id) {
-        return repository.findAllByEmployeeId(id);
+        return repository.findAllByEmployeeId(id).stream()
+                .map(ScheduleMapper::toDomain)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Schedule> findAllByClientId(Integer clientId) {
-        return repository.findAllByClientId(clientId);
+        return repository.findAllByClientId(clientId).stream()
+                .map(ScheduleMapper::toDomain)
+                .collect(Collectors.toList());
     }
 }

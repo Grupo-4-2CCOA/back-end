@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
-class AvailabilityServiceTest extends ServiceTest {
+class AvailabilityDomainServiceTest extends ServiceTest {
 
     @InjectMocks
     private AvailabilityService service;

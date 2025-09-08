@@ -11,12 +11,13 @@ import sptech.school.projetoPI.core.gateways.ScheduleGateway;
 
 import java.time.LocalDateTime;
 
-@Service
-@Slf4j
-@RequiredArgsConstructor
 public class DeleteScheduleByIdUseCase {
 
     private final ScheduleGateway scheduleGateway;
+
+    public DeleteScheduleByIdUseCase(ScheduleGateway scheduleGateway) {
+        this.scheduleGateway = scheduleGateway;
+    }
 
     public void execute(Integer id) {
         if (!scheduleGateway.existsById(id)) {
@@ -31,7 +32,7 @@ public class DeleteScheduleByIdUseCase {
             );
         }
 
-        Schedule schedule = scheduleGateway.findById(id);
+        Schedule schedule = scheduleGateway.findById(id).get();
         schedule.setStatus(Status.CANCELED);
         schedule.setUpdatedAt(LocalDateTime.now());
         scheduleGateway.save(schedule);

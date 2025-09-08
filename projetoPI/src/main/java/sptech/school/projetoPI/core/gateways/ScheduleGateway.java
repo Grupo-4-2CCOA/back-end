@@ -2,7 +2,6 @@ package sptech.school.projetoPI.core.gateways;
 
 import sptech.school.projetoPI.core.domains.Schedule;
 import sptech.school.projetoPI.core.enums.Status;
-import sptech.school.projetoPI.infrastructure.persistence.ScheduleJpaEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,8 +16,8 @@ public interface ScheduleGateway {
     boolean existsByIdNotAndAppointmentDatetime(Integer id, LocalDateTime appointmentDatetime);
     boolean existsByClientId(Integer clientId);
     boolean existsByIdAndStatus(Integer id, Status status);
-    Optional<ScheduleJpaEntity> findById(Integer id);
-    List<ScheduleJpaEntity> findAll();
+    Optional<Schedule> findById(Integer id);
+    List<Schedule> findAll();
     List<Schedule> findAllByPaymentTypeId(Integer id);
     List<Schedule> findAllByEmployeeId(Integer id);
     List<Schedule> findAllByClientId(Integer clientId);

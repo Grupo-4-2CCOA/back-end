@@ -6,15 +6,14 @@ import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.En
 
 public class GetClientByIdUseCase {
 
-    private ClientGateway clientGateway;
+    private final ClientGateway clientGateway;
+
+    public GetClientByIdUseCase(ClientGateway clientGateway) {
+        this.clientGateway = clientGateway;
+    }
 
     public Client execute(Integer id) {
         return clientGateway.findByIdAndActiveTrue(id)
-                .map((entity) -> {
-                    return entity;
-                })
-                .orElseThrow(() -> {
-                    return new EntityNotFoundException("Id para cliente não encontrado");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Id para cliente não encontrado"));
     }
 }

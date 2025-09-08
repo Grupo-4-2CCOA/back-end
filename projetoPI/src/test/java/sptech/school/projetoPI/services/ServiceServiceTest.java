@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import sptech.school.projetoPI.core.domains.Category;
-import sptech.school.projetoPI.core.domains.Service;
+import sptech.school.projetoPI.core.domains.ServiceDomain;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityConflictException;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.InactiveEntityException;
@@ -36,7 +36,7 @@ class ServiceServiceTest extends ServiceTest {
             .active(true)
             .build();
 
-    private final Service serviceEntity = Service.builder()
+    private final ServiceDomain serviceEntity = ServiceDomain.builder()
             .id(1)
             .category(category)
             .active(true)
@@ -58,7 +58,7 @@ class ServiceServiceTest extends ServiceTest {
         when(categoryRepository.existsByIdAndActiveTrue(anyInt())).thenReturn(true);
         when(repository.save(serviceEntity)).thenReturn(serviceEntity);
 
-        Service response = service.postMethod(serviceEntity);
+        ServiceDomain response = service.postMethod(serviceEntity);
         assertEquals(serviceEntity, response);
     }
 
@@ -81,20 +81,20 @@ class ServiceServiceTest extends ServiceTest {
     @Test
     @DisplayName("Quando existir 3 Services na lista, método getAllMethod() deve retornar tamanho 3")
     void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest() {
-        List<Service> services = List.of(
-                Service.builder()
+        List<ServiceDomain> services = List.of(
+                ServiceDomain.builder()
                         .id(1)
                         .active(true)
                         .description("Service 1")
                         .build(),
 
-                Service.builder()
+                ServiceDomain.builder()
                         .id(2)
                         .active(true)
                         .description("Service 2")
                         .build(),
 
-                Service.builder()
+                ServiceDomain.builder()
                         .id(3)
                         .active(true)
                         .description("Service 3")
@@ -103,7 +103,7 @@ class ServiceServiceTest extends ServiceTest {
 
         when(repository.findAllByActiveTrue()).thenReturn(services);
 
-        List<Service> response = service.getAllMethod();
+        List<ServiceDomain> response = service.getAllMethod();
         assertEquals(3, response.size());
     }
 
@@ -113,7 +113,7 @@ class ServiceServiceTest extends ServiceTest {
     void executeEntityFindByIdMustReturnEntityWithIdOneTest() {
         when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.of(serviceEntity));
 
-        Service response = service.getByIdMethod(1);
+        ServiceDomain response = service.getByIdMethod(1);
         assertEquals(serviceEntity, response);
     }
 
@@ -129,14 +129,14 @@ class ServiceServiceTest extends ServiceTest {
     @Test
     @DisplayName("Quando método putByIdMethod() for chamado com credenciais válidas, deve retornar Service atualizado")
     void executeEntityPutByIdWithValidEntityMustReturnUpdatedEntityTest() {
-        when(repository.findById(anyInt())).thenReturn(Optional.of(new Service()));
+        when(repository.findById(anyInt())).thenReturn(Optional.of(new ServiceDomain()));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(repository.existsByIdNotAndName(anyInt(), anyString())).thenReturn(false);
         when(categoryRepository.existsByIdAndActiveTrue(anyInt())).thenReturn(true);
         when(repository.save(serviceEntity)).thenReturn(serviceEntity);
 
-        Service response = service.putByIdMethod(serviceEntity, anyInt());
+        ServiceDomain response = service.putByIdMethod(serviceEntity, anyInt());
         assertEquals(serviceEntity, response);
     }
 

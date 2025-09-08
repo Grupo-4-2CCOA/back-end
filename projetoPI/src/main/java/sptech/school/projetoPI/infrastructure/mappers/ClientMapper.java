@@ -1,6 +1,9 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import sptech.school.projetoPI.core.domains.Client;
+import sptech.school.projetoPI.core.domains.Schedule;
 import sptech.school.projetoPI.infrastructure.dto.client.ClientRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.client.ClientResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.client.ClientResumeResponseDto;
@@ -20,6 +23,14 @@ public class ClientMapper {
         client.setCep(requestObject.getCep());
         client.setPhone(requestObject.getPhone());
         client.setActive(true);
+        return client;
+    }
+
+    public static Client toDomain(Integer id) {
+        if (id == null) return null;
+
+        Client client = new Client();
+        client.setId(id);
         return client;
     }
 

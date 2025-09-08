@@ -4,20 +4,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import sptech.school.projetoPI.application.usecases.employee.*;
-import sptech.school.projetoPI.application.usecases.availability.ValidateRequestBodyUseCase; // Assumindo que este use case é compartilhado
-import sptech.school.projetoPI.application.usecases.user.EmployeeValidationUseCase;
-import sptech.school.projetoPI.application.usecases.user.UserValidationUseCase;
-import sptech.school.projetoPI.core.gateways.AvailabilityGateway;
-import sptech.school.projetoPI.core.gateways.EmployeeGateway;
-import sptech.school.projetoPI.core.gateways.RoleGateway; // Se o EmployeeUseCase precisar de RoleGateway
-import sptech.school.projetoPI.core.gateways.ScheduleGateway;
+import sptech.school.projetoPI.core.gateways.*;
 
 @Configuration
 public class EmployeeConfig {
 
     @Bean
-    public CreateEmployeeUseCase createEmployeeUseCase(EmployeeGateway repository, PasswordEncoder passwordEncoder, UserValidationUseCase userValidationUseCase, RoleGateway roleGateway , EmployeeValidationUseCase employeeValidationUseCase) {
-        return new CreateEmployeeUseCase(repository, passwordEncoder,userValidationUseCase,roleGateway,employeeValidationUseCase);
+    public CreateEmployeeUseCase createEmployeeUseCase(ClientGateway clientGateway, EmployeeGateway employeeGateway, PasswordEncoder passwordEncoder, RoleGateway roleGateway) {
+        return new CreateEmployeeUseCase(clientGateway, employeeGateway, passwordEncoder, roleGateway);
     }
 
     @Bean
@@ -31,8 +25,8 @@ public class EmployeeConfig {
     }
 
     @Bean
-    public UpdateEmployeeByIdUseCase updateEmployeeByIdUseCase(EmployeeGateway employeeGateway, RoleGateway roleGateway, UserValidationUseCase userValidationUseCase, EmployeeValidationUseCase employeeValidationUseCase) {
-        return new UpdateEmployeeByIdUseCase(employeeGateway, roleGateway, userValidationUseCase, employeeValidationUseCase);
+    public UpdateEmployeeByIdUseCase updateEmployeeByIdUseCase(ClientGateway clientGateway, EmployeeGateway employeeGateway, RoleGateway roleGateway) {
+        return new UpdateEmployeeByIdUseCase(clientGateway, employeeGateway, roleGateway);
     }
 
     @Bean

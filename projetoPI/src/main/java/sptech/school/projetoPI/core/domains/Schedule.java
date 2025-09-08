@@ -31,6 +31,10 @@ public class Schedule {
         this.paymentType = paymentType;
     }
 
+    public Schedule() {
+
+    }
+
     public Integer getId() {
         return id;
     }

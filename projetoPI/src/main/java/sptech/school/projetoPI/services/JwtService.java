@@ -15,7 +15,7 @@ import java.util.function.Function;
 public class JwtService {
 
     private final SecretKey secretKey;
-    private final long jwtExpiration; // em milissegundos
+    private final long jwtExpiration;
 
     public JwtService(@Value("${jwt.secret}") String secret,
                       @Value("${jwt.validity}") long jwtExpiration) {
@@ -25,24 +25,17 @@ public class JwtService {
 
     public boolean isTokenValid(String token) {
         try {
-            // 1. Verifica estrutura básica
             if (token == null || token.isEmpty()) {
                 return false;
             }
 
-            // 2. Extrai claims
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
 
-            // 3. Verifica expiração
-            if (claims.getExpiration().before(new Date())) {
-                return false;
-            }
-
-            return true;
+            return !claims.getExpiration().before(new Date());
 
         } catch (Exception e) {
             return false;
@@ -57,7 +50,6 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    // Métodos auxiliares (já existentes na sua classe)
     public String generateToken(String email, String role) {
         return Jwts.builder()
                 .setSubject(email)

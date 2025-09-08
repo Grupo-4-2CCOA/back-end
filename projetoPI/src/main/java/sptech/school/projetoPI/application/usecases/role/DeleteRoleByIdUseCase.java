@@ -12,11 +12,12 @@ import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.In
 
 import java.time.LocalDateTime;
 
-@Service
-@Slf4j
-@RequiredArgsConstructor
 public class DeleteRoleByIdUseCase {
     private final RoleGateway roleGateway;
+
+    public DeleteRoleByIdUseCase(RoleGateway roleGateway) {
+        this.roleGateway = roleGateway;
+    }
 
     public void execute(Integer id) {
         if (!roleGateway.existsById(id)) {
@@ -31,9 +32,9 @@ public class DeleteRoleByIdUseCase {
             );
         }
 
-        if (roleGateway.existsByRoleId(id)) {
+        if (roleGateway.existsById(id)) {
             throw new ForeignKeyConstraintException(
-                    "Os seguintes usuários estão relacionados com este cargo: %s".formatted(roleGateway.findAllByRoleId(id))
+                    "Os seguintes usuários estão relacionados com este cargo: %s".formatted(roleGateway.findAll())
             );
         }
 

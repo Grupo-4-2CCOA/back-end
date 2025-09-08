@@ -2,7 +2,6 @@ package sptech.school.projetoPI.infrastructure.persistence;
 
 import jakarta.persistence.*;
 import lombok.*;
-import sptech.school.projetoPI.core.domains.Employee;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

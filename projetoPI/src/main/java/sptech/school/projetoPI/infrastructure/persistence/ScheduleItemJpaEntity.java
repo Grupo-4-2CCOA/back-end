@@ -2,8 +2,6 @@ package sptech.school.projetoPI.infrastructure.persistence;
 
 import jakarta.persistence.*;
 import lombok.*;
-import sptech.school.projetoPI.core.domains.Schedule;
-import sptech.school.projetoPI.core.domains.Service;
 
 import java.time.LocalDateTime;
 
@@ -24,9 +22,9 @@ public class ScheduleItemJpaEntity {
 
     @ManyToOne
     @JoinColumn(name = "fk_schedule")
-    private Schedule schedule;
+    private ScheduleJpaEntity schedule;
 
     @ManyToOne
     @JoinColumn(name = "fk_service")
-    private Service service;
+    private ServiceJpaEntity service;
 }

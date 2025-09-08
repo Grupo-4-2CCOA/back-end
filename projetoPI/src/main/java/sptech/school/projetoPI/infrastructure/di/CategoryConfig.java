@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import sptech.school.projetoPI.application.usecases.category.*;
 import sptech.school.projetoPI.core.gateways.CategoryGateway;
+import sptech.school.projetoPI.core.gateways.ServiceGateway;
 
 @Configuration
 public class CategoryConfig {
@@ -29,7 +30,7 @@ public class CategoryConfig {
     }
 
     @Bean
-    public DeleteCategoryByIdUseCase deleteCategoryByIdUseCase(CategoryGateway categoryGateway) {
-        return new DeleteCategoryByIdUseCase(categoryGateway);
+    public DeleteCategoryByIdUseCase deleteCategoryByIdUseCase(CategoryGateway categoryGateway, ServiceGateway serviceGateway) {
+        return new DeleteCategoryByIdUseCase(categoryGateway, serviceGateway);
     }
 }

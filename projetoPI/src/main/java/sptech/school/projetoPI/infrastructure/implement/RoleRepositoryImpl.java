@@ -1,7 +1,7 @@
 package sptech.school.projetoPI.infrastructure.implement;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.core.domains.Role;
 import sptech.school.projetoPI.core.gateways.RoleGateway;
 import sptech.school.projetoPI.infrastructure.mappers.RoleMapper;
@@ -10,8 +10,9 @@ import sptech.school.projetoPI.infrastructure.repositories.JpaRoleRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-@Repository
+@Service
 @RequiredArgsConstructor
 public class RoleRepositoryImpl implements RoleGateway {
 
@@ -45,13 +46,8 @@ public class RoleRepositoryImpl implements RoleGateway {
     }
 
     @Override
-    public boolean existsByRoleId(Integer id) {
-        return repository.existsByRoleId(id);
-    }
-
-    @Override
     public Optional<Role> findByIdAndActiveTrue(Integer id) {
-        return repository.findByIdAndActiveTrue(id);
+        return repository.findByIdAndActiveTrue(id).map(RoleMapper::toDomain);
     }
 
     @Override
@@ -60,12 +56,16 @@ public class RoleRepositoryImpl implements RoleGateway {
     }
 
     @Override
-    public Optional<Role> findAllByRoleId(Integer id) {
-        return repository.findAllByRoleId(id);
+    public List<Role> findAll() {
+        return repository.findAll().stream()
+                .map(RoleMapper::toDomain)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Role> findAllByActiveTrue() {
-        return repository.findAllByActiveTrue();
+        return repository.findAllByActiveTrue().stream()
+                .map(RoleMapper::toDomain)
+                .collect(Collectors.toList());
     }
 }

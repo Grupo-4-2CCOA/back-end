@@ -10,11 +10,12 @@ import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.En
 
 import java.time.LocalDateTime;
 
-@Service
-@Slf4j
-@RequiredArgsConstructor
 public class CreateRoleUseCase {
     private final RoleGateway roleGateway;
+
+    public CreateRoleUseCase(RoleGateway roleGateway) {
+        this.roleGateway = roleGateway;
+    }
 
     public Role execute(Role role) {
         if(roleGateway.existsByName(role.getName())) {
@@ -26,7 +27,6 @@ public class CreateRoleUseCase {
         role.setId(null);
         role.setCreatedAt(LocalDateTime.now());
         role.setUpdatedAt(LocalDateTime.now());
-        log.info(Logs.POST_SUCCESSFULLY.getMessage());
         return roleGateway.save(role);
     }
 }

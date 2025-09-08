@@ -6,12 +6,13 @@ import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.core.gateways.ScheduleItemGateway;
 
-@Service
-@Slf4j
-@RequiredArgsConstructor
 public class DeleteScheduleItemByIdUseCase {
 
     private final ScheduleItemGateway scheduleItemGateway;
+
+    public DeleteScheduleItemByIdUseCase(ScheduleItemGateway scheduleItemGateway) {
+        this.scheduleItemGateway = scheduleItemGateway;
+    }
 
     public void execute(Integer id) {
         if (!scheduleItemGateway.existsById(id)) {

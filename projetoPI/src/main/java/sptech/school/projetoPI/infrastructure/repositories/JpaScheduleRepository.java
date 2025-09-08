@@ -15,7 +15,7 @@ public interface JpaScheduleRepository extends JpaRepository<ScheduleJpaEntity, 
     boolean existsByIdNotAndAppointmentDatetime(Integer id, LocalDateTime appointmentDatetime);
     boolean existsByClientId(Integer clientId);
     boolean existsByIdAndStatus(Integer id, Status status);
-    List<Schedule> findAllByPaymentTypeId(Integer id);
-    List<Schedule> findAllByEmployeeId(Integer id);
-    List<Schedule> findAllByClientId(Integer clientId);
+    List<ScheduleJpaEntity> findAllByPaymentTypeId(Integer id);
+    List<ScheduleJpaEntity> findAllByEmployeeId(Integer id);
+    List<ScheduleJpaEntity> findAllByClientId(Integer clientId);
 }

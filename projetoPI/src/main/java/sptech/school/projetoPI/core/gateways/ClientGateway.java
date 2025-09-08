@@ -6,10 +6,10 @@ import java.util.Optional;
 
 public interface ClientGateway {
     Client save(Client client);
+    boolean existsById(Integer id);
+    List<Client> findAll();
     Optional<Client> findById(Integer id);
-    List<Client> findAllByActiveTrue();
-    Optional<Client> findByIdAndActiveTrue(Integer id);
-    Optional<Client> findByEmail(String email);
+    Client deleteById(Integer id);
     boolean existsByCpf(String cpf);
     boolean existsByEmailIgnoreCase(String email);
     boolean existsByPhone(String phone);
@@ -18,4 +18,7 @@ public interface ClientGateway {
     boolean existsByIdNotAndPhone(Integer id, String phone);
     boolean existsByIdAndActiveFalse(Integer id);
     boolean existsByIdAndActiveTrue(Integer id);
+    List<Client> findAllByActiveTrue();
+    Optional<Client> findByIdAndActiveTrue(Integer id);
+    Optional<Client> findByEmail(String email);
 }

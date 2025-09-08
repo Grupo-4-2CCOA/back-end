@@ -1,6 +1,7 @@
 package sptech.school.projetoPI.application.usecases.availability;
 
-import sptech.school.projetoPI.core.domains.Availability;
+import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.RelatedEntityNotFoundException;
+import sptech.school.projetoPI.core.domains.AvailabilityDomain;
 import sptech.school.projetoPI.core.gateways.AvailabilityGateway;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityConflictException;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.InvalidTimeRangeException;
@@ -10,31 +11,33 @@ import java.time.LocalDateTime;
 public class CreateAvailabilityUseCase {
 
     private final AvailabilityGateway availabilityGateway;
-    private final ValidateRequestBodyUseCase validateRequestBody;
 
-    public CreateAvailabilityUseCase(AvailabilityGateway availabilityGateway, ValidateRequestBodyUseCase validateRequestBody)  {
+    public CreateAvailabilityUseCase(AvailabilityGateway availabilityGateway)  {
         this.availabilityGateway = availabilityGateway;
-        this.validateRequestBody = validateRequestBody;
     }
 
-    public Availability execute(Availability availability) {
-        if(availability.getStartTime().isAfter(availability.getEndTime())) {
+    public AvailabilityDomain execute(AvailabilityDomain availabilityDomain) {
+        if(availabilityDomain.getStartTime().isAfter(availabilityDomain.getEndTime())) {
             throw new InvalidTimeRangeException(
-                    "O horário inicial %s é posterior ao horário final %s".formatted(availability.getStartTime(), availability.getEndTime())
+                    "O horário inicial %s é posterior ao horário final %s".formatted(availabilityDomain.getStartTime(), availabilityDomain.getEndTime())
             );
         }
 
-        validateRequestBody.execute(availability);
+        if(!availabilityGateway.existsById(availabilityDomain.getEmployee().getId())) {
+            throw new RelatedEntityNotFoundException(
+                    "Employee com o ID %d não foi encontrado".formatted(availabilityDomain.getEmployee().getId())
+            );
+        }
 
-        if(availabilityGateway.existsByDayAndEmployeeId(availability.getDay(), availability.getEmployee().getId())) {
+        if(availabilityGateway.existsByDayAndEmployeeId(availabilityDomain.getDay(), availabilityDomain.getEmployee().getId())) {
             throw new EntityConflictException(
-                    "Já existe um horário cadastrado para este funcionário no dia %s".formatted(availability.getDay())
+                    "Já existe um horário cadastrado para este funcionário no dia %s".formatted(availabilityDomain.getDay())
             );
         }
 
-        availability.setId(null);
-        availability.setCreatedAt(LocalDateTime.now());
-        availability.setUpdatedAt(LocalDateTime.now());
-        return availabilityGateway.save(availability);
+        availabilityDomain.setId(null);
+        availabilityDomain.setCreatedAt(LocalDateTime.now());
+        availabilityDomain.setUpdatedAt(LocalDateTime.now());
+        return availabilityGateway.save(availabilityDomain);
     }
 }

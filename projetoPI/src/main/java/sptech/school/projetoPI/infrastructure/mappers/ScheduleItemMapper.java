@@ -1,48 +1,92 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
-import sptech.school.projetoPI.infrastructure.dto.schedule.ScheduleResumeResponseDto;
+import sptech.school.projetoPI.core.domains.ScheduleItem;
 import sptech.school.projetoPI.infrastructure.dto.scheduleItem.ScheduleItemRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.scheduleItem.ScheduleItemResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.scheduleItem.ScheduleItemResumeResponseDto;
-import sptech.school.projetoPI.infrastructure.dto.service.ServiceResumeResponseDto;
-import sptech.school.projetoPI.core.domains.Schedule;
-import sptech.school.projetoPI.core.domains.ScheduleItem;
-import sptech.school.projetoPI.core.domains.Service;
+import sptech.school.projetoPI.infrastructure.persistence.ScheduleItemJpaEntity;
 
 public class ScheduleItemMapper {
-    public static ScheduleItem toEntity(ScheduleItemRequestDto requestObject) {
-        if(requestObject == null) return null;
 
-        return ScheduleItem.builder()
-                .finalPrice(requestObject.getFinalPrice())
-                .discount(requestObject.getDiscount())
-                .schedule(Schedule.builder().id(requestObject.getSchedule()).build())
-                .service(Service.builder().id(requestObject.getService()).build())
-                .build();
+    /* ========= DTO -> DOMAIN ========= */
+    public static ScheduleItem toDomain(ScheduleItemRequestDto requestObject) {
+        if (requestObject == null) return null;
+
+        ScheduleItem scheduleItem = new ScheduleItem();
+        scheduleItem.setFinalPrice(requestObject.getFinalPrice());
+        scheduleItem.setDiscount(requestObject.getDiscount());
+
+        // This is the correct call, assuming your DTO has Integer IDs
+        scheduleItem.setSchedule(ScheduleMapper.toDomain(requestObject.getSchedule()));
+        scheduleItem.setService(ServiceMapper.toDomain(requestObject.getService()));
+
+        return scheduleItem;
     }
 
-    public static ScheduleItemResponseDto toResponseDto(ScheduleItem entity) {
-        if(entity == null) return null;
+    /* ========= DOMAIN -> DTO (Completo) ========= */
+    public static ScheduleItemResponseDto toResponseDto(ScheduleItem domain) {
+        if (domain == null) return null;
 
         return ScheduleItemResponseDto.builder()
-                .id(entity.getId())
-                .finalPrice(entity.getFinalPrice())
-                .discount(entity.getDiscount())
-                .createdAt(entity.getCreatedAt())
-                .updatedAt(entity.getUpdatedAt())
-                .schedule(ScheduleResumeResponseDto.builder().id(entity.getId()).build())
-                .service(ServiceResumeResponseDto.builder().id(entity.getId()).build())
+                .id(domain.getId())
+                .finalPrice(domain.getFinalPrice())
+                .discount(domain.getDiscount())
+                .createdAt(domain.getCreatedAt())
+                .updatedAt(domain.getUpdatedAt())
+                .schedule(ScheduleMapper.toResumeResponseDto(domain.getSchedule()))
+                .service(ServiceMapper.toResumeResponseDto(domain.getService()))
                 .build();
     }
 
-    public static ScheduleItemResumeResponseDto toResumeResponseDto(ScheduleItem entity) {
-        if(entity == null) return null;
+    /* ========= DOMAIN -> DTO (Resumo) ========= */
+    public static ScheduleItemResumeResponseDto toResumeResponseDto(ScheduleItem domain) {
+        if (domain == null) return null;
 
         return ScheduleItemResumeResponseDto.builder()
-                .id(entity.getId())
-                .finalPrice(entity.getFinalPrice())
-                .schedule(ScheduleResumeResponseDto.builder().id(entity.getId()).build())
-                .service(ServiceResumeResponseDto.builder().id(entity.getId()).build())
+                .id(domain.getId())
+                .finalPrice(domain.getFinalPrice())
+                .schedule(ScheduleMapper.toResumeResponseDto(domain.getSchedule()))
+                .service(ServiceMapper.toResumeResponseDto(domain.getService()))
                 .build();
+    }
+
+    //---------------------------------------------------------
+
+    /* ========= DOMAIN -> JPA ========= */
+    public static ScheduleItemJpaEntity toJpaEntity(ScheduleItem domain) {
+        if (domain == null) return null;
+
+        ScheduleItemJpaEntity jpaEntity = new ScheduleItemJpaEntity();
+        jpaEntity.setId(domain.getId());
+        jpaEntity.setFinalPrice(domain.getFinalPrice());
+        jpaEntity.setDiscount(domain.getDiscount());
+        jpaEntity.setCreatedAt(domain.getCreatedAt());
+        jpaEntity.setUpdatedAt(domain.getUpdatedAt());
+
+        if (domain.getSchedule() != null) {
+            jpaEntity.setSchedule(ScheduleMapper.toJpaEntity(domain.getSchedule()));
+        }
+        if (domain.getService() != null) {
+            jpaEntity.setService(ServiceMapper.toJpaEntity(domain.getService()));
+        }
+
+        return jpaEntity;
+    }
+
+    /* ========= JPA -> DOMAIN ========= */
+    public static ScheduleItem toDomain(ScheduleItemJpaEntity jpaEntity) {
+        if (jpaEntity == null) return null;
+
+        ScheduleItem domain = new ScheduleItem();
+        domain.setId(jpaEntity.getId());
+        domain.setFinalPrice(jpaEntity.getFinalPrice());
+        domain.setDiscount(jpaEntity.getDiscount());
+        domain.setCreatedAt(jpaEntity.getCreatedAt());
+        domain.setUpdatedAt(jpaEntity.getUpdatedAt());
+
+        domain.setSchedule(ScheduleMapper.toDomain(jpaEntity.getSchedule()));
+        domain.setService(ServiceMapper.toDomain(jpaEntity.getService()));
+
+        return domain;
     }
 }

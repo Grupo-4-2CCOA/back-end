@@ -8,11 +8,12 @@ import sptech.school.projetoPI.core.gateways.RoleGateway;
 
 import java.util.List;
 
-@Service
-@Slf4j
-@RequiredArgsConstructor
 public class GetAllRoleUseCase {
     private final RoleGateway roleGateway;
+
+    public GetAllRoleUseCase(RoleGateway roleGateway) {
+        this.roleGateway = roleGateway;
+    }
 
     public List<Role> execute() {
         return roleGateway.findAllByActiveTrue();

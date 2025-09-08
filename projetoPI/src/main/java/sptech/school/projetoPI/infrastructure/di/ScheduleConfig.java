@@ -3,14 +3,17 @@ package sptech.school.projetoPI.infrastructure.di;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import sptech.school.projetoPI.application.usecases.schedule.*;
+import sptech.school.projetoPI.core.gateways.ClientGateway;
+import sptech.school.projetoPI.core.gateways.EmployeeGateway;
+import sptech.school.projetoPI.core.gateways.PaymentTypeGateway;
 import sptech.school.projetoPI.core.gateways.ScheduleGateway;
 
 @Configuration
 public class ScheduleConfig {
 
     @Bean
-    public CreateScheduleUseCase createScheduleUseCase(ScheduleGateway scheduleGateway) {
-        return new CreateScheduleUseCase(scheduleGateway);
+    public CreateScheduleUseCase createScheduleUseCase(ScheduleGateway scheduleGateway, ClientGateway clientGateway, EmployeeGateway employeeGateway, PaymentTypeGateway paymentTypeGateway) {
+        return new CreateScheduleUseCase(scheduleGateway, clientGateway, employeeGateway, paymentTypeGateway);
     }
 
     @Bean
@@ -29,8 +32,8 @@ public class ScheduleConfig {
     }
 
     @Bean
-    public UpdateScheduleByIdUseCase updateScheduleByIdUseCase(ScheduleGateway scheduleGateway) {
-        return new UpdateScheduleByIdUseCase(scheduleGateway);
+    public UpdateScheduleByIdUseCase updateScheduleByIdUseCase(ScheduleGateway scheduleGateway, ClientGateway clientGateway, EmployeeGateway employeeGateway, PaymentTypeGateway paymentTypeGateway) {
+        return new UpdateScheduleByIdUseCase(scheduleGateway, clientGateway, employeeGateway, paymentTypeGateway);
     }
 
 }

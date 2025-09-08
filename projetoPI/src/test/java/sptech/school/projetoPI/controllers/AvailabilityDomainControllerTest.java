@@ -5,19 +5,19 @@ import static org.mockito.Mockito.when;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import sptech.school.projetoPI.core.domains.Availability;
+import sptech.school.projetoPI.core.domains.AvailabilityDomain;
 
 import java.util.List;
 
 @SpringBootTest
-class AvailabilityControllerTest extends ControllerTest<Availability, AvailabilityService> {
+class AvailabilityDomainControllerTest extends ControllerTest<AvailabilityDomain, AvailabilityService> {
 
     @MockBean
     private AvailabilityService service;
 
     @Override
-    protected Availability getEntity() {
-        return new Availability();
+    protected AvailabilityDomain getEntity() {
+        return new AvailabilityDomain();
     }
 
     @Override
@@ -91,7 +91,7 @@ class AvailabilityControllerTest extends ControllerTest<Availability, Availabili
 
     @Override
     protected void whenSignThenReturn() {
-        when(getService().postMethod(any(Availability.class))).thenReturn(getEntity());
+        when(getService().postMethod(any(AvailabilityDomain.class))).thenReturn(getEntity());
     }
 
     @Override
@@ -106,6 +106,6 @@ class AvailabilityControllerTest extends ControllerTest<Availability, Availabili
 
     @Override
     protected void whenUpdateByIdThenReturn() {
-        when(getService().putByIdMethod(any(Availability.class), anyInt())).thenReturn(getEntity());
+        when(getService().putByIdMethod(any(AvailabilityDomain.class), anyInt())).thenReturn(getEntity());
     }
 }

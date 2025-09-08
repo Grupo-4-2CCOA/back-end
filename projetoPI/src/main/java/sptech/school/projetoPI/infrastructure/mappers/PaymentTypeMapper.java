@@ -1,6 +1,7 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
 import sptech.school.projetoPI.core.domains.PaymentType;
+import sptech.school.projetoPI.core.domains.Schedule;
 import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeRequestDto;
 import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeResponseDto;
 import sptech.school.projetoPI.infrastructure.dto.paymentType.PaymentTypeResumeResponseDto;
@@ -16,6 +17,14 @@ public class PaymentTypeMapper {
         paymentType.setName(requestObject.getName());
         paymentType.setDescription(requestObject.getDescription());
         paymentType.setActive(true);
+        return paymentType;
+    }
+
+    public static PaymentType toDomain(Integer id) {
+        if (id == null) return null;
+
+        PaymentType paymentType = new PaymentType();
+        paymentType.setId(id);
         return paymentType;
     }
 

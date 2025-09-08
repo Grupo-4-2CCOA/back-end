@@ -7,11 +7,12 @@ import sptech.school.projetoPI.core.domains.Role;
 import sptech.school.projetoPI.core.gateways.RoleGateway;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
 
-@Service
-@Slf4j
-@RequiredArgsConstructor
 public class GetRoleByIdUseCase {
     private final RoleGateway roleGateway;
+
+    public GetRoleByIdUseCase(RoleGateway roleGateway) {
+        this.roleGateway = roleGateway;
+    }
 
     public Role execute(Integer id) {
         return roleGateway.findByIdAndActiveTrue(id).orElseThrow(

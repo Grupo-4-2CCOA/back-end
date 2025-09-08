@@ -2,9 +2,6 @@ package sptech.school.projetoPI.infrastructure.persistence;
 
 import jakarta.persistence.*;
 import lombok.*;
-import sptech.school.projetoPI.core.domains.Client;
-import sptech.school.projetoPI.core.domains.Employee;
-import sptech.school.projetoPI.core.domains.PaymentType;
 import sptech.school.projetoPI.core.enums.Status;
 
 import java.time.LocalDateTime;
@@ -32,13 +29,13 @@ public class ScheduleJpaEntity {
 
     @ManyToOne
     @JoinColumn(name="fk_client")
-    private Client client;
+    private ClientJpaEntity client;
 
     @ManyToOne
     @JoinColumn(name="fk_employee")
-    private Employee employee;
+    private EmployeeJpaEntity employee;
 
     @ManyToOne
     @JoinColumn(name="fk_payment_type")
-    private PaymentType paymentType;
+    private PaymentTypeJpaEntity paymentType;
 }

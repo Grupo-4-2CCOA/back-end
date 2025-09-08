@@ -1,7 +1,7 @@
 package sptech.school.projetoPI.infrastructure.implement;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.core.domains.Category;
 import sptech.school.projetoPI.core.gateways.CategoryGateway;
 import sptech.school.projetoPI.infrastructure.mappers.CategoryMapper;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Repository
+@Service
 @RequiredArgsConstructor
 public class CategoryRepositoryImpl implements CategoryGateway {
 

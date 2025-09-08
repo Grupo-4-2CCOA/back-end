@@ -13,24 +13,24 @@ import java.time.LocalDateTime;
 
 public class DeleteEmployeeByIdUseCase {
 
-    private final EmployeeGateway repository;
+    private final EmployeeGateway employeeGateway;
     private final ScheduleGateway scheduleGateway;
     private final AvailabilityGateway availabilityGateway;
 
-    public DeleteEmployeeByIdUseCase(EmployeeGateway repository, ScheduleGateway scheduleGateway, AvailabilityGateway availabilityGateway) {
-        this.repository = repository;
+    public DeleteEmployeeByIdUseCase(EmployeeGateway employeeGateway, ScheduleGateway scheduleGateway, AvailabilityGateway availabilityGateway) {
+        this.employeeGateway = employeeGateway;
         this.scheduleGateway = scheduleGateway;
         this.availabilityGateway = availabilityGateway;
     }
 
     public void execute(Integer id) {
-        if (!repository.existsById(id)) {
+        if (!employeeGateway.existsById(id)) {
             throw new EntityNotFoundException(
                     Logs.DELETE_NOT_FOUND.getMessage().formatted(id)
             );
         }
 
-        if (repository.existsByIdAndActiveFalse(id)) {
+        if (employeeGateway.existsByIdAndActiveFalse(id)) {
             throw new InactiveEntityException(
                     Logs.DELETE_INACTIVE_ENTITY.getMessage().formatted(id)
             );
@@ -48,9 +48,9 @@ public class DeleteEmployeeByIdUseCase {
             );
         }
 
-        Employee employee = repository.findById(id).get();
+        Employee employee = employeeGateway.findById(id).get();
         employee.setActive(false);
         employee.setUpdatedAt(LocalDateTime.now());
-        repository.save(employee);
+        employeeGateway.save(employee);
     }
 }

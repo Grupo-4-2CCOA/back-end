@@ -1,5 +1,6 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
+import sptech.school.projetoPI.core.domains.Client;
 import sptech.school.projetoPI.core.domains.Employee;
 import sptech.school.projetoPI.infrastructure.dto.login.UserTokenDto;
 

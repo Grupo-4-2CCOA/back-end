@@ -1,8 +1,5 @@
 package sptech.school.projetoPI.core.domains;
 
-import jakarta.persistence.*;
-import lombok.*;
-
 import java.time.LocalDateTime;
 
 public class ScheduleItem {
@@ -12,9 +9,9 @@ public class ScheduleItem {
     private Double finalPrice;
     private Double discount;
     private Schedule schedule;
-    private Service service;
+    private ServiceDomain service;
 
-    public ScheduleItem(Integer id, LocalDateTime createdAt, LocalDateTime updatedAt, Double finalPrice, Double discount, Schedule schedule, Service service) {
+    public ScheduleItem(Integer id, LocalDateTime createdAt, LocalDateTime updatedAt, Double finalPrice, Double discount, Schedule schedule, ServiceDomain service) {
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -22,6 +19,10 @@ public class ScheduleItem {
         this.discount = discount;
         this.schedule = schedule;
         this.service = service;
+    }
+
+    public ScheduleItem() {
+
     }
 
     public Integer getId() {
@@ -72,11 +73,11 @@ public class ScheduleItem {
         this.schedule = schedule;
     }
 
-    public Service getService() {
+    public ServiceDomain getService() {
         return service;
     }
 
-    public void setService(Service service) {
+    public void setService(ServiceDomain service) {
         this.service = service;
     }
 }

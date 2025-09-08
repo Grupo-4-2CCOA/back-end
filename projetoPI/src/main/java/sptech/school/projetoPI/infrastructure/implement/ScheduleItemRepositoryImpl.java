@@ -1,16 +1,15 @@
 package sptech.school.projetoPI.infrastructure.implement;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.core.domains.ScheduleItem;
 import sptech.school.projetoPI.core.gateways.ScheduleItemGateway;
-import sptech.school.projetoPI.infrastructure.persistence.ScheduleItemJpaEntity;
 import sptech.school.projetoPI.infrastructure.repositories.JpaScheduleItemRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+@Service
 @RequiredArgsConstructor
 public class ScheduleItemRepositoryImpl implements ScheduleItemGateway {
 
@@ -18,21 +17,26 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemGateway {
 
     @Override
     public ScheduleItem save(ScheduleItem scheduleItem) {
-        return repository.save(scheduleItem);
+        return null;
     }
 
     @Override
     public boolean existsById(Integer id) {
-        return repository.existsById(id);
+        return false;
     }
 
     @Override
-    public Optional<ScheduleItemJpaEntity> findById(Integer id) {
-        return repository.findById(id);
+    public Optional<ScheduleItem> findById(Integer id) {
+        return Optional.empty();
     }
 
     @Override
-    public List<ScheduleItemJpaEntity> findAll() {
-        return repository.findAll();
+    public List<ScheduleItem> findAll() {
+        return List.of();
+    }
+
+    @Override
+    public ScheduleItem deleteById(Integer id) {
+        return null;
     }
 }

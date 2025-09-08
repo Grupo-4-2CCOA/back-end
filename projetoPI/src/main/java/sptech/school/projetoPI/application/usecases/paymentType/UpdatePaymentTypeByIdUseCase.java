@@ -3,10 +3,7 @@ package sptech.school.projetoPI.application.usecases.paymentType;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityConflictException;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.InactiveEntityException;
-import sptech.school.projetoPI.application.usecases.user.FeedbackValidationUseCase;
-import sptech.school.projetoPI.core.domains.Feedback;
 import sptech.school.projetoPI.core.domains.PaymentType;
-import sptech.school.projetoPI.core.gateways.FeedbackGateway;
 import sptech.school.projetoPI.core.gateways.PaymentTypeGateway;
 
 import java.time.LocalDateTime;

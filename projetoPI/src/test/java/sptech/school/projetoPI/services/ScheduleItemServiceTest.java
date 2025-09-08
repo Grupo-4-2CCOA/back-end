@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import sptech.school.projetoPI.core.domains.Schedule;
 import sptech.school.projetoPI.core.domains.ScheduleItem;
-import sptech.school.projetoPI.core.domains.Service;
+import sptech.school.projetoPI.core.domains.ServiceDomain;
 import sptech.school.projetoPI.core.enums.Status;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.RelatedEntityNotFoundException;
@@ -33,7 +33,7 @@ class ScheduleItemServiceTest extends ServiceTest {
     @Mock
     private ServiceRepository serviceRepository;
 
-    private final Service serviceEntity = Service.builder()
+    private final ServiceDomain serviceEntity = ServiceDomain.builder()
             .id(1)
             .active(true)
             .name("Service")

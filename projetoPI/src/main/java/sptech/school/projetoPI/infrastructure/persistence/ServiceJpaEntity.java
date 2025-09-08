@@ -2,7 +2,6 @@ package sptech.school.projetoPI.infrastructure.persistence;
 
 import jakarta.persistence.*;
 import lombok.*;
-import sptech.school.projetoPI.core.domains.Category;
 
 import java.time.LocalDateTime;
 
@@ -27,5 +26,5 @@ public class ServiceJpaEntity {
 
     @ManyToOne
     @JoinColumn(name="fk_category")
-    private Category category;
+    private CategoryJpaEntity category;
 }

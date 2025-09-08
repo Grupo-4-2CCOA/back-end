@@ -1,13 +1,10 @@
 package sptech.school.projetoPI.core.domains;
 
-import jakarta.validation.constraints.FutureOrPresent;
-import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class Availability {
+public class AvailabilityDomain {
     private Integer id;
     private Boolean isAvailable;
     private LocalDateTime createdAt;
@@ -17,7 +14,7 @@ public class Availability {
     private LocalTime endTime;
     private Employee employee;
 
-    public Availability(Integer id, Boolean isAvailable, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDate day, LocalTime startTime, LocalTime endTime, Employee employee) {
+    public AvailabilityDomain(Integer id, Boolean isAvailable, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDate day, LocalTime startTime, LocalTime endTime, Employee employee) {
         this.id = id;
         this.isAvailable = isAvailable;
         this.createdAt = createdAt;
@@ -28,7 +25,7 @@ public class Availability {
         this.employee = employee;
     }
 
-    public Availability() {}
+    public AvailabilityDomain() {}
 
     public Integer getId() {
         return id;

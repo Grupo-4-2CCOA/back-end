@@ -8,13 +8,13 @@ import sptech.school.projetoPI.core.gateways.ScheduleGateway;
 
 import java.util.List;
 
-@Service
-@Slf4j
-@RequiredArgsConstructor
 public class GetAllScheduleUseCase {
 
     private final ScheduleGateway scheduleGateway;
 
+    public GetAllScheduleUseCase(ScheduleGateway scheduleGateway) {
+        this.scheduleGateway = scheduleGateway;
+    }
 
     public List<Schedule> execute() {
         return scheduleGateway.findAll();

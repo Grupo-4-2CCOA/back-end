@@ -11,11 +11,12 @@ import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.In
 
 import java.time.LocalDateTime;
 
-@Service
-@Slf4j
-@RequiredArgsConstructor
 public class UpdateRoleByIdUseCase {
     private final RoleGateway roleGateway;
+
+    public UpdateRoleByIdUseCase(RoleGateway roleGateway) {
+        this.roleGateway = roleGateway;
+    }
 
     public Role execute(Role role, Integer id) {
         if (!roleGateway.existsById(id)) {

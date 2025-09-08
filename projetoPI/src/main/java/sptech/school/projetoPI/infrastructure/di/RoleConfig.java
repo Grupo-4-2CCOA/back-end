@@ -2,8 +2,8 @@ package sptech.school.projetoPI.infrastructure.di;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import sptech.school.projetoPI.application.usecases.role.*;
-import sptech.school.projetoPI.core.gateways.RoleGateway;
+import sptech.school.projetoPI.core.application.usecase.role.*;
+import sptech.school.projetoPI.core.gateway.RoleGateway;
 
 @Configuration
 public class RoleConfig {

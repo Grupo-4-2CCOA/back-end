@@ -4,11 +4,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import sptech.school.projetoPI.core.domains.PaymentType;
-import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityConflictException;
-import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
-import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.ForeignKeyConstraintException;
-import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.InactiveEntityException;
+import sptech.school.projetoPI.core.domain.PaymentTypeDomain;
+import sptech.school.projetoPI.core.application.usecase.exceptions.exceptionClass.EntityConflictException;
+import sptech.school.projetoPI.core.application.usecase.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.core.application.usecase.exceptions.exceptionClass.ForeignKeyConstraintException;
+import sptech.school.projetoPI.core.application.usecase.exceptions.exceptionClass.InactiveEntityException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,7 +30,7 @@ class PaymentTypeServiceTest extends ServiceTest {
     @Mock
     private ScheduleRepository scheduleRepository;
 
-    private final PaymentType paymentType = PaymentType.builder()
+    private final PaymentTypeDomain paymentTypeDomain = PaymentTypeDomain.builder()
             .id(1)
             .name("DEBITO")
             .description("Pagamento no Débito")
@@ -44,43 +44,43 @@ class PaymentTypeServiceTest extends ServiceTest {
     @DisplayName("Quando método postMethod() for chamado com credenciais válidas, deve retornar PaymentType")
     void executeEntitySignWithValidParametersTest() {
         when(repository.existsByNameIgnoreCase(anyString())).thenReturn(false);
-        when(repository.save(paymentType)).thenReturn(paymentType);
+        when(repository.save(paymentTypeDomain)).thenReturn(paymentTypeDomain);
 
-        PaymentType response = service.postMethod(paymentType);
-        assertEquals(paymentType, response);
+        PaymentTypeDomain response = service.postMethod(paymentTypeDomain);
+        assertEquals(paymentTypeDomain, response);
     }
 
     @Test
     @DisplayName("Quando já existir PaymentType com o mesmo nome, método postMethod() deve estourar EntityConflictException")
     void executePaymentTypeSignWithExistingPaymentTypeNameMustThrowEntityConflictExceptionTest() {
         when(repository.existsByNameIgnoreCase(anyString())).thenReturn(true);
-        assertThrows(EntityConflictException.class, () -> service.postMethod(paymentType));
+        assertThrows(EntityConflictException.class, () -> service.postMethod(paymentTypeDomain));
     }
 
     @Override
     @Test
     @DisplayName("Quando existir 3 PaymentTypes na lista, método getAllMethod() deve retornar tamanho 3")
     void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest() {
-        List<PaymentType> paymentTypes = List.of(
-                PaymentType.builder()
+        List<PaymentTypeDomain> paymentTypeDomains = List.of(
+                PaymentTypeDomain.builder()
                         .id(1)
                         .name("Manicure")
                         .build(),
 
-                PaymentType.builder()
+                PaymentTypeDomain.builder()
                         .id(2)
                         .name("Depilação")
                         .build(),
 
-                PaymentType.builder()
+                PaymentTypeDomain.builder()
                         .id(3)
                         .name("Hidratação")
                         .build()
         );
 
-        when(repository.findAllByActiveTrue()).thenReturn(paymentTypes);
+        when(repository.findAllByActiveTrue()).thenReturn(paymentTypeDomains);
 
-        List<PaymentType> response = service.getAllMethod();
+        List<PaymentTypeDomain> response = service.getAllMethod();
         assertEquals(3, response.size());
     }
 
@@ -88,10 +88,10 @@ class PaymentTypeServiceTest extends ServiceTest {
     @Test
     @DisplayName("Quando existir PaymentType com ID 1, método getByIdMethod() deve retornar o PaymentType encontrado")
     void executeEntityFindByIdMustReturnEntityWithIdOneTest() {
-        when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.of(paymentType));
+        when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.of(paymentTypeDomain));
 
-        PaymentType response = service.getByIdMethod(1);
-        assertEquals(paymentType, response);
+        PaymentTypeDomain response = service.getByIdMethod(1);
+        assertEquals(paymentTypeDomain, response);
     }
 
     @Override
@@ -106,14 +106,14 @@ class PaymentTypeServiceTest extends ServiceTest {
     @Test
     @DisplayName("Quando método putByIdMethod() for chamado com credenciais válidas, deve retornar PaymentType atualizado")
     void executeEntityPutByIdWithValidEntityMustReturnUpdatedEntityTest() {
-        when(repository.findById(anyInt())).thenReturn(Optional.of(new PaymentType()));
+        when(repository.findById(anyInt())).thenReturn(Optional.of(new PaymentTypeDomain()));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(repository.existsByIdNotAndNameIgnoreCase(anyInt(), anyString())).thenReturn(false);
-        when(repository.save(paymentType)).thenReturn(paymentType);
+        when(repository.save(paymentTypeDomain)).thenReturn(paymentTypeDomain);
 
-        PaymentType response = service.putByIdMethod(paymentType, anyInt());
-        assertEquals(paymentType, response);
+        PaymentTypeDomain response = service.putByIdMethod(paymentTypeDomain, anyInt());
+        assertEquals(paymentTypeDomain, response);
     }
 
     @Override
@@ -121,7 +121,7 @@ class PaymentTypeServiceTest extends ServiceTest {
     @DisplayName("Quando não existir PaymentType com ID requisitado, método putByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityPutByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.putByIdMethod(paymentType, 1));
+        assertThrows(EntityNotFoundException.class, () -> service.putByIdMethod(paymentTypeDomain, 1));
     }
 
     @Test
@@ -129,7 +129,7 @@ class PaymentTypeServiceTest extends ServiceTest {
     void executePaymentTypePutByIdWithInactiveEntityMustThrowInactiveEntityExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(true);
-        assertThrows(InactiveEntityException.class, () -> service.putByIdMethod(paymentType, 1));
+        assertThrows(InactiveEntityException.class, () -> service.putByIdMethod(paymentTypeDomain, 1));
     }
 
     @Test
@@ -138,21 +138,21 @@ class PaymentTypeServiceTest extends ServiceTest {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(repository.existsByIdNotAndNameIgnoreCase(anyInt(), anyString())).thenReturn(true);
-        assertThrows(EntityConflictException.class, () -> service.putByIdMethod(paymentType, 1));
+        assertThrows(EntityConflictException.class, () -> service.putByIdMethod(paymentTypeDomain, 1));
     }
 
     @Override
     @Test
     @DisplayName("Quando método deleteByIdMethod() for chamado com ID válido, deve inativar entidade")
     void executeEntityDeleteByIdWithValidIdMustInactiveOrDeleteEntityTest() {
-        when(repository.findById(anyInt())).thenReturn(Optional.of(paymentType));
+        when(repository.findById(anyInt())).thenReturn(Optional.of(paymentTypeDomain));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(scheduleRepository.existsByPaymentTypeId(anyInt())).thenReturn(false);
 
         service.deleteByIdMethod(1);
 
-        assertFalse(paymentType.getActive());
+        assertFalse(paymentTypeDomain.getActive());
     }
 
     @Override

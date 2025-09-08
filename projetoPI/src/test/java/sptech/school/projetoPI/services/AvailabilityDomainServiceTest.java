@@ -4,11 +4,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import sptech.school.projetoPI.core.domains.Employee;
-import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityConflictException;
-import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
-import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.InvalidTimeRangeException;
-import sptech.school.projetoPI.application.usecases.exceptions.exceptionClass.RelatedEntityNotFoundException;
+import sptech.school.projetoPI.core.domain.EmployeeDomain;
+import sptech.school.projetoPI.core.application.usecase.exceptions.exceptionClass.EntityConflictException;
+import sptech.school.projetoPI.core.application.usecase.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.core.application.usecase.exceptions.exceptionClass.InvalidTimeRangeException;
+import sptech.school.projetoPI.core.application.usecase.exceptions.exceptionClass.RelatedEntityNotFoundException;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
 
 import java.time.LocalDate;
@@ -32,7 +32,7 @@ class AvailabilityDomainServiceTest extends ServiceTest {
     @Mock
     private EmployeeRepository employeeRepository;
 
-    private final Employee employee = Employee.builder()
+    private final EmployeeDomain employeeDomain = EmployeeDomain.builder()
             .id(1)
             .name("Fabricio")
             .cpf("55511177782")
@@ -40,7 +40,7 @@ class AvailabilityDomainServiceTest extends ServiceTest {
 
     private final Availability availability = Availability.builder()
             .id(1)
-            .employee(employee)
+            .employee(employeeDomain)
             .isAvailable(true)
             .day(LocalDate.now())
             .startTime(LocalTime.of(0, 0))

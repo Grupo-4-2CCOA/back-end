@@ -2,8 +2,8 @@ package sptech.school.projetoPI.infrastructure.di;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import sptech.school.projetoPI.application.usecases.service.*;
-import sptech.school.projetoPI.core.gateways.ServiceGateway;
+import sptech.school.projetoPI.core.application.usecase.service.*;
+import sptech.school.projetoPI.core.gateway.ServiceGateway;
 
 @Configuration
 public class ServiceConfig {

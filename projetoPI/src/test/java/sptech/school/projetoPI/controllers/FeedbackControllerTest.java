@@ -2,7 +2,7 @@ package sptech.school.projetoPI.controllers;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import sptech.school.projetoPI.core.domains.Feedback;
+import sptech.school.projetoPI.core.domain.FeedbackDomain;
 
 import java.util.List;
 
@@ -11,14 +11,14 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class FeedbackControllerTest extends ControllerTest<Feedback, FeedbackService> {
+class FeedbackControllerTest extends ControllerTest<FeedbackDomain, FeedbackService> {
 
     @MockBean
     private FeedbackService service;
 
     @Override
-    protected Feedback getEntity() {
-        return new Feedback();
+    protected FeedbackDomain getEntity() {
+        return new FeedbackDomain();
     }
 
     @Override
@@ -38,8 +38,8 @@ class FeedbackControllerTest extends ControllerTest<Feedback, FeedbackService> {
                 {
                      "comment": "Comment",
                      "rating": 5,
-                     "schedule": 1,
-                     "client": 1
+                     "scheduleDomain": 1,
+                     "clientDomain": 1
                 }
                 """;
     }
@@ -50,8 +50,8 @@ class FeedbackControllerTest extends ControllerTest<Feedback, FeedbackService> {
                 {
                      "comment": "Comment",
                      "rating": -5,
-                     "schedule": 1,
-                     "client": 1
+                     "scheduleDomain": 1,
+                     "clientDomain": 1
                 }
                 """;
     }
@@ -61,8 +61,8 @@ class FeedbackControllerTest extends ControllerTest<Feedback, FeedbackService> {
         return """
                 {
                      "comment": "Comment",
-                     "schedule": 1,
-                     "client": 1
+                     "scheduleDomain": 1,
+                     "clientDomain": 1
                 }
                 """;
     }
@@ -73,8 +73,8 @@ class FeedbackControllerTest extends ControllerTest<Feedback, FeedbackService> {
                 {
                      "comment": "Comment",
                      "rating": 5,
-                     "schedule": null,
-                     "client": 1
+                     "scheduleDomain": null,
+                     "clientDomain": 1
                 }
                 """;
     }
@@ -85,15 +85,15 @@ class FeedbackControllerTest extends ControllerTest<Feedback, FeedbackService> {
                 {
                      "comment": "Comment",
                      "rating": "A",
-                     "schedule": 1,
-                     "client": 1
+                     "scheduleDomain": 1,
+                     "clientDomain": 1
                 }
                 """;
     }
 
     @Override
     protected void whenSignThenReturn() {
-        when(getService().postMethod(any(Feedback.class))).thenReturn(getEntity());
+        when(getService().postMethod(any(FeedbackDomain.class))).thenReturn(getEntity());
     }
 
     @Override
@@ -108,6 +108,6 @@ class FeedbackControllerTest extends ControllerTest<Feedback, FeedbackService> {
 
     @Override
     protected void whenUpdateByIdThenReturn() {
-        when(getService().putByIdMethod(any(Feedback.class), anyInt())).thenReturn(getEntity());
+        when(getService().putByIdMethod(any(FeedbackDomain.class), anyInt())).thenReturn(getEntity());
     }
 }

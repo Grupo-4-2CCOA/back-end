@@ -2,7 +2,7 @@ package sptech.school.projetoPI.controllers;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import sptech.school.projetoPI.core.domains.ServiceDomain;
+import sptech.school.projetoPI.core.domain.ServiceDomain;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ class ServiceControllerTest extends ControllerTest<ServiceDomain, ServiceService
                      "basePrice": 50,
                      "baseDuration": 10,
                      "image": "Image",
-                     "category": 1
+                     "categoryDomain": 1
                 }
                 """;
     }
@@ -55,7 +55,7 @@ class ServiceControllerTest extends ControllerTest<ServiceDomain, ServiceService
                      "basePrice": -50,
                      "baseDuration": 10,
                      "image": "Image",
-                     "category": 1
+                     "categoryDomain": 1
                 }
                 """;
     }
@@ -68,7 +68,7 @@ class ServiceControllerTest extends ControllerTest<ServiceDomain, ServiceService
                      "basePrice": 50,
                      "baseDuration": 10,
                      "image": "Image",
-                     "category": 1
+                     "categoryDomain": 1
                 }
                 """;
     }
@@ -82,7 +82,7 @@ class ServiceControllerTest extends ControllerTest<ServiceDomain, ServiceService
                      "basePrice": 50,
                      "baseDuration": 10,
                      "image": "Image",
-                     "category": 1
+                     "categoryDomain": 1
                 }
                 """;
     }
@@ -96,7 +96,7 @@ class ServiceControllerTest extends ControllerTest<ServiceDomain, ServiceService
                      "basePrice": 50,
                      "baseDuration": 10,
                      "image": "Image",
-                     "category": 1
+                     "categoryDomain": 1
                 }
                 """;
     }

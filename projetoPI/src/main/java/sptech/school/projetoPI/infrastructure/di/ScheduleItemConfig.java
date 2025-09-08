@@ -2,10 +2,10 @@ package sptech.school.projetoPI.infrastructure.di;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import sptech.school.projetoPI.application.usecases.scheduleItem.*;
-import sptech.school.projetoPI.core.gateways.ScheduleGateway;
-import sptech.school.projetoPI.core.gateways.ScheduleItemGateway;
-import sptech.school.projetoPI.core.gateways.ServiceGateway;
+import sptech.school.projetoPI.core.application.usecase.scheduleItem.*;
+import sptech.school.projetoPI.core.gateway.ScheduleGateway;
+import sptech.school.projetoPI.core.gateway.ScheduleItemGateway;
+import sptech.school.projetoPI.core.gateway.ServiceGateway;
 
 @Configuration
 public class ScheduleItemConfig {

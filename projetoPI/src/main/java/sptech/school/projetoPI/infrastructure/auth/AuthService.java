@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.services;
+package sptech.school.projetoPI.infrastructure.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import sptech.school.projetoPI.core.gateways.ClientGateway;
 import sptech.school.projetoPI.core.gateways.EmployeeGateway;
-import sptech.school.projetoPI.infrastructure.auth.GerenciadorTokenJwt;
 import sptech.school.projetoPI.core.application.command.login.UserDetailsDto;
 import sptech.school.projetoPI.core.application.command.login.UserLoginDto;
 import sptech.school.projetoPI.infrastructure.mappers.UserMapper;

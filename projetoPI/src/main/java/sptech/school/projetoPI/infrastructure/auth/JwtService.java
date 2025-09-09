@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.services;
+package sptech.school.projetoPI.infrastructure.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

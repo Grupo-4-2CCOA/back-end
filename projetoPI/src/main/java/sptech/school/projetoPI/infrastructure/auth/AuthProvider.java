@@ -6,7 +6,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import sptech.school.projetoPI.services.AuthService;
 
 public class AuthProvider implements AuthenticationProvider {
     private final AuthService usuarioAutorizacaoService;

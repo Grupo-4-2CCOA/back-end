@@ -31,8 +31,7 @@ public class AuthController {
     @GetMapping("/oauth2/success")
     public void oauth2Success(
             HttpServletRequest request,
-            HttpServletResponse response
-    ) throws IOException {
+            HttpServletResponse response) throws IOException {
         // 1. Recupera a autenticação
         Authentication authentication = (Authentication) request.getSession()
                 .getAttribute("OAUTH2_AUTHENTICATION");
@@ -45,9 +44,10 @@ public class AuthController {
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
         String email = oauth2User.getAttribute("email");
         String role = oauth2User.getAttribute("role");
+        Integer clientId = oauth2User.getAttribute("id");
 
         // 2. Gera o token JWT
-        String token = jwtService.generateToken(email, role);
+        String token = jwtService.generateToken(email, role, clientId);
 
         // 3. Configura o cookie
         Cookie authCookie = new Cookie("AUTH_TOKEN", token);
@@ -84,12 +84,24 @@ public class AuthController {
 
     @GetMapping("/validate")
     public ResponseEntity<?> validateToken(
-            @RequestHeader("Authorization") String authHeader,
-            @AuthenticationPrincipal UserDetails userDetails
-    ) {
-        if (!jwtService.isTokenValid(authHeader)) {
+            @RequestHeader(value = "Authorization", required = false) String authHeader,
+            @CookieValue(name = "AUTH_TOKEN", required = false) String token) {
+
+        String jwt = null;
+
+        // 1. Tenta pegar do header Authorization
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            jwt = authHeader.substring(7);
+        }
+        // 2. Tenta pegar do cookie
+        else if (token != null) {
+            jwt = token;
+        }
+
+        if (jwt == null || !jwtService.isTokenValid(jwt)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+
         return ResponseEntity.ok().build();
     }
 
@@ -116,8 +128,7 @@ public class AuthController {
 
     @GetMapping("/user-info")
     public ResponseEntity<Map<String, Object>> getUserInfo(
-            @CookieValue(name = "AUTH_TOKEN", required = false) String token
-    ) {
+            @CookieValue(name = "AUTH_TOKEN", required = false) String token) {
         // 1. Verifica se o token existe
         if (token == null || token.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -132,10 +143,14 @@ public class AuthController {
             // 3. Extrai as informações
             String email = jwtService.extractUsername(token);
             String role = jwtService.extractClaim(token, claims -> claims.get("role", String.class));
+            Integer clientId = jwtService.extractClaim(token, claims -> claims.get("id", Integer.class));
 
             Map<String, Object> userInfo = new HashMap<>();
             userInfo.put("email", email);
             userInfo.put("role", role);
+            if (clientId != null) {
+                userInfo.put("id", clientId);
+            }
 
             return ResponseEntity.ok(userInfo);
 

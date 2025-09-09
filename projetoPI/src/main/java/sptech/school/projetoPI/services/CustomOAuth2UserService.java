@@ -34,6 +34,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String email = oAuth2User.getAttribute("email");
         String name = oAuth2User.getAttribute("name");
         String role;
+        Integer clientId = null;
 
         logger.info("Processando login com Google para o email: {}", email);
 
@@ -46,7 +47,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 role = "FUNC";
             }
         } else {
-            clientGateway.findByEmail(email).orElseGet(() -> {
+            ClientDomain clientDomain = clientGateway.findByEmail(email).orElseGet(() -> {
                 logger.info("Email {} não encontrado. Criando novo cliente.", email);
                 ClientDomain newClientDomain = new ClientDomain();
                 newClientDomain.setCreatedAt(LocalDateTime.now());
@@ -57,12 +58,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 return clientGateway.save(newClientDomain);
             });
             role = "USER";
+            clientId = clientDomain.getId();
         }
 
-        logger.info("Usuário {} autenticado com o papel: {}", email, role);
+        logger.info("Usuário {} autenticado com o papel: {} (clientId: {})", email, role, clientId);
 
         Map<String, Object> attributes = new HashMap<>(oAuth2User.getAttributes());
         attributes.put("role", role);
+        if (clientId != null) {
+            attributes.put("id", clientId);
+        }
 
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
 

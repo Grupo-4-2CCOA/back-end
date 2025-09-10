@@ -4,10 +4,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import sptech.school.projetoPI.entities.Client;
-import sptech.school.projetoPI.entities.Feedback;
-import sptech.school.projetoPI.entities.Schedule;
-import sptech.school.projetoPI.exceptions.exceptionClass.*;
+import sptech.school.projetoPI.core.domains.FeedbackDomain;
+import sptech.school.projetoPI.core.domains.ScheduleDomain;
+import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.RelatedEntityNotFoundException;
 import sptech.school.projetoPI.repositories.*;
 
 import java.time.LocalDateTime;
@@ -38,15 +38,15 @@ class FeedbackServiceTest extends ServiceTest {
             .cpf("11122233345")
             .build();
 
-    private final Schedule schedule = Schedule.builder()
+    private final ScheduleDomain scheduleDomain = ScheduleDomain.builder()
             .id(1)
             .client(client)
             .build();
 
-    private final Feedback feedback = Feedback.builder()
+    private final FeedbackDomain feedbackDomain = FeedbackDomain.builder()
             .id(1)
             .client(client)
-            .schedule(schedule)
+            .schedule(scheduleDomain)
             .rating(5)
             .comment("Ótimo Serviço!")
             .createdAt(LocalDateTime.now())
@@ -59,17 +59,17 @@ class FeedbackServiceTest extends ServiceTest {
     void executeEntitySignWithValidParametersTest() {
         when(scheduleRepository.existsById(anyInt())).thenReturn(true);
         when(clientRepository.existsByIdAndActiveTrue(anyInt())).thenReturn(true);
-        when(repository.save(feedback)).thenReturn(feedback);
+        when(repository.save(feedbackDomain)).thenReturn(feedbackDomain);
 
-        Feedback response = service.postMethod(feedback);
-        assertEquals(feedback, response);
+        FeedbackDomain response = service.postMethod(feedbackDomain);
+        assertEquals(feedbackDomain, response);
     }
 
     @Test
     @DisplayName("Quando não existir Schedule com ID requisitado, método postMethod() deve estourar RelatedEntityNotFoundException")
     void executeFeedbackSignWithInvalidScheduleIdMustThrowRelatedEntityNotFoundExceptionTest() {
         when(scheduleRepository.existsById(anyInt())).thenReturn(false);
-        assertThrows(RelatedEntityNotFoundException.class, () -> service.postMethod(feedback));
+        assertThrows(RelatedEntityNotFoundException.class, () -> service.postMethod(feedbackDomain));
     }
 
     @Test
@@ -77,33 +77,33 @@ class FeedbackServiceTest extends ServiceTest {
     void executeFeedbackSignWithInvalidClientIdMustThrowRelatedEntityNotFoundExceptionTest() {
         when(scheduleRepository.existsById(anyInt())).thenReturn(true);
         when(clientRepository.existsByIdAndActiveTrue(anyInt())).thenReturn(false);
-        assertThrows(RelatedEntityNotFoundException.class, () -> service.postMethod(feedback));
+        assertThrows(RelatedEntityNotFoundException.class, () -> service.postMethod(feedbackDomain));
     }
 
     @Override
     @Test
     @DisplayName("Quando existir 3 Feedbacks na lista, método getAllMethod() deve retornar tamanho 3")
     void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest() {
-        List<Feedback> feedbacks = List.of(
-                Feedback.builder()
+        List<FeedbackDomain> feedbackDomains = List.of(
+                FeedbackDomain.builder()
                         .id(1)
                         .rating(5)
                         .build(),
 
-                Feedback.builder()
+                FeedbackDomain.builder()
                         .id(2)
                         .rating(2)
                         .build(),
 
-                Feedback.builder()
+                FeedbackDomain.builder()
                         .id(3)
                         .rating(4)
                         .build()
         );
 
-        when(repository.findAll()).thenReturn(feedbacks);
+        when(repository.findAll()).thenReturn(feedbackDomains);
 
-        List<Feedback> response = service.getAllMethod();
+        List<FeedbackDomain> response = service.getAllMethod();
         assertEquals(3, response.size());
     }
 
@@ -111,10 +111,10 @@ class FeedbackServiceTest extends ServiceTest {
     @Test
     @DisplayName("Quando existir Feedback com ID 1, método getByIdMethod() deve retornar o Feedback encontrado")
     void executeEntityFindByIdMustReturnEntityWithIdOneTest() {
-        when(repository.findById(anyInt())).thenReturn(Optional.of(feedback));
+        when(repository.findById(anyInt())).thenReturn(Optional.of(feedbackDomain));
 
-        Feedback response = service.getByIdMethod(1);
-        assertEquals(feedback, response);
+        FeedbackDomain response = service.getByIdMethod(1);
+        assertEquals(feedbackDomain, response);
     }
 
     @Override
@@ -129,14 +129,14 @@ class FeedbackServiceTest extends ServiceTest {
     @Test
     @DisplayName("Quando método putByIdMethod() for chamado com credenciais válidas, deve retornar Feedback atualizado")
     void executeEntityPutByIdWithValidEntityMustReturnUpdatedEntityTest() {
-        when(repository.findById(anyInt())).thenReturn(Optional.of(new Feedback()));
+        when(repository.findById(anyInt())).thenReturn(Optional.of(new FeedbackDomain()));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(scheduleRepository.existsById(anyInt())).thenReturn(true);
         when(clientRepository.existsByIdAndActiveTrue(anyInt())).thenReturn(true);
-        when(repository.save(feedback)).thenReturn(feedback);
+        when(repository.save(feedbackDomain)).thenReturn(feedbackDomain);
 
-        Feedback response = service.putByIdMethod(feedback, anyInt());
-        assertEquals(feedback, response);
+        FeedbackDomain response = service.putByIdMethod(feedbackDomain, anyInt());
+        assertEquals(feedbackDomain, response);
     }
 
     @Override
@@ -144,7 +144,7 @@ class FeedbackServiceTest extends ServiceTest {
     @DisplayName("Quando não existir Feedback com ID requisitado, método putByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityPutByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.putByIdMethod(feedback, 1));
+        assertThrows(EntityNotFoundException.class, () -> service.putByIdMethod(feedbackDomain, 1));
     }
 
     @Test
@@ -152,7 +152,7 @@ class FeedbackServiceTest extends ServiceTest {
     void executeFeedbackPutByIdWithInvalidScheduleIdMustThrowRelatedEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(scheduleRepository.existsById(anyInt())).thenReturn(false);
-        assertThrows(RelatedEntityNotFoundException.class, () -> service.putByIdMethod(feedback, 1));
+        assertThrows(RelatedEntityNotFoundException.class, () -> service.putByIdMethod(feedbackDomain, 1));
     }
 
     @Test
@@ -161,7 +161,7 @@ class FeedbackServiceTest extends ServiceTest {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(scheduleRepository.existsById(anyInt())).thenReturn(true);
         when(clientRepository.existsByIdAndActiveTrue(anyInt())).thenReturn(false);
-        assertThrows(RelatedEntityNotFoundException.class, () -> service.putByIdMethod(feedback, 1));
+        assertThrows(RelatedEntityNotFoundException.class, () -> service.putByIdMethod(feedbackDomain, 1));
     }
 
     @Override

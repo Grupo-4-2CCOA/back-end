@@ -4,13 +4,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import sptech.school.projetoPI.entities.Role;
-import sptech.school.projetoPI.exceptions.exceptionClass.EntityConflictException;
-import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
-import sptech.school.projetoPI.exceptions.exceptionClass.ForeignKeyConstraintException;
-import sptech.school.projetoPI.exceptions.exceptionClass.InactiveEntityException;
+import sptech.school.projetoPI.core.domains.RoleDomain;
+import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.EntityConflictException;
+import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.ForeignKeyConstraintException;
+import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.InactiveEntityException;
 import sptech.school.projetoPI.repositories.EmployeeRepository;
-import sptech.school.projetoPI.repositories.RoleRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,7 +31,7 @@ class RoleServiceTest extends ServiceTest {
     @Mock
     private EmployeeRepository employeeRepository;
 
-    private final Role role = Role.builder()
+    private final RoleDomain roleDomain = RoleDomain.builder()
             .id(1)
             .name("OWNER")
             .description("Dono(a) do Salão de Beleza")
@@ -46,43 +45,43 @@ class RoleServiceTest extends ServiceTest {
     @DisplayName("Quando método postMethod() for chamado com credenciais válidas, deve retornar Role")
     void executeEntitySignWithValidParametersTest() {
         when(repository.existsByName(anyString())).thenReturn(false);
-        when(repository.save(role)).thenReturn(role);
+        when(repository.save(roleDomain)).thenReturn(roleDomain);
 
-        Role response = service.postMethod(role);
-        assertEquals(role, response);
+        RoleDomain response = service.postMethod(roleDomain);
+        assertEquals(roleDomain, response);
     }
 
     @Test
     @DisplayName("Quando já existir Role com o mesmo nome, método postMethod() deve estourar EntityConflictException")
     void executeRoleSignWithExistingRoleNameMustThrowEntityConflictExceptionTest() {
         when(repository.existsByName(anyString())).thenReturn(true);
-        assertThrows(EntityConflictException.class, () -> service.postMethod(role));
+        assertThrows(EntityConflictException.class, () -> service.postMethod(roleDomain));
     }
 
     @Override
     @Test
     @DisplayName("Quando existir 3 Roles na lista, método getAllMethod() deve retornar tamanho 3")
     void executeEntityFindAllWithThreeEntitiesMustReturnThreeTest() {
-        List<Role> roles = List.of(
-                Role.builder()
+        List<RoleDomain> roleDomains = List.of(
+                RoleDomain.builder()
                         .id(1)
                         .name("OWNER")
                         .build(),
 
-                Role.builder()
+                RoleDomain.builder()
                         .id(2)
                         .name("EMPLOYEE")
                         .build(),
 
-                Role.builder()
+                RoleDomain.builder()
                         .id(3)
                         .name("ADMIN")
                         .build()
         );
 
-        when(repository.findAllByActiveTrue()).thenReturn(roles);
+        when(repository.findAllByActiveTrue()).thenReturn(roleDomains);
 
-        List<Role> response = service.getAllMethod();
+        List<RoleDomain> response = service.getAllMethod();
         assertEquals(3, response.size());
     }
 
@@ -90,10 +89,10 @@ class RoleServiceTest extends ServiceTest {
     @Test
     @DisplayName("Quando existir Role com ID 1, método getByIdMethod() deve retornar o Role encontrado")
     void executeEntityFindByIdMustReturnEntityWithIdOneTest() {
-        when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.of(role));
+        when(repository.findByIdAndActiveTrue(anyInt())).thenReturn(Optional.of(roleDomain));
 
-        Role response = service.getByIdMethod(1);
-        assertEquals(role, response);
+        RoleDomain response = service.getByIdMethod(1);
+        assertEquals(roleDomain, response);
     }
 
     @Override
@@ -108,14 +107,14 @@ class RoleServiceTest extends ServiceTest {
     @Test
     @DisplayName("Quando método putByIdMethod() for chamado com credenciais válidas, deve retornar Role atualizado")
     void executeEntityPutByIdWithValidEntityMustReturnUpdatedEntityTest() {
-        when(repository.findById(anyInt())).thenReturn(Optional.of(new Role()));
+        when(repository.findById(anyInt())).thenReturn(Optional.of(new RoleDomain()));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(repository.existsByIdNotAndName(anyInt(), anyString())).thenReturn(false);
-        when(repository.save(role)).thenReturn(role);
+        when(repository.save(roleDomain)).thenReturn(roleDomain);
 
-        Role response = service.putByIdMethod(role, anyInt());
-        assertEquals(role, response);
+        RoleDomain response = service.putByIdMethod(roleDomain, anyInt());
+        assertEquals(roleDomain, response);
     }
 
     @Override
@@ -123,7 +122,7 @@ class RoleServiceTest extends ServiceTest {
     @DisplayName("Quando não existir Role com ID requisitado, método putByIdMethod() deve estourar EntityNotFoundException")
     void executeEntityPutByIdWithInvalidIdMustThrowEntityNotFoundExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(false);
-        assertThrows(EntityNotFoundException.class, () -> service.putByIdMethod(role, 1));
+        assertThrows(EntityNotFoundException.class, () -> service.putByIdMethod(roleDomain, 1));
     }
 
     @Test
@@ -131,7 +130,7 @@ class RoleServiceTest extends ServiceTest {
     void executeRolePutByIdWithInactiveEntityMustThrowInactiveEntityExceptionTest() {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(true);
-        assertThrows(InactiveEntityException.class, () -> service.putByIdMethod(role, 1));
+        assertThrows(InactiveEntityException.class, () -> service.putByIdMethod(roleDomain, 1));
     }
 
     @Test
@@ -140,21 +139,21 @@ class RoleServiceTest extends ServiceTest {
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(repository.existsByIdNotAndName(anyInt(), anyString())).thenReturn(true);
-        assertThrows(EntityConflictException.class, () -> service.putByIdMethod(role, 1));
+        assertThrows(EntityConflictException.class, () -> service.putByIdMethod(roleDomain, 1));
     }
 
     @Override
     @Test
     @DisplayName("Quando método deleteByIdMethod() for chamado com ID válido, deve inativar entidade")
     void executeEntityDeleteByIdWithValidIdMustInactiveOrDeleteEntityTest() {
-        when(repository.findById(anyInt())).thenReturn(Optional.of(role));
+        when(repository.findById(anyInt())).thenReturn(Optional.of(roleDomain));
         when(repository.existsById(anyInt())).thenReturn(true);
         when(repository.existsByIdAndActiveFalse(anyInt())).thenReturn(false);
         when(employeeRepository.existsByRoleId(anyInt())).thenReturn(false);
 
         service.deleteByIdMethod(1);
 
-        assertFalse(role.getActive());
+        assertFalse(roleDomain.getActive());
     }
 
     @Override

@@ -5,13 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import sptech.school.projetoPI.entities.Client;
-import sptech.school.projetoPI.exceptions.exceptionClass.EntityNotFoundException;
-import sptech.school.projetoPI.exceptions.exceptionClass.ForeignKeyConstraintException;
-import sptech.school.projetoPI.exceptions.exceptionClass.InactiveEntityException;
-import sptech.school.projetoPI.repositories.ClientRepository;
-import sptech.school.projetoPI.repositories.FeedbackRepository;
-import sptech.school.projetoPI.repositories.ScheduleRepository;
+import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.ForeignKeyConstraintException;
+import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.InactiveEntityException;
 import sptech.school.projetoPI.services.user.ClientService;
 import sptech.school.projetoPI.services.user.UserService;
 

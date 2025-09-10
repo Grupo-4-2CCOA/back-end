@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8ed9cf5b-230f-4a08-b13c-50b6a376d262" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/scheduleItem/CreateScheduleItemUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/scheduleItem/DeleteScheduleItemByIdUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/scheduleItem/GetAllScheduleItemUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/scheduleItem/GetScheduleItemByIdUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/scheduleItem/UpdateScheduleItemByIdUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/di/ScheduleItemConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/implement/ScheduleItemRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/schedule/CreateScheduleUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/schedule/CreateScheduleUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/schedule/GetSchedulebyIdUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/schedule/GetScheduleByIdUseCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/core/gateways/ScheduleGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/core/gateways/ScheduleGateway.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/core/gateways/ScheduleItemGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/core/gateways/ScheduleItemGateway.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/controllers/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/controllers/RoleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/controllers/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/controllers/ScheduleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/di/ScheduleConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/di/ScheduleConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/implement/ScheduleRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/implement/ScheduleRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/repositories/JpaScheduleItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/repositories/JpaScheduleItemRepository.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2vYL2bzBR0IYFDKZQeGsAH9OXSL" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;refact/refatoracao&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.importing&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8ed9cf5b-230f-4a08-b13c-50b6a376d262" name="Changes" comment="" />
+      <created>1744316855360</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1744316855360</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/controllers/AvailabilityController.java</url>
+          <line>141</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

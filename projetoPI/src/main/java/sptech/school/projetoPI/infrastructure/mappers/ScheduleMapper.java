@@ -2,9 +2,9 @@ package sptech.school.projetoPI.infrastructure.mappers;
 
 import sptech.school.projetoPI.core.domains.ScheduleDomain;
 import sptech.school.projetoPI.core.enums.Status;
-import sptech.school.projetoPI.core.application.command.schedule.ScheduleRequestDto;
-import sptech.school.projetoPI.core.application.command.schedule.ScheduleResponseDto;
-import sptech.school.projetoPI.core.application.command.schedule.ScheduleResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.schedule.ScheduleRequestDto;
+import sptech.school.projetoPI.core.application.dto.schedule.ScheduleResponseDto;
+import sptech.school.projetoPI.core.application.dto.schedule.ScheduleResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.persistence.entity.ScheduleJpaEntity;
 
 

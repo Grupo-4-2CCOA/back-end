@@ -1,8 +1,8 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
-import sptech.school.projetoPI.core.application.command.feedback.FeedbackRequestDto;
-import sptech.school.projetoPI.core.application.command.feedback.FeedbackResponseDto;
-import sptech.school.projetoPI.core.application.command.feedback.FeedbackResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.feedback.FeedbackRequestDto;
+import sptech.school.projetoPI.core.application.dto.feedback.FeedbackResponseDto;
+import sptech.school.projetoPI.core.application.dto.feedback.FeedbackResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.persistence.entity.FeedbackJpaEntity;
 import sptech.school.projetoPI.core.domains.FeedbackDomain;
 

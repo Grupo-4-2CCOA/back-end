@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.core.application.usecases.schedule.*;
 import sptech.school.projetoPI.core.domains.ScheduleDomain;
-import sptech.school.projetoPI.core.application.command.schedule.ScheduleRequestDto;
-import sptech.school.projetoPI.core.application.command.schedule.ScheduleResponseDto;
-import sptech.school.projetoPI.core.application.command.schedule.ScheduleResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.schedule.ScheduleRequestDto;
+import sptech.school.projetoPI.core.application.dto.schedule.ScheduleResponseDto;
+import sptech.school.projetoPI.core.application.dto.schedule.ScheduleResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.mappers.ScheduleMapper;
 
 import java.util.List;
@@ -35,6 +35,7 @@ public class ScheduleController {
     private final GetAllScheduleUseCase getAllScheduleUseCase;
     private final GetScheduleByIdUseCase getScheduleByIdUseCase;
     private final UpdateScheduleByIdUseCase updateScheduleByIdUseCase;
+    private final GetServiceNamesByScheduleIdUseCase getServiceNamesByScheduleIdUseCase;
 
     @SecurityRequirement(name = "Bearer")
     @PostMapping
@@ -179,5 +180,34 @@ public class ScheduleController {
     })
     public void deleteScheduleById(@PathVariable Integer id) {
         deleteScheduleByIdUseCase.execute(id);
+    }
+
+    @SecurityRequirement(name = "Bearer")
+    @GetMapping("/servicos-por-agendamento-id/{id}")
+    @Operation(summary = "Buscar agendamento por ID", description = "Busca o agendamento com base no ID fornecido.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Agendamento encontrado", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ScheduleResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.OK)
+            )),
+            @ApiResponse(responseCode = "404", description = "Agendamento não encontrado", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ScheduleResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
+            )),
+            @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ScheduleResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
+            )),
+            @ApiResponse(responseCode = "403", description = "Acesso proibido", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ScheduleResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
+            ))
+    })
+    public ResponseEntity<List<String>> getServiceNamesByScheduleId(@PathVariable Integer id) {
+        return ResponseEntity.ok(getServiceNamesByScheduleIdUseCase.execute(id));
     }
 }

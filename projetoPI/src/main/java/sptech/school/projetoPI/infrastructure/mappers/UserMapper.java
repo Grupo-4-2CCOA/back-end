@@ -2,7 +2,7 @@ package sptech.school.projetoPI.infrastructure.mappers;
 
 import sptech.school.projetoPI.core.domains.ClientDomain;
 import sptech.school.projetoPI.core.domains.EmployeeDomain;
-import sptech.school.projetoPI.core.application.command.login.UserTokenDto;
+import sptech.school.projetoPI.core.application.dto.login.UserTokenDto;
 
 public class UserMapper {
     public static UserTokenDto of(ClientDomain usuario, String token) {

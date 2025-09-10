@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.core.application.usecases.feedback.*;
 import sptech.school.projetoPI.core.domains.FeedbackDomain;
-import sptech.school.projetoPI.core.application.command.feedback.FeedbackRequestDto;
-import sptech.school.projetoPI.core.application.command.feedback.FeedbackResponseDto;
-import sptech.school.projetoPI.core.application.command.feedback.FeedbackResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.feedback.FeedbackRequestDto;
+import sptech.school.projetoPI.core.application.dto.feedback.FeedbackResponseDto;
+import sptech.school.projetoPI.core.application.dto.feedback.FeedbackResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.mappers.FeedbackMapper;
 
 import java.util.List;

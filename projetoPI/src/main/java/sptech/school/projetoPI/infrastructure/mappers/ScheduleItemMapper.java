@@ -1,9 +1,9 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
 import sptech.school.projetoPI.core.domains.ScheduleItemDomain;
-import sptech.school.projetoPI.core.application.command.scheduleItem.ScheduleItemRequestDto;
-import sptech.school.projetoPI.core.application.command.scheduleItem.ScheduleItemResponseDto;
-import sptech.school.projetoPI.core.application.command.scheduleItem.ScheduleItemResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.scheduleItem.ScheduleItemRequestDto;
+import sptech.school.projetoPI.core.application.dto.scheduleItem.ScheduleItemResponseDto;
+import sptech.school.projetoPI.core.application.dto.scheduleItem.ScheduleItemResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.persistence.entity.ScheduleItemJpaEntity;
 
 public class ScheduleItemMapper {

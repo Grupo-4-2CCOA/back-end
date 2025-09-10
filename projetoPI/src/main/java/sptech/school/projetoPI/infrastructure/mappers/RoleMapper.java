@@ -1,9 +1,9 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
 import sptech.school.projetoPI.core.domains.RoleDomain;
-import sptech.school.projetoPI.core.application.command.role.RoleRequestDto;
-import sptech.school.projetoPI.core.application.command.role.RoleResponseDto;
-import sptech.school.projetoPI.core.application.command.role.RoleResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.role.RoleRequestDto;
+import sptech.school.projetoPI.core.application.dto.role.RoleResponseDto;
+import sptech.school.projetoPI.core.application.dto.role.RoleResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.persistence.entity.RoleJpaEntity;
 
 public class RoleMapper {

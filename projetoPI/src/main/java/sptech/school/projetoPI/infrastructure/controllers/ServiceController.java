@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.core.application.usecases.service.*;
 import sptech.school.projetoPI.core.domains.ServiceDomain;
-import sptech.school.projetoPI.core.application.command.service.ServiceRequestDto;
-import sptech.school.projetoPI.core.application.command.service.ServiceResponseDto;
-import sptech.school.projetoPI.core.application.command.service.ServiceResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.service.ServiceRequestDto;
+import sptech.school.projetoPI.core.application.dto.service.ServiceResponseDto;
+import sptech.school.projetoPI.core.application.dto.service.ServiceResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.mappers.ServiceMapper;
 
 import java.util.List;

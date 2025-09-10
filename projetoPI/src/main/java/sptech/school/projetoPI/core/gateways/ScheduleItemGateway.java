@@ -11,4 +11,5 @@ public interface ScheduleItemGateway {
     Optional<ScheduleItemDomain> findById(Integer id);
     List<ScheduleItemDomain> findAll();
     ScheduleItemDomain deleteById(Integer id);
+    List<ScheduleItemDomain> findAllBySchedule_Id(Integer scheduleId);
 }

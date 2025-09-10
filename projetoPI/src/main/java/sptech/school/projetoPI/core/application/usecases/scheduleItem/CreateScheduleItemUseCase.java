@@ -2,11 +2,13 @@ package sptech.school.projetoPI.core.application.usecases.scheduleItem;
 
 import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.RelatedEntityNotFoundException;
 import sptech.school.projetoPI.core.domains.ScheduleItemDomain;
+import sptech.school.projetoPI.core.domains.ServiceDomain;
 import sptech.school.projetoPI.core.gateways.ScheduleGateway;
 import sptech.school.projetoPI.core.gateways.ScheduleItemGateway;
 import sptech.school.projetoPI.core.gateways.ServiceGateway;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class CreateScheduleItemUseCase {
 
@@ -33,10 +35,11 @@ public class CreateScheduleItemUseCase {
             );
         }
 
+        Optional<ServiceDomain> service = serviceGateway.findById(scheduleItemDomain.getService().getId());
         scheduleItemDomain.setId(null);
+        scheduleItemDomain.setService(service.get());
         scheduleItemDomain.setCreatedAt(LocalDateTime.now());
         scheduleItemDomain.setUpdatedAt(LocalDateTime.now());
         return scheduleItemGateway.save(scheduleItemDomain);
     }
-
 }

@@ -20,9 +20,9 @@ import sptech.school.projetoPI.core.application.usecases.role.GetAllRoleUseCase;
 import sptech.school.projetoPI.core.application.usecases.role.GetRoleByIdUseCase;
 import sptech.school.projetoPI.core.application.usecases.role.UpdateRoleByIdUseCase;
 import sptech.school.projetoPI.core.domains.RoleDomain;
-import sptech.school.projetoPI.core.application.command.role.RoleRequestDto;
-import sptech.school.projetoPI.core.application.command.role.RoleResponseDto;
-import sptech.school.projetoPI.core.application.command.role.RoleResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.role.RoleRequestDto;
+import sptech.school.projetoPI.core.application.dto.role.RoleResponseDto;
+import sptech.school.projetoPI.core.application.dto.role.RoleResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.mappers.RoleMapper;
 
 import java.util.List;

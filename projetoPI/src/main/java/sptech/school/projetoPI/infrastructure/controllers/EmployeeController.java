@@ -15,9 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.core.application.usecases.employee.*;
 import sptech.school.projetoPI.core.domains.EmployeeDomain;
-import sptech.school.projetoPI.core.application.command.employee.EmployeeRequestDto;
-import sptech.school.projetoPI.core.application.command.employee.EmployeeResponseDto;
-import sptech.school.projetoPI.core.application.command.employee.EmployeeResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.employee.EmployeeRequestDto;
+import sptech.school.projetoPI.core.application.dto.employee.EmployeeResponseDto;
+import sptech.school.projetoPI.core.application.dto.employee.EmployeeResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.mappers.EmployeeMapper;
 import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
 

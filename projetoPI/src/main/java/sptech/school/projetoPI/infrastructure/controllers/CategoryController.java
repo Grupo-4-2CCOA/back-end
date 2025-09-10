@@ -15,9 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.core.application.usecases.category.*;
 import sptech.school.projetoPI.core.domains.CategoryDomain;
-import sptech.school.projetoPI.core.application.command.category.CategoryRequestDto;
-import sptech.school.projetoPI.core.application.command.category.CategoryResponseDto;
-import sptech.school.projetoPI.core.application.command.category.CategoryResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.category.CategoryRequestDto;
+import sptech.school.projetoPI.core.application.dto.category.CategoryResponseDto;
+import sptech.school.projetoPI.core.application.dto.category.CategoryResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.mappers.CategoryMapper;
 import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
 

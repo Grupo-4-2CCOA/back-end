@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import sptech.school.projetoPI.core.gateways.ClientGateway;
 import sptech.school.projetoPI.core.gateways.EmployeeGateway;
-import sptech.school.projetoPI.core.application.command.login.UserDetailsDto;
-import sptech.school.projetoPI.core.application.command.login.UserLoginDto;
+import sptech.school.projetoPI.core.application.dto.login.UserDetailsDto;
+import sptech.school.projetoPI.core.application.dto.login.UserLoginDto;
 import sptech.school.projetoPI.infrastructure.mappers.UserMapper;
-import sptech.school.projetoPI.core.application.command.login.UserTokenDto;
+import sptech.school.projetoPI.core.application.dto.login.UserTokenDto;
 
 @Service
 @RequiredArgsConstructor

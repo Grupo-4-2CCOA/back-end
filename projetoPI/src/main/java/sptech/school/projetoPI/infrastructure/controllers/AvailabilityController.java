@@ -21,9 +21,9 @@ import sptech.school.projetoPI.core.application.usecases.availability.UpdateAvai
 import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.core.domains.AvailabilityDomain;
 import sptech.school.projetoPI.infrastructure.mappers.AvailabilityMapper;
-import sptech.school.projetoPI.core.application.command.availability.AvailabilityRequestDto;
-import sptech.school.projetoPI.core.application.command.availability.AvailabilityResponseDto;
-import sptech.school.projetoPI.core.application.command.availability.AvailabilityResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.availability.AvailabilityRequestDto;
+import sptech.school.projetoPI.core.application.dto.availability.AvailabilityResponseDto;
+import sptech.school.projetoPI.core.application.dto.availability.AvailabilityResumeResponseDto;
 
 import java.util.List;
 import java.util.stream.Collectors;

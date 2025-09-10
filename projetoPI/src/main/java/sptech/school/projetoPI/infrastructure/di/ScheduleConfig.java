@@ -3,10 +3,7 @@ package sptech.school.projetoPI.infrastructure.di;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import sptech.school.projetoPI.core.application.usecases.schedule.*;
-import sptech.school.projetoPI.core.gateways.ClientGateway;
-import sptech.school.projetoPI.core.gateways.EmployeeGateway;
-import sptech.school.projetoPI.core.gateways.PaymentTypeGateway;
-import sptech.school.projetoPI.core.gateways.ScheduleGateway;
+import sptech.school.projetoPI.core.gateways.*;
 
 @Configuration
 public class ScheduleConfig {
@@ -36,4 +33,8 @@ public class ScheduleConfig {
         return new UpdateScheduleByIdUseCase(scheduleGateway, clientGateway, employeeGateway, paymentTypeGateway);
     }
 
+    @Bean
+    public GetServiceNamesByScheduleIdUseCase getServiceNamesByScheduleIdUseCase(ScheduleGateway scheduleGateway, ScheduleItemGateway scheduleItemGateway, ServiceGateway serviceGateway) {
+        return new GetServiceNamesByScheduleIdUseCase(scheduleGateway, scheduleItemGateway ,serviceGateway);
+    }
 }

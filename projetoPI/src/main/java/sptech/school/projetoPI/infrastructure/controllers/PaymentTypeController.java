@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.core.application.usecases.paymentType.*;
 import sptech.school.projetoPI.core.domains.PaymentTypeDomain;
-import sptech.school.projetoPI.core.application.command.paymentType.PaymentTypeRequestDto;
-import sptech.school.projetoPI.core.application.command.paymentType.PaymentTypeResponseDto;
-import sptech.school.projetoPI.core.application.command.paymentType.PaymentTypeResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.paymentType.PaymentTypeRequestDto;
+import sptech.school.projetoPI.core.application.dto.paymentType.PaymentTypeResponseDto;
+import sptech.school.projetoPI.core.application.dto.paymentType.PaymentTypeResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.mappers.PaymentTypeMapper;
 
 import java.util.List;

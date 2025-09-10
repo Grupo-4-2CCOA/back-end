@@ -54,5 +54,4 @@ public class CreateScheduleUseCase {
         scheduleDomain.setUpdatedAt(LocalDateTime.now());
         return scheduleGateway.save(scheduleDomain);
     }
-
 }

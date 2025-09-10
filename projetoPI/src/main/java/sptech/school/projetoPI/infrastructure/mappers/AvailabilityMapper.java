@@ -2,11 +2,11 @@ package sptech.school.projetoPI.infrastructure.mappers;
 
 import sptech.school.projetoPI.core.domains.AvailabilityDomain;
 import sptech.school.projetoPI.core.domains.EmployeeDomain;
-import sptech.school.projetoPI.core.application.command.availability.AvailabilityRequestDto;
-import sptech.school.projetoPI.core.application.command.availability.AvailabilityResponseDto;
-import sptech.school.projetoPI.core.application.command.availability.AvailabilityResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.availability.AvailabilityRequestDto;
+import sptech.school.projetoPI.core.application.dto.availability.AvailabilityResponseDto;
+import sptech.school.projetoPI.core.application.dto.availability.AvailabilityResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.persistence.entity.AvailabilityJpaEntity;
-import sptech.school.projetoPI.core.application.command.employee.EmployeeResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.employee.EmployeeResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.persistence.entity.EmployeeJpaEntity;
 
 public class AvailabilityMapper {

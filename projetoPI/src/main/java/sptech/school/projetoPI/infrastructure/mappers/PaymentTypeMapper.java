@@ -1,9 +1,9 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
 import sptech.school.projetoPI.core.domains.PaymentTypeDomain;
-import sptech.school.projetoPI.core.application.command.paymentType.PaymentTypeRequestDto;
-import sptech.school.projetoPI.core.application.command.paymentType.PaymentTypeResponseDto;
-import sptech.school.projetoPI.core.application.command.paymentType.PaymentTypeResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.paymentType.PaymentTypeRequestDto;
+import sptech.school.projetoPI.core.application.dto.paymentType.PaymentTypeResponseDto;
+import sptech.school.projetoPI.core.application.dto.paymentType.PaymentTypeResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.persistence.entity.PaymentTypeJpaEntity;
 
 public class PaymentTypeMapper {

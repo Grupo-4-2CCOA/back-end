@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.core.application.usecases.scheduleItem.*;
 import sptech.school.projetoPI.core.domains.ScheduleItemDomain;
-import sptech.school.projetoPI.core.application.command.scheduleItem.ScheduleItemRequestDto;
-import sptech.school.projetoPI.core.application.command.scheduleItem.ScheduleItemResponseDto;
-import sptech.school.projetoPI.core.application.command.scheduleItem.ScheduleItemResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.scheduleItem.ScheduleItemRequestDto;
+import sptech.school.projetoPI.core.application.dto.scheduleItem.ScheduleItemResponseDto;
+import sptech.school.projetoPI.core.application.dto.scheduleItem.ScheduleItemResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.mappers.ScheduleItemMapper;
 
 import java.util.List;

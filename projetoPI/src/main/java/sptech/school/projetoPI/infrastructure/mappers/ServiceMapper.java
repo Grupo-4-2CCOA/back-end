@@ -1,9 +1,9 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
 import sptech.school.projetoPI.core.domains.ServiceDomain;
-import sptech.school.projetoPI.core.application.command.service.ServiceRequestDto;
-import sptech.school.projetoPI.core.application.command.service.ServiceResponseDto;
-import sptech.school.projetoPI.core.application.command.service.ServiceResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.service.ServiceRequestDto;
+import sptech.school.projetoPI.core.application.dto.service.ServiceResponseDto;
+import sptech.school.projetoPI.core.application.dto.service.ServiceResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.persistence.entity.ServiceJpaEntity;
 
 public class ServiceMapper {

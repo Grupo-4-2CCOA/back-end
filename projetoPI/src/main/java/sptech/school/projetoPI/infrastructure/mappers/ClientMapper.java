@@ -1,9 +1,9 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
 import sptech.school.projetoPI.core.domains.ClientDomain;
-import sptech.school.projetoPI.core.application.command.client.ClientRequestDto;
-import sptech.school.projetoPI.core.application.command.client.ClientResponseDto;
-import sptech.school.projetoPI.core.application.command.client.ClientResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.client.ClientRequestDto;
+import sptech.school.projetoPI.core.application.dto.client.ClientResponseDto;
+import sptech.school.projetoPI.core.application.dto.client.ClientResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.persistence.entity.ClientJpaEntity;
 
 public class ClientMapper {

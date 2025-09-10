@@ -1,9 +1,9 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
 import sptech.school.projetoPI.core.domains.CategoryDomain;
-import sptech.school.projetoPI.core.application.command.category.CategoryRequestDto;
-import sptech.school.projetoPI.core.application.command.category.CategoryResponseDto;
-import sptech.school.projetoPI.core.application.command.category.CategoryResumeResponseDto;
+import sptech.school.projetoPI.core.application.dto.category.CategoryRequestDto;
+import sptech.school.projetoPI.core.application.dto.category.CategoryResponseDto;
+import sptech.school.projetoPI.core.application.dto.category.CategoryResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.persistence.entity.CategoryJpaEntity;
 
 public class CategoryMapper {

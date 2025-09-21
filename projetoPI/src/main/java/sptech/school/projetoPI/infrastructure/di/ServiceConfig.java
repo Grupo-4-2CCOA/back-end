@@ -3,13 +3,14 @@ package sptech.school.projetoPI.infrastructure.di;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import sptech.school.projetoPI.core.application.usecases.service.*;
+import sptech.school.projetoPI.core.gateways.FileUploadGateway;
 import sptech.school.projetoPI.core.gateways.ServiceGateway;
 
 @Configuration
 public class ServiceConfig {
     @Bean
-    public CreateServiceUseCase createServiceUseCase(ServiceGateway serviceGateway) {
-        return new CreateServiceUseCase(serviceGateway);
+    public CreateServiceUseCase createServiceUseCase(ServiceGateway serviceGateway, FileUploadGateway fileUploadGateway) {
+        return new CreateServiceUseCase(serviceGateway, fileUploadGateway);
     }
 
     @Bean

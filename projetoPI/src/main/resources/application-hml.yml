@@ -39,3 +39,9 @@ jwt:
 
 aws.regiao: us-east-1
 aws.s3.nome-bucket: beauty-barreto-source
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html   # Caminho da interface do Swagger UI
+  api-docs:
+    path: /v3/api-docs       # Caminho do JSON da documentação

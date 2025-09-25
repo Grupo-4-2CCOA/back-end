@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.refactor.infraestructure.web.controller.enumerator;
+package sptech.school.projetoPI.refactor.infraestructure.web.enumerator;
 
 import lombok.Getter;
 

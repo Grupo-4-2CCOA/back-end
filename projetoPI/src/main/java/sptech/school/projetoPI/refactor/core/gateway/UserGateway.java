@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface UserGateway {
   Boolean existsById(Integer id);
   Optional<UserDomain> findById(Integer id);
-  Optional<UserDomain> save(UserDomain userDomain);
+  void save(UserDomain userDomain);
+  void updateById(Integer id, UserDomain userDomain);
   void deleteById(Integer id);
 }

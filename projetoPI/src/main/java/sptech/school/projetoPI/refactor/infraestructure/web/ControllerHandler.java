@@ -4,40 +4,45 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import sptech.school.projetoPI.refactor.core.application.exception.InvalidCepException;
-import sptech.school.projetoPI.refactor.core.application.exception.InvalidCpfException;
-import sptech.school.projetoPI.refactor.core.application.exception.InvalidEmailException;
-import sptech.school.projetoPI.refactor.core.application.exception.InvalidPhoneException;
+import sptech.school.projetoPI.refactor.core.application.exception.*;
 
+// TODO: criar códigos para cada resposta.
 @ControllerAdvice
 public class ControllerHandler {
 
     @ExceptionHandler(InvalidCepException.class)
-    public ResponseEntity<String> handleInvalidCep(InvalidCepException ex) {
+    public ResponseEntity<String> handleInvalidCep(InvalidCepException exception) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body("CEP inválido: " + ex.getMessage());
+                .body("CEP inválido: " + exception.getMessage());
     }
 
     @ExceptionHandler(InvalidCpfException.class)
-    public ResponseEntity<String> handleInvalidCpf(InvalidCpfException ex) {
+    public ResponseEntity<String> handleInvalidCpf(InvalidCpfException exception) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body("CPF inválido: " + ex.getMessage());
+                .body("CPF inválido: " + exception.getMessage());
     }
 
     @ExceptionHandler(InvalidEmailException.class)
-    public ResponseEntity<String> handleInvalidEmail(InvalidEmailException ex) {
+    public ResponseEntity<String> handleInvalidEmail(InvalidEmailException exception) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body("Email inválido: " + ex.getMessage());
+                .body("Email inválido: " + exception.getMessage());
     }
 
     @ExceptionHandler(InvalidPhoneException.class)
-    public ResponseEntity<String> handleInvalidPhone(InvalidPhoneException ex) {
+    public ResponseEntity<String> handleInvalidPhone(InvalidPhoneException exception) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body("Telefone inválido: " + ex.getMessage());
+                .body("Telefone inválido: " + exception.getMessage());
+    }
+
+    @ExceptionHandler(InvalidRoleException.class)
+    public ResponseEntity<String> handleInvalidRole(InvalidRoleException exception) {
+        return ResponseEntity
+          .status(HttpStatus.BAD_REQUEST)
+          .body("Cargo inválido: " + exception.getMessage());
     }
 }
 

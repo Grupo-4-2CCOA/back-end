@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.refactor.infraestructure.mapper.UserMapper;
 import sptech.school.projetoPI.refactor.infraestructure.web.dto.user.CreateClientRequestDto;
-import sptech.school.projetoPI.refactor.infraestructure.web.dto.user.CreateClientResponseDto;
 
 @RestController
 @RequestMapping("/usuario")

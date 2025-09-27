@@ -3,7 +3,7 @@ package sptech.school.projetoPI.refactor.infraestructure.persistence.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "user")
 @Setter
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserJpaEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +29,6 @@ public class UserJpaEntity {
   private String cpf;
   @Column(nullable = false, unique = true)
   private String email;
-  @Column(nullable = false)
-  private String password;
   private String phone;
   private String cep;
   // fetch define quando o objeto (nesse caso, o objeto de Role) vai ser "puxado" do banco de dados,

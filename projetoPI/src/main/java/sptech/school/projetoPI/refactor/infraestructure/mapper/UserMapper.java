@@ -1,80 +1,47 @@
 package sptech.school.projetoPI.refactor.infraestructure.mapper;
 
 import sptech.school.projetoPI.refactor.core.domain.aggregate.UserDomain;
-import sptech.school.projetoPI.refactor.infraestructure.web.dto.user.CreateClientRequestDto;
+import sptech.school.projetoPI.refactor.infraestructure.persistence.jpa.entity.UserJpaEntity;
 
 public class UserMapper {
-
-    // CreateClientRequestDto -> CreateClientResponseDto
-    public static CreateClientResponseDto toCreateClientResponseDto(CreateClientRequestDto clientRequestDto) {
-        return new CreateClientResponseDto(
-          clientRequestDto.name(),
-          clientRequestDto.cpf(),
-          clientRequestDto.email(),
-          clientRequestDto.phone(),
-          clientRequestDto.cep(),
-          clientRequestDto.roleDomain()
-        );
+  // UserDomain -> UserJpaEntity
+  public static UserJpaEntity toUserJpaEntity(UserDomain userDomain) {
+    if (userDomain == null) {
+      return null;
     }
 
-//    // Command -> Domain
-//    public static UserDomain toDomain(CreateUserCommand command) {
-//        return new UserDomain(
-//                command.id(),
-//                command.isActive(),
-//                command.createdAt(),
-//                command.updatedAt(),
-//                command.name(),
-//                command.email(),
-//                command.cpf(),
-//                command.phone(),
-//                command.cep(),
-//                command.roleDomain()
-//        );
-//    }
+    return new UserJpaEntity(
+      userDomain.getId(),
+      userDomain.getActive(),
+      userDomain.getCreatedAt(),
+      userDomain.getUpdatedAt(),
+      userDomain.getName(),
+      userDomain.getCpf(),
+      userDomain.getEmail(),
+      userDomain.getPhone(),
+      userDomain.getCep(),
+      RoleMapper.toRoleJpaEntity(userDomain.getRoleDomain())
+    );
+  }
 
-//    // Domain -> Entity
-//    public static UserEntity toEntity(UserDomain domain) {
-//        UserEntity entity = new UserEntity();
-//        entity.setId(domain.getId());
-//        entity.setActive(domain.getActive());
-//        entity.setCreatedAt(domain.getCreatedAt());
-//        entity.setUpdatedAt(domain.getUpdatedAt());
-//        entity.setName(domain.getName());
-//        entity.setEmail(domain.getEmail());
-//        entity.setCpf(domain.getCpf());
-//        entity.setPhone(domain.getPhone());
-//        entity.setCep(domain.getCep());
-//        entity.setRoleEntity(domain.getRoleDomain());
-//        return entity;
-//    }
-//
-//    // Entity -> Domain
-//    public static UserDomain toDomain(UserEntity entity) {
-//        return new UserDomain(
-//                entity.getId(),
-//                entity.getActive(),
-//                entity.getCreatedAt(),
-//                entity.getUpdatedAt(),
-//                entity.getName(),
-//                entity.getEmail(),
-//                entity.getCpf(),
-//                entity.getPhone(),
-//                entity.getCep(),
-//                entity.getRoleEntity()
-//        );
-//    }
-
-    // Domain -> DTO
-    public static CreateClientResponseDto toDto(UserDomain domain) {
-        return new CreateClientResponseDto(
-                domain.getName(),
-                domain.getCpf(),
-                domain.getEmail(),
-                domain.getPhone(),
-                domain.getCep(),
-                domain.getRoleDomain()
-        );
+  // UserJpaEntity -> UserDomain
+  public static UserDomain toUserDomain(UserJpaEntity userJpaEntity) {
+    if (userJpaEntity == null) {
+      return null;
     }
 
+    UserDomain userDomain = new UserDomain();
+
+    userDomain.setId(userJpaEntity.getId());
+    userDomain.setActive(userJpaEntity.getActive());
+    userDomain.setCreatedAt(userJpaEntity.getCreatedAt());
+    userDomain.setUpdatedAt(userJpaEntity.getUpdatedAt());
+    userDomain.setCpf(userJpaEntity.getCpf());
+    userDomain.setEmail(userJpaEntity.getEmail());
+    userDomain.setPhone(userJpaEntity.getPhone());
+    userDomain.setCep(userJpaEntity.getCep());
+    userDomain.setRoleDomain(RoleMapper.toRoleDomain(userJpaEntity.getRoleJpaEntity()));
+
+    return userDomain;
+  }
 }

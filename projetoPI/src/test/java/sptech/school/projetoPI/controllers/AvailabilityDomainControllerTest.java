@@ -5,7 +5,7 @@ import static org.mockito.Mockito.when;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import sptech.school.projetoPI.core.domains.AvailabilityDomain;
+import sptech.school.projetoPI.old.core.domains.AvailabilityDomain;
 
 import java.util.List;
 

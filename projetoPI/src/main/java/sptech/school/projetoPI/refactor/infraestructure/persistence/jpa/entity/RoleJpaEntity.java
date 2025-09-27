@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import sptech.school.projetoPI.refactor.core.domain.aggregate.UserDomain;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -27,8 +26,8 @@ public class RoleJpaEntity {
   @Column(nullable = false, unique = true)
   private String name;
   private String description;
-  // mappedBy é o campo na entidade user
+  // mappedBy é o campo da classe UserJpaEntity
   // cascade diz se operações de repository.save(roleJpaEntity), também vão salvar/atualizar os usuários associados.
-  @OneToMany(mappedBy = "fk_role", cascade = CascadeType.ALL)
-  private Set<UserDomain> userDomains;
+  @OneToMany(mappedBy = "roleJpaEntity", cascade = CascadeType.ALL)
+  private Set<UserJpaEntity> userJpaEntities;
 }

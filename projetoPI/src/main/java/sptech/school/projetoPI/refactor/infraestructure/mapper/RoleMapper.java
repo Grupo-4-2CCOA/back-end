@@ -5,6 +5,8 @@ import sptech.school.projetoPI.refactor.core.application.command.role.CreateRole
 import sptech.school.projetoPI.refactor.infraestructure.persistence.jpa.entity.RoleJpaEntity;
 import sptech.school.projetoPI.refactor.infraestructure.web.dto.role.CreateRoleRequestDto;
 
+import java.util.stream.Collectors;
+
 public class RoleMapper {
   // CreateRoleRequestDto -> CreateRoleCommand
   public static CreateRoleCommand toCreateRoleCommand(CreateRoleRequestDto createRoleRequestDto) {
@@ -31,7 +33,7 @@ public class RoleMapper {
       roleDomain.getUpdatedAt(),
       roleDomain.getName(),
       roleDomain.getDescription(),
-      roleDomain.getUserDomains()
+      roleDomain.getUserDomains().stream().map(UserMapper::toUserJpaEntity).collect(Collectors.toSet())
     );
   }
 
@@ -49,7 +51,7 @@ public class RoleMapper {
     roleDomain.setUpdatedAt(roleJpaEntity.getUpdatedAt());
     roleDomain.setName(roleJpaEntity.getName());
     roleDomain.setDescription(roleJpaEntity.getDescription());
-    roleDomain.setUserDomains(roleJpaEntity.getUserDomains());
+    roleDomain.setUserDomains(roleJpaEntity.getUserJpaEntities().stream().map(UserMapper::toUserDomain).collect(Collectors.toSet()));
 
     return roleDomain;
   }

@@ -5,11 +5,8 @@ import sptech.school.projetoPI.old.infrastructure.mappers.ServiceMapper;
 import sptech.school.projetoPI.refactor.core.application.command.scheduleItem.CreateScheduleItemCommand;
 import sptech.school.projetoPI.refactor.core.domain.aggregate.ScheduleItemDomain;
 import sptech.school.projetoPI.refactor.infraestructure.persistence.jpa.entity.ScheduleItemJpaEntity;
-import sptech.school.projetoPI.refactor.infraestructure.web.dto.schedule.CreateScheduleRequestDto;
-import sptech.school.projetoPI.refactor.infraestructure.web.dto.scheduleItem.CreateScheduleItemRequestDto;
+import sptech.school.projetoPI.refactor.infraestructure.web.dto.schedule.scheduleItem.CreateScheduleItemRequestDto;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;

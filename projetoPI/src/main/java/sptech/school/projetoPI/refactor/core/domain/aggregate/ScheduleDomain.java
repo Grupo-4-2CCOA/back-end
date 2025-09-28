@@ -18,13 +18,13 @@ public class ScheduleDomain {
     private String transactionHash;
     private Integer duration;
 
-    private ClientDomain clientDomain;
+    private UserDomain clientDomain;
     private EmployeeDomain employeeDomain;
     private PaymentTypeDomain paymentTypeDomain;
 
     private List<ScheduleItemDomain> items;
 
-    public ScheduleDomain(Integer id, LocalDateTime createdAt, LocalDateTime updatedAt, Status status, LocalDateTime appointmentDatetime, String transactionHash, Integer duration, ClientDomain clientDomain, EmployeeDomain employeeDomain, PaymentTypeDomain paymentTypeDomain, List<ScheduleItemDomain> items) {
+    public ScheduleDomain(Integer id, LocalDateTime createdAt, LocalDateTime updatedAt, Status status, LocalDateTime appointmentDatetime, String transactionHash, Integer duration, UserDomain clientDomain, EmployeeDomain employeeDomain, PaymentTypeDomain paymentTypeDomain, List<ScheduleItemDomain> items) {
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -36,9 +36,6 @@ public class ScheduleDomain {
         this.employeeDomain = employeeDomain;
         this.paymentTypeDomain = paymentTypeDomain;
         this.items = items;
-    }
-
-    public ScheduleDomain() {
     }
 
     public Integer getId() {
@@ -97,11 +94,11 @@ public class ScheduleDomain {
         this.duration = duration;
     }
 
-    public ClientDomain getClientDomain() {
+    public UserDomain getClientDomain() {
         return clientDomain;
     }
 
-    public void setClientDomain(ClientDomain clientDomain) {
+    public void setClientDomain(UserDomain clientDomain) {
         this.clientDomain = clientDomain;
     }
 

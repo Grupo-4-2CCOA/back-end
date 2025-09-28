@@ -4,11 +4,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import sptech.school.projetoPI.core.domains.PaymentTypeDomain;
-import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.EntityConflictException;
-import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
-import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.ForeignKeyConstraintException;
-import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.InactiveEntityException;
+import sptech.school.projetoPI.old.core.domains.PaymentTypeDomain;
+import sptech.school.projetoPI.old.core.application.usecases.exceptions.exceptionClass.EntityConflictException;
+import sptech.school.projetoPI.old.core.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.old.core.application.usecases.exceptions.exceptionClass.ForeignKeyConstraintException;
+import sptech.school.projetoPI.old.core.application.usecases.exceptions.exceptionClass.InactiveEntityException;
 
 import java.time.LocalDateTime;
 import java.util.List;

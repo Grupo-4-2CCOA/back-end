@@ -19,19 +19,6 @@ public class UserDomain {
   private Cep cep;
   private RoleDomain roleDomain;
 
-  public UserDomain(Integer id, Boolean isActive, LocalDateTime createdAt, LocalDateTime updatedAt, String name, Email email, Cpf cpf, Phone phone, Cep cep, RoleDomain roleDomain) {
-    this.id = id;
-    this.isActive = isActive;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-    this.name = name;
-    this.email = email;
-    this.cpf = cpf;
-    this.phone = phone;
-    this.cep = cep;
-    this.roleDomain = roleDomain;
-  }
-
   public Integer getId() {
     return id;
   }

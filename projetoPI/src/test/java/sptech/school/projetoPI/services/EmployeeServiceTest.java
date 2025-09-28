@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.*;
-import sptech.school.projetoPI.core.domains.EmployeeDomain;
-import sptech.school.projetoPI.core.domains.RoleDomain;
+import sptech.school.projetoPI.old.core.application.usecases.exceptions.exceptionClass.*;
+import sptech.school.projetoPI.old.core.domains.EmployeeDomain;
+import sptech.school.projetoPI.old.core.domains.RoleDomain;
 import sptech.school.projetoPI.repositories.*;
 import sptech.school.projetoPI.services.user.UserService;
 

@@ -1,6 +1,6 @@
 package sptech.school.projetoPI.refactor.core.domain.enumerator;
 
-import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.EnumIsNotValidException;
+import sptech.school.projetoPI.refactor.core.application.exception.InvalidScheduleStatusException;
 
 import java.util.Arrays;
 
@@ -14,8 +14,6 @@ public enum ScheduleStatus {
       return ScheduleStatus.valueOf(value);
     }
 
-    throw new EnumIsNotValidException(
-      "Status não reconhecido"
-    );
+    throw new InvalidScheduleStatusException("Status não reconhecido");
   }
 }

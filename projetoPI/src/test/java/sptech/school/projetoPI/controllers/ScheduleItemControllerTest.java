@@ -2,7 +2,7 @@ package sptech.school.projetoPI.controllers;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import sptech.school.projetoPI.core.domains.ScheduleItemDomain;
+import sptech.school.projetoPI.old.core.domains.ScheduleItemDomain;
 
 import java.util.List;
 

@@ -4,10 +4,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import sptech.school.projetoPI.core.domains.FeedbackDomain;
-import sptech.school.projetoPI.core.domains.ScheduleDomain;
-import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
-import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.RelatedEntityNotFoundException;
+import sptech.school.projetoPI.old.core.domains.FeedbackDomain;
+import sptech.school.projetoPI.old.core.domains.ScheduleDomain;
+import sptech.school.projetoPI.old.core.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
+import sptech.school.projetoPI.old.core.application.usecases.exceptions.exceptionClass.RelatedEntityNotFoundException;
 import sptech.school.projetoPI.repositories.*;
 
 import java.time.LocalDateTime;

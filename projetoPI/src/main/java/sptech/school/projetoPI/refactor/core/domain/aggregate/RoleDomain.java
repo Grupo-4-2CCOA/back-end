@@ -12,16 +12,6 @@ public class RoleDomain {
   private String description;
   private Set<UserDomain> userDomains;
 
-  public RoleDomain(Integer id, Boolean isActive, LocalDateTime createdAt, LocalDateTime updatedAt, String name, String description, Set<UserDomain> userDomains) {
-    this.id = id;
-    this.isActive = isActive;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-    this.name = name;
-    this.description = description;
-    this.userDomains = userDomains;
-  }
-
   public Integer getId() {
     return id;
   }
@@ -68,6 +58,10 @@ public class RoleDomain {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public void addUserDomain(UserDomain userDomain) {
+    this.userDomains.add(userDomain);
   }
 
   public Set<UserDomain> getUserDomains() {

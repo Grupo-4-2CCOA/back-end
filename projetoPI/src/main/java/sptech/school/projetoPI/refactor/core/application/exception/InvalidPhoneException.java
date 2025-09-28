@@ -1,6 +1,8 @@
 package sptech.school.projetoPI.refactor.core.application.exception;
 
-public class InvalidPhoneException extends RuntimeException {
+import sptech.school.projetoPI.refactor.core.application.exception.generic.InvalidFieldException;
+
+public class InvalidPhoneException extends InvalidFieldException {
   public InvalidPhoneException(String message) {
     super(message);
   }

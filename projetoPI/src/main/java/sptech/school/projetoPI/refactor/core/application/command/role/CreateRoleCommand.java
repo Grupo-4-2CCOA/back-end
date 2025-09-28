@@ -1,4 +1,7 @@
 package sptech.school.projetoPI.refactor.core.application.command.role;
 
-public class CreateRoleCommand {
+
+import java.time.LocalDateTime;
+
+public record CreateRoleCommand(String name, String description) {
 }

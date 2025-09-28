@@ -4,6 +4,7 @@ package sptech.school.projetoPI.refactor.infraestructure.persistence.jpa.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserJpaEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

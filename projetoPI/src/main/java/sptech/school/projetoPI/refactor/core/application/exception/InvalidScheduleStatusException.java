@@ -1,6 +1,8 @@
 package sptech.school.projetoPI.refactor.core.application.exception;
 
-public class InvalidScheduleStatusException extends RuntimeException {
+import sptech.school.projetoPI.refactor.core.application.exception.generic.InvalidFieldException;
+
+public class InvalidScheduleStatusException extends InvalidFieldException {
   public InvalidScheduleStatusException(String message) {
     super(message);
   }

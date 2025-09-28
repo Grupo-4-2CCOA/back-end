@@ -1,6 +1,8 @@
 package sptech.school.projetoPI.refactor.core.application.exception;
 
-public class InvalidEmailException extends RuntimeException {
+import sptech.school.projetoPI.refactor.core.application.exception.generic.InvalidFieldException;
+
+public class InvalidEmailException extends InvalidFieldException {
   public InvalidEmailException(String message) {
     super(message);
   }

@@ -1,7 +1,7 @@
 package sptech.school.projetoPI.refactor.core.application.usecase.role;
 
 import sptech.school.projetoPI.refactor.core.application.command.role.CreateRoleCommand;
-import sptech.school.projetoPI.refactor.core.application.exception.InvalidRoleException;
+import sptech.school.projetoPI.refactor.core.application.exception.usecase.CreateRoleInvalidNameException;
 import sptech.school.projetoPI.refactor.core.domain.aggregate.RoleDomain;
 import sptech.school.projetoPI.refactor.core.gateway.RoleGateway;
 
@@ -14,17 +14,21 @@ public class CreateRoleUsecase {
 
   public void execute(CreateRoleCommand createRoleCommand) {
     if (createRoleCommand == null) {
-      throw new InvalidRoleException("O cargo não pode ser nulo.");
+      // exception interna ao backend, classe padrão do java:
+      throw new IllegalArgumentException("`createRoleCommand` não pode ser nulo.");
+    }
+    if (createRoleCommand.name() == null) {
+      throw new CreateRoleInvalidNameException("Para criar o cargo, o nome não pode ser nulo.");
     }
     if (createRoleCommand.name().isBlank()) {
-      throw new InvalidRoleException("O cargo precisa de um nome que não esteja em branco.");
+      throw new CreateRoleInvalidNameException("Para criar o cargo, é preciso inserir um nome que não esteja em branco.");
     }
 
     // remove os espaços em branco no começo e no final da string:
     String roleTrimmedName = createRoleCommand.name().trim();
 
     if (roleGateway.existsByName(roleTrimmedName)) {
-      throw new InvalidRoleException("O cargo já foi cadastrado.");
+      throw new CreateRoleInvalidNameException("O cargo já foi cadastrado.");
     }
 
     // inicia a criação do domain:
@@ -34,7 +38,7 @@ public class CreateRoleUsecase {
     roleDomain.setName(createRoleCommand.name());
     roleDomain.setDescription(createRoleCommand.description());
 
-    // salva o domain (que será convertido para o objeto adequado pelo gateway):
+    // salva a persistência:
     roleGateway.save(roleDomain);
   }
 }

@@ -9,6 +9,7 @@ import sptech.school.projetoPI.refactor.infraestructure.persistence.jpa.entity.R
 import sptech.school.projetoPI.refactor.infraestructure.persistence.jpa.repository.RoleRepository;
 
 import java.util.Optional;
+
 // TODO: adicionar lógica de soft-delete (com verificação de isActive nos exists) nos UseCases;
 @Service
 @RequiredArgsConstructor
@@ -48,5 +49,17 @@ public class RoleAdapter implements RoleGateway {
   @Override
   public Boolean existsByName(String name) {
     return roleRepository.existsByName(name);
+  }
+
+  @Override
+  public Optional<RoleDomain> findByName(String name) {
+    RoleJpaEntity roleJpaEntity = roleRepository.findByName(name).orElse(null);
+    RoleDomain roleDomain = RoleMapper.toRoleDomain(roleJpaEntity);
+    return Optional.ofNullable(roleDomain);
+  }
+
+  @Override
+  public void deleteByName(String name) {
+    roleRepository.deleteByName(name);
   }
 }

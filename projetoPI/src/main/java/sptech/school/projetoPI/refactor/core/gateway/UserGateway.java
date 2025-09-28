@@ -11,4 +11,5 @@ public interface UserGateway {
   void save(UserDomain userDomain);
   void updateById(Integer id, UserDomain userDomain);
   void deleteById(Integer id);
+  Boolean existsByRoleDomain_Name(String name);
 }

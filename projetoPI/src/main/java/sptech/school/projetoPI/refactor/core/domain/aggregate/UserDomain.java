@@ -8,48 +8,12 @@ import sptech.school.projetoPI.refactor.core.domain.field.Phone;
 import java.time.LocalDateTime;
 
 public class UserDomain {
-  private Integer id;
-  private Boolean isActive;
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
   private String name;
   private Email email;
   private Cpf cpf;
   private Phone phone;
   private Cep cep;
   private RoleDomain roleDomain;
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public Boolean getActive() {
-    return isActive;
-  }
-
-  public void setActive(Boolean active) {
-    isActive = active;
-  }
-
-  public LocalDateTime getCreatedAt() {
-    return createdAt;
-  }
-
-  public void setCreatedAt(LocalDateTime createdAt) {
-    this.createdAt = createdAt;
-  }
-
-  public LocalDateTime getUpdatedAt() {
-    return updatedAt;
-  }
-
-  public void setUpdatedAt(LocalDateTime updatedAt) {
-    this.updatedAt = updatedAt;
-  }
 
   public String getName() {
     return name;

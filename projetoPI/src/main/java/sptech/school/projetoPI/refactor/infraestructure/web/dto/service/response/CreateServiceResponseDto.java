@@ -1,5 +1,7 @@
 package sptech.school.projetoPI.refactor.infraestructure.web.dto.service.response;
 
+import sptech.school.projetoPI.refactor.infraestructure.web.dto.category.CreateCategoryResponseDto;
+
 public record CreateServiceResponseDto(
         Integer id,
         Boolean active,
@@ -7,7 +9,7 @@ public record CreateServiceResponseDto(
         Double basePrice,
         Integer baseDuration,
         String description,
-        String image
-
+        String image,
+        CreateCategoryResponseDto category
 ) {
 }

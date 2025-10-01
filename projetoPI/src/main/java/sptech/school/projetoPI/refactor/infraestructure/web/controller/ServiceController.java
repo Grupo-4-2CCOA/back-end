@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sptech.school.projetoPI.refactor.infraestructure.web.dto.category.CreateCategoryResponseDto;
 import sptech.school.projetoPI.refactor.infraestructure.web.dto.service.request.CreateServiceRequestDto;
 import sptech.school.projetoPI.refactor.infraestructure.web.dto.service.request.GetServiceByIdRequestDto;
 import sptech.school.projetoPI.refactor.infraestructure.web.dto.service.request.UpdateServiceByIdRequestDto;
@@ -27,7 +28,12 @@ public class ServiceController {
                 requestDto.basePrice(),
                 requestDto.baseDuration(),
                 requestDto.description(),
-                requestDto.image()
+                requestDto.image(),
+                new CreateCategoryResponseDto(
+                        1,
+                        "Olá",
+                        "Cabelo"
+                )
         );
 
 
@@ -53,7 +59,12 @@ public class ServiceController {
                 10.99,
                 5,
                 "Xubiraudaun",
-                "show"
+                "show",
+                new CreateCategoryResponseDto(
+                        1,
+                        "Olá",
+                        "Cabelo"
+                )
         );
 
         return ResponseEntity.status(200).body(createServiceResponseDto);
@@ -68,7 +79,12 @@ public class ServiceController {
                 10.99,
                 5,
                 "show",
-                ""
+                "",
+                new CreateCategoryResponseDto(
+                        1,
+                        "Olá",
+                        "Cabelo"
+                )
 
         );
         return ResponseEntity.status(200).body(updateServiceByNameResponseDto);

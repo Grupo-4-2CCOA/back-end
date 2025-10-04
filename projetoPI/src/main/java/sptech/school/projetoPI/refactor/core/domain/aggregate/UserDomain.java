@@ -5,15 +5,22 @@ import sptech.school.projetoPI.refactor.core.domain.field.Cpf;
 import sptech.school.projetoPI.refactor.core.domain.field.Email;
 import sptech.school.projetoPI.refactor.core.domain.field.Phone;
 
-import java.time.LocalDateTime;
-
 public class UserDomain {
+  private Integer id;
   private String name;
   private Email email;
   private Cpf cpf;
   private Phone phone;
   private Cep cep;
   private RoleDomain roleDomain;
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
   public String getName() {
     return name;
@@ -23,36 +30,36 @@ public class UserDomain {
     this.name = name;
   }
 
-  public String getEmail() {
-    return email.getValue();
+  public Email getEmail() {
+    return email;
   }
 
-  public void setEmail(String email) {
-    this.email = new Email(email);
+  public void setEmail(Email email) {
+    this.email = email;
   }
 
-  public String getCpf() {
-    return cpf.getValue();
+  public Cpf getCpf() {
+    return cpf;
   }
 
-  public void setCpf(String cpf) {
-    this.cpf = new Cpf(cpf);
+  public void setCpf(Cpf cpf) {
+    this.cpf = cpf;
   }
 
-  public String getPhone() {
-    return phone.getValue();
+  public Phone getPhone() {
+    return phone;
   }
 
-  public void setPhone(String phone) {
-    this.phone = new Phone(phone);
+  public void setPhone(Phone phone) {
+    this.phone = phone;
   }
 
-  public String getCep() {
-    return cep.getValue();
+  public Cep getCep() {
+    return cep;
   }
 
-  public void setCep(String cep) {
-    this.cep = new Cep(cep);
+  public void setCep(Cep cep) {
+    this.cep = cep;
   }
 
   public RoleDomain getRoleDomain() {

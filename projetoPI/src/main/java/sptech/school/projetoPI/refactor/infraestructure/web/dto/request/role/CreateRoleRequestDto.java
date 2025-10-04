@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.refactor.infraestructure.web.dto.role;
+package sptech.school.projetoPI.refactor.infraestructure.web.dto.request.role;
 
 
 import sptech.school.projetoPI.refactor.core.domain.aggregate.RoleDomain;

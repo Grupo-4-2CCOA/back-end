@@ -1,6 +1,6 @@
 package sptech.school.projetoPI.refactor.core.domain.aggregate;
 
-public class RoleDomain {
+public class PaymentTypeDomain {
   private Integer id;
   private String name;
   private String description;

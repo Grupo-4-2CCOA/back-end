@@ -1,17 +1,17 @@
 package sptech.school.projetoPI.refactor.infraestructure.mapper;
 
-import sptech.school.projetoPI.refactor.core.application.command.role.DeleteRoleByNameCommand;
-import sptech.school.projetoPI.refactor.core.application.command.role.GetRoleByNameCommand;
-import sptech.school.projetoPI.refactor.core.application.command.role.UpdateRoleByNameCommand;
+import sptech.school.projetoPI.refactor.core.application.command.role.DeleteRoleByIdCommand;
+import sptech.school.projetoPI.refactor.core.application.command.role.GetRoleByIdCommand;
+import sptech.school.projetoPI.refactor.core.application.command.role.UpdateRoleByIdCommand;
 import sptech.school.projetoPI.refactor.core.domain.aggregate.RoleDomain;
 import sptech.school.projetoPI.refactor.core.application.command.role.CreateRoleCommand;
 import sptech.school.projetoPI.refactor.core.domain.aggregate.UserDomain;
 import sptech.school.projetoPI.refactor.infraestructure.persistence.jpa.entity.RoleJpaEntity;
 import sptech.school.projetoPI.refactor.infraestructure.persistence.jpa.entity.UserJpaEntity;
-import sptech.school.projetoPI.refactor.infraestructure.web.dto.role.CreateRoleRequestDto;
-import sptech.school.projetoPI.refactor.infraestructure.web.dto.role.DeleteRoleByNameRequestDto;
-import sptech.school.projetoPI.refactor.infraestructure.web.dto.role.GetRoleByNameRequestDto;
-import sptech.school.projetoPI.refactor.infraestructure.web.dto.role.UpdateRoleByNameRequestDto;
+import sptech.school.projetoPI.refactor.infraestructure.web.dto.request.role.CreateRoleRequestDto;
+import sptech.school.projetoPI.refactor.infraestructure.web.dto.request.role.DeleteRoleByNameRequestDto;
+import sptech.school.projetoPI.refactor.infraestructure.web.dto.request.role.GetRoleByNameRequestDto;
+import sptech.school.projetoPI.refactor.infraestructure.web.dto.request.role.UpdateRoleByNameRequestDto;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,26 +26,21 @@ public class RoleMapper {
     }
 
     return new UserJpaEntity(
-      userDomain.getId(),
-      userDomain.getActive(),
-      userDomain.getCreatedAt(),
-      userDomain.getUpdatedAt(),
       userDomain.getName(),
       userDomain.getCpf(),
       userDomain.getEmail(),
       userDomain.getPhone(),
-      userDomain.getCep(),
-      null
+      userDomain.getCep()
     );
   }
 
   // GetRoleByNameRequestDto -> GetRoleByNameCommand
-  public static GetRoleByNameCommand toGetRoleByNameCommand(GetRoleByNameRequestDto getRoleByNameRequestDto) {
+  public static GetRoleByIdCommand toGetRoleByNameCommand(GetRoleByNameRequestDto getRoleByNameRequestDto) {
     if (getRoleByNameRequestDto == null) {
       return null;
     }
 
-    return new GetRoleByNameCommand(
+    return new GetRoleByIdCommand(
       getRoleByNameRequestDto.name()
     );
   }
@@ -63,12 +58,12 @@ public class RoleMapper {
   }
 
   // UpdateRoleByNameRequestDto -> UpdateRoleByNameCommand
-  public static UpdateRoleByNameCommand toUpdateRoleByNameCommand(UpdateRoleByNameRequestDto updateRoleByNameRequestDto) {
+  public static UpdateRoleByIdCommand toUpdateRoleByNameCommand(UpdateRoleByNameRequestDto updateRoleByNameRequestDto) {
     if (updateRoleByNameRequestDto == null) {
       return null;
     }
 
-    return new UpdateRoleByNameCommand(
+    return new UpdateRoleByIdCommand(
       updateRoleByNameRequestDto.searchName(),
       updateRoleByNameRequestDto.newName(),
       updateRoleByNameRequestDto.newDescription()
@@ -76,12 +71,12 @@ public class RoleMapper {
   }
 
   // DeleteRoleByNameRequestDto -> DeleteRoleByNameCommand
-  public static DeleteRoleByNameCommand toDeleteRoleByNameCommand(DeleteRoleByNameRequestDto deleteRoleByNameRequestDto) {
+  public static DeleteRoleByIdCommand toDeleteRoleByNameCommand(DeleteRoleByNameRequestDto deleteRoleByNameRequestDto) {
     if (deleteRoleByNameRequestDto == null) {
       return null;
     }
 
-    return new DeleteRoleByNameCommand(
+    return new DeleteRoleByIdCommand(
       deleteRoleByNameRequestDto.name()
     );
   }

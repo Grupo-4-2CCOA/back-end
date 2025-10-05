@@ -28,10 +28,7 @@ public class CreateClientUseCase {
             throw new ConflictException("Telefone já cadastrado");
         }
 
-        String encodedPassword = passwordEncoder.encode(clientDomain.getPassword());
-
         clientDomain.setId(null);
-        clientDomain.setPassword(encodedPassword);
         clientDomain.setCreatedAt(LocalDateTime.now());
         clientDomain.setUpdatedAt(LocalDateTime.now());
         return clientGateway.save(clientDomain);

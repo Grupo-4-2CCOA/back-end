@@ -1,5 +1,7 @@
 package sptech.school.projetoPI.core.application.usecases.schedule;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import sptech.school.projetoPI.core.domains.ScheduleDomain;
 import sptech.school.projetoPI.core.gateways.ScheduleGateway;
 
@@ -13,8 +15,8 @@ public class GetAllScheduleUseCase {
         this.scheduleGateway = scheduleGateway;
     }
 
-    public List<ScheduleDomain> execute() {
-        return scheduleGateway.findAll();
+    public Page<ScheduleDomain> execute(Pageable pageable) {
+        return scheduleGateway.findAll(pageable);
     }
 
 }

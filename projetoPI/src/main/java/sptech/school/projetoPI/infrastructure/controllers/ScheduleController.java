@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -83,11 +85,9 @@ public class ScheduleController {
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<List<ScheduleResumeResponseDto>> getAllSchedules() {
-        List<ScheduleDomain> scheduleDomains = getAllScheduleUseCase.execute();
-        List<ScheduleResumeResponseDto> responseDtos = scheduleDomains.stream()
-                .map(ScheduleMapper::toResumeResponseDto)
-                .collect(Collectors.toList());
+    public ResponseEntity<Page<ScheduleResumeResponseDto>> getAllSchedules(Pageable pageable) {
+        Page<ScheduleDomain> scheduleDomains = getAllScheduleUseCase.execute(pageable);
+        Page<ScheduleResumeResponseDto> responseDtos = scheduleDomains.map(ScheduleMapper::toResumeResponseDto);
         return ResponseEntity.ok(responseDtos);
     }
 

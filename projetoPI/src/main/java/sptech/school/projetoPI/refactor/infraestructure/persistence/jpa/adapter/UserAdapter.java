@@ -47,7 +47,7 @@ public class UserAdapter implements UserGateway {
   }
 
   @Override
-  public Boolean existsByRoleDomain_Name(String name) {
-    return userRepository.existsByRoleJpaEntity_Name(name);
+  public Boolean existsByRoleDomain_Id(Integer id) {
+    return userRepository.existsByRoleJpaEntity_Id(id);
   }
 }

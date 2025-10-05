@@ -1,123 +1,81 @@
 package sptech.school.projetoPI.refactor.core.domain.aggregate;
 
+import sptech.school.projetoPI.refactor.core.domain.enumerator.ScheduleStatus;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class ScheduleDomain {
-    private Integer id;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private Status status;
-    private LocalDateTime appointmentDatetime;
-    private String transactionHash;
-    private Integer duration;
+  private Integer id;
+  private ScheduleStatus status;
+  private LocalDateTime appointmentDatetime;
+  private Duration duration;
+  private String transactionHash;
+  private PaymentTypeDomain paymentTypeDomain;
+  private UserDomain clientDomain;
+  private UserDomain employeeDomain;
 
-    private UserDomain clientDomain;
-    private EmployeeDomain employeeDomain;
-    private PaymentTypeDomain paymentTypeDomain;
+  public Integer getId() {
+    return id;
+  }
 
-    private List<ScheduleItemDomain> items;
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public ScheduleDomain(Integer id, LocalDateTime createdAt, LocalDateTime updatedAt, Status status, LocalDateTime appointmentDatetime, String transactionHash, Integer duration, UserDomain clientDomain, EmployeeDomain employeeDomain, PaymentTypeDomain paymentTypeDomain, List<ScheduleItemDomain> items) {
-        this.id = id;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.status = status;
-        this.appointmentDatetime = appointmentDatetime;
-        this.transactionHash = transactionHash;
-        this.duration = duration;
-        this.clientDomain = clientDomain;
-        this.employeeDomain = employeeDomain;
-        this.paymentTypeDomain = paymentTypeDomain;
-        this.items = items;
-    }
+  public ScheduleStatus getStatus() {
+    return status;
+  }
 
-    public Integer getId() {
-        return id;
-    }
+  public void setStatus(ScheduleStatus status) {
+    this.status = status;
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public LocalDateTime getAppointmentDatetime() {
+    return appointmentDatetime;
+  }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+  public void setAppointmentDatetime(LocalDateTime appointmentDatetime) {
+    this.appointmentDatetime = appointmentDatetime;
+  }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+  public Duration getDuration() {
+    return duration;
+  }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
+  public void setDuration(Duration duration) {
+    this.duration = duration;
+  }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+  public String getTransactionHash() {
+    return transactionHash;
+  }
 
-    public Status getStatus() {
-        return status;
-    }
+  public void setTransactionHash(String transactionHash) {
+    this.transactionHash = transactionHash;
+  }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
+  public PaymentTypeDomain getPaymentTypeDomain() {
+    return paymentTypeDomain;
+  }
 
-    public LocalDateTime getAppointmentDatetime() {
-        return appointmentDatetime;
-    }
+  public void setPaymentTypeDomain(PaymentTypeDomain paymentTypeDomain) {
+    this.paymentTypeDomain = paymentTypeDomain;
+  }
 
-    public void setAppointmentDatetime(LocalDateTime appointmentDatetime) {
-        this.appointmentDatetime = appointmentDatetime;
-    }
+  public UserDomain getClientDomain() {
+    return clientDomain;
+  }
 
-    public String getTransactionHash() {
-        return transactionHash;
-    }
+  public void setClientDomain(UserDomain clientDomain) {
+    this.clientDomain = clientDomain;
+  }
 
-    public void setTransactionHash(String transactionHash) {
-        this.transactionHash = transactionHash;
-    }
+  public UserDomain getEmployeeDomain() {
+    return employeeDomain;
+  }
 
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Integer duration) {
-        this.duration = duration;
-    }
-
-    public UserDomain getClientDomain() {
-        return clientDomain;
-    }
-
-    public void setClientDomain(UserDomain clientDomain) {
-        this.clientDomain = clientDomain;
-    }
-
-    public EmployeeDomain getEmployeeDomain() {
-        return employeeDomain;
-    }
-
-    public void setEmployeeDomain(EmployeeDomain employeeDomain) {
-        this.employeeDomain = employeeDomain;
-    }
-
-    public PaymentTypeDomain getPaymentTypeDomain() {
-        return paymentTypeDomain;
-    }
-
-    public void setPaymentTypeDomain(PaymentTypeDomain paymentTypeDomain) {
-        this.paymentTypeDomain = paymentTypeDomain;
-    }
-
-    public List<ScheduleItemDomain> getItems() {
-        return items;
-    }
-
-    public void setItems(List<ScheduleItemDomain> items) {
-        this.items = items;
-    }
+  public void setEmployeeDomain(UserDomain employeeDomain) {
+    this.employeeDomain = employeeDomain;
+  }
 }

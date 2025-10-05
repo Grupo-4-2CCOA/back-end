@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import sptech.school.projetoPI.refactor.infraestructure.persistence.jpa.entity.UserJpaEntity;
 
 public interface UserRepository extends JpaRepository<UserJpaEntity, Integer> {
-  Boolean existsByRoleJpaEntity_Name(String name);
+  Boolean existsByRoleJpaEntity_Id(Integer id);
 }

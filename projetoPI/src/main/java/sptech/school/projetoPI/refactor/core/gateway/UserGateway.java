@@ -9,7 +9,6 @@ public interface UserGateway {
   Boolean existsById(Integer id);
   Optional<UserDomain> findById(Integer id);
   void save(UserDomain userDomain);
-  void updateById(Integer id, UserDomain userDomain);
   void deleteById(Integer id);
-  Boolean existsByRoleDomain_Name(String name);
+  Boolean existsByRoleDomain_Id(Integer id);
 }

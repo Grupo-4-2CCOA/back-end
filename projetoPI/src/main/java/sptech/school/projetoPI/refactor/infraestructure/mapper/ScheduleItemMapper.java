@@ -5,7 +5,7 @@ import sptech.school.projetoPI.old.infrastructure.mappers.ServiceMapper;
 import sptech.school.projetoPI.refactor.core.application.command.scheduleItem.CreateScheduleItemCommand;
 import sptech.school.projetoPI.refactor.core.domain.aggregate.ScheduleItemDomain;
 import sptech.school.projetoPI.refactor.infraestructure.persistence.jpa.entity.ScheduleItemJpaEntity;
-import sptech.school.projetoPI.refactor.infraestructure.web.dto.schedule.scheduleItem.CreateScheduleItemRequestDto;
+import sptech.school.projetoPI.refactor.infraestructure.web.dto.schedule.scheduleItem.request.CreateScheduleItemRequestDto;
 
 import java.util.Collections;
 import java.util.Set;

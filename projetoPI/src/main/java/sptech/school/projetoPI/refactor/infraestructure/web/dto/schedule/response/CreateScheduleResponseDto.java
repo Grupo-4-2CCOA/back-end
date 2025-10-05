@@ -1,6 +1,6 @@
-package sptech.school.projetoPI.refactor.infraestructure.web.dto.schedule;
+package sptech.school.projetoPI.refactor.infraestructure.web.dto.schedule.response;
 
-import sptech.school.projetoPI.refactor.infraestructure.web.dto.schedule.scheduleItem.CreateScheduleItemResponseDto;
+import sptech.school.projetoPI.refactor.infraestructure.web.dto.schedule.scheduleItem.response.CreateScheduleItemResponseDto;
 
 import java.time.LocalDateTime;
 import java.util.Set;

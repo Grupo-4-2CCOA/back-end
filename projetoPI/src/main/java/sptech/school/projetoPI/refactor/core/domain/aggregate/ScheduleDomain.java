@@ -1,10 +1,5 @@
 package sptech.school.projetoPI.refactor.core.domain.aggregate;
 
-import sptech.school.projetoPI.old.core.domains.ClientDomain;
-import sptech.school.projetoPI.old.core.domains.EmployeeDomain;
-import sptech.school.projetoPI.old.core.domains.PaymentTypeDomain;
-import sptech.school.projetoPI.old.core.domains.ScheduleItemDomain;
-import sptech.school.projetoPI.old.core.enums.Status;
 
 import java.time.LocalDateTime;
 import java.util.List;

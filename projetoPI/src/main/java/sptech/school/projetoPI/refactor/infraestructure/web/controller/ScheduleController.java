@@ -5,10 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import sptech.school.projetoPI.refactor.core.application.usecase.schedule.CreateScheduleUseCase;
-import sptech.school.projetoPI.refactor.infraestructure.web.dto.schedule.CreateScheduleRequestDto;
-import sptech.school.projetoPI.refactor.infraestructure.web.dto.schedule.CreateScheduleResponseDto;
-import sptech.school.projetoPI.refactor.infraestructure.web.dto.schedule.scheduleItem.CreateScheduleItemResponseDto;
+import sptech.school.projetoPI.refactor.infraestructure.web.dto.schedule.request.CreateScheduleRequestDto;
+import sptech.school.projetoPI.refactor.infraestructure.web.dto.schedule.response.CreateScheduleResponseDto;
+import sptech.school.projetoPI.refactor.infraestructure.web.dto.schedule.scheduleItem.response.CreateScheduleItemResponseDto;
 
 import java.util.stream.Collectors;
 
@@ -16,8 +15,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/schedules")
 @RequiredArgsConstructor
 public class ScheduleController {
-
-    private final CreateScheduleUseCase createScheduleUsecase;
 
     @PostMapping
     public ResponseEntity<CreateScheduleResponseDto> createSchedule(

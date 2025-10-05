@@ -1,69 +1,75 @@
 package sptech.school.projetoPI.refactor.core.domain.aggregate;
 
-import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class ServiceDomain {
-  private Integer id;
-  private String name;
-  private Double basePrice;
-  private Duration baseDuration;
-  private String description;
-  private String image;
-  private CategoryDomain categoryDomain;
+    private Boolean active;
+    private String name;
+    private Double basePrice;
+    private Integer baseDuration;
+    private String description;
+    private String image;
 
-  public Integer getId() {
-    return id;
-  }
 
-  public void setId(Integer id) {
-    this.id = id;
-  }
+    public ServiceDomain(Integer id, Boolean active, LocalDateTime createdAt, LocalDateTime updatedAt, String name, Double basePrice, Integer baseDuration, String description, String image) {
+        this.active = active;
+        this.name = name;
+        this.basePrice = basePrice;
+        this.baseDuration = baseDuration;
+        this.description = description;
+        this.image = image;
 
-  public String getName() {
-    return name;
-  }
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public ServiceDomain() {
+    }
 
-  public Double getBasePrice() {
-    return basePrice;
-  }
+    public Boolean getActive() {
+        return active;
+    }
 
-  public void setBasePrice(Double basePrice) {
-    this.basePrice = basePrice;
-  }
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
-  public Duration getBaseDuration() {
-    return baseDuration;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public void setBaseDuration(Duration baseDuration) {
-    this.baseDuration = baseDuration;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public String getDescription() {
-    return description;
-  }
+    public Double getBasePrice() {
+        return basePrice;
+    }
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+    public void setBasePrice(Double basePrice) {
+        this.basePrice = basePrice;
+    }
 
-  public String getImage() {
-    return image;
-  }
+    public Integer getBaseDuration() {
+        return baseDuration;
+    }
 
-  public void setImage(String image) {
-    this.image = image;
-  }
+    public void setBaseDuration(Integer baseDuration) {
+        this.baseDuration = baseDuration;
+    }
 
-  public CategoryDomain getCategoryDomain() {
-    return categoryDomain;
-  }
+    public String getDescription() {
+        return description;
+    }
 
-  public void setCategoryDomain(CategoryDomain categoryDomain) {
-    this.categoryDomain = categoryDomain;
-  }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
 }

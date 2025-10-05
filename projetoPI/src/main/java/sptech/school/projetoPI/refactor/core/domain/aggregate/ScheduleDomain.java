@@ -15,7 +15,18 @@ public class ScheduleDomain {
   private UserDomain clientDomain;
   private UserDomain employeeDomain;
 
-  public Integer getId() {
+    public ScheduleDomain(Integer id, ScheduleStatus status, LocalDateTime appointmentDatetime, Duration duration, String transactionHash, PaymentTypeDomain paymentTypeDomain, UserDomain clientDomain, UserDomain employeeDomain) {
+        this.id = id;
+        this.status = status;
+        this.appointmentDatetime = appointmentDatetime;
+        this.duration = duration;
+        this.transactionHash = transactionHash;
+        this.paymentTypeDomain = paymentTypeDomain;
+        this.clientDomain = clientDomain;
+        this.employeeDomain = employeeDomain;
+    }
+
+    public Integer getId() {
     return id;
   }
 

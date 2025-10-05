@@ -1,7 +1,7 @@
 package sptech.school.projetoPI.refactor.core.gateway;
 
 import sptech.school.projetoPI.refactor.core.domain.aggregate.ScheduleDomain;
-import sptech.school.projetoPI.old.core.enums.Status;
+import sptech.school.projetoPI.refactor.core.domain.enumerator.ScheduleStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,7 +15,7 @@ public interface ScheduleGateway {
     boolean existsByEmployeeId(Integer id);
     boolean existsByIdNotAndAppointmentDatetime(Integer id, LocalDateTime appointmentDatetime);
     boolean existsByClientId(Integer clientId);
-    boolean existsByIdAndStatus(Integer id, Status status);
+    boolean existsByIdAndStatus(Integer id, ScheduleStatus status);
     Optional<ScheduleDomain> findById(Integer id);
     List<ScheduleDomain> findAll();
     List<ScheduleDomain> findAllByPaymentTypeId(Integer id);

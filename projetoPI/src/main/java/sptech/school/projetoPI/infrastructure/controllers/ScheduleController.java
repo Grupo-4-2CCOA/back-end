@@ -38,6 +38,7 @@ public class ScheduleController {
     private final GetScheduleByIdUseCase getScheduleByIdUseCase;
     private final UpdateScheduleByIdUseCase updateScheduleByIdUseCase;
     private final GetServiceNamesByScheduleIdUseCase getServiceNamesByScheduleIdUseCase;
+    private final GetAllSchedulesByClient getAllSchedulesByClient;
 
     @SecurityRequirement(name = "Bearer")
     @PostMapping
@@ -209,5 +210,34 @@ public class ScheduleController {
     })
     public ResponseEntity<List<String>> getServiceNamesByScheduleId(@PathVariable Integer id) {
         return ResponseEntity.ok(getServiceNamesByScheduleIdUseCase.execute(id));
+    }
+
+    @SecurityRequirement(name = "Bearer")
+    @GetMapping("/agendamentos-por-cliente/{id}")
+    @Operation(summary = "Buscar agendamento por Cliente", description = "Busca o agendamento com base no Cliente fornecido.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Agendamento encontrado", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ScheduleResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.OK)
+            )),
+            @ApiResponse(responseCode = "404", description = "Agendamento não encontrado", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ScheduleResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
+            )),
+            @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ScheduleResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
+            )),
+            @ApiResponse(responseCode = "403", description = "Acesso proibido", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ScheduleResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
+            ))
+    })
+    public ResponseEntity<Page<ScheduleDomain>> getAllScheduleByClient(Pageable pageable,@PathVariable Integer id) {
+        return ResponseEntity.ok(getAllSchedulesByClient.execute(pageable, id));
     }
 }

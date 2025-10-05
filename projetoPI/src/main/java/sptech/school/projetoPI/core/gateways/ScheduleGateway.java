@@ -22,5 +22,5 @@ public interface ScheduleGateway {
     Page<ScheduleDomain> findAll(Pageable pageable);
     List<ScheduleDomain> findAllByPaymentTypeId(Integer id);
     List<ScheduleDomain> findAllByEmployeeId(Integer id);
-    List<ScheduleDomain> findAllByClientId(Integer clientId);
+    Page<ScheduleDomain> findAllByClientId(Pageable pageable, Integer clientId);
 }

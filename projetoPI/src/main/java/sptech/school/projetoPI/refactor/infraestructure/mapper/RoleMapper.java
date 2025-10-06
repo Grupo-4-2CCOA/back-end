@@ -1,50 +1,13 @@
 package sptech.school.projetoPI.refactor.infraestructure.mapper;
 
-import sptech.school.projetoPI.refactor.core.application.command.role.DeleteRoleByIdCommand;
-import sptech.school.projetoPI.refactor.core.application.command.role.GetRoleByIdCommand;
-import sptech.school.projetoPI.refactor.core.application.command.role.UpdateRoleByIdCommand;
+import sptech.school.projetoPI.refactor.core.application.command.role.*;
 import sptech.school.projetoPI.refactor.core.domain.aggregate.RoleDomain;
-import sptech.school.projetoPI.refactor.core.application.command.role.CreateRoleCommand;
-import sptech.school.projetoPI.refactor.core.domain.aggregate.UserDomain;
 import sptech.school.projetoPI.refactor.infraestructure.persistence.jpa.entity.RoleJpaEntity;
-import sptech.school.projetoPI.refactor.infraestructure.persistence.jpa.entity.UserJpaEntity;
-import sptech.school.projetoPI.refactor.infraestructure.web.dto.request.role.CreateRoleRequestDto;
-import sptech.school.projetoPI.refactor.infraestructure.web.dto.request.role.DeleteRoleByNameRequestDto;
-import sptech.school.projetoPI.refactor.infraestructure.web.dto.request.role.GetRoleByNameRequestDto;
-import sptech.school.projetoPI.refactor.infraestructure.web.dto.request.role.UpdateRoleByNameRequestDto;
+import sptech.school.projetoPI.refactor.infraestructure.web.dto.request.role.*;
+import sptech.school.projetoPI.refactor.infraestructure.web.dto.response.role.RoleResponseDto;
 
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class RoleMapper {
-  // UserDomain -> UserJpaEntity;
-  // igual ao UserMapper.toUserJpaEntity, masnesse caso, o valor do
-  //   atributo roleJpaEntity é definido como nulo para impedir um loop infinito:
-  private static UserJpaEntity toUserJpaEntity(UserDomain userDomain) {
-    if (userDomain == null) {
-      return null;
-    }
-
-    return new UserJpaEntity(
-      userDomain.getName(),
-      userDomain.getCpf(),
-      userDomain.getEmail(),
-      userDomain.getPhone(),
-      userDomain.getCep()
-    );
-  }
-
-  // GetRoleByNameRequestDto -> GetRoleByNameCommand
-  public static GetRoleByIdCommand toGetRoleByNameCommand(GetRoleByNameRequestDto getRoleByNameRequestDto) {
-    if (getRoleByNameRequestDto == null) {
-      return null;
-    }
-
-    return new GetRoleByIdCommand(
-      getRoleByNameRequestDto.name()
-    );
-  }
-
   // CreateRoleRequestDto -> CreateRoleCommand
   public static CreateRoleCommand toCreateRoleCommand(CreateRoleRequestDto createRoleRequestDto) {
     if (createRoleRequestDto == null) {
@@ -57,51 +20,16 @@ public class RoleMapper {
     );
   }
 
-  // UpdateRoleByNameRequestDto -> UpdateRoleByNameCommand
-  public static UpdateRoleByIdCommand toUpdateRoleByNameCommand(UpdateRoleByNameRequestDto updateRoleByNameRequestDto) {
-    if (updateRoleByNameRequestDto == null) {
+  // UpdateRoleByIdRequestDto -> UpdateRoleByIdCommand
+  public static UpdateRoleByIdCommand toUpdateRoleByIdCommand(UpdateRoleByIdRequestDto updateRoleByIdRequestDto, Integer id) {
+    if (updateRoleByIdRequestDto == null) {
       return null;
     }
 
     return new UpdateRoleByIdCommand(
-      updateRoleByNameRequestDto.searchName(),
-      updateRoleByNameRequestDto.newName(),
-      updateRoleByNameRequestDto.newDescription()
-    );
-  }
-
-  // DeleteRoleByNameRequestDto -> DeleteRoleByNameCommand
-  public static DeleteRoleByIdCommand toDeleteRoleByNameCommand(DeleteRoleByNameRequestDto deleteRoleByNameRequestDto) {
-    if (deleteRoleByNameRequestDto == null) {
-      return null;
-    }
-
-    return new DeleteRoleByIdCommand(
-      deleteRoleByNameRequestDto.name()
-    );
-  }
-
-  // RoleDomain -> RoleJpaEntity
-  public static RoleJpaEntity toRoleJpaEntity(RoleDomain roleDomain) {
-    if (roleDomain == null) {
-      return null;
-    }
-
-    Set<UserDomain> userDomains = roleDomain.getUserDomains();
-    Set<UserJpaEntity> userJpaEntities = null;
-
-    if (userDomains != null) {
-      userJpaEntities = userDomains.stream().map(RoleMapper::toUserJpaEntity).collect(Collectors.toSet());
-    }
-
-    return new RoleJpaEntity(
-      roleDomain.getId(),
-      roleDomain.getActive(),
-      roleDomain.getCreatedAt(),
-      roleDomain.getUpdatedAt(),
-      roleDomain.getName(),
-      roleDomain.getDescription(),
-      userJpaEntities
+      id,
+      updateRoleByIdRequestDto.name(),
+      updateRoleByIdRequestDto.description()
     );
   }
 
@@ -119,8 +47,40 @@ public class RoleMapper {
     roleDomain.setUpdatedAt(roleJpaEntity.getUpdatedAt());
     roleDomain.setName(roleJpaEntity.getName());
     roleDomain.setDescription(roleJpaEntity.getDescription());
-    roleDomain.setUserDomains(roleJpaEntity.getUserJpaEntities().stream().map(UserMapper::toUserDomain).collect(Collectors.toSet()));
 
     return roleDomain;
+  }
+
+  // RoleDomain -> RoleJpaEntity
+  public static RoleJpaEntity toRoleJpaEntity(RoleDomain roleDomain) {
+    if (roleDomain == null) {
+      return null;
+    }
+
+    RoleJpaEntity roleJpaEntity = new RoleJpaEntity();
+
+    roleJpaEntity.setId(roleDomain.getId());
+    roleJpaEntity.setIsActive(roleDomain.getActive());
+    roleJpaEntity.setCreatedAt(roleDomain.getCreatedAt());
+    roleJpaEntity.setUpdatedAt(roleDomain.getUpdatedAt());
+    roleJpaEntity.setName(roleDomain.getName());
+    roleJpaEntity.setDescription(roleDomain.getDescription());
+
+    return roleJpaEntity;
+  }
+
+  // RoleDomain -> RoleResponseDto
+  public static RoleResponseDto toRoleResponseDto(RoleDomain roleDomain) {
+    if (roleDomain == null) {
+      return null;
+    }
+
+    RoleResponseDto roleResponseDto = new RoleResponseDto(
+      roleDomain.getId(),
+      roleDomain.getName(),
+      roleDomain.getDescription()
+    );
+
+    return roleResponseDto;
   }
 }

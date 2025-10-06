@@ -29,16 +29,10 @@ public class UserAdapter implements UserGateway {
   }
 
   @Override
-  public void save(UserDomain userDomain) {
+  public UserDomain save(UserDomain userDomain) {
     UserJpaEntity userJpaEntity = UserMapper.toUserJpaEntity(userDomain);
-    userRepository.save(userJpaEntity);
-  }
-
-  @Override
-  public void updateById(Integer id, UserDomain userDomain) {
-    UserJpaEntity userJpaEntity = UserMapper.toUserJpaEntity(userDomain);
-    userJpaEntity.setId(id);
-    userRepository.save(userJpaEntity);
+    UserDomain responseUserDomain = UserMapper.toUserDomain(userRepository.save(userJpaEntity));
+    return responseUserDomain;
   }
 
   @Override

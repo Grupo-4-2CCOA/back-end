@@ -12,7 +12,7 @@ public class CreateRoleUsecase {
     this.roleGateway = roleGateway;
   }
 
-  public void execute(CreateRoleCommand createRoleCommand) {
+  public RoleDomain execute(CreateRoleCommand createRoleCommand) {
     if (createRoleCommand == null) {
       // exception interna ao backend, classe padrão do java:
       throw new IllegalArgumentException("`createRoleCommand` não pode ser nulo.");
@@ -28,7 +28,7 @@ public class CreateRoleUsecase {
     String roleTrimmedName = createRoleCommand.name().trim();
 
     if (roleGateway.existsByName(roleTrimmedName)) {
-      throw new CreateRoleInvalidNameException("O cargo já foi cadastrado.");
+      throw new CreateRoleInvalidNameException("Já existe um cargo com este nome.");
     }
 
     // inicia a criação do domain:
@@ -39,6 +39,6 @@ public class CreateRoleUsecase {
     roleDomain.setDescription(createRoleCommand.description());
 
     // salva a persistência:
-    roleGateway.save(roleDomain);
+    return roleGateway.save(roleDomain);
   }
 }

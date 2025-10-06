@@ -11,8 +11,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update
+#        ddl-auto: validate # ao iniciar a aplicação, valida se o banco de dados está de acordo com as JPA entities.
+        ddl-auto: none # ao iniciar a aplicação, não faz nada no banco de dados.
+#        ddl-auto: update # ao iniciar a aplicação, atualiza o banco de dados de acordo com as JPA entities.
 #  security:
 #    oauth2:
 #      client:

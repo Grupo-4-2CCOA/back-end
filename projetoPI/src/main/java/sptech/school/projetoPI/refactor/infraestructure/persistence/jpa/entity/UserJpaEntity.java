@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "user")
@@ -20,11 +20,11 @@ public class UserJpaEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
   @Column(name = "is_active", nullable = false)
-  private Boolean active;
+  private Boolean isActive;
   @Column(name = "created_at", nullable = false, updatable = false)
-  private LocalDateTime createdAt;
+  private Instant createdAt;
   @Column(name = "updated_at")
-  private LocalDateTime updatedAt;
+  private Instant updatedAt;
   @Column(nullable = false)
   private String name;
   @Column(unique = true)
@@ -33,9 +33,9 @@ public class UserJpaEntity {
   private String email;
   private String phone;
   private String cep;
-  // fetch define quando o objeto (nesse caso, o objeto de Role) vai ser "puxado" do banco de dados,
-  // no caso do LAZY, ele só é "puxado" quando alguém acessa userJpaEntity.roleJpaEntity,
-  // no caso do EAGER, ele é "puxado" quando o userJpaEntity for "puxado", então ele pré-carrega os dados
+  // fetch define quando o objeto (nesse caso, o objeto de Role) vai ser carregado do banco de dados para a memória,
+  // no caso do LAZY, ele só é carregado em memória quando alguém acessa userJpaEntity.roleJpaEntity,
+  // no caso do EAGER, ele é carregado em memória quando o userJpaEntity for carregado em memória, então ele pré-carrega os dados
   @ManyToOne(fetch = FetchType.LAZY)
   // @JoinColumn é o @Column, mas pra FKs
   @JoinColumn(name = "fk_role", nullable = false)

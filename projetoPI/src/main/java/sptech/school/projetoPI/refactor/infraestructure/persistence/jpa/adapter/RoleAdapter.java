@@ -29,16 +29,17 @@ public class RoleAdapter implements RoleGateway {
   }
 
   @Override
-  public void save(RoleDomain roleDomain) {
-    RoleJpaEntity roleJpaEntity = RoleMapper.toRoleJpaEntity(roleDomain);
-    roleRepository.save(roleJpaEntity);
+  public Optional<RoleDomain> findByName(String name) {
+    RoleJpaEntity roleJpaEntity = roleRepository.findByName(name).orElse(null);
+    RoleDomain roleDomain = RoleMapper.toRoleDomain(roleJpaEntity);
+    return Optional.ofNullable(roleDomain);
   }
 
   @Override
-  public void updateById(Integer id, RoleDomain roleDomain) {
+  public RoleDomain save(RoleDomain roleDomain) {
     RoleJpaEntity roleJpaEntity = RoleMapper.toRoleJpaEntity(roleDomain);
-    roleJpaEntity.setId(id);
-    roleRepository.save(roleJpaEntity);
+    RoleDomain responseRoleDomain = RoleMapper.toRoleDomain(roleRepository.save(roleJpaEntity));
+    return responseRoleDomain;
   }
 
   @Override
@@ -49,17 +50,5 @@ public class RoleAdapter implements RoleGateway {
   @Override
   public Boolean existsByName(String name) {
     return roleRepository.existsByName(name);
-  }
-
-  @Override
-  public Optional<RoleDomain> findByName(String name) {
-    RoleJpaEntity roleJpaEntity = roleRepository.findByName(name).orElse(null);
-    RoleDomain roleDomain = RoleMapper.toRoleDomain(roleJpaEntity);
-    return Optional.ofNullable(roleDomain);
-  }
-
-  @Override
-  public void deleteByName(String name) {
-    roleRepository.deleteByName(name);
   }
 }

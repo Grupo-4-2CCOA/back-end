@@ -3,7 +3,7 @@ spring:
     name: projetoPI
   profiles:
     active: hml
-#    active: hml
+#    active: dev
 #    active: prod
 
 

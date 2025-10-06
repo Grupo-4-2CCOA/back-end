@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 
-import java.time.LocalDateTime;
-import java.util.Set;
+import java.time.Instant;
 
 @Entity
 @Table(name = "role")
@@ -22,17 +21,14 @@ public class RoleJpaEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-  @Column(name = "is_active", nullable = false)
+  @Convert(converter = org.hibernate.type.NumericBooleanConverter.class)
+  @Column(name = "is_active", nullable = false, columnDefinition = "TINYINT(1)")
   private Boolean isActive;
   @Column(name = "created_at", nullable = false, updatable = false)
-  private LocalDateTime createdAt;
+  private Instant createdAt;
   @Column(name = "updated_at")
-  private LocalDateTime updatedAt;
+  private Instant updatedAt;
   @Column(nullable = false, unique = true)
   private String name;
   private String description;
-  // mappedBy é o campo da classe UserJpaEntity
-  // cascade diz se operações de repository.save(roleJpaEntity), também vão salvar/atualizar os usuários associados.
-  @OneToMany(mappedBy = "roleJpaEntity", cascade = CascadeType.ALL)
-  private Set<UserJpaEntity> userJpaEntities;
 }

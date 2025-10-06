@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface RoleGateway {
   Boolean existsById(Integer id);
   Optional<RoleDomain> findById(Integer id);
-  void save(RoleDomain roleDomain);
+  RoleDomain save(RoleDomain roleDomain);
   void deleteById(Integer id);
   Boolean existsByName(String name);
   Optional<RoleDomain> findByName(String name);

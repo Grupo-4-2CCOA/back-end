@@ -1,10 +1,10 @@
 package sptech.school.projetoPI.refactor.core.application.usecase.role;
 
 import sptech.school.projetoPI.refactor.core.application.command.role.GetRoleByNameCommand;
+import sptech.school.projetoPI.refactor.core.application.exception.generic.NotFoundException;
 import sptech.school.projetoPI.refactor.core.application.exception.usecase.GetRoleInvalidNameException;
 import sptech.school.projetoPI.refactor.core.domain.aggregate.RoleDomain;
 import sptech.school.projetoPI.refactor.core.gateway.RoleGateway;
-import sptech.school.projetoPI.refactor.util.UtilValidator;
 
 import java.util.Optional;
 
@@ -20,14 +20,17 @@ public class GetRoleByNameUsecase {
       // exception interna ao backend, classe padrão do java:
       throw new IllegalArgumentException("`getRoleByNameCommand` não pode ser nulo.");
     }
-    if (UtilValidator.stringIsNullOrBlank(getRoleByNameCommand.name())) {
-      throw new GetRoleInvalidNameException("Para encontrar o cargo, o nome não pode ser nulo ou estar vazio.");
+    if (getRoleByNameCommand.name() == null) {
+      throw new GetRoleInvalidNameException("Para encontrar o cargo, o nome não pode ser nulo.");
+    }
+    if (getRoleByNameCommand.name().isBlank()) {
+      throw new GetRoleInvalidNameException("Para encontrar o cargo, é preciso inserir um nome que não esteja em branco.");
     }
 
     Optional<RoleDomain> optionalRoleDomain = roleGateway.findByName(getRoleByNameCommand.name());
 
     if (optionalRoleDomain.isEmpty()) {
-      throw new GetRoleInvalidNameException("Cargo não encontrado.");
+      throw new NotFoundException("Cargo não encontrado.");
     }
 
     // retorna a persistência:

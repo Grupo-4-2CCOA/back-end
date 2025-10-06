@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import sptech.school.projetoPI.refactor.core.application.exception.*;
 import sptech.school.projetoPI.refactor.core.application.exception.generic.InvalidRoleException;
-import sptech.school.projetoPI.refactor.core.application.exception.generic.UpdateNothingModifiedException;
 import sptech.school.projetoPI.refactor.core.application.exception.generic.MissingFieldsException;
+import sptech.school.projetoPI.refactor.core.application.exception.generic.NotFoundException;
 
 // TODO: criar códigos para cada resposta.
 @ControllerAdvice
@@ -48,11 +48,11 @@ public class ControllerHandler {
       .body("Cargo inválido: " + exception.getMessage());
   }
 
-  @ExceptionHandler(UpdateNothingModifiedException.class)
-  public ResponseEntity<String> handleUpdateNothingModified(UpdateNothingModifiedException exception) {
+  @ExceptionHandler(NotFoundException.class)
+  public ResponseEntity<String> handleUpdateNothingModified(NotFoundException exception) {
     return ResponseEntity
       .status(HttpStatus.BAD_REQUEST)
-      .body("Todos os campos estão idênticos: " + exception.getMessage());
+      .body("Não encontrado: " + exception.getMessage());
   }
 
   @ExceptionHandler(MissingFieldsException.class)

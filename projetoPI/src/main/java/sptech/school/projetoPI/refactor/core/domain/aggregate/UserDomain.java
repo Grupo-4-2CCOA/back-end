@@ -5,8 +5,13 @@ import sptech.school.projetoPI.refactor.core.domain.field.Cpf;
 import sptech.school.projetoPI.refactor.core.domain.field.Email;
 import sptech.school.projetoPI.refactor.core.domain.field.Phone;
 
+import java.time.Instant;
+
 public class UserDomain {
   private Integer id;
+  private Boolean isActive;
+  private Instant createdAt;
+  private Instant updatedAt;
   private String name;
   private Email email;
   private Cpf cpf;
@@ -22,6 +27,30 @@ public class UserDomain {
     this.id = id;
   }
 
+  public Boolean getActive() {
+    return isActive;
+  }
+
+  public void setActive(Boolean active) {
+    isActive = active;
+  }
+
+  public Instant getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(Instant createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public Instant getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(Instant updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
   public String getName() {
     return name;
   }
@@ -30,36 +59,36 @@ public class UserDomain {
     this.name = name;
   }
 
-  public Email getEmail() {
-    return email;
+  public String getEmail() {
+    return this.email.getValue();
   }
 
-  public void setEmail(Email email) {
-    this.email = email;
+  public void setEmail(String email) {
+    this.email = new Email(email);
   }
 
-  public Cpf getCpf() {
-    return cpf;
+  public String getCpf() {
+    return this.cpf.getValue();
   }
 
-  public void setCpf(Cpf cpf) {
-    this.cpf = cpf;
+  public void setCpf(String cpf) {
+    this.cpf = new Cpf(cpf);
   }
 
-  public Phone getPhone() {
-    return phone;
+  public String getPhone() {
+    return this.phone.getValue();
   }
 
-  public void setPhone(Phone phone) {
-    this.phone = phone;
+  public void setPhone(String phone) {
+    this.phone = new Phone(phone);
   }
 
-  public Cep getCep() {
-    return cep;
+  public String getCep() {
+    return this.cep.getValue();
   }
 
-  public void setCep(Cep cep) {
-    this.cep = cep;
+  public void setCep(String cep) {
+    this.cep = new Cep(cep);
   }
 
   public RoleDomain getRoleDomain() {

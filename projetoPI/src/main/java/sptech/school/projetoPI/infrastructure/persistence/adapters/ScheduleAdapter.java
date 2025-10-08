@@ -1,6 +1,8 @@
 package sptech.school.projetoPI.infrastructure.persistence.adapters;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.core.domains.ScheduleDomain;
 import sptech.school.projetoPI.core.enums.Status;
@@ -68,10 +70,8 @@ public class ScheduleAdapter implements ScheduleGateway {
     }
 
     @Override
-    public List<ScheduleDomain> findAll() {
-        return repository.findAll().stream()
-                .map(ScheduleMapper::toDomain)
-                .collect(Collectors.toList());
+    public Page<ScheduleDomain> findAll(Pageable pageable) {
+        return repository.findAll(pageable).map(ScheduleMapper::toDomain);
     }
 
     @Override
@@ -89,9 +89,7 @@ public class ScheduleAdapter implements ScheduleGateway {
     }
 
     @Override
-    public List<ScheduleDomain> findAllByClientId(Integer clientId) {
-        return repository.findAllByClientId(clientId).stream()
-                .map(ScheduleMapper::toDomain)
-                .collect(Collectors.toList());
+    public Page<ScheduleDomain> findAllByClientId(Pageable pageable,Integer clientId) {
+        return repository.findAllByClientId(pageable, clientId).map(ScheduleMapper::toDomain);
     }
 }

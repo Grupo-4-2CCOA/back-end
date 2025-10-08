@@ -13,6 +13,7 @@ public abstract class User {
     private String password;
     private String phone;
     private String cep;
+    private RoleDomain role;
 
     public User(Integer id, Boolean active, LocalDateTime createdAt, LocalDateTime updatedAt, String name, String cpf, String email, String password, String phone, String cep) {
         this.id = id;

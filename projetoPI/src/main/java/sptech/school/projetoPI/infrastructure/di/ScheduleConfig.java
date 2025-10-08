@@ -37,4 +37,9 @@ public class ScheduleConfig {
     public GetServiceNamesByScheduleIdUseCase getServiceNamesByScheduleIdUseCase(ScheduleGateway scheduleGateway, ScheduleItemGateway scheduleItemGateway, ServiceGateway serviceGateway) {
         return new GetServiceNamesByScheduleIdUseCase(scheduleGateway, scheduleItemGateway ,serviceGateway);
     }
+
+    @Bean
+    public GetAllSchedulesByClient getAllSchedulesByClient(ScheduleGateway scheduleGateway) {
+        return new GetAllSchedulesByClient(scheduleGateway);
+    }
 }

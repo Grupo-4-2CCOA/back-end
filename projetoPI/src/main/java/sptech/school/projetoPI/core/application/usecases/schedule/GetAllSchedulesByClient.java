@@ -5,18 +5,14 @@ import org.springframework.data.domain.Pageable;
 import sptech.school.projetoPI.core.domains.ScheduleDomain;
 import sptech.school.projetoPI.core.gateways.ScheduleGateway;
 
-import java.util.List;
-
-public class GetAllScheduleUseCase {
-
+public class GetAllSchedulesByClient {
     private final ScheduleGateway scheduleGateway;
 
-    public GetAllScheduleUseCase(ScheduleGateway scheduleGateway) {
+    public GetAllSchedulesByClient(ScheduleGateway scheduleGateway) {
         this.scheduleGateway = scheduleGateway;
     }
 
-    public Page<ScheduleDomain> execute(Pageable pageable) {
-        return scheduleGateway.findAll(pageable);
+    public Page<ScheduleDomain> execute(Pageable pageable, Integer id) {
+        return scheduleGateway.findAllByClientId(pageable, id);
     }
-
 }

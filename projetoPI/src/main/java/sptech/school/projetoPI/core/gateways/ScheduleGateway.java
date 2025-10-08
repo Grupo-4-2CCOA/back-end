@@ -1,5 +1,7 @@
 package sptech.school.projetoPI.core.gateways;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import sptech.school.projetoPI.core.domains.ScheduleDomain;
 import sptech.school.projetoPI.core.enums.Status;
 
@@ -17,8 +19,8 @@ public interface ScheduleGateway {
     boolean existsByClientId(Integer clientId);
     boolean existsByIdAndStatus(Integer id, Status status);
     Optional<ScheduleDomain> findById(Integer id);
-    List<ScheduleDomain> findAll();
+    Page<ScheduleDomain> findAll(Pageable pageable);
     List<ScheduleDomain> findAllByPaymentTypeId(Integer id);
     List<ScheduleDomain> findAllByEmployeeId(Integer id);
-    List<ScheduleDomain> findAllByClientId(Integer clientId);
+    Page<ScheduleDomain> findAllByClientId(Pageable pageable, Integer clientId);
 }

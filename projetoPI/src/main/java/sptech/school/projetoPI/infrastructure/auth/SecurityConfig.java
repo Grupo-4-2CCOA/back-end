@@ -39,7 +39,9 @@ public class SecurityConfig {
                 .cors(cors -> {})
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/auth/**", "/oauth2/**", "/login/**").permitAll()
+                        .requestMatchers("/auth/**", "/oauth2/**", "/login/**", "/disponibilidades/**",
+                                "/categorias/**","/clientes/**", "/funcionarios/**", "/feedbacks/**", "/pagamentos/**",
+                                "/cargos/**", "/agendamentos/**", "/itens-agendamento/**", "/servicos/**").permitAll()
 
                         .requestMatchers("/admin/**").hasAnyRole("OWNER", "ADMIN", "FUNC", "EMPLOYEE")
                         .requestMatchers("/agendamento/**").hasAnyRole("USER", "ADMIN", "FUNC", "EMPLOYEE")

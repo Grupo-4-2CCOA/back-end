@@ -10,6 +10,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +39,7 @@ public class ScheduleController {
     private final GetScheduleByIdUseCase getScheduleByIdUseCase;
     private final UpdateScheduleByIdUseCase updateScheduleByIdUseCase;
     private final GetServiceNamesByScheduleIdUseCase getServiceNamesByScheduleIdUseCase;
+    private final GetAllSchedulesByClient getAllSchedulesByClient;
 
     @SecurityRequirement(name = "Bearer")
     @PostMapping
@@ -83,11 +87,13 @@ public class ScheduleController {
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<List<ScheduleResumeResponseDto>> getAllSchedules() {
-        List<ScheduleDomain> scheduleDomains = getAllScheduleUseCase.execute();
-        List<ScheduleResumeResponseDto> responseDtos = scheduleDomains.stream()
-                .map(ScheduleMapper::toResumeResponseDto)
-                .collect(Collectors.toList());
+    public ResponseEntity<Page<ScheduleResumeResponseDto>> getAllSchedules() {
+        int page = 0;
+        int size = 10;
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<ScheduleDomain> scheduleDomains = getAllScheduleUseCase.execute(pageable);
+        Page<ScheduleResumeResponseDto> responseDtos = scheduleDomains.map(ScheduleMapper::toResumeResponseDto);
         return ResponseEntity.ok(responseDtos);
     }
 
@@ -209,5 +215,38 @@ public class ScheduleController {
     })
     public ResponseEntity<List<String>> getServiceNamesByScheduleId(@PathVariable Integer id) {
         return ResponseEntity.ok(getServiceNamesByScheduleIdUseCase.execute(id));
+    }
+
+    @SecurityRequirement(name = "Bearer")
+    @GetMapping("/agendamentos-por-cliente/{id}")
+    @Operation(summary = "Buscar agendamento por Cliente", description = "Busca o agendamento com base no Cliente fornecido.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Agendamento encontrado", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ScheduleResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.OK)
+            )),
+            @ApiResponse(responseCode = "404", description = "Agendamento não encontrado", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ScheduleResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
+            )),
+            @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ScheduleResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
+            )),
+            @ApiResponse(responseCode = "403", description = "Acesso proibido", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ScheduleResponseDto.class),
+                    examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
+            ))
+    })
+    public ResponseEntity<Page<ScheduleDomain>> getAllScheduleByClient(@PathVariable Integer id) {
+        int page = 0;
+        int size = 10;
+        Pageable pageable = PageRequest.of(page, size);
+
+        return ResponseEntity.ok(getAllSchedulesByClient.execute(pageable, id));
     }
 }

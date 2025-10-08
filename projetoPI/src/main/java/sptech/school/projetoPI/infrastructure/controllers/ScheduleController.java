@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -86,7 +87,11 @@ public class ScheduleController {
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<Page<ScheduleResumeResponseDto>> getAllSchedules(Pageable pageable) {
+    public ResponseEntity<Page<ScheduleResumeResponseDto>> getAllSchedules() {
+        int page = 0;
+        int size = 10;
+        Pageable pageable = PageRequest.of(page, size);
+
         Page<ScheduleDomain> scheduleDomains = getAllScheduleUseCase.execute(pageable);
         Page<ScheduleResumeResponseDto> responseDtos = scheduleDomains.map(ScheduleMapper::toResumeResponseDto);
         return ResponseEntity.ok(responseDtos);
@@ -237,7 +242,11 @@ public class ScheduleController {
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<Page<ScheduleDomain>> getAllScheduleByClient(Pageable pageable,@PathVariable Integer id) {
+    public ResponseEntity<Page<ScheduleDomain>> getAllScheduleByClient(@PathVariable Integer id) {
+        int page = 0;
+        int size = 10;
+        Pageable pageable = PageRequest.of(page, size);
+
         return ResponseEntity.ok(getAllSchedulesByClient.execute(pageable, id));
     }
 }

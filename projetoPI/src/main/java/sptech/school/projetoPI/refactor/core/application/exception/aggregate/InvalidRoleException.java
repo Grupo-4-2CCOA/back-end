@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.refactor.core.application.exception.generic;
+package sptech.school.projetoPI.refactor.core.application.exception.aggregate;
 
 public class InvalidRoleException extends RuntimeException {
   public InvalidRoleException(String message) {

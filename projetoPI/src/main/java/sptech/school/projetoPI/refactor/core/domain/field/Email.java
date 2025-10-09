@@ -1,6 +1,6 @@
 package sptech.school.projetoPI.refactor.core.domain.field;
 
-import sptech.school.projetoPI.refactor.core.application.exception.InvalidEmailException;
+import sptech.school.projetoPI.refactor.core.application.exception.aggregate.InvalidEmailException;
 
 public class Email {
   private String value;

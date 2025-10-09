@@ -4,8 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import sptech.school.projetoPI.refactor.core.application.exception.*;
-import sptech.school.projetoPI.refactor.core.application.exception.generic.InvalidRoleException;
+import sptech.school.projetoPI.refactor.core.application.exception.aggregate.InvalidCepException;
+import sptech.school.projetoPI.refactor.core.application.exception.aggregate.InvalidCpfException;
+import sptech.school.projetoPI.refactor.core.application.exception.aggregate.InvalidEmailException;
+import sptech.school.projetoPI.refactor.core.application.exception.aggregate.InvalidPhoneException;
+import sptech.school.projetoPI.refactor.core.application.exception.aggregate.InvalidRoleException;
 import sptech.school.projetoPI.refactor.core.application.exception.generic.MissingFieldsException;
 import sptech.school.projetoPI.refactor.core.application.exception.generic.NotFoundException;
 

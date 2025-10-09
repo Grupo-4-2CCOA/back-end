@@ -1,6 +1,6 @@
 package sptech.school.projetoPI.refactor.core.domain.field;
 
-import sptech.school.projetoPI.refactor.core.application.exception.InvalidCepException;
+import sptech.school.projetoPI.refactor.core.application.exception.aggregate.InvalidCepException;
 
 public class Cep {
   private String value;

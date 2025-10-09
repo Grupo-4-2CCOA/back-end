@@ -1,9 +1,11 @@
 package sptech.school.projetoPI.refactor.core.domain.aggregate;
 
+import sptech.school.projetoPI.refactor.core.application.exception.aggregate.UserInvalidNameException;
 import sptech.school.projetoPI.refactor.core.domain.field.Cep;
 import sptech.school.projetoPI.refactor.core.domain.field.Cpf;
 import sptech.school.projetoPI.refactor.core.domain.field.Email;
 import sptech.school.projetoPI.refactor.core.domain.field.Phone;
+import sptech.school.projetoPI.refactor.util.UtilValidator;
 
 import java.time.Instant;
 
@@ -56,6 +58,9 @@ public class UserDomain {
   }
 
   public void setName(String name) {
+    if (UtilValidator.stringIsNullOrBlank(name)) {
+      throw new UserInvalidNameException("O nome não pode estar vazio (não pode ser nulo ou estar em branco).");
+    }
     this.name = name;
   }
 

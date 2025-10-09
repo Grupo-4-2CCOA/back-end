@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.refactor.core.application.exception;
+package sptech.school.projetoPI.refactor.core.application.exception.aggregate;
 
 import sptech.school.projetoPI.refactor.core.application.exception.generic.InvalidFieldException;
 

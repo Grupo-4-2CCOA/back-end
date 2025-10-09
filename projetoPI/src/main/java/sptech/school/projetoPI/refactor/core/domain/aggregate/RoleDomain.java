@@ -1,5 +1,8 @@
 package sptech.school.projetoPI.refactor.core.domain.aggregate;
 
+import sptech.school.projetoPI.refactor.core.application.exception.aggregate.RoleInvalidNameException;
+import sptech.school.projetoPI.refactor.util.UtilValidator;
+
 import java.time.Instant;
 
 public class RoleDomain {
@@ -47,6 +50,12 @@ public class RoleDomain {
   }
 
   public void setName(String name) {
+    // remove os espaços em branco no começo e no final da string:
+    String trimmedName = name.trim();
+
+    if (UtilValidator.stringIsNullOrBlank(trimmedName)) {
+      throw new RoleInvalidNameException("O nome não pode estar vazio (não pode ser nulo ou estar em branco).");
+    }
     this.name = name;
   }
 
@@ -55,6 +64,9 @@ public class RoleDomain {
   }
 
   public void setDescription(String description) {
-    this.description = description;
+    // remove os espaços em branco no começo e no final da string:
+    String trimmedDescription = description.trim();
+
+    this.description = trimmedDescription;
   }
 }

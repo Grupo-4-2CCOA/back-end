@@ -1,6 +1,6 @@
 package sptech.school.projetoPI.refactor.core.domain.enumerator;
 
-import sptech.school.projetoPI.refactor.core.application.exception.InvalidScheduleStatusException;
+import sptech.school.projetoPI.refactor.core.application.exception.aggregate.InvalidScheduleStatusException;
 
 import java.util.Arrays;
 

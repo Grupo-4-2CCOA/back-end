@@ -1,6 +1,6 @@
 package sptech.school.projetoPI.refactor.core.domain.field;
 
-import sptech.school.projetoPI.refactor.core.application.exception.InvalidPhoneException;
+import sptech.school.projetoPI.refactor.core.application.exception.aggregate.InvalidPhoneException;
 
 public class Phone {
   private String value;

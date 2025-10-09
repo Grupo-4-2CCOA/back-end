@@ -1,6 +1,6 @@
 package sptech.school.projetoPI.refactor.core.domain.field;
 
-import sptech.school.projetoPI.refactor.core.application.exception.InvalidCpfException;
+import sptech.school.projetoPI.refactor.core.application.exception.aggregate.InvalidCpfException;
 
 public class Cpf {
   private String value;

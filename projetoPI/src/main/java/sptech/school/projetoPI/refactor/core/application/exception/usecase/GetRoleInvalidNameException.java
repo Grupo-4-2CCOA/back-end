@@ -1,8 +1,8 @@
 package sptech.school.projetoPI.refactor.core.application.exception.usecase;
 
-import sptech.school.projetoPI.refactor.core.application.exception.generic.InvalidRoleException;
+import sptech.school.projetoPI.refactor.core.application.exception.aggregate.RoleInvalidNameException;
 
-public class GetRoleInvalidNameException extends InvalidRoleException {
+public class GetRoleInvalidNameException extends RoleInvalidNameException {
   public GetRoleInvalidNameException(String message) {
     super(message);
   }

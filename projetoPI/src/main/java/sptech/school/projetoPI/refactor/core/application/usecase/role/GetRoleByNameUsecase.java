@@ -27,7 +27,10 @@ public class GetRoleByNameUsecase {
       throw new GetRoleInvalidNameException("Para encontrar o cargo, é preciso inserir um nome que não esteja em branco.");
     }
 
-    Optional<RoleDomain> optionalRoleDomain = roleGateway.findByName(getRoleByNameCommand.name());
+    // remove os espaços em branco no começo e no final da string:
+    String roleTrimmedName = getRoleByNameCommand.name().trim();
+
+    Optional<RoleDomain> optionalRoleDomain = roleGateway.findByName(roleTrimmedName);
 
     if (optionalRoleDomain.isEmpty()) {
       throw new NotFoundException("Cargo não encontrado.");

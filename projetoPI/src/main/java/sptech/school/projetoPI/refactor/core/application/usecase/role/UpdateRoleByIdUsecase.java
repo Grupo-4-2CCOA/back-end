@@ -23,17 +23,6 @@ public class UpdateRoleByIdUsecase {
     if (updateRoleByIdCommand.id() == null) {
       throw new IllegalArgumentException("Para encontrar o cargo, o id não pode ser nulo.");
     }
-    if (updateRoleByIdCommand.name() == null) {
-      throw new UpdateRoleInvalidNameException("Para atualizar o cargo, o nome não pode ser nulo.");
-    }
-    if (updateRoleByIdCommand.name().isBlank()) {
-      throw new UpdateRoleInvalidNameException("Para atualizar o cargo, é preciso inserir um nome que não esteja em branco.");
-    }
-
-    // TODO (desejável): criar métodos de tratamento para padronizar as formatações.
-    // remove os espaços em branco no começo e no final da string:
-    String roleTrimmedName = updateRoleByIdCommand.name().trim();
-    String roleTrimmedDescription = updateRoleByIdCommand.description().trim();
 
     Optional<RoleDomain> optionalRoleDomain = roleGateway.findById(updateRoleByIdCommand.id());
 
@@ -43,11 +32,13 @@ public class UpdateRoleByIdUsecase {
 
     RoleDomain roleDomain = optionalRoleDomain.get();
 
-    if (!roleDomain.getName().equals(roleTrimmedName) && roleGateway.existsByName(roleTrimmedName)) {
+    if (!roleDomain.getName().equals(updateRoleByIdCommand.name().trim()) && roleGateway.existsByName(updateRoleByIdCommand.name())) {
       throw new UpdateRoleInvalidNameException("Já existe um cargo com este nome.");
     }
 
-    roleDomain.setName(roleTrimmedName);
+    roleDomain.setName(updateRoleByIdCommand.name());
+
+    String roleTrimmedDescription = updateRoleByIdCommand.description().trim();
     roleDomain.setDescription(roleTrimmedDescription);
 
     // atualiza a persistência:

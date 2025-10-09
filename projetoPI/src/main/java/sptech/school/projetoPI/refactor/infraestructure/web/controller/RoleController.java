@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.refactor.core.application.command.role.*;
 import sptech.school.projetoPI.refactor.core.application.usecase.role.*;
-import sptech.school.projetoPI.refactor.core.domain.aggregate.RoleDomain;
 import sptech.school.projetoPI.refactor.infraestructure.mapper.RoleMapper;
 import sptech.school.projetoPI.refactor.infraestructure.web.dto.request.role.*;
 import sptech.school.projetoPI.refactor.infraestructure.web.dto.response.role.RoleResponseDto;

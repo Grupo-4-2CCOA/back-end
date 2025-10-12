@@ -11,10 +11,14 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import sptech.school.projetoPI.core.domains.ClientDomain;
-import sptech.school.projetoPI.core.domains.EmployeeDomain;
-import sptech.school.projetoPI.core.gateways.ClientGateway;
-import sptech.school.projetoPI.core.gateways.EmployeeGateway;
+import sptech.school.projetoPI.core.application.usecases.exceptions.ConflictException;
+import sptech.school.projetoPI.core.domains.RoleDomain;
+import sptech.school.projetoPI.core.domains.UserDomain;
+import sptech.school.projetoPI.core.gateways.RoleGateway;
+import sptech.school.projetoPI.core.gateways.UserGateway;
+import sptech.school.projetoPI.infrastructure.mappers.RoleMapper;
+import sptech.school.projetoPI.infrastructure.persistence.entity.RoleJpaEntity;
+import sptech.school.projetoPI.infrastructure.persistence.repositories.JpaRoleRepository;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -24,8 +28,8 @@ import java.util.*;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomOAuth2UserService.class);
-    private final EmployeeGateway employeeGateway;
-    private final ClientGateway clientGateway;
+    private final UserGateway userGateway;
+    private final RoleGateway roleGateway;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -33,43 +37,31 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         String email = oAuth2User.getAttribute("email");
         String name = oAuth2User.getAttribute("name");
-        String role;
-        Integer clientId = null;
 
         logger.info("Processando login com Google para o email: {}", email);
 
-        Optional<EmployeeDomain> employeeOptional = employeeGateway.findByEmail(email);
-        if (employeeOptional.isPresent()) {
-            EmployeeDomain employeeDomain = employeeOptional.get();
-            if (employeeDomain.getRole() != null && "OWNER".equals(employeeDomain.getRole().getName())) {
-                role = "ADMIN";
-            } else {
-                role = "FUNC";
-            }
-        } else {
-            ClientDomain clientDomain = clientGateway.findByEmail(email).orElseGet(() -> {
-                logger.info("Email {} não encontrado. Criando novo cliente.", email);
-                ClientDomain newClientDomain = new ClientDomain();
-                newClientDomain.setCreatedAt(LocalDateTime.now());
-                newClientDomain.setUpdatedAt(LocalDateTime.now());
-                newClientDomain.setActive(true);
-                newClientDomain.setEmail(email);
-                newClientDomain.setName(name);
-                return clientGateway.save(newClientDomain);
-            });
-            role = "USER";
-            clientId = clientDomain.getId();
-        }
+        RoleDomain roleDomain = roleGateway.findById(2).orElseThrow(() -> new ConflictException("Função não encontrada"));
 
-        logger.info("Usuário {} autenticado com o papel: {} (clientId: {})", email, role, clientId);
+        // Busca o usuário ou cria um novo se não existir
+        UserDomain user = userGateway.findByEmail(email).orElseGet(() -> {
+            logger.info("Email {} não encontrado. Criando novo usuário padrão (USER).", email);
+            UserDomain newUser = new UserDomain();
+            newUser.setEmail(email);
+            newUser.setName(name);
+            newUser.setRoleDomain(roleDomain);
+            newUser.setActive(true);
+            newUser.setCreatedAt(LocalDateTime.now());
+            newUser.setUpdatedAt(LocalDateTime.now());
+            return userGateway.save(newUser);
+        });
+
+        logger.info("Usuário {} autenticado com o papel: {}", email, user.getRoleDomain());
 
         Map<String, Object> attributes = new HashMap<>(oAuth2User.getAttributes());
-        attributes.put("role", role);
-        if (clientId != null) {
-            attributes.put("id", clientId);
-        }
+        attributes.put("role", user.getRoleDomain());
+        attributes.put("id", user.getId());
 
-        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRoleDomain()));
 
         return new DefaultOAuth2User(authorities, attributes, "email");
     }

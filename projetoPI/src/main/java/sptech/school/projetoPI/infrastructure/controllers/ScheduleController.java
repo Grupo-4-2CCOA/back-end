@@ -221,12 +221,12 @@ public class ScheduleController {
     @GetMapping("/agendamentos-por-cliente/{id}")
     @Operation(summary = "Buscar agendamento por Cliente", description = "Busca o agendamento com base no Cliente fornecido.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Agendamento encontrado", content = @Content(
+            @ApiResponse(responseCode = "200", description = "Agendamentos encontrados por cliente", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = ScheduleResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
             )),
-            @ApiResponse(responseCode = "404", description = "Agendamento não encontrado", content = @Content(
+            @ApiResponse(responseCode = "404", description = "Agendamentos não encontrados por cliente", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = ScheduleResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)

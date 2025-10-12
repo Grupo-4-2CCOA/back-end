@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.core.application.dto.client;
+package sptech.school.projetoPI.core.application.dto.user.employee;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.br.CPF;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientRequestDto {
+public class EmployeeRequestDto {
     @Size(max = 80, message = "Nome muito longo")
     @NotBlank(message = "Insira o nome")
     private String name;
@@ -18,10 +18,6 @@ public class ClientRequestDto {
     @Email(message = "Valor inserido não é um e-mail")
     @NotBlank(message = "Insira um e-mail")
     private String email;
-
-    @Size(min = 8, max = 80, message = "Senha deve ter entre 8 e 80 caracteres")
-    @NotBlank(message = "Insira uma senha")
-    private String password;
 
     @NotBlank(message = "Insira o CPF")
     @CPF(message = "CPF inválido")
@@ -32,4 +28,8 @@ public class ClientRequestDto {
 
     @Size(min = 8, max = 8, message = "CEP inválido")
     private String cep;
+
+    @Positive(message = "ID inválido para Cargo")
+    @NotNull(message = "Insira o cargo do usuário")
+    private Integer role;
 }

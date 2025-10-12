@@ -2,10 +2,10 @@ package sptech.school.projetoPI.infrastructure.persistence.adapters;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import sptech.school.projetoPI.core.domains.ClientDomain;
-import sptech.school.projetoPI.core.gateways.ClientGateway;
-import sptech.school.projetoPI.infrastructure.mappers.ClientMapper;
-import sptech.school.projetoPI.infrastructure.persistence.repositories.JpaClientRepository;
+import sptech.school.projetoPI.core.domains.UserDomain;
+import sptech.school.projetoPI.core.gateways.UserGateway;
+import sptech.school.projetoPI.infrastructure.mappers.UserMapper;
+import sptech.school.projetoPI.infrastructure.persistence.repositories.JpaUserRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,15 +13,15 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ClientAdapter implements ClientGateway {
+public class UserAdapter implements UserGateway {
 
-    private final JpaClientRepository jpaRepository;
+    private final JpaUserRepository jpaRepository;
 
     @Override
-    public ClientDomain save(ClientDomain clientDomain) {
-        var entity = ClientMapper.toJpaEntity(clientDomain);
+    public UserDomain save(UserDomain clientDomain) {
+        var entity = UserMapper.toJpaEntity(clientDomain);
         var saved = jpaRepository.save(entity);
-        return ClientMapper.toDomain(saved);
+        return UserMapper.toDomain(saved);
     }
 
     @Override
@@ -30,20 +30,20 @@ public class ClientAdapter implements ClientGateway {
     }
 
     @Override
-    public List<ClientDomain> findAll() {
+    public List<UserDomain> findAll() {
         return jpaRepository.findAll().stream()
-                .map(ClientMapper::toDomain)
+                .map(UserMapper::toDomain)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<ClientDomain> findById(Integer id) {
-        return jpaRepository.findById(id).map(ClientMapper::toDomain);
+    public Optional<UserDomain> findById(Integer id) {
+        return jpaRepository.findById(id).map(UserMapper::toDomain);
     }
 
     @Override
-    public ClientDomain deleteById(Integer id) {
-        Optional<ClientDomain> clientOpt = findById(id);
+    public UserDomain deleteById(Integer id) {
+        Optional<UserDomain> clientOpt = findById(id);
         clientOpt.ifPresent(a -> jpaRepository.deleteById(id));
         return clientOpt.orElse(null);
     }
@@ -89,17 +89,22 @@ public class ClientAdapter implements ClientGateway {
     }
 
     @Override
-    public List<ClientDomain> findAllByActiveTrue() {
-        return jpaRepository.findAllByActiveTrue().stream().map(ClientMapper::toDomain).toList();
+    public List<UserDomain> findAllByActiveTrue() {
+        return jpaRepository.findAllByActiveTrue().stream().map(UserMapper::toDomain).toList();
     }
 
     @Override
-    public Optional<ClientDomain> findByIdAndActiveTrue(Integer id) {
-        return jpaRepository.findByIdAndActiveTrue(id).map(ClientMapper::toDomain);
+    public Optional<UserDomain> findByIdAndActiveTrue(Integer id) {
+        return jpaRepository.findByIdAndActiveTrue(id).map(UserMapper::toDomain);
     }
 
     @Override
-    public Optional<ClientDomain> findByEmail(String email) {
-        return jpaRepository.findByEmail(email).map(ClientMapper::toDomain);
+    public Optional<UserDomain> findByEmail(String email) {
+        return jpaRepository.findByEmail(email).map(UserMapper::toDomain);
+    }
+
+    @Override
+    public boolean existsByIdNotAndRoleName(Integer id, String roleName) {
+        return jpaRepository.existsByIdNotAndRoleName(id, roleName);
     }
 }

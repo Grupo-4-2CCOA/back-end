@@ -2,7 +2,7 @@ package sptech.school.projetoPI.infrastructure.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
+import sptech.school.projetoPI.infrastructure.persistence.entity.UserJpaEntity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -28,5 +28,5 @@ public class AvailabilityJpaEntity {
 
     @ManyToOne
     @JoinColumn(name = "fk_employee")
-    private EmployeeJpaEntity employee;
+    private UserJpaEntity employee;
 }

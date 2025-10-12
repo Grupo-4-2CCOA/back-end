@@ -30,11 +30,11 @@ public class ScheduleJpaEntity {
 
     @ManyToOne
     @JoinColumn(name="fk_client")
-    private ClientJpaEntity client;
+    private UserJpaEntity client;
 
     @ManyToOne
     @JoinColumn(name="fk_employee")
-    private EmployeeJpaEntity employee;
+    private UserJpaEntity employee;
 
     @ManyToOne
     @JoinColumn(name="fk_payment_type")

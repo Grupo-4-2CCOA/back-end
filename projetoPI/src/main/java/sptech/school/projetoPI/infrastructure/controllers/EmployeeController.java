@@ -13,13 +13,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetoPI.core.application.usecases.employee.*;
-import sptech.school.projetoPI.core.domains.EmployeeDomain;
-import sptech.school.projetoPI.core.application.dto.employee.EmployeeRequestDto;
-import sptech.school.projetoPI.core.application.dto.employee.EmployeeResponseDto;
-import sptech.school.projetoPI.core.application.dto.employee.EmployeeResumeResponseDto;
-import sptech.school.projetoPI.infrastructure.mappers.EmployeeMapper;
+import sptech.school.projetoPI.core.application.dto.user.UserRequestDto;
+import sptech.school.projetoPI.core.application.dto.user.UserResponseDto;
+import sptech.school.projetoPI.core.application.dto.user.UserResumeResponseDto;
+import sptech.school.projetoPI.core.application.usecases.user.employee.*;
 import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
+import sptech.school.projetoPI.core.domains.UserDomain;
+import sptech.school.projetoPI.infrastructure.mappers.UserMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,24 +42,24 @@ public class EmployeeController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Funcionário cadastrado com sucesso", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeResumeResponseDto.class),
+                    schema = @Schema(implementation = UserResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.CREATED)
             )),
             @ApiResponse(responseCode = "400", description = "Um ou mais campos estão inválidos", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeResumeResponseDto.class),
+                    schema = @Schema(implementation = UserResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
             @ApiResponse(responseCode = "409", description = "Funcionário já existe", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeResumeResponseDto.class),
+                    schema = @Schema(implementation = UserResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
             ))
     })
-    public ResponseEntity<EmployeeResumeResponseDto> createEmployee(@Valid @RequestBody EmployeeRequestDto requestDto) {
-        EmployeeDomain employeeDomain = EmployeeMapper.toDomain(requestDto);
-        EmployeeDomain createdEmployeeDomain = createEmployeeUseCase.execute(employeeDomain);
-        return new ResponseEntity<>(EmployeeMapper.toResumeResponseDto(createdEmployeeDomain), HttpStatus.CREATED);
+    public ResponseEntity<UserResumeResponseDto> createEmployee(@Valid @RequestBody UserRequestDto requestDto) {
+        UserDomain employeeDomain = UserMapper.toDomain(requestDto);
+        UserDomain createdEmployeeDomain = createEmployeeUseCase.execute(employeeDomain);
+        return new ResponseEntity<>(UserMapper.toResumeResponseDto(createdEmployeeDomain), HttpStatus.CREATED);
     }
 
     @SecurityRequirement(name = "Bearer")
@@ -68,24 +68,24 @@ public class EmployeeController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Funcionarios trazidos com sucesso", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeResumeResponseDto.class),
+                    schema = @Schema(implementation = UserResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
             )),
             @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeResumeResponseDto.class),
+                    schema = @Schema(implementation = UserResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeResumeResponseDto.class),
+                    schema = @Schema(implementation = UserResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<List<EmployeeResumeResponseDto>> getAllEmployees() {
-        List<EmployeeDomain> employeeDomains = getAllEmployeesUseCase.execute();
-        List<EmployeeResumeResponseDto> responseDtos = employeeDomains.stream()
-                .map(EmployeeMapper::toResumeResponseDto)
+    public ResponseEntity<List<UserResumeResponseDto>> getAllEmployees() {
+        List<UserDomain> employeeDomains = getAllEmployeesUseCase.execute();
+        List<UserResumeResponseDto> responseDtos = employeeDomains.stream()
+                .map(UserMapper::toResumeResponseDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responseDtos);
     }
@@ -96,28 +96,28 @@ public class EmployeeController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Funcionario encontrado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeResumeResponseDto.class),
+                    schema = @Schema(implementation = UserResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
             )),
             @ApiResponse(responseCode = "404", description = "Funcionario não encontrado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeResumeResponseDto.class),
+                    schema = @Schema(implementation = UserResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
             )),
             @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeResumeResponseDto.class),
+                    schema = @Schema(implementation = UserResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeResumeResponseDto.class),
+                    schema = @Schema(implementation = UserResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<EmployeeResponseDto> getEmployeeById(@PathVariable Integer id) {
-        EmployeeDomain employeeDomain = getEmployeeByIdUseCase.execute(id);
-        return ResponseEntity.ok(EmployeeMapper.toResponseDto(employeeDomain));
+    public ResponseEntity<UserResponseDto> getEmployeeById(@PathVariable Integer id) {
+        UserDomain employeeDomain = getEmployeeByIdUseCase.execute(id);
+        return ResponseEntity.ok(UserMapper.toResponseDto(employeeDomain));
     }
 
     @SecurityRequirement(name = "Bearer")
@@ -126,31 +126,31 @@ public class EmployeeController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Funcionario atualizado com sucesso", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeResumeResponseDto.class),
+                    schema = @Schema(implementation = UserResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.OK)
             )),
             @ApiResponse(responseCode = "400", description = "Um ou mais campos estão inválidos", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeResumeResponseDto.class),
+                    schema = @Schema(implementation = UserResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.BAD_REQUEST)
             )),
             @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeResumeResponseDto.class),
+                    schema = @Schema(implementation = UserResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeResumeResponseDto.class),
+                    schema = @Schema(implementation = UserResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<EmployeeResumeResponseDto> updateEmployeeById(
-            @Valid @RequestBody EmployeeRequestDto requestDto,
+    public ResponseEntity<UserResumeResponseDto> updateEmployeeById(
+            @Valid @RequestBody UserRequestDto requestDto,
             @PathVariable Integer id) {
-        EmployeeDomain employeeDomain = EmployeeMapper.toDomain(requestDto);
-        EmployeeDomain updatedEmployeeDomain = updateEmployeeByIdUseCase.execute(employeeDomain, id);
-        return ResponseEntity.ok(EmployeeMapper.toResumeResponseDto(updatedEmployeeDomain));
+        UserDomain employeeDomain = UserMapper.toDomain(requestDto);
+        UserDomain updatedEmployeeDomain = updateEmployeeByIdUseCase.execute(employeeDomain, id);
+        return ResponseEntity.ok(UserMapper.toResumeResponseDto(updatedEmployeeDomain));
     }
 
     @SecurityRequirement(name = "Bearer")
@@ -160,22 +160,22 @@ public class EmployeeController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "Funcionario não encontrado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeResumeResponseDto.class),
+                    schema = @Schema(implementation = UserResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NOT_FOUND)
             )),
             @ApiResponse(responseCode = "204", description = "Funcionario removido com sucesso", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeResumeResponseDto.class),
+                    schema = @Schema(implementation = UserResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.NO_CONTENT)
             )),
             @ApiResponse(responseCode = "403", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeResumeResponseDto.class),
+                    schema = @Schema(implementation = UserResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             )),
             @ApiResponse(responseCode = "401", description = "Acesso não autorizado", content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeResumeResponseDto.class),
+                    schema = @Schema(implementation = UserResumeResponseDto.class),
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })

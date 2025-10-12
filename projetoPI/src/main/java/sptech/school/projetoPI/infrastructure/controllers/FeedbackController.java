@@ -52,8 +52,7 @@ public class FeedbackController {
             )),
     })
     public ResponseEntity<FeedbackResumeResponseDto> createFeedback(@Valid @RequestBody FeedbackRequestDto requestDto) {
-        FeedbackDomain feedbackDomain = FeedbackMapper.toDomain(requestDto);
-        FeedbackDomain createdFeedbackDomain = createFeedbackUseCase.execute(feedbackDomain);
+        FeedbackDomain createdFeedbackDomain = createFeedbackUseCase.execute(requestDto);
         return new ResponseEntity<>(FeedbackMapper.toResumeResponseDto(createdFeedbackDomain), HttpStatus.CREATED);
     }
 

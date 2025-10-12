@@ -4,14 +4,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import sptech.school.projetoPI.core.application.usecases.feedback.*;
 import sptech.school.projetoPI.core.gateways.FeedbackGateway;
-import sptech.school.projetoPI.core.gateways.ClientGateway;
 import sptech.school.projetoPI.core.gateways.ScheduleGateway;
+import sptech.school.projetoPI.core.gateways.UserGateway;
 
 @Configuration
 public class FeedbackConfig {
 
     @Bean
-    public CreateFeedbackUseCase createFeedbackUseCase(FeedbackGateway feedbackGateway, ScheduleGateway scheduleGateway, ClientGateway clientGateway) {
+    public CreateFeedbackUseCase createFeedbackUseCase(FeedbackGateway feedbackGateway, ScheduleGateway scheduleGateway, UserGateway clientGateway) {
         return new CreateFeedbackUseCase(feedbackGateway, scheduleGateway, clientGateway);
     }
 
@@ -26,7 +26,7 @@ public class FeedbackConfig {
     }
 
     @Bean
-    public UpdateFeedbackByIdUseCase updateFeedbackByIdUseCase(FeedbackGateway feedbackGateway, ScheduleGateway scheduleGateway, ClientGateway clientGateway) {
+    public UpdateFeedbackByIdUseCase updateFeedbackByIdUseCase(FeedbackGateway feedbackGateway, ScheduleGateway scheduleGateway, UserGateway clientGateway) {
         return new UpdateFeedbackByIdUseCase(feedbackGateway, scheduleGateway, clientGateway);
     }
 

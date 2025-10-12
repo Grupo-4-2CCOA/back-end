@@ -1,5 +1,7 @@
 package sptech.school.projetoPI.core.domains;
 
+import org.apache.catalina.User;
+
 import java.time.LocalDateTime;
 
 
@@ -10,16 +12,16 @@ public class FeedbackDomain {
     private String comment;
     private Integer rating;
     private ScheduleDomain scheduleDomain;
-    private ClientDomain clientDomain;
+    private UserDomain userDomain;
 
-    public FeedbackDomain(Integer id, LocalDateTime createdAt, LocalDateTime updatedAt, String comment, Integer rating, ScheduleDomain scheduleDomain, ClientDomain clientDomain) {
+    public FeedbackDomain(Integer id, LocalDateTime createdAt, LocalDateTime updatedAt, String comment, Integer rating, ScheduleDomain scheduleDomain, UserDomain userDomain) {
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.comment = comment;
         this.rating = rating;
         this.scheduleDomain = scheduleDomain;
-        this.clientDomain = clientDomain;
+        this.userDomain = userDomain;
     }
 
     public FeedbackDomain() {
@@ -65,19 +67,19 @@ public class FeedbackDomain {
         this.rating = rating;
     }
 
-    public ScheduleDomain getSchedule() {
+    public ScheduleDomain getScheduleDomain() {
         return scheduleDomain;
     }
 
-    public void setSchedule(ScheduleDomain scheduleDomain) {
+    public void setScheduleDomain(ScheduleDomain scheduleDomain) {
         this.scheduleDomain = scheduleDomain;
     }
 
-    public ClientDomain getClient() {
-        return clientDomain;
+    public UserDomain getUserDomain() {
+        return userDomain;
     }
 
-    public void setClient(ClientDomain clientDomain) {
-        this.clientDomain = clientDomain;
+    public void setUserDomain(UserDomain userDomain) {
+        this.userDomain = userDomain;
     }
 }

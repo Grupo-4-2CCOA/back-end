@@ -3,34 +3,34 @@ package sptech.school.projetoPI.infrastructure.di;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import sptech.school.projetoPI.core.application.usecases.employee.*;
+import sptech.school.projetoPI.core.application.usecases.user.employee.*;
 import sptech.school.projetoPI.core.gateways.*;
 
 @Configuration
 public class EmployeeConfig {
 
     @Bean
-    public CreateEmployeeUseCase createEmployeeUseCase(ClientGateway clientGateway, EmployeeGateway employeeGateway, PasswordEncoder passwordEncoder, RoleGateway roleGateway) {
-        return new CreateEmployeeUseCase(clientGateway, employeeGateway, passwordEncoder, roleGateway);
+    public CreateEmployeeUseCase createEmployeeUseCase(UserGateway userGateway, RoleGateway roleGateway) {
+        return new CreateEmployeeUseCase(userGateway, roleGateway);
     }
 
     @Bean
-    public GetAllEmployeeUseCase getAllEmployeesUseCase(EmployeeGateway employeeGateway) {
-        return new GetAllEmployeeUseCase(employeeGateway);
+    public GetAllEmployeeUseCase getAllEmployeesUseCase(UserGateway userGateway) {
+        return new GetAllEmployeeUseCase(userGateway);
     }
 
     @Bean
-    public GetEmployeeByIdUseCase getEmployeeByIdUseCase(EmployeeGateway employeeGateway) {
-        return new GetEmployeeByIdUseCase(employeeGateway);
+    public GetEmployeeByIdUseCase getEmployeeByIdUseCase(UserGateway userGateway) {
+        return new GetEmployeeByIdUseCase(userGateway);
     }
 
     @Bean
-    public UpdateEmployeeByIdUseCase updateEmployeeByIdUseCase(ClientGateway clientGateway, EmployeeGateway employeeGateway, RoleGateway roleGateway) {
-        return new UpdateEmployeeByIdUseCase(clientGateway, employeeGateway, roleGateway);
+    public UpdateEmployeeByIdUseCase updateEmployeeByIdUseCase(UserGateway userGateway, RoleGateway roleGateway) {
+        return new UpdateEmployeeByIdUseCase(userGateway, roleGateway);
     }
 
     @Bean
-    public DeleteEmployeeByIdUseCase deleteEmployeeByIdUseCase(EmployeeGateway repository, ScheduleGateway scheduleGateway, AvailabilityGateway availabilityGateway) {
-        return new DeleteEmployeeByIdUseCase(repository,scheduleGateway,availabilityGateway);
+    public DeleteEmployeeByIdUseCase deleteEmployeeByIdUseCase(UserGateway userGateway, ScheduleGateway scheduleGateway, AvailabilityGateway availabilityGateway) {
+        return new DeleteEmployeeByIdUseCase(userGateway,scheduleGateway,availabilityGateway);
     }
 }

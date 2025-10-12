@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
+import sptech.school.projetoPI.core.domains.RoleDomain;
 import sptech.school.projetoPI.infrastructure.auth.JwtService;
 
 import java.io.IOException;
@@ -41,7 +42,8 @@ public class AuthController {
 
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
         String email = oauth2User.getAttribute("email");
-        String role = oauth2User.getAttribute("role");
+        RoleDomain roleDomain = oauth2User.getAttribute("role");
+        String role = roleDomain != null ? roleDomain.getName() : "USER";
         Integer clientId = oauth2User.getAttribute("id");
 
         // 2. Gera o token JWT

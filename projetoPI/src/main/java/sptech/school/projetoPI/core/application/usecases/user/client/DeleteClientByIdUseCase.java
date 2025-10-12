@@ -1,23 +1,21 @@
-package sptech.school.projetoPI.core.application.usecases.client;
+package sptech.school.projetoPI.core.application.usecases.user.client;
 
 import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.ForeignKeyConstraintException;
 import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.InactiveEntityException;
-import sptech.school.projetoPI.core.domains.ClientDomain;
+import sptech.school.projetoPI.core.domains.UserDomain;
 import sptech.school.projetoPI.core.enums.Logs;
-import sptech.school.projetoPI.core.gateways.ClientGateway;
-import sptech.school.projetoPI.core.gateways.FeedbackGateway;
-import sptech.school.projetoPI.core.gateways.ScheduleGateway;
+import sptech.school.projetoPI.core.gateways.*;
 
 import java.time.LocalDateTime;
 
 public class DeleteClientByIdUseCase {
 
-    private final ClientGateway repository;
+    private final UserGateway repository;
     private final ScheduleGateway scheduleRepository;
     private final FeedbackGateway feedbackRepository;
 
-    public DeleteClientByIdUseCase(ClientGateway repository, ScheduleGateway scheduleRepository, FeedbackGateway feedbackRepository) {
+    public DeleteClientByIdUseCase(UserGateway repository, ScheduleGateway scheduleRepository, FeedbackGateway feedbackRepository) {
         this.repository = repository;
         this.scheduleRepository = scheduleRepository;
         this.feedbackRepository = feedbackRepository;
@@ -48,9 +46,9 @@ public class DeleteClientByIdUseCase {
             );
         }
 
-        ClientDomain clientDomain = repository.findById(id).get();
-        clientDomain.setActive(false);
-        clientDomain.setUpdatedAt(LocalDateTime.now());
-        repository.save(clientDomain);
+        UserDomain userDomain = repository.findById(id).get();
+        userDomain.setActive(false);
+        userDomain.setUpdatedAt(LocalDateTime.now());
+        repository.save(userDomain);
     }
 }

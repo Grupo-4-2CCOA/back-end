@@ -28,5 +28,5 @@ public class FeedbackJpaEntity {
 
     @ManyToOne
     @JoinColumn(name="fk_client")
-    private ClientJpaEntity client;
+    private UserJpaEntity client;
 }

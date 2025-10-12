@@ -3,25 +3,41 @@ package sptech.school.projetoPI.infrastructure.mappers;
 import sptech.school.projetoPI.core.application.dto.feedback.FeedbackRequestDto;
 import sptech.school.projetoPI.core.application.dto.feedback.FeedbackResponseDto;
 import sptech.school.projetoPI.core.application.dto.feedback.FeedbackResumeResponseDto;
+import sptech.school.projetoPI.core.domains.ScheduleDomain;
+import sptech.school.projetoPI.core.domains.UserDomain;
 import sptech.school.projetoPI.infrastructure.persistence.entity.FeedbackJpaEntity;
 import sptech.school.projetoPI.core.domains.FeedbackDomain;
 
+import java.time.LocalDateTime;
+
 public class FeedbackMapper {
+    /* ========= REQUEST DTO -> DOMAIN ========= */
+    public static FeedbackDomain toDomain(FeedbackRequestDto request) {
+        if (request == null) return null;
 
-    /* ========= DTO -> DOMAIN ========= */
-    public static FeedbackDomain toDomain(FeedbackRequestDto requestObject) {
-        if (requestObject == null) return null;
+        FeedbackDomain domain = new FeedbackDomain();
+        domain.setComment(request.getComment());
+        domain.setRating(request.getRating());
 
-        FeedbackDomain feedbackDomain = new FeedbackDomain();
-        feedbackDomain.setComment(requestObject.getComment());
-        feedbackDomain.setRating(requestObject.getRating());
+        // Mapeia o usuário (cliente)
+        if (request.getClientId() != null) {
+            var userDomain = new UserDomain();
+            userDomain.setId(request.getClientId());
+            domain.setUserDomain(userDomain);
+        }
 
-        feedbackDomain.setClient(ClientMapper.toDomain(requestObject.getClient()));
-        feedbackDomain.setSchedule(ScheduleMapper.toDomain(requestObject.getSchedule()));
+        // Mapeia o agendamento (schedule)
+        if (request.getScheduleId() != null) {
+            var scheduleDomain = new ScheduleDomain();
+            scheduleDomain.setId(request.getScheduleId());
+            domain.setScheduleDomain(scheduleDomain);
+        }
 
-        return feedbackDomain;
+        domain.setCreatedAt(LocalDateTime.now());
+        domain.setUpdatedAt(LocalDateTime.now());
+
+        return domain;
     }
-
 
 
     /* ========= DOMAIN -> DTO (Full Response) ========= */
@@ -34,8 +50,8 @@ public class FeedbackMapper {
                 .rating(domain.getRating())
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
-                .client(ClientMapper.toResumeResponseDto(domain.getClient()))
-                .schedule(ScheduleMapper.toResumeResponseDto(domain.getSchedule()))
+                .client(UserMapper.toResumeResponseDto(domain.getUserDomain()))
+                .schedule(ScheduleMapper.toResumeResponseDto(domain.getScheduleDomain()))
                 .build();
     }
 
@@ -58,8 +74,8 @@ public class FeedbackMapper {
                 .id(domain.getId())
                 .comment(domain.getComment())
                 .rating(domain.getRating())
-                .client(ClientMapper.toJpaEntity(domain.getClient()))
-                .schedule(ScheduleMapper.toJpaEntity(domain.getSchedule()))
+                .client(UserMapper.toJpaEntity(domain.getUserDomain()))
+                .schedule(ScheduleMapper.toJpaEntity(domain.getScheduleDomain()))
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
                 .build();
@@ -73,8 +89,8 @@ public class FeedbackMapper {
         domain.setId(jpa.getId());
         domain.setComment(jpa.getComment());
         domain.setRating(jpa.getRating());
-        domain.setClient(ClientMapper.toDomain(jpa.getClient()));
-        domain.setSchedule(ScheduleMapper.toDomain(jpa.getSchedule()));
+        domain.setUserDomain(UserMapper.toDomain(jpa.getClient()));
+        domain.setScheduleDomain(ScheduleMapper.toDomain(jpa.getSchedule()));
         domain.setCreatedAt(jpa.getCreatedAt());
         domain.setUpdatedAt(jpa.getUpdatedAt());
         return domain;

@@ -20,8 +20,8 @@ public class ScheduleMapper {
         scheduleDomain.setStatus(Status.valueOf(requestObject.getStatus())); // Correção aqui
 
         // Delegação de mapeamento para outras entidades
-        scheduleDomain.setEmployee(EmployeeMapper.toDomain(requestObject.getEmployee()));
-        scheduleDomain.setClient(ClientMapper.toDomain(requestObject.getClient()));
+        scheduleDomain.setEmployee(UserMapper.toDomain(requestObject.getEmployee()));
+        scheduleDomain.setClient(UserMapper.toDomain(requestObject.getClient()));
         scheduleDomain.setPaymentType(PaymentTypeMapper.toDomain(requestObject.getPaymentType()));
 
         return scheduleDomain;
@@ -45,8 +45,8 @@ public class ScheduleMapper {
                 .appointmentDatetime(domain.getAppointmentDatetime())
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
-                .client(ClientMapper.toResumeResponseDto(domain.getClient()))
-                .employee(EmployeeMapper.toResumeResponseDto(domain.getEmployee()))
+                .client(UserMapper.toResumeResponseDto(domain.getClient()))
+                .employee(UserMapper.toResumeResponseDto(domain.getEmployee()))
                 .paymentType(PaymentTypeMapper.toResumeResponseDto(domain.getPaymentType()))
                 .build();
     }
@@ -59,8 +59,8 @@ public class ScheduleMapper {
                 .id(domain.getId())
                 .appointmentDatetime(domain.getAppointmentDatetime())
                 .status(domain.getStatus())
-                .client(ClientMapper.toResumeResponseDto(domain.getClient()))
-                .employee(EmployeeMapper.toResumeResponseDto(domain.getEmployee()))
+                .client(UserMapper.toResumeResponseDto(domain.getClient()))
+                .employee(UserMapper.toResumeResponseDto(domain.getEmployee()))
                 .build();
     }
 
@@ -77,11 +77,11 @@ public class ScheduleMapper {
 
         // Delega o mapeamento de entidades aninhadas
         if (domain.getClient() != null) {
-            jpaEntity.setClient(ClientMapper.toJpaEntity(domain.getClient()));
+            jpaEntity.setClient(UserMapper.toJpaEntity(domain.getClient()));
         }
 
         if (domain.getEmployee() != null) {
-            jpaEntity.setEmployee(EmployeeMapper.toJpaEntity(domain.getEmployee()));
+            jpaEntity.setEmployee(UserMapper.toJpaEntity(domain.getEmployee()));
         }
 
         if (domain.getPaymentType() != null) {
@@ -103,8 +103,8 @@ public class ScheduleMapper {
         domain.setUpdatedAt(jpaEntity.getUpdatedAt());
 
         // Delega o mapeamento de entidades aninhadas
-        domain.setClient(ClientMapper.toDomain(jpaEntity.getClient()));
-        domain.setEmployee(EmployeeMapper.toDomain(jpaEntity.getEmployee()));
+        domain.setClient(UserMapper.toDomain(jpaEntity.getClient()));
+        domain.setEmployee(UserMapper.toDomain(jpaEntity.getEmployee()));
         domain.setPaymentType(PaymentTypeMapper.toDomain(jpaEntity.getPaymentType()));
 
         return domain;

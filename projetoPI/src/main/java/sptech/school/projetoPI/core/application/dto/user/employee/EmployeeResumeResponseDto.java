@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.core.application.dto.employee;
+package sptech.school.projetoPI.core.application.dto.user.employee;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -13,4 +13,5 @@ public class EmployeeResumeResponseDto {
     private Integer id;
     private String name;
     private String email;
+    private Integer role;
 }

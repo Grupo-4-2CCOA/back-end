@@ -1,22 +1,19 @@
 package sptech.school.projetoPI.infrastructure.persistence.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@SuperBuilder
+@Builder
 @NoArgsConstructor
-@MappedSuperclass
-public abstract class UserJpaEntity {
+@AllArgsConstructor
+@Entity
+@Table(name = "user")
+public class UserJpaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,4 +27,8 @@ public abstract class UserJpaEntity {
     private String password;
     private String phone;
     private String cep;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_role")
+    private RoleJpaEntity role;
 }

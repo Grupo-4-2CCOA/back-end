@@ -2,7 +2,7 @@ package sptech.school.projetoPI.core.domains;
 
 import java.time.LocalDateTime;
 
-public abstract class User {
+public class UserDomain {
     private Integer id;
     private Boolean active;
     private LocalDateTime createdAt;
@@ -10,12 +10,11 @@ public abstract class User {
     private String name;
     private String cpf;
     private String email;
-    private String password;
     private String phone;
     private String cep;
-    private RoleDomain role;
+    private RoleDomain roleDomain;
 
-    public User(Integer id, Boolean active, LocalDateTime createdAt, LocalDateTime updatedAt, String name, String cpf, String email, String password, String phone, String cep) {
+    public UserDomain(Integer id, Boolean active, LocalDateTime createdAt, LocalDateTime updatedAt, String name, String cpf, String email, String phone, String cep, RoleDomain roleDomain) {
         this.id = id;
         this.active = active;
         this.createdAt = createdAt;
@@ -23,12 +22,13 @@ public abstract class User {
         this.name = name;
         this.cpf = cpf;
         this.email = email;
-        this.password = password;
         this.phone = phone;
         this.cep = cep;
+        this.roleDomain = roleDomain;
     }
 
-    public User(){}
+    public UserDomain() {
+    }
 
     public Integer getId() {
         return id;
@@ -86,14 +86,6 @@ public abstract class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -108,5 +100,13 @@ public abstract class User {
 
     public void setCep(String cep) {
         this.cep = cep;
+    }
+
+    public RoleDomain getRoleDomain() {
+        return roleDomain;
+    }
+
+    public void setRoleDomain(RoleDomain roleDomain) {
+        this.roleDomain = roleDomain;
     }
 }

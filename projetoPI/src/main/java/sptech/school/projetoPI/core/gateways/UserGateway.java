@@ -1,16 +1,16 @@
 package sptech.school.projetoPI.core.gateways;
 
-import sptech.school.projetoPI.core.domains.ClientDomain;
+import sptech.school.projetoPI.core.domains.UserDomain;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ClientGateway {
-    ClientDomain save(ClientDomain clientDomain);
+public interface UserGateway {
+    UserDomain save(UserDomain clientDomain);
     boolean existsById(Integer id);
-    List<ClientDomain> findAll();
-    Optional<ClientDomain> findById(Integer id);
-    ClientDomain deleteById(Integer id);
+    List<UserDomain> findAll();
+    Optional<UserDomain> findById(Integer id);
+    UserDomain deleteById(Integer id);
     boolean existsByCpf(String cpf);
     boolean existsByEmailIgnoreCase(String email);
     boolean existsByPhone(String phone);
@@ -19,7 +19,8 @@ public interface ClientGateway {
     boolean existsByIdNotAndPhone(Integer id, String phone);
     boolean existsByIdAndActiveFalse(Integer id);
     boolean existsByIdAndActiveTrue(Integer id);
-    List<ClientDomain> findAllByActiveTrue();
-    Optional<ClientDomain> findByIdAndActiveTrue(Integer id);
-    Optional<ClientDomain> findByEmail(String email);
+    boolean existsByIdNotAndRoleName(Integer id, String roleName);
+    List<UserDomain> findAllByActiveTrue();
+    Optional<UserDomain> findByIdAndActiveTrue(Integer id);
+    Optional<UserDomain> findByEmail(String email);
 }

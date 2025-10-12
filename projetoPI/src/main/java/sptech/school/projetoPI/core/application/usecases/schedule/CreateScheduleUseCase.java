@@ -3,24 +3,21 @@ package sptech.school.projetoPI.core.application.usecases.schedule;
 import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.EntityConflictException;
 import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.RelatedEntityNotFoundException;
 import sptech.school.projetoPI.core.domains.ScheduleDomain;
-import sptech.school.projetoPI.core.gateways.ClientGateway;
-import sptech.school.projetoPI.core.gateways.EmployeeGateway;
 import sptech.school.projetoPI.core.gateways.PaymentTypeGateway;
 import sptech.school.projetoPI.core.gateways.ScheduleGateway;
+import sptech.school.projetoPI.core.gateways.UserGateway;
 
 import java.time.LocalDateTime;
 
 public class CreateScheduleUseCase {
 
     private final ScheduleGateway scheduleGateway;
-    private final ClientGateway clientGateway;
-    private final EmployeeGateway employeeGateway;
+    private final UserGateway userGateway;
     private final PaymentTypeGateway paymentTypeGateway;
 
-    public CreateScheduleUseCase(ScheduleGateway scheduleGateway, ClientGateway clientGateway, EmployeeGateway employeeGateway, PaymentTypeGateway paymentTypeGateway) {
+    public CreateScheduleUseCase(ScheduleGateway scheduleGateway, UserGateway userGateway, PaymentTypeGateway paymentTypeGateway) {
         this.scheduleGateway = scheduleGateway;
-        this.clientGateway = clientGateway;
-        this.employeeGateway = employeeGateway;
+        this.userGateway = userGateway;
         this.paymentTypeGateway = paymentTypeGateway;
     }
 
@@ -31,13 +28,13 @@ public class CreateScheduleUseCase {
             );
         }
 
-        if (!clientGateway.existsByIdAndActiveTrue(scheduleDomain.getClient().getId())) {
+        if (!userGateway.existsByIdAndActiveTrue(scheduleDomain.getClient().getId())) {
             throw new RelatedEntityNotFoundException(
                     "O cliente com o ID %d não foi encontrado".formatted(scheduleDomain.getClient().getId())
             );
         }
 
-        if (!employeeGateway.existsByIdAndActiveTrue(scheduleDomain.getEmployee().getId())) {
+        if (!userGateway.existsByIdAndActiveTrue(scheduleDomain.getEmployee().getId())) {
             throw new RelatedEntityNotFoundException(
                     "O funcionário com o ID %d não foi encontrado".formatted(scheduleDomain.getEmployee().getId())
             );

@@ -1,21 +1,15 @@
-package sptech.school.projetoPI.core.application.dto.employee;
+package sptech.school.projetoPI.core.application.dto.user;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import sptech.school.projetoPI.core.application.dto.role.RoleResumeResponseDto;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class EmployeeResponseDto {
+public class UserResponseDto {
     private Integer id;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
     private String name;
     private String email;
     private String cpf;

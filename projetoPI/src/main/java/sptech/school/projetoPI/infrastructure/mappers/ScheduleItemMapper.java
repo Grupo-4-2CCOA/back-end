@@ -6,6 +6,10 @@ import sptech.school.projetoPI.core.application.dto.scheduleItem.ScheduleItemRes
 import sptech.school.projetoPI.core.application.dto.scheduleItem.ScheduleItemResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.persistence.entity.ScheduleItemJpaEntity;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class ScheduleItemMapper {
 
     /* ========= DTO -> DOMAIN ========= */
@@ -16,11 +20,14 @@ public class ScheduleItemMapper {
         scheduleItemDomain.setFinalPrice(requestObject.getFinalPrice());
         scheduleItemDomain.setDiscount(requestObject.getDiscount());
 
-        // This is the correct call, assuming your DTO has Integer IDs
-        scheduleItemDomain.setSchedule(ScheduleMapper.toDomain(requestObject.getSchedule()));
         scheduleItemDomain.setService(ServiceMapper.toDomain(requestObject.getService()));
 
         return scheduleItemDomain;
+    }
+
+    public static List<ScheduleItemDomain> toDomainList(List<ScheduleItemRequestDto> dtos) {
+        if (dtos == null) return Collections.emptyList();
+        return dtos.stream().map(ScheduleItemMapper::toDomain).collect(Collectors.toList());
     }
 
     /* ========= DOMAIN -> DTO (Completo) ========= */
@@ -88,5 +95,20 @@ public class ScheduleItemMapper {
         domain.setService(ServiceMapper.toDomain(jpaEntity.getService()));
 
         return domain;
+    }
+
+    /* ========= DOMAIN -> JPA (Lista) ========= */
+    /**
+     * Converte uma lista de objetos ScheduleItemDomain para uma lista de ScheduleItemJpaEntity.
+     * @param domains Lista de ScheduleItemDomain.
+     * @return Lista de ScheduleItemJpaEntity.
+     */
+    public static List<ScheduleItemJpaEntity> toJpaEntityList(List<ScheduleItemDomain> domains) {
+        if (domains == null || domains.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return domains.stream()
+                .map(ScheduleItemMapper::toJpaEntity)
+                .collect(Collectors.toList());
     }
 }

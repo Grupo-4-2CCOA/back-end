@@ -21,10 +21,6 @@ public class ScheduleItemRequestDto {
     @DecimalMax(value = "999.99", message = "Desconto muito alto")
     private Double discount;
 
-    @Positive(message = "ID inválido para Agendamento")
-    @NotNull(message = "Insira o Agendamento")
-    private Integer schedule;
-
     @Positive(message = "ID inválido para Serviço")
     @NotNull(message = "Insira o Serviço")
     private Integer service;

@@ -28,23 +28,27 @@ public class CreateScheduleUseCase {
             );
         }
 
-        if (!userGateway.existsByIdAndActiveTrue(scheduleDomain.getClient().getId())) {
+        if (!userGateway.existsByIdAndActiveTrue(scheduleDomain.getClientDomain().getId())) {
             throw new RelatedEntityNotFoundException(
-                    "O cliente com o ID %d não foi encontrado".formatted(scheduleDomain.getClient().getId())
+                    "O cliente com o ID %d não foi encontrado".formatted(scheduleDomain.getClientDomain().getId())
             );
         }
 
-        if (!userGateway.existsByIdAndActiveTrue(scheduleDomain.getEmployee().getId())) {
+        if (!userGateway.existsByIdAndActiveTrue(scheduleDomain.getEmployeeDomain().getId())) {
             throw new RelatedEntityNotFoundException(
-                    "O funcionário com o ID %d não foi encontrado".formatted(scheduleDomain.getEmployee().getId())
+                    "O funcionário com o ID %d não foi encontrado".formatted(scheduleDomain.getEmployeeDomain().getId())
             );
         }
 
-        if (scheduleDomain.getPaymentType() != null && !paymentTypeGateway.existsByIdAndActiveTrue(scheduleDomain.getPaymentType().getId())) {
+        if (scheduleDomain.getPaymentTypeDomain() != null && !paymentTypeGateway.existsByIdAndActiveTrue(scheduleDomain.getPaymentTypeDomain().getId())) {
             throw new RelatedEntityNotFoundException(
-                    "O tipo de pagamento com o ID %d não foi encontrado".formatted(scheduleDomain.getPaymentType().getId())
+                    "O tipo de pagamento com o ID %d não foi encontrado".formatted(scheduleDomain.getPaymentTypeDomain().getId())
             );
         }
+
+        scheduleDomain.getItems().forEach(item -> {
+            item.setSchedule(scheduleDomain);
+        });
 
         scheduleDomain.setId(null);
         scheduleDomain.setCreatedAt(LocalDateTime.now());

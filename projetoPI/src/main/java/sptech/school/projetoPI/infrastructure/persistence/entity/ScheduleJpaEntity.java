@@ -5,6 +5,7 @@ import lombok.*;
 import sptech.school.projetoPI.core.enums.Status;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -39,4 +40,11 @@ public class ScheduleJpaEntity {
     @ManyToOne
     @JoinColumn(name="fk_payment_type")
     private PaymentTypeJpaEntity paymentType;
+
+    @OneToMany(
+            mappedBy = "schedule",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<ScheduleItemJpaEntity> items;
 }

@@ -40,7 +40,6 @@ public class ScheduleItemMapper {
                 .discount(domain.getDiscount())
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
-                .schedule(ScheduleMapper.toResumeResponseDto(domain.getSchedule()))
                 .service(ServiceMapper.toResumeResponseDto(domain.getService()))
                 .build();
     }

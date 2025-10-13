@@ -28,27 +28,27 @@ public class CreateScheduleUseCase {
             );
         }
 
-        if (!userGateway.existsByIdAndActiveTrue(scheduleDomain.getClientDomain().getId())) {
-            throw new RelatedEntityNotFoundException(
-                    "O cliente com o ID %d não foi encontrado".formatted(scheduleDomain.getClientDomain().getId())
-            );
-        }
+//        if (!userGateway.existsByIdAndActiveTrue(scheduleDomain.getClientDomain().getId())) {
+//            throw new RelatedEntityNotFoundException(
+//                    "O cliente com o ID %d não foi encontrado".formatted(scheduleDomain.getClientDomain().getId())
+//            );
+//        }
 
-        if (!userGateway.existsByIdAndActiveTrue(scheduleDomain.getEmployeeDomain().getId())) {
-            throw new RelatedEntityNotFoundException(
-                    "O funcionário com o ID %d não foi encontrado".formatted(scheduleDomain.getEmployeeDomain().getId())
-            );
-        }
+//        if (!userGateway.existsByIdAndActiveTrue(scheduleDomain.getEmployeeDomain().getId())) {
+//            throw new RelatedEntityNotFoundException(
+//                    "O funcionário com o ID %d não foi encontrado".formatted(scheduleDomain.getEmployeeDomain().getId())
+//            );
+//        }
 
-        if (scheduleDomain.getPaymentTypeDomain() != null && !paymentTypeGateway.existsByIdAndActiveTrue(scheduleDomain.getPaymentTypeDomain().getId())) {
-            throw new RelatedEntityNotFoundException(
-                    "O tipo de pagamento com o ID %d não foi encontrado".formatted(scheduleDomain.getPaymentTypeDomain().getId())
-            );
-        }
+//        if (scheduleDomain.getPaymentTypeDomain() != null && !paymentTypeGateway.existsByIdAndActiveTrue(scheduleDomain.getPaymentTypeDomain().getId())) {
+//            throw new RelatedEntityNotFoundException(
+//                    "O tipo de pagamento com o ID %d não foi encontrado".formatted(scheduleDomain.getPaymentTypeDomain().getId())
+//            );
+//        }
 
-        scheduleDomain.getItems().forEach(item -> {
-            item.setSchedule(scheduleDomain);
-        });
+        if (scheduleDomain.getItems() != null) {
+            scheduleDomain.getItems().forEach(item -> item.setSchedule(scheduleDomain));
+        }
 
         scheduleDomain.setId(null);
         scheduleDomain.setCreatedAt(LocalDateTime.now());

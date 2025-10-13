@@ -88,13 +88,9 @@ public class ScheduleMapper {
 
         if (domain.getItems() != null && !domain.getItems().isEmpty()) {
 
-            // 1. Converte a lista de Domínio para JPA Entity
             List<ScheduleItemJpaEntity> itemEntities = ScheduleItemMapper.toJpaEntityList(domain.getItems());
-
-            // 2. IMPORTANTE: Garante a referência bidirecional (seta o pai em cada filho)
             itemEntities.forEach(item -> item.setSchedule(jpaEntity));
 
-            // 3. Seta a lista na entidade pai
             jpaEntity.setItems(itemEntities);
         }
 

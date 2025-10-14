@@ -5,6 +5,12 @@ import sptech.school.projetoPI.core.application.dto.scheduleItem.ScheduleItemReq
 import sptech.school.projetoPI.core.application.dto.scheduleItem.ScheduleItemResponseDto;
 import sptech.school.projetoPI.core.application.dto.scheduleItem.ScheduleItemResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.persistence.entity.ScheduleItemJpaEntity;
+import sptech.school.projetoPI.infrastructure.persistence.entity.ServiceJpaEntity;
+
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ScheduleItemMapper {
 
@@ -16,11 +22,15 @@ public class ScheduleItemMapper {
         scheduleItemDomain.setFinalPrice(requestObject.getFinalPrice());
         scheduleItemDomain.setDiscount(requestObject.getDiscount());
 
-        // This is the correct call, assuming your DTO has Integer IDs
-        scheduleItemDomain.setSchedule(ScheduleMapper.toDomain(requestObject.getSchedule()));
+        // ✅ Apenas ID do serviço (evita loops)
         scheduleItemDomain.setService(ServiceMapper.toDomain(requestObject.getService()));
 
         return scheduleItemDomain;
+    }
+
+    public static List<ScheduleItemDomain> toDomainList(List<ScheduleItemRequestDto> dtos) {
+        if (dtos == null) return Collections.emptyList();
+        return dtos.stream().map(ScheduleItemMapper::toDomain).collect(Collectors.toList());
     }
 
     /* ========= DOMAIN -> DTO (Completo) ========= */
@@ -31,9 +41,8 @@ public class ScheduleItemMapper {
                 .id(domain.getId())
                 .finalPrice(domain.getFinalPrice())
                 .discount(domain.getDiscount())
-                .createdAt(domain.getCreatedAt())
-                .updatedAt(domain.getUpdatedAt())
-                .schedule(ScheduleMapper.toResumeResponseDto(domain.getSchedule()))
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .service(ServiceMapper.toResumeResponseDto(domain.getService()))
                 .build();
     }
@@ -50,43 +59,50 @@ public class ScheduleItemMapper {
                 .build();
     }
 
-    //---------------------------------------------------------
-
     /* ========= DOMAIN -> JPA ========= */
     public static ScheduleItemJpaEntity toJpaEntity(ScheduleItemDomain domain) {
         if (domain == null) return null;
 
-        ScheduleItemJpaEntity jpaEntity = new ScheduleItemJpaEntity();
-        jpaEntity.setId(domain.getId());
-        jpaEntity.setFinalPrice(domain.getFinalPrice());
-        jpaEntity.setDiscount(domain.getDiscount());
-        jpaEntity.setCreatedAt(domain.getCreatedAt());
-        jpaEntity.setUpdatedAt(domain.getUpdatedAt());
+        ScheduleItemJpaEntity jpa = new ScheduleItemJpaEntity();
+        jpa.setId(domain.getId());
+        jpa.setCreatedAt(LocalDateTime.now());
+        jpa.setUpdatedAt(LocalDateTime.now());
+        jpa.setFinalPrice(domain.getFinalPrice());
+        jpa.setDiscount(domain.getDiscount());
 
-        if (domain.getSchedule() != null) {
-            jpaEntity.setSchedule(ScheduleMapper.toJpaEntity(domain.getSchedule()));
-        }
-        if (domain.getService() != null) {
-            jpaEntity.setService(ServiceMapper.toJpaEntity(domain.getService()));
+        // ✅ Cria entidade Service apenas com ID
+        if (domain.getService() != null && domain.getService().getId() != null) {
+            ServiceJpaEntity serviceRef = new ServiceJpaEntity();
+            serviceRef.setId(domain.getService().getId());
+            jpa.setService(serviceRef);
         }
 
-        return jpaEntity;
+        return jpa;
     }
 
     /* ========= JPA -> DOMAIN ========= */
-    public static ScheduleItemDomain toDomain(ScheduleItemJpaEntity jpaEntity) {
-        if (jpaEntity == null) return null;
+    public static ScheduleItemDomain toDomain(ScheduleItemJpaEntity jpa) {
+        if (jpa == null) return null;
 
         ScheduleItemDomain domain = new ScheduleItemDomain();
-        domain.setId(jpaEntity.getId());
-        domain.setFinalPrice(jpaEntity.getFinalPrice());
-        domain.setDiscount(jpaEntity.getDiscount());
-        domain.setCreatedAt(jpaEntity.getCreatedAt());
-        domain.setUpdatedAt(jpaEntity.getUpdatedAt());
+        domain.setId(jpa.getId());
+        domain.setCreatedAt(LocalDateTime.now());
+        domain.setUpdatedAt(LocalDateTime.now());
+        domain.setFinalPrice(jpa.getFinalPrice());
+        domain.setDiscount(jpa.getDiscount());
 
-        domain.setSchedule(ScheduleMapper.toDomain(jpaEntity.getSchedule()));
-        domain.setService(ServiceMapper.toDomain(jpaEntity.getService()));
+        domain.setService(ServiceMapper.toDomain(jpa.getService()));
 
         return domain;
+    }
+
+    /* ========= DOMAIN -> JPA (Lista) ========= */
+    public static List<ScheduleItemJpaEntity> toJpaEntityList(List<ScheduleItemDomain> domains) {
+        if (domains == null || domains.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return domains.stream()
+                .map(ScheduleItemMapper::toJpaEntity)
+                .collect(Collectors.toList());
     }
 }

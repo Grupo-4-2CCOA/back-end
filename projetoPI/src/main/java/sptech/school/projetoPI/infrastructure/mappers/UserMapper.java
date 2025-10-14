@@ -7,7 +7,10 @@ import sptech.school.projetoPI.core.application.dto.login.UserTokenDto;
 import sptech.school.projetoPI.core.domains.UserDomain;
 import sptech.school.projetoPI.infrastructure.persistence.entity.UserJpaEntity;
 
+
 public class UserMapper {
+
+    /* ========= TOKEN DTO ========= */
     public static UserTokenDto of(UserDomain usuario, String token) {
         UserTokenDto dto = new UserTokenDto();
         dto.setUserId(usuario.getId());
@@ -28,24 +31,19 @@ public class UserMapper {
         userDomain.setEmail(request.getEmail());
         userDomain.setCep(request.getCep());
         userDomain.setPhone(request.getPhone());
-
         return userDomain;
     }
 
     public static UserDomain toDomain(Integer id) {
-        if (id == null) {
-            return null;
-        }
-
-        UserDomain employeeDomain = new UserDomain();
-        employeeDomain.setId(id);
-        return employeeDomain;
+        if (id == null) return null;
+        UserDomain domain = new UserDomain();
+        domain.setId(id);
+        return domain;
     }
 
-    /* ========= DOMAIN -> DTO (Response completo) ========= */
+    /* ========= DOMAIN -> DTO ========= */
     public static UserResponseDto toResponseDto(UserDomain domain) {
         if (domain == null) return null;
-
         return UserResponseDto.builder()
                 .id(domain.getId())
                 .name(domain.getName())
@@ -56,11 +54,8 @@ public class UserMapper {
                 .build();
     }
 
-    /* ========= DOMAIN -> DTO (Response resumido) ========= */
     public static UserResumeResponseDto toResumeResponseDto(UserDomain domain) {
-        if (domain == null) {
-            return null;
-        }
+        if (domain == null) return null;
         return UserResumeResponseDto.builder()
                 .id(domain.getId())
                 .name(domain.getName())
@@ -68,7 +63,7 @@ public class UserMapper {
                 .build();
     }
 
-    /* ========= DOMAIN -> JPA ========= */
+    /* ========= DOMAIN -> JPA (completo) ========= */
     public static UserJpaEntity toJpaEntity(UserDomain domain) {
         if (domain == null) return null;
 
@@ -79,10 +74,20 @@ public class UserMapper {
                 .email(domain.getEmail())
                 .cep(domain.getCep())
                 .phone(domain.getPhone())
-                .active(true)
+                .active(domain.getActive() != null ? domain.getActive() : true)
                 .role(RoleMapper.toJpaEntity(domain.getRoleDomain()))
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
+                .build();
+    }
+
+    /* ========= DOMAIN -> JPA (simples, sem relacionamentos) ========= */
+    public static UserJpaEntity toJpaEntitySimple(UserDomain domain) {
+        if (domain == null) return null;
+        return UserJpaEntity.builder()
+                .id(domain.getId())
+                .name(domain.getName())
+                .email(domain.getEmail())
                 .build();
     }
 
@@ -101,7 +106,6 @@ public class UserMapper {
         domain.setCreatedAt(jpa.getCreatedAt());
         domain.setUpdatedAt(jpa.getUpdatedAt());
         domain.setRoleDomain(RoleMapper.toDomain(jpa.getRole()));
-
         return domain;
     }
 }

@@ -3,6 +3,7 @@ package sptech.school.projetoPI.core.domains;
 import sptech.school.projetoPI.core.enums.Status;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ScheduleDomain {
     private Integer id;
@@ -16,7 +17,9 @@ public class ScheduleDomain {
     private UserDomain employeeDomain;
     private PaymentTypeDomain paymentTypeDomain;
 
-    public ScheduleDomain(Integer id, LocalDateTime createdAt, LocalDateTime updatedAt, Status status, LocalDateTime appointmentDatetime, String transactionHash, Integer duration, UserDomain clientDomain, UserDomain employeeDomain, PaymentTypeDomain paymentTypeDomain) {
+    private List<ScheduleItemDomain> items;
+
+    public ScheduleDomain(Integer id, LocalDateTime createdAt, LocalDateTime updatedAt, Status status, LocalDateTime appointmentDatetime, String transactionHash, Integer duration, UserDomain clientDomain, UserDomain employeeDomain, PaymentTypeDomain paymentTypeDomain, List<ScheduleItemDomain> items) {
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -27,10 +30,10 @@ public class ScheduleDomain {
         this.clientDomain = clientDomain;
         this.employeeDomain = employeeDomain;
         this.paymentTypeDomain = paymentTypeDomain;
+        this.items = items;
     }
 
     public ScheduleDomain() {
-
     }
 
     public Integer getId() {
@@ -89,27 +92,35 @@ public class ScheduleDomain {
         this.duration = duration;
     }
 
-    public UserDomain getClient() {
+    public UserDomain getClientDomain() {
         return clientDomain;
     }
 
-    public void setClient(UserDomain clientDomain) {
+    public void setClientDomain(UserDomain clientDomain) {
         this.clientDomain = clientDomain;
     }
 
-    public UserDomain getEmployee() {
+    public UserDomain getEmployeeDomain() {
         return employeeDomain;
     }
 
-    public void setEmployee(UserDomain employeeDomain) {
+    public void setEmployeeDomain(UserDomain employeeDomain) {
         this.employeeDomain = employeeDomain;
     }
 
-    public PaymentTypeDomain getPaymentType() {
+    public PaymentTypeDomain getPaymentTypeDomain() {
         return paymentTypeDomain;
     }
 
-    public void setPaymentType(PaymentTypeDomain paymentTypeDomain) {
+    public void setPaymentTypeDomain(PaymentTypeDomain paymentTypeDomain) {
         this.paymentTypeDomain = paymentTypeDomain;
+    }
+
+    public List<ScheduleItemDomain> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ScheduleItemDomain> items) {
+        this.items = items;
     }
 }

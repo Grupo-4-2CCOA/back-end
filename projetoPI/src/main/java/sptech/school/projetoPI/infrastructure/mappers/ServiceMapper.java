@@ -101,7 +101,9 @@ public class ServiceMapper {
         domain.setCreatedAt(jpaEntity.getCreatedAt());
         domain.setUpdatedAt(jpaEntity.getUpdatedAt());
 
-        domain.setCategory(CategoryMapper.toDomain(jpaEntity.getCategory().getId()));
+        if (jpaEntity.getCategory() != null) {
+            domain.setCategory(CategoryMapper.toDomain(jpaEntity.getCategory()));
+        }
 
         return domain;
     }

@@ -33,13 +33,13 @@ public class CreateScheduleUseCase {
 //                    "O cliente com o ID %d não foi encontrado".formatted(scheduleDomain.getClientDomain().getId())
 //            );
 //        }
-
+//
 //        if (!userGateway.existsByIdAndActiveTrue(scheduleDomain.getEmployeeDomain().getId())) {
 //            throw new RelatedEntityNotFoundException(
 //                    "O funcionário com o ID %d não foi encontrado".formatted(scheduleDomain.getEmployeeDomain().getId())
 //            );
 //        }
-
+//
 //        if (scheduleDomain.getPaymentTypeDomain() != null && !paymentTypeGateway.existsByIdAndActiveTrue(scheduleDomain.getPaymentTypeDomain().getId())) {
 //            throw new RelatedEntityNotFoundException(
 //                    "O tipo de pagamento com o ID %d não foi encontrado".formatted(scheduleDomain.getPaymentTypeDomain().getId())

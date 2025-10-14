@@ -9,6 +9,7 @@ import sptech.school.projetoPI.infrastructure.persistence.entity.ScheduleItemJpa
 import sptech.school.projetoPI.infrastructure.persistence.entity.ScheduleJpaEntity;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class ScheduleMapper {
@@ -62,57 +63,56 @@ public class ScheduleMapper {
                 .build();
     }
 
-    // Mapeamento de Domínio para Entidade de Persistência (usado no Repositório)
     public static ScheduleJpaEntity toJpaEntity(ScheduleDomain domain) {
         if (domain == null) return null;
 
-        ScheduleJpaEntity jpaEntity = new ScheduleJpaEntity();
-        jpaEntity.setId(domain.getId());
-        jpaEntity.setStatus(domain.getStatus());
-        jpaEntity.setAppointmentDatetime(domain.getAppointmentDatetime());
-        jpaEntity.setCreatedAt(domain.getCreatedAt());
-        jpaEntity.setUpdatedAt(domain.getUpdatedAt());
+        ScheduleJpaEntity jpa = new ScheduleJpaEntity();
+        jpa.setId(domain.getId());
+        jpa.setCreatedAt(domain.getCreatedAt());
+        jpa.setUpdatedAt(domain.getUpdatedAt());
+        jpa.setStatus(domain.getStatus());
+        jpa.setAppointmentDatetime(domain.getAppointmentDatetime());
+        jpa.setTransactionHash(domain.getTransactionHash());
+        jpa.setDuration(domain.getDuration());
 
-        // Delega o mapeamento de entidades aninhadas
-        if (domain.getClientDomain() != null) {
-            jpaEntity.setClient(UserMapper.toJpaEntity(domain.getClientDomain()));
+        // Relacionamentos simples (evita loop)
+        jpa.setClient(UserMapper.toJpaEntitySimple(domain.getClientDomain()));
+        jpa.setEmployee(UserMapper.toJpaEntitySimple(domain.getEmployeeDomain()));
+        jpa.setPaymentType(PaymentTypeMapper.toJpaEntity(domain.getPaymentTypeDomain()));
+
+        // Itens
+        if (domain.getItems() != null) {
+            jpa.setItems(domain.getItems().stream()
+                    .map(ScheduleItemMapper::toJpaEntity)
+                    .collect(Collectors.toList()));
+            jpa.getItems().forEach(item -> item.setSchedule(jpa));
         }
 
-        if (domain.getEmployeeDomain() != null) {
-            jpaEntity.setEmployee(UserMapper.toJpaEntity(domain.getEmployeeDomain()));
-        }
-
-        if (domain.getPaymentTypeDomain() != null) {
-            jpaEntity.setPaymentType(PaymentTypeMapper.toJpaEntity(domain.getPaymentTypeDomain()));
-        }
-
-        if (domain.getItems() != null && !domain.getItems().isEmpty()) {
-
-            List<ScheduleItemJpaEntity> itemEntities = ScheduleItemMapper.toJpaEntityList(domain.getItems());
-            itemEntities.forEach(item -> item.setSchedule(jpaEntity));
-
-            jpaEntity.setItems(itemEntities);
-        }
-
-        return jpaEntity;
+        return jpa;
     }
 
-    // Mapeamento de Entidade de Persistência para Domínio (usado no Repositório)
-    public static ScheduleDomain toDomain(ScheduleJpaEntity jpaEntity) {
-        if (jpaEntity == null) return null;
+    public static ScheduleDomain toDomain(ScheduleJpaEntity jpa) {
+        if (jpa == null) return null;
 
         ScheduleDomain domain = new ScheduleDomain();
-        domain.setId(jpaEntity.getId());
-        domain.setStatus(jpaEntity.getStatus());
-        domain.setAppointmentDatetime(jpaEntity.getAppointmentDatetime());
-        domain.setCreatedAt(jpaEntity.getCreatedAt());
-        domain.setUpdatedAt(jpaEntity.getUpdatedAt());
+        domain.setId(jpa.getId());
+        domain.setCreatedAt(jpa.getCreatedAt());
+        domain.setUpdatedAt(jpa.getUpdatedAt());
+        domain.setStatus(jpa.getStatus());
+        domain.setAppointmentDatetime(jpa.getAppointmentDatetime());
+        domain.setTransactionHash(jpa.getTransactionHash());
+        domain.setDuration(jpa.getDuration());
+        domain.setClientDomain(UserMapper.toDomain(jpa.getClient()));
+        domain.setEmployeeDomain(UserMapper.toDomain(jpa.getEmployee()));
+        domain.setPaymentTypeDomain(PaymentTypeMapper.toDomain(jpa.getPaymentType()));
 
-        // Delega o mapeamento de entidades aninhadas
-        domain.setClientDomain(UserMapper.toDomain(jpaEntity.getClient()));
-        domain.setEmployeeDomain(UserMapper.toDomain(jpaEntity.getEmployee()));
-        domain.setPaymentTypeDomain(PaymentTypeMapper.toDomain(jpaEntity.getPaymentType()));
+        if (jpa.getItems() != null) {
+            domain.setItems(jpa.getItems().stream()
+                    .map(ScheduleItemMapper::toDomain)
+                    .collect(Collectors.toList()));
+        }
 
         return domain;
     }
+
 }

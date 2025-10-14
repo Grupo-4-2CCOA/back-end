@@ -76,7 +76,6 @@ public class CategoryMapper {
         domain.setId(jpa.getId());
         domain.setName(jpa.getName());
         domain.setDescription(jpa.getDescription());
-        // A propriedade 'active' foi corrigida para usar o getter da entidade JPA
         domain.setActive(jpa.getActive());
         domain.setCreatedAt(jpa.getCreatedAt());
         domain.setUpdatedAt(jpa.getUpdatedAt());

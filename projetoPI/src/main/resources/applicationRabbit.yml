@@ -1,0 +1,11 @@
+Spring:
+  application:
+    name: ProducerRabbitMQ
+  rabbitmq:
+    host: localhost
+    port: 5672
+    Username: guest
+    password: guest
+
+Server:
+  Port: 8080

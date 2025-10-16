@@ -1,5 +1,7 @@
 package sptech.school.projetoPI.infrastructure.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -10,12 +12,15 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sptech.school.projetoPI.Config.rabbitMQconfig;
 import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.core.application.usecases.schedule.*;
 import sptech.school.projetoPI.core.domains.ScheduleDomain;
@@ -41,6 +46,9 @@ public class ScheduleController {
     private final GetServiceNamesByScheduleIdUseCase getServiceNamesByScheduleIdUseCase;
     private final GetAllSchedulesByClient getAllSchedulesByClient;
 
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
     @SecurityRequirement(name = "Bearer")
     @PostMapping
     @Operation(summary = "Cadastrar agendamento", description = "Cadastra um novo agendamento no sistema.")
@@ -64,7 +72,19 @@ public class ScheduleController {
     public ResponseEntity<ScheduleResumeResponseDto> createSchedule(@Valid @RequestBody ScheduleRequestDto requestDto) {
         ScheduleDomain scheduleDomain = ScheduleMapper.toDomain(requestDto);
         ScheduleDomain created = createScheduleUseCase.execute(scheduleDomain);
-        return new ResponseEntity<>(ScheduleMapper.toResumeResponseDto(created), HttpStatus.CREATED);
+        ScheduleResumeResponseDto responseDto = ScheduleMapper.toResumeResponseDto(created);
+
+        //Envia para a fila RabbitMQ
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            String ScheduleJson = mapper.writeValueAsString(responseDto); // Converte o objeto em JSON
+            rabbitTemplate.convertAndSend(rabbitMQconfig.QUEUE_NAME, ScheduleJson);
+            System.out.println("Serviço enviado com sucesso para a fila RabbitMQ!");
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            System.err.println("Erro ao converter o objeto para JSON antes de enviar ao RabbitMQ.");
+        }
+        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
     @SecurityRequirement(name = "Bearer")

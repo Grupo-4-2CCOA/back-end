@@ -1,0 +1,76 @@
+name: CI/CD para EC2 privada
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do Repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: Executar Testes automatizados
+        run: mvn clean test    
+        working-directory: ./backend
+
+      - name: Gerar Artefato .JAR
+        run: mvn package -DskipTests=true 
+        working-directory: ./backend
+
+      - name: Renomear JAR para beauty_barreto.jar
+        run: 
+          JAR_NAME=$(ls target/*.jar)
+          mv $JAR_NAME target/beauty_barreto.jar
+          echo "Renomeado para target/beauty_barreto.jar"
+        working-directory: ./backend
+
+      - name: Copiar arquivos e Deploy (Usando SSH com rsync)
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: /home/${{ secrets.REMOTE_USER }}/backend
+          ARGS: "-rltgoDzvO --delete" 
+          SOURCE: "./backend/target/*.jar" 
+          
+      - name: Executar Comando Shell na EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.REMOTE_HOST }} 
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}  
+
+          script: |
+            set -e
+            ARQUIVO_PEM="/home/${{ secrets.REMOTE_USER }}/chavetmp.pem"
+            echo "Arquivo pem que sera criado: $ARQUIVO_PEM"
+
+            rm $ARQUIVO_PEM -f
+            echo "Arquivo .pem excluído"
+            
+            echo "${{ secrets.EC2_SSH_KEY }}" > $ARQUIVO_PEM || true
+            echo "Arquivo pem criado"
+            chmod 400 $ARQUIVO_PEM || true
+            echo "Permissões ao pem concedidas"
+
+            USUARIO_IP=${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST_PRIVADO }}
+            echo "usuario@ip configurado: $USUARIO_IP"
+
+            echo "Tentando enviar arquivo /home/${{ secrets.REMOTE_USER }}/backend/app_loko.jar"
+            scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM /home/${{ secrets.REMOTE_USER }}/backend/app_loko.jar $USUARIO_IP:/usr/share/api/app_loko.jar
+            echo "Arquivo jar enviado ao ec2 privado"
+
+            ssh -i $ARQUIVO_PEM $USUARIO_IP 'sudo docker compose restart api'            
+            echo "servico reiniciado via docker compose"

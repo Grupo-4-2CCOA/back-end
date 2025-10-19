@@ -78,8 +78,14 @@ jobs:
             echo "usuario@ip configurado: $USUARIO_IP"
 
             echo "Tentando enviar arquivo /home/${{ secrets.REMOTE_USER }}/backend/beauty_barreto.jar"
-            scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM /home/${{ secrets.REMOTE_USER }}/backend/beauty_barreto.jar $USUARIO_IP:/usr/share/api/beauty_barreto.jar
+            scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM /home/${{ secrets.REMOTE_USER }}/backend/beauty_barreto.jar $USUARIO_IP:~/beauty_barreto.jar
             echo "Arquivo jar enviado ao ec2 privado"
+
+            echo "Movendo o arquivo para a pasta correta"
+            PATH_DIR="/usr/share/api/beauty_barreto.jar"
+            ssh -i $ARQUIVO_PEM $USUARIO_IP "sudo mkdir -p $(dirname $PATH_DIR)"
+            ssh -i $ARQUIVO_PEM $USUARIO_IP "mv ~/beauty_barreto.jar $PATH_DIR"
+            echo "Arquivo movido com sucesso"
 
             ssh -i $ARQUIVO_PEM $USUARIO_IP 'sudo docker compose restart api'            
             echo "servico reiniciado via docker compose"

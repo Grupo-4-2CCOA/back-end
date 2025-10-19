@@ -34,7 +34,7 @@ jobs:
       #   working-directory: ./projetoPI
 
       - name: Gerar Artefato .JAR
-        run: mvn package -DskipTests=true 
+        run: mvn package -Dmaven.test.skip=true
         working-directory: ./projetoPI
 
       - name: Renomear JAR para beauty_barreto.jar

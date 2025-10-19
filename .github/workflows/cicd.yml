@@ -69,7 +69,7 @@ jobs:
             rm $ARQUIVO_PEM -f
             echo "Arquivo .pem excluído"
             
-            echo "${{ secrets.EC2_SSH_KEY }}" > $ARQUIVO_PEM || true
+            echo "${{ secrets.PRIVATE_EC2_SSH_KEY }}" > $ARQUIVO_PEM || true
             echo "Arquivo pem criado"
             chmod 400 $ARQUIVO_PEM || true
             echo "Permissões ao pem concedidas"

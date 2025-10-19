@@ -1,5 +1,6 @@
 package sptech.school.projetoPI.infrastructure.di;
 
+import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import sptech.school.projetoPI.core.application.usecases.availability.*;
@@ -32,5 +33,15 @@ public class AvailabilityConfig {
     public DeleteAvailabilityByIdUseCase deleteAvailabilityByIdUseCase(AvailabilityGateway availabilityGateway) {
         return new DeleteAvailabilityByIdUseCase(availabilityGateway);
     }
+
+  @Configuration
+  public static class RabbitMQconfig {
+      public static final String QUEUE_NAME = "Schedule";
+
+      @Bean
+      public Queue queue() {
+          return new Queue(QUEUE_NAME, true);
+      }
+  }
 }
 

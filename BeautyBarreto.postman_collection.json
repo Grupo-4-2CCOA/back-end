@@ -1,0 +1,42 @@
+{
+	"info": {
+		"_postman_id": "436f437c-58ba-4bde-ac5f-a4b14e01bf69",
+		"name": "BeautyBarreto",
+		"description": "Postman Collection para requisições de teste ou comunicação direta à API backend em springboot do projeto Beauty Barreto.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30577299"
+	},
+	"item": [
+		{
+			"name": "role",
+			"item": [
+				{
+					"name": "CreateRole",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"4r4er234\",\r\n  \"description\": \"description_96b2c1c56fe3\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-localhost}}/cargos",
+							"host": [
+								"{{url-localhost}}"
+							],
+							"path": [
+								"cargos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

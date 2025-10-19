@@ -87,5 +87,5 @@ jobs:
             ssh -i $ARQUIVO_PEM $USUARIO_IP "sudo mv ~/beauty_barreto.jar $PATH_DIR"
             echo "Arquivo movido com sucesso"
 
-            ssh -i $ARQUIVO_PEM $USUARIO_IP 'sudo docker compose restart api'            
+            ssh -i $ARQUIVO_PEM $USUARIO_IP "sudo docker compose restart api"
             echo "servico reiniciado via docker compose"

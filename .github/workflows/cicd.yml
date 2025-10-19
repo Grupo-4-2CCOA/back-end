@@ -39,9 +39,9 @@ jobs:
 
       - name: Renomear JAR para beauty_barreto.jar
         run: 
-          JAR_NAME=$(ls target/*.jar)
-          mv $JAR_NAME target/beauty_barreto.jar
-          echo "Renomeado para target/beauty_barreto.jar"
+          JAR_NAME=$(ls ./projetoPI/target/*.jar)
+          mv $JAR_NAME ./projetoPI/target/beauty_barreto.jar
+          echo "Renomeado para ./projetoPI/target/beauty_barreto.jar"
         working-directory: ./projetoPI
 
       - name: Copiar arquivos e Deploy (Usando SSH com rsync)

@@ -50,7 +50,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ matrix.host.remote_host }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: /home/${{ secrets.REMOTE_USER }}/backend
+          TARGET: /home/${{ secrets.REMOTE_USER }}/backend/
           ARGS: "-rltgoDzvO --delete" 
           SOURCE: "./projetoPI/target/*.jar" 
           

@@ -84,7 +84,7 @@ jobs:
             echo "Movendo o arquivo para a pasta correta"
             PATH_DIR="/usr/share/api/beauty_barreto.jar"
             ssh -i $ARQUIVO_PEM $USUARIO_IP "sudo mkdir -p $(dirname $PATH_DIR)"
-            ssh -i $ARQUIVO_PEM $USUARIO_IP "mv ~/beauty_barreto.jar $PATH_DIR"
+            ssh -i $ARQUIVO_PEM $USUARIO_IP "sudo mv ~/beauty_barreto.jar $PATH_DIR"
             echo "Arquivo movido com sucesso"
 
             ssh -i $ARQUIVO_PEM $USUARIO_IP 'sudo docker compose restart api'            

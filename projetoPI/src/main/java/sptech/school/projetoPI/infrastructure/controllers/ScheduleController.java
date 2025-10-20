@@ -26,7 +26,7 @@ import sptech.school.projetoPI.core.domains.ScheduleDomain;
 import sptech.school.projetoPI.core.application.dto.schedule.ScheduleRequestDto;
 import sptech.school.projetoPI.core.application.dto.schedule.ScheduleResponseDto;
 import sptech.school.projetoPI.core.application.dto.schedule.ScheduleResumeResponseDto;
-import sptech.school.projetoPI.infrastructure.di.AvailabilityConfig;
+import sptech.school.projetoPI.infrastructure.di.RabbitMqConfig;
 import sptech.school.projetoPI.infrastructure.mappers.ScheduleMapper;
 
 import java.util.List;
@@ -77,7 +77,7 @@ public class ScheduleController {
         try {
             ObjectMapper mapper = new ObjectMapper();
             String ScheduleJson = mapper.writeValueAsString(responseDto); // Converte o objeto em JSON
-            rabbitTemplate.convertAndSend(AvailabilityConfig.RabbitMQconfig.QUEUE_NAME, ScheduleJson);
+            rabbitTemplate.convertAndSend(RabbitMqConfig.QUEUE_NAME, ScheduleJson);
             System.out.println("Serviço enviado com sucesso para a fila RabbitMQ!");
         } catch (JsonProcessingException e) {
             e.printStackTrace();

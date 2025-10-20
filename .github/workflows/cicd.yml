@@ -73,9 +73,7 @@ jobs:
             echo "Arquivo jar enviado ao ec2 privado"
 
             echo "Movendo o arquivo para a pasta correta"
-            PATH_DIR="/usr/share/api/beauty_barreto.jar"
-            ssh -i $INSTANCE_KEY $USUARIO_IP "sudo mkdir -p $(dirname $PATH_DIR)"
-            ssh -i $INSTANCE_KEY $USUARIO_IP "sudo mv ~/beauty_barreto.jar $PATH_DIR"
+            ssh -i $INSTANCE_KEY $USUARIO_IP "sudo mv ~/beauty_barreto.jar /usr/share/api/beauty_barreto.jar"
             echo "Arquivo movido com sucesso"
 
             ssh -i $INSTANCE_KEY $USUARIO_IP "sudo docker compose restart api"

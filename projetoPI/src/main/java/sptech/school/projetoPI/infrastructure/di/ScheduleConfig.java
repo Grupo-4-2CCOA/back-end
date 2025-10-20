@@ -9,8 +9,8 @@ import sptech.school.projetoPI.core.gateways.*;
 public class ScheduleConfig {
 
     @Bean
-    public CreateScheduleUseCase createScheduleUseCase(ScheduleGateway scheduleGateway, ClientGateway clientGateway, EmployeeGateway employeeGateway, PaymentTypeGateway paymentTypeGateway) {
-        return new CreateScheduleUseCase(scheduleGateway, clientGateway, employeeGateway, paymentTypeGateway);
+    public CreateScheduleUseCase createScheduleUseCase(ScheduleGateway scheduleGateway, UserGateway userGateway, PaymentTypeGateway paymentTypeGateway) {
+        return new CreateScheduleUseCase(scheduleGateway, userGateway, paymentTypeGateway);
     }
 
     @Bean
@@ -29,8 +29,8 @@ public class ScheduleConfig {
     }
 
     @Bean
-    public UpdateScheduleByIdUseCase updateScheduleByIdUseCase(ScheduleGateway scheduleGateway, ClientGateway clientGateway, EmployeeGateway employeeGateway, PaymentTypeGateway paymentTypeGateway) {
-        return new UpdateScheduleByIdUseCase(scheduleGateway, clientGateway, employeeGateway, paymentTypeGateway);
+    public UpdateScheduleByIdUseCase updateScheduleByIdUseCase(ScheduleGateway scheduleGateway, UserGateway userGateway, PaymentTypeGateway paymentTypeGateway) {
+        return new UpdateScheduleByIdUseCase(scheduleGateway, userGateway, paymentTypeGateway);
     }
 
     @Bean

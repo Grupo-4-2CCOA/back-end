@@ -3,8 +3,10 @@ package sptech.school.projetoPI.core.application.dto.schedule;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import sptech.school.projetoPI.core.application.dto.scheduleItem.ScheduleItemRequestDto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -37,4 +39,7 @@ public class ScheduleRequestDto {
 
     @Positive(message = "ID inválido para Tipo de Pagamento")
     private Integer paymentType;
+
+    @NotEmpty(message = "O agendamento deve conter pelo menos um item (serviço/produto)")
+    private List<ScheduleItemRequestDto> items;
 }

@@ -4,22 +4,19 @@ import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionCla
 import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.RelatedEntityNotFoundException;
 import sptech.school.projetoPI.core.domains.ScheduleDomain;
-import sptech.school.projetoPI.core.gateways.ClientGateway;
-import sptech.school.projetoPI.core.gateways.EmployeeGateway;
 import sptech.school.projetoPI.core.gateways.PaymentTypeGateway;
 import sptech.school.projetoPI.core.gateways.ScheduleGateway;
+import sptech.school.projetoPI.core.gateways.UserGateway;
 
 public class UpdateScheduleByIdUseCase {
 
     private final ScheduleGateway scheduleGateway;
-    private final ClientGateway clientGateway;
-    private final EmployeeGateway employeeGateway;
+    private final UserGateway userGateway;
     private final PaymentTypeGateway paymentTypeGateway;
 
-    public UpdateScheduleByIdUseCase(ScheduleGateway scheduleGateway, ClientGateway clientGateway, EmployeeGateway employeeGateway, PaymentTypeGateway paymentTypeGateway) {
+    public UpdateScheduleByIdUseCase(ScheduleGateway scheduleGateway, UserGateway userGateway, PaymentTypeGateway paymentTypeGateway) {
         this.scheduleGateway = scheduleGateway;
-        this.clientGateway = clientGateway;
-        this.employeeGateway = employeeGateway;
+        this.userGateway = userGateway;
         this.paymentTypeGateway = paymentTypeGateway;
     }
 
@@ -36,21 +33,21 @@ public class UpdateScheduleByIdUseCase {
             );
         }
 
-        if (!clientGateway.existsByIdAndActiveTrue(scheduleDomain.getClient().getId())) {
+        if (!userGateway.existsByIdAndActiveTrue(scheduleDomain.getClientDomain().getId())) {
             throw new RelatedEntityNotFoundException(
-                    "O cliente com o ID %d não foi encontrado".formatted(scheduleDomain.getClient().getId())
+                    "O cliente com o ID %d não foi encontrado".formatted(scheduleDomain.getClientDomain().getId())
             );
         }
 
-        if (!employeeGateway.existsByIdAndActiveTrue(scheduleDomain.getEmployee().getId())) {
+        if (!userGateway.existsByIdAndActiveTrue(scheduleDomain.getEmployeeDomain().getId())) {
             throw new RelatedEntityNotFoundException(
-                    "O funcionário com o ID %d não foi encontrado".formatted(scheduleDomain.getEmployee().getId())
+                    "O funcionário com o ID %d não foi encontrado".formatted(scheduleDomain.getEmployeeDomain().getId())
             );
         }
 
-        if (scheduleDomain.getPaymentType() != null && !paymentTypeGateway.existsByIdAndActiveTrue(scheduleDomain.getPaymentType().getId())) {
+        if (scheduleDomain.getPaymentTypeDomain() != null && !paymentTypeGateway.existsByIdAndActiveTrue(scheduleDomain.getPaymentTypeDomain().getId())) {
             throw new RelatedEntityNotFoundException(
-                    "O tipo de pagamento com o ID %d não foi encontrado".formatted(scheduleDomain.getPaymentType().getId())
+                    "O tipo de pagamento com o ID %d não foi encontrado".formatted(scheduleDomain.getPaymentTypeDomain().getId())
             );
         }
 

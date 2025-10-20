@@ -1,0 +1,91 @@
+name: CI/CD para EC2 privada
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        host: 
+          - name: "EC2-AZ1A-PUBLIC"
+            remote_host: 3.93.88.182
+
+          - name: "EC2-AZ1B-PUBLIC"
+            remote_host: 44.214.171.116
+
+    steps:
+      - name: Checkout do Repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      # - name: Executar Testes automatizados
+      #   run: mvn clean test    
+      #   working-directory: ./projetoPI
+
+      - name: Gerar Artefato .JAR
+        run: mvn package -Dmaven.test.skip=true
+        working-directory: ./projetoPI
+
+      - name: Renomear JAR para beauty_barreto.jar
+        run: |
+          JAR_NAME=$(ls target/*.jar)
+          mv $JAR_NAME target/beauty_barreto.jar
+          echo "Renomeado para target/beauty_barreto.jar"
+        working-directory: ./projetoPI
+
+      - name: Copiar arquivos e Deploy (Usando SSH com rsync)
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ matrix.host.remote_host }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: /home/${{ secrets.REMOTE_USER }}/backend/
+          ARGS: "-rltgoDzvO --delete" 
+          SOURCE: "./projetoPI/target/*.jar" 
+          
+      - name: Executar Comando Shell na EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ matrix.host.remote_host }} 
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}  
+
+          script: |
+            set -e
+            ARQUIVO_PEM="/home/${{ secrets.REMOTE_USER }}/chavetmp.pem"
+            echo "Arquivo pem que sera criado: $ARQUIVO_PEM"
+
+            rm $ARQUIVO_PEM -f
+            echo "Arquivo .pem excluído"
+            
+            echo "${{ secrets.PRIVATE_EC2_SSH_KEY }}" > $ARQUIVO_PEM || true
+            echo "Arquivo pem criado"
+            chmod 400 $ARQUIVO_PEM || true
+            echo "Permissões ao pem concedidas"
+
+            USUARIO_IP=${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST_PRIVADO }}
+            echo "usuario@ip configurado: $USUARIO_IP"
+
+            echo "Tentando enviar arquivo /home/${{ secrets.REMOTE_USER }}/backend/beauty_barreto.jar"
+            scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM /home/${{ secrets.REMOTE_USER }}/backend/beauty_barreto.jar $USUARIO_IP:~/beauty_barreto.jar
+            echo "Arquivo jar enviado ao ec2 privado"
+
+            echo "Movendo o arquivo para a pasta correta"
+            PATH_DIR="/usr/share/api/beauty_barreto.jar"
+            ssh -i $ARQUIVO_PEM $USUARIO_IP "sudo mkdir -p $(dirname $PATH_DIR)"
+            ssh -i $ARQUIVO_PEM $USUARIO_IP "sudo mv ~/beauty_barreto.jar $PATH_DIR"
+            echo "Arquivo movido com sucesso"
+
+            ssh -i $ARQUIVO_PEM $USUARIO_IP "sudo docker compose restart api"
+            echo "servico reiniciado via docker compose"

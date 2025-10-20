@@ -10,25 +10,24 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import sptech.school.projetoPI.core.gateways.ClientGateway;
-import sptech.school.projetoPI.core.gateways.EmployeeGateway;
 import sptech.school.projetoPI.core.application.dto.login.UserDetailsDto;
 import sptech.school.projetoPI.core.application.dto.login.UserLoginDto;
+import sptech.school.projetoPI.core.domains.UserDomain;
+import sptech.school.projetoPI.core.gateways.UserGateway;
 import sptech.school.projetoPI.infrastructure.mappers.UserMapper;
 import sptech.school.projetoPI.core.application.dto.login.UserTokenDto;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService implements UserDetailsService {
-    private final ClientGateway clientGateway;
-    private final EmployeeGateway employeeGateway;
-    private final GerenciadorTokenJwt gerenciadorTokenJwt;
+
+    private final UserGateway userGateway;
+    private final JwtService jwtService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return clientGateway.findByEmail(username)
+        return userGateway.findByEmail(username)
                 .map(UserDetailsDto::new)
-                .or(() -> employeeGateway.findByEmail(username).map(UserDetailsDto::new))
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + username));
     }
 
@@ -39,12 +38,17 @@ public class AuthService implements UserDetailsService {
         Authentication auth = authenticationManager.authenticate(credentials);
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-        String token = gerenciadorTokenJwt.generateToken(auth);
+        UserDetailsDto userDetails = (UserDetailsDto) auth.getPrincipal();
 
-        return clientGateway.findByEmail(loginDto.getEmail())
-                .map(client -> UserMapper.of(client, token))
-                .orElseGet(() -> employeeGateway.findByEmail(loginDto.getEmail())
-                        .map(employee -> UserMapper.of(employee, token))
-                        .orElseThrow(() -> new ResponseStatusException(404, "Email não encontrado", null)));
+        String token = jwtService.generateToken(
+                userDetails.getUsername(), // email
+                userDetails.getRoleName(), // nome da role
+                userDetails.getId()
+        );
+
+        UserDomain user = userGateway.findByEmail(loginDto.getEmail())
+                .orElseThrow(() -> new ResponseStatusException(404, "Email não encontrado", null));
+
+        return UserMapper.of(user, token);
     }
 }

@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/**", "/oauth2/**", "/login/**", "/disponibilidades/**",
                                 "/categorias/**","/clientes/**", "/funcionarios/**", "/feedbacks/**", "/pagamentos/**",
-                                "/cargos/**", "/agendamentos/**", "/itens-agendamento/**", "/servicos/**").permitAll()
+                                "/cargos/**", "/agendamento" ,"/agendamentos/**", "/itens-agendamento/**", "/servicos/**").permitAll()
 
                         .requestMatchers("/admin/**").hasAnyRole("OWNER", "ADMIN", "FUNC", "EMPLOYEE")
                         .requestMatchers("/agendamento/**").hasAnyRole("USER", "ADMIN", "FUNC", "EMPLOYEE")

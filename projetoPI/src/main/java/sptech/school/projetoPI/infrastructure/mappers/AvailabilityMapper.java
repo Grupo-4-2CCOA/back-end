@@ -1,13 +1,14 @@
 package sptech.school.projetoPI.infrastructure.mappers;
 
+import sptech.school.projetoPI.core.application.dto.user.UserResumeResponseDto;
 import sptech.school.projetoPI.core.domains.AvailabilityDomain;
-import sptech.school.projetoPI.core.domains.EmployeeDomain;
 import sptech.school.projetoPI.core.application.dto.availability.AvailabilityRequestDto;
 import sptech.school.projetoPI.core.application.dto.availability.AvailabilityResponseDto;
 import sptech.school.projetoPI.core.application.dto.availability.AvailabilityResumeResponseDto;
+import sptech.school.projetoPI.core.domains.UserDomain;
 import sptech.school.projetoPI.infrastructure.persistence.entity.AvailabilityJpaEntity;
-import sptech.school.projetoPI.core.application.dto.employee.EmployeeResumeResponseDto;
-import sptech.school.projetoPI.infrastructure.persistence.entity.EmployeeJpaEntity;
+import sptech.school.projetoPI.core.application.dto.user.employee.EmployeeResumeResponseDto;
+import sptech.school.projetoPI.infrastructure.persistence.entity.UserJpaEntity;
 
 public class AvailabilityMapper {
 
@@ -17,8 +18,8 @@ public class AvailabilityMapper {
             return null;
         }
 
-        EmployeeDomain employeeDomain = (requestObject.getEmployee() != null) ?
-                EmployeeMapper.toDomain(requestObject.getEmployee()) : null;
+        UserDomain employeeDomain = (requestObject.getEmployee() != null) ?
+                UserMapper.toDomain(requestObject.getEmployee()) : null;
 
         AvailabilityDomain availabilityDomain = new AvailabilityDomain();
         availabilityDomain.setDay(requestObject.getDay());
@@ -34,8 +35,8 @@ public class AvailabilityMapper {
             return null;
         }
 
-        EmployeeResumeResponseDto employeeDto = (domain.getEmployee() != null) ?
-                EmployeeMapper.toResumeResponseDto(domain.getEmployee()) : null;
+        UserResumeResponseDto employeeDto = (domain.getEmployee() != null) ?
+                UserMapper.toResumeResponseDto(domain.getEmployee()) : null;
 
         return AvailabilityResponseDto.builder()
                 .id(domain.getId())
@@ -55,8 +56,8 @@ public class AvailabilityMapper {
         }
 
         // Mapeia o Employee do domínio para a entidade JPA
-        EmployeeJpaEntity employeeJpa = (domain.getEmployee() != null) ?
-                EmployeeMapper.toJpaEntity(domain.getEmployee()) : null;
+        UserJpaEntity employeeJpa = (domain.getEmployee() != null) ?
+                UserMapper.toJpaEntity(domain.getEmployee()) : null;
 
         return AvailabilityJpaEntity.builder()
                 .id(domain.getId())
@@ -77,8 +78,8 @@ public class AvailabilityMapper {
         }
 
         // Mapeia o Employee da entidade JPA para o domínio
-        EmployeeDomain employeeDomain = (jpaEntity.getEmployee() != null) ?
-                EmployeeMapper.toDomain(jpaEntity.getEmployee()) : null;
+        UserDomain employeeDomain = (jpaEntity.getEmployee() != null) ?
+                UserMapper.toDomain(jpaEntity.getEmployee()) : null;
 
         AvailabilityDomain availabilityDomain = new AvailabilityDomain();
         availabilityDomain.setId(jpaEntity.getId());

@@ -60,7 +60,7 @@ public class ServiceAdapter implements ServiceGateway {
 
     @Override
     public boolean existsByIdAndActiveFalse(Integer id) {
-        return jpaRepository.existsByIdAndActiveFalse(id);
+        return jpaRepository.existsByIdAndIsActiveFalse(id);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class ServiceAdapter implements ServiceGateway {
 
     @Override
     public Optional<ServiceDomain> findByIdAndActiveTrue(Integer id) {
-        return jpaRepository.findByIdAndActiveTrue(id).map(ServiceMapper::toDomain);
+        return jpaRepository.findByIdAndIsActiveTrue(id).map(ServiceMapper::toDomain);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class ServiceAdapter implements ServiceGateway {
 
     @Override
     public List<ServiceDomain> findAllByActiveTrue() {
-        return jpaRepository.findAllByActiveTrue().stream()
+        return jpaRepository.findAllByIsActiveTrue().stream()
                 .map(ServiceMapper::toDomain)
                 .collect(Collectors.toList());
     }

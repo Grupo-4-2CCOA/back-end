@@ -11,10 +11,10 @@ public interface JpaCategoryRepository extends JpaRepository<CategoryJpaEntity, 
     CategoryDomain save(CategoryDomain categoryDomain);
     boolean existsByName(String name);
     boolean existsById(Integer id);
-    boolean existsByIdAndActiveTrue(Integer id);
-    boolean existsByIdAndActiveFalse(Integer id);
+    boolean existsByIdAndIsActiveTrue(Integer id);
+    boolean existsByIdAndIsActiveFalse(Integer id);
     boolean existsByIdNotAndName(Integer id, String name);
-    Optional<CategoryJpaEntity> findByIdAndActiveTrue(Integer id);
-    List<CategoryJpaEntity> findAllByActiveTrue();
+    Optional<CategoryJpaEntity> findByIdAndIsActiveTrue(Integer id);
+    List<CategoryJpaEntity> findAllByIsActiveTrue();
     Optional<CategoryJpaEntity> findById(Integer id);
 }

@@ -16,10 +16,10 @@ public interface JpaUserRepository extends JpaRepository<UserJpaEntity, Integer>
     boolean existsByIdNotAndCpf(Integer id, String cpf);
     boolean existsByIdNotAndEmailIgnoreCase(Integer id, String email);
     boolean existsByIdNotAndPhone(Integer id, String phone);
-    boolean existsByIdAndActiveFalse(Integer id);
-    boolean existsByIdAndActiveTrue(Integer id);
-    List<UserJpaEntity> findAllByActiveTrue();
-    Optional<UserJpaEntity> findByIdAndActiveTrue(Integer id);
+    boolean existsByIdAndIsActiveFalse(Integer id);
+    boolean existsByIdAndIsActiveTrue(Integer id);
+    List<UserJpaEntity> findAllByIsActiveTrue();
+    Optional<UserJpaEntity> findByIdAndIsActiveTrue(Integer id);
     Optional<UserJpaEntity> findByEmail(String email);
     boolean existsByRoleId(Integer id);
     boolean existsByRoleName(String roleName);

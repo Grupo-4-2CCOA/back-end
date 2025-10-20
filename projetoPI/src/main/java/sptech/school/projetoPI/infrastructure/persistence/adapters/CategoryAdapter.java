@@ -37,12 +37,12 @@ public class CategoryAdapter implements CategoryGateway {
 
     @Override
     public boolean existsByIdAndActiveTrue(Integer id) {
-        return repository.existsByIdAndActiveTrue(id);
+        return repository.existsByIdAndIsActiveTrue(id);
     }
 
     @Override
     public boolean existsByIdAndActiveFalse(Integer id) {
-        return repository.existsByIdAndActiveFalse(id);
+        return repository.existsByIdAndIsActiveFalse(id);
     }
 
     @Override
@@ -52,12 +52,12 @@ public class CategoryAdapter implements CategoryGateway {
 
     @Override
     public Optional<CategoryDomain> findByIdAndActiveTrue(Integer id) {
-        return repository.findByIdAndActiveTrue(id).map(CategoryMapper::toDomain);
+        return repository.findByIdAndIsActiveTrue(id).map(CategoryMapper::toDomain);
     }
 
     @Override
     public List<CategoryDomain> findAllByActiveTrue() {
-        return repository.findAllByActiveTrue().stream()
+        return repository.findAllByIsActiveTrue().stream()
                 .map(CategoryMapper::toDomain)
                 .collect(Collectors.toList());
     }

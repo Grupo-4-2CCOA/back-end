@@ -76,5 +76,5 @@ jobs:
             ssh -i $INSTANCE_KEY $USUARIO_IP "sudo mv ~/beauty_barreto.jar /usr/share/api/beauty_barreto.jar"
             echo "Arquivo movido com sucesso"
 
-            ssh -i $INSTANCE_KEY $USUARIO_IP "sudo docker compose restart api"
-            echo "Servico reiniciado via Docker Compose"
+            ssh -i $INSTANCE_KEY $USUARIO_IP "sudo docker compose up -d"
+            echo "Servico iniciado via Docker Compose"

@@ -78,4 +78,4 @@ jobs:
             echo "Arquivo movido com sucesso"
 
             ssh -i grupo4-key-rest-instance.pem $USUARIO_IP "sudo docker compose restart api"
-            echo "servico reiniciado via docker compose"
+            echo "Servico reiniciado via Docker Compose"

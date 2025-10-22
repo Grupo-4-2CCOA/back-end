@@ -87,8 +87,7 @@ public class ScheduleController {
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<Page<ScheduleResumeResponseDto>> getAllSchedules() {
-        int page = 0;
+    public ResponseEntity<Page<ScheduleResumeResponseDto>> getAllSchedules(@RequestParam(defaultValue = "0") int page) {
         int size = 10;
         Pageable pageable = PageRequest.of(page, size);
 
@@ -242,8 +241,7 @@ public class ScheduleController {
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<Page<ScheduleDomain>> getAllScheduleByClient(@PathVariable Integer id) {
-        int page = 0;
+    public ResponseEntity<Page<ScheduleDomain>> getAllScheduleByClient(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page) {
         int size = 10;
         Pageable pageable = PageRequest.of(page, size);
 

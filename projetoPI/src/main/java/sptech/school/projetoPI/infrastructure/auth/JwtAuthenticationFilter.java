@@ -1,5 +1,6 @@
 package sptech.school.projetoPI.infrastructure.auth;
 
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -62,11 +63,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
-        } catch (Exception e) {
-            logger.error("Falha na autenticação JWT: " + e.getMessage());
+        } catch (JwtException e) {
+            logger.warn("Token JWT inválido: " + e.getMessage());
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token inválido");
             return;
         }
+
+
 
         filterChain.doFilter(request, response);
     }

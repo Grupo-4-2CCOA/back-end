@@ -1,6 +1,7 @@
 package sptech.school.projetoPI.infrastructure.auth;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,8 +61,13 @@ public class JwtService {
     }
 
     public String extractUsername(String token) {
+        if (token == null || token.isEmpty()) {
+            throw new JwtException("Token ausente");
+        }
+
         return extractClaim(token, Claims::getSubject);
     }
+
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);

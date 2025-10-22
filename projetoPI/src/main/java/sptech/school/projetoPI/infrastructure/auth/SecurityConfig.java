@@ -1,5 +1,6 @@
 package sptech.school.projetoPI.infrastructure.auth;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,9 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Value("${web-endpoint.url}")
+    private String webEndpointUrl;
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -67,11 +71,11 @@ public class SecurityConfig {
                             response.sendRedirect("/auth/oauth2/success"); // Redireciona para o endpoint de sucesso
                         })
                         .failureHandler((request, response, exception) -> {
-                            response.sendRedirect("http://localhost:5173/login?error=auth_failed");
+                            response.sendRedirect(webEndpointUrl + "/login?error=auth_failed");
                         })
                 ).logout(logout -> logout
                         .logoutUrl("/auth/logout")
-                        .logoutSuccessUrl("http://localhost:5173/login")
+                        .logoutSuccessUrl(webEndpointUrl + "/login")
                         .deleteCookies("AUTH_TOKEN", "JSESSIONID")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
@@ -88,7 +92,7 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+        config.setAllowedOrigins(Arrays.asList(webEndpointUrl));
         config.setAllowCredentials(true);
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");

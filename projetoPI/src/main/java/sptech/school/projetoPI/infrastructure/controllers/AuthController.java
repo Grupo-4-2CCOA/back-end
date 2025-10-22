@@ -4,6 +4,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,9 @@ import java.util.Map;
 @RequestMapping("/auth")
 public class AuthController {
 
+    @Value("${web-endpoint.url}")
+    private String webEndpointUrl;
+
     private final JwtService jwtService;
 
     public AuthController(JwtService jwtService) {
@@ -36,7 +40,7 @@ public class AuthController {
                 .getAttribute("OAUTH2_AUTHENTICATION");
 
         if (authentication == null || !(authentication.getPrincipal() instanceof OAuth2User)) {
-            response.sendRedirect("http://localhost:5173/login?error=auth_failed");
+            response.sendRedirect(webEndpointUrl + "/login?error=auth_failed");
             return;
         }
 
@@ -64,7 +68,7 @@ public class AuthController {
         response.addCookie(userRoleCookie);
 
         // 5. Redireciona para a página de loading do frontend
-        response.sendRedirect("http://localhost:5173/auth-loading");
+        response.sendRedirect(webEndpointUrl + "/auth-loading");
     }
 
     @GetMapping("/check-auth")

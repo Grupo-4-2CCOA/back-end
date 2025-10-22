@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMqConfig {
-  public static final String QUEUE_NAME = "Schedule";
+  public static final String QUEUE_NAME = "Feedback";
 
   @Bean
   public Queue queue() {

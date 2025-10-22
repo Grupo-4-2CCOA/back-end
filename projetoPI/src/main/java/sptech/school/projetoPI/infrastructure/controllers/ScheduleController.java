@@ -45,9 +45,6 @@ public class ScheduleController {
     private final GetServiceNamesByScheduleIdUseCase getServiceNamesByScheduleIdUseCase;
     private final GetAllSchedulesByClient getAllSchedulesByClient;
 
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
-
     @SecurityRequirement(name = "Bearer")
     @PostMapping
     @Operation(summary = "Cadastrar agendamento", description = "Cadastra um novo agendamento no sistema.")
@@ -70,20 +67,7 @@ public class ScheduleController {
     })
     public ResponseEntity<ScheduleResumeResponseDto> createSchedule(@Valid @RequestBody ScheduleRequestDto requestDto) {
         ScheduleDomain scheduleDomain = ScheduleMapper.toDomain(requestDto);
-        ScheduleDomain created = createScheduleUseCase.execute(scheduleDomain);
-        ScheduleResumeResponseDto responseDto = ScheduleMapper.toResumeResponseDto(created);
-
-        //Envia para a fila RabbitMQ
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            String ScheduleJson = mapper.writeValueAsString(responseDto); // Converte o objeto em JSON
-            rabbitTemplate.convertAndSend(RabbitMqConfig.QUEUE_NAME, ScheduleJson);
-            System.out.println("Serviço enviado com sucesso para a fila RabbitMQ!");
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            System.err.println("Erro ao converter o objeto para JSON antes de enviar ao RabbitMQ.");
-        }
-        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @SecurityRequirement(name = "Bearer")

@@ -13,12 +13,12 @@ public class DeleteClientByIdUseCase {
 
     private final UserGateway repository;
     private final ScheduleGateway scheduleRepository;
-    private final FeedbackGateway feedbackRepository;
+
 
     public DeleteClientByIdUseCase(UserGateway repository, ScheduleGateway scheduleRepository, FeedbackGateway feedbackRepository) {
         this.repository = repository;
         this.scheduleRepository = scheduleRepository;
-        this.feedbackRepository = feedbackRepository;
+
     }
 
     public void execute(Integer id) {
@@ -37,12 +37,6 @@ public class DeleteClientByIdUseCase {
         if (scheduleRepository.existsByClientId(id)) {
             throw new ForeignKeyConstraintException(
                     Logs.DELETE_FOREIGN_KEY_CONFLICT.getMessage().formatted("Schedules", "Client")
-            );
-        }
-
-        if (feedbackRepository.existsByClientId(id)) {
-            throw new ForeignKeyConstraintException(
-                    Logs.DELETE_FOREIGN_KEY_CONFLICT.getMessage().formatted("Feedbacks", "Client")
             );
         }
 

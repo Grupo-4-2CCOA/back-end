@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface JpaFeedbackRepository extends JpaRepository<FeedbackJpaEntity, Integer> {
-    boolean existsByClientId(Integer clientId);
-    List<FeedbackJpaEntity> findAllByClientId(Integer clientId);
     boolean existsById(Integer id);
     void deleteById(Integer id);
     Optional<FeedbackJpaEntity> findById(Integer id);

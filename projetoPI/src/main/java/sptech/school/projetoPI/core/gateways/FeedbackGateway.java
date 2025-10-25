@@ -9,8 +9,6 @@ public interface FeedbackGateway {
     FeedbackDomain save(FeedbackDomain feedbackDomain);
     boolean existsById(Integer id);
     FeedbackDomain deleteById(Integer id);
-    boolean existsByClientId(Integer clientId);
-    List<FeedbackDomain> findAllByClientId(Integer clientId);
     Optional<FeedbackDomain> findById(Integer id);
     List<FeedbackDomain> findAll();
 }

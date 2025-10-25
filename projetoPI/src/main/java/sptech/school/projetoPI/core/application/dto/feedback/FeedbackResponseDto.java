@@ -20,6 +20,5 @@ public class FeedbackResponseDto {
     private LocalDateTime updatedAt;
     private Integer rating;
     private String comment;
-    private UserResumeResponseDto client;
     private ScheduleResumeResponseDto schedule;
 }

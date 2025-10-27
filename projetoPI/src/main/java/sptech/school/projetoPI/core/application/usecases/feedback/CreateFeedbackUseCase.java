@@ -42,6 +42,6 @@ public class CreateFeedbackUseCase {
         feedbackDomain.setRating(feedbackRequestDto.getRating());
         feedbackDomain.setScheduleDomain(scheduleDomain.get());
 
-        return feedbackGateway.save(feedbackDomain);
+        return feedbackDomain;
     }
 }

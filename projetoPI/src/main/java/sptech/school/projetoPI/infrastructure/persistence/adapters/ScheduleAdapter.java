@@ -89,7 +89,7 @@ public class ScheduleAdapter implements ScheduleGateway {
     }
 
     @Override
-    public Page<ScheduleDomain> findAllByClientId(Pageable pageable,Integer clientId) {
-        return repository.findAllByClientId(pageable, clientId).map(ScheduleMapper::toDomain);
+    public Page<ScheduleDomain> findAllByClientId(Integer clientId, Pageable pageable) {
+        return repository.findAllByClient_Id(clientId, pageable).map(ScheduleMapper::toDomain);
     }
 }

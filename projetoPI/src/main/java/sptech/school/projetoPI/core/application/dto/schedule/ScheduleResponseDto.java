@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.*;
+import sptech.school.projetoPI.core.application.dto.scheduleItem.ScheduleItemRequestDto;
+import sptech.school.projetoPI.core.application.dto.scheduleItem.ScheduleItemResponseDto;
+import sptech.school.projetoPI.core.application.dto.scheduleItem.ScheduleItemResumeResponseDto;
 import sptech.school.projetoPI.core.application.dto.user.UserResumeResponseDto;
 import sptech.school.projetoPI.core.application.dto.user.client.ClientResumeResponseDto;
 import sptech.school.projetoPI.core.application.dto.paymentType.PaymentTypeResumeResponseDto;
@@ -11,6 +14,7 @@ import sptech.school.projetoPI.core.application.dto.user.employee.EmployeeResume
 import sptech.school.projetoPI.core.enums.Status;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,4 +34,5 @@ public class ScheduleResponseDto {
     private UserResumeResponseDto client;
     private UserResumeResponseDto employee;
     private PaymentTypeResumeResponseDto paymentType;
+    private List<ScheduleItemResponseDto> items;
 }

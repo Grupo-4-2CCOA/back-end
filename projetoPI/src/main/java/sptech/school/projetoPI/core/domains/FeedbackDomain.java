@@ -12,16 +12,14 @@ public class FeedbackDomain {
     private String comment;
     private Integer rating;
     private ScheduleDomain scheduleDomain;
-    private UserDomain userDomain;
 
-    public FeedbackDomain(Integer id, LocalDateTime createdAt, LocalDateTime updatedAt, String comment, Integer rating, ScheduleDomain scheduleDomain, UserDomain userDomain) {
+    public FeedbackDomain(Integer id, LocalDateTime createdAt, LocalDateTime updatedAt, String comment, Integer rating, ScheduleDomain scheduleDomain) {
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.comment = comment;
         this.rating = rating;
         this.scheduleDomain = scheduleDomain;
-        this.userDomain = userDomain;
     }
 
     public FeedbackDomain() {
@@ -73,13 +71,5 @@ public class FeedbackDomain {
 
     public void setScheduleDomain(ScheduleDomain scheduleDomain) {
         this.scheduleDomain = scheduleDomain;
-    }
-
-    public UserDomain getUserDomain() {
-        return userDomain;
-    }
-
-    public void setUserDomain(UserDomain userDomain) {
-        this.userDomain = userDomain;
     }
 }

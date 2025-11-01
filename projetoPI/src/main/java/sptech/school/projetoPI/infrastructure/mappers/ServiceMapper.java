@@ -83,7 +83,7 @@ public class ServiceMapper {
         jpaEntity.setBasePrice(domain.getBasePrice());
         jpaEntity.setBaseDuration(domain.getBaseDuration());
         jpaEntity.setImage(domain.getImage());
-        jpaEntity.setActive(domain.getActive());
+        jpaEntity.setIsActive(domain.getActive());
         jpaEntity.setCreatedAt(domain.getCreatedAt());
         jpaEntity.setUpdatedAt(domain.getUpdatedAt());
 
@@ -108,7 +108,7 @@ public class ServiceMapper {
         domain.setBasePrice(jpaEntity.getBasePrice());
         domain.setBaseDuration(jpaEntity.getBaseDuration());
         domain.setImage(jpaEntity.getImage());
-        domain.setActive(jpaEntity.getActive());
+        domain.setActive(jpaEntity.getIsActive());
         domain.setCreatedAt(jpaEntity.getCreatedAt());
         domain.setUpdatedAt(jpaEntity.getUpdatedAt());
 

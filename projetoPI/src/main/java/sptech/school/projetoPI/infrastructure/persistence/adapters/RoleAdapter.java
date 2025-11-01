@@ -37,7 +37,7 @@ public class RoleAdapter implements RoleGateway {
 
     @Override
     public boolean existsByIdAndActiveFalse(Integer id) {
-        return repository.existsByIdAndActiveFalse(id);
+        return repository.existsByIdAndIsActiveFalse(id);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class RoleAdapter implements RoleGateway {
 
     @Override
     public Optional<RoleDomain> findByIdAndActiveTrue(Integer id) {
-        return repository.findByIdAndActiveTrue(id).map(RoleMapper::toDomain);
+        return repository.findByIdAndIsActiveTrue(id).map(RoleMapper::toDomain);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class RoleAdapter implements RoleGateway {
 
     @Override
     public List<RoleDomain> findAllByActiveTrue() {
-        return repository.findAllByActiveTrue().stream()
+        return repository.findAllByIsActiveTrue().stream()
                 .map(RoleMapper::toDomain)
                 .collect(Collectors.toList());
     }

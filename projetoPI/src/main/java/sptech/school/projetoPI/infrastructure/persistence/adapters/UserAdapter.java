@@ -80,22 +80,22 @@ public class UserAdapter implements UserGateway {
 
     @Override
     public boolean existsByIdAndActiveFalse(Integer id) {
-        return jpaRepository.existsByIdAndActiveFalse(id);
+        return jpaRepository.existsByIdAndIsActiveFalse(id);
     }
 
     @Override
     public boolean existsByIdAndActiveTrue(Integer id) {
-        return jpaRepository.existsByIdAndActiveTrue(id);
+        return jpaRepository.existsByIdAndIsActiveTrue(id);
     }
 
     @Override
     public List<UserDomain> findAllByActiveTrue() {
-        return jpaRepository.findAllByActiveTrue().stream().map(UserMapper::toDomain).toList();
+        return jpaRepository.findAllByIsActiveTrue().stream().map(UserMapper::toDomain).toList();
     }
 
     @Override
     public Optional<UserDomain> findByIdAndActiveTrue(Integer id) {
-        return jpaRepository.findByIdAndActiveTrue(id).map(UserMapper::toDomain);
+        return jpaRepository.findByIdAndIsActiveTrue(id).map(UserMapper::toDomain);
     }
 
     @Override

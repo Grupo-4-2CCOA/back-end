@@ -18,13 +18,12 @@ public class UserJpaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Boolean active;
+    private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String name;
     private String cpf;
     private String email;
-    private String password;
     private String phone;
     private String cep;
 

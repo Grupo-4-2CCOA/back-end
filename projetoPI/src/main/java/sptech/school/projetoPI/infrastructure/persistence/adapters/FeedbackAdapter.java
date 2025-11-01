@@ -40,18 +40,6 @@ public class FeedbackAdapter implements FeedbackGateway {
     }
 
     @Override
-    public boolean existsByClientId(Integer clientId) {
-        return repository.existsByClientId(clientId);
-    }
-
-    @Override
-    public List<FeedbackDomain> findAllByClientId(Integer clientId) {
-        return repository.findAllByClientId(clientId).stream()
-                .map(FeedbackMapper::toDomain)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public Optional<FeedbackDomain> findById(Integer id) {
         return repository.findById(id).map(FeedbackMapper::toDomain);
     }

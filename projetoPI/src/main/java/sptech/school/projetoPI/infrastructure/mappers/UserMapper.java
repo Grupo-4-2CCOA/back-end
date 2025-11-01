@@ -74,7 +74,7 @@ public class UserMapper {
                 .email(domain.getEmail())
                 .cep(domain.getCep())
                 .phone(domain.getPhone())
-                .active(domain.getActive() != null ? domain.getActive() : true)
+                .isActive(domain.getActive() != null ? domain.getActive() : true)
                 .role(RoleMapper.toJpaEntity(domain.getRoleDomain()))
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
@@ -102,7 +102,7 @@ public class UserMapper {
         domain.setEmail(jpa.getEmail());
         domain.setCep(jpa.getCep());
         domain.setPhone(jpa.getPhone());
-        domain.setActive(jpa.getActive());
+        domain.setActive(jpa.getIsActive());
         domain.setCreatedAt(jpa.getCreatedAt());
         domain.setUpdatedAt(jpa.getUpdatedAt());
         domain.setRoleDomain(RoleMapper.toDomain(jpa.getRole()));

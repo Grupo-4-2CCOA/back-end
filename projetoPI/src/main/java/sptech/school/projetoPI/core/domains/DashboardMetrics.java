@@ -3,12 +3,12 @@ package sptech.school.projetoPI.core.domains;
 import java.util.List;
 
 public class DashboardMetrics {
-    private double rendimentoTotal;
-    private double taxaCancelamento;
+    private List<Object[]> rendimentoTotal;
+    private List<Object[]> taxaCancelamento;
     private int totalAtendimentos;
     private List<ServiceRanking> rankingServicos;
 
-    public DashboardMetrics(double rendimentoTotal, double taxaCancelamento, int totalAtendimentos, List<ServiceRanking> rankingServicos) {
+    public DashboardMetrics(List<Object[]> rendimentoTotal, List<Object[]> taxaCancelamento, int totalAtendimentos, List<ServiceRanking> rankingServicos) {
         this.rendimentoTotal = rendimentoTotal;
         this.taxaCancelamento = taxaCancelamento;
         this.totalAtendimentos = totalAtendimentos;
@@ -18,19 +18,19 @@ public class DashboardMetrics {
     public DashboardMetrics() {
     }
 
-    public double getRendimentoTotal() {
+    public List<Object[]> getRendimentoTotal() {
         return rendimentoTotal;
     }
 
-    public void setRendimentoTotal(double rendimentoTotal) {
+    public void setRendimentoTotal(List<Object[]> rendimentoTotal) {
         this.rendimentoTotal = rendimentoTotal;
     }
 
-    public double getTaxaCancelamento() {
+    public List<Object[]> getTaxaCancelamento() {
         return taxaCancelamento;
     }
 
-    public void setTaxaCancelamento(double taxaCancelamento) {
+    public void setTaxaCancelamento(List<Object[]> taxaCancelamento) {
         this.taxaCancelamento = taxaCancelamento;
     }
 

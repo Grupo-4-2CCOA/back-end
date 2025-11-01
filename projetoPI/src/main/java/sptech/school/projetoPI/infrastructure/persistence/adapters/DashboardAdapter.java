@@ -17,8 +17,8 @@ public class DashboardAdapter implements DashboardGateway {
 
     @Override
     public DashboardMetrics getDashboardSistema(int mes, int ano) {
-        double rendimento = repository.findRendimentoTotal(mes, ano);
-        double taxaCancelamento = repository.findTaxaCancelamento(mes, ano);
+        List<Object[]> rendimento = repository.findRendimentoPorSemana(mes, ano);
+        List<Object[]> taxaCancelamento = repository.findTaxaCancelamentoPorSemana(mes, ano);
         int totalAtendimentos = repository.findTotalAtendimentos(mes, ano);
         List<ServiceRanking> ranking = repository.findRankingServicos(mes, ano);
 

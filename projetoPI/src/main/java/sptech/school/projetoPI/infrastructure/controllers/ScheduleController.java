@@ -67,7 +67,8 @@ public class ScheduleController {
     })
     public ResponseEntity<ScheduleResumeResponseDto> createSchedule(@Valid @RequestBody ScheduleRequestDto requestDto) {
         ScheduleDomain scheduleDomain = ScheduleMapper.toDomain(requestDto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        ScheduleDomain created = createScheduleUseCase.execute(scheduleDomain);
+        return new ResponseEntity<>(ScheduleMapper.toResumeResponseDto(created), HttpStatus.CREATED);
     }
 
     @SecurityRequirement(name = "Bearer")

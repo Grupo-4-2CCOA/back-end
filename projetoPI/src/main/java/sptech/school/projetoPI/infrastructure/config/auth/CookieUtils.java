@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.infrastructure.auth;
+package sptech.school.projetoPI.infrastructure.config.auth;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.infrastructure.s3;
+package sptech.school.projetoPI.infrastructure.config.s3;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

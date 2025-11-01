@@ -65,12 +65,6 @@ public class ServiceController {
             @RequestPart("service") @Valid ServiceRequestDto requestDto,
             @RequestPart("image") MultipartFile image
     ) throws IOException {
-
-        System.out.println("Categoria recebida: " + requestDto.getCategory());
-        if (requestDto.getCategory() != null) {
-            System.out.println("ID da categoria recebida: " + requestDto.getCategory().getId());
-        }
-
         ServiceDomain service = ServiceMapper.toDomain(requestDto);
 
         ServiceDomain createdService = createServiceUseCase.execute(
@@ -103,10 +97,10 @@ public class ServiceController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<List<ServiceResumeResponseDto>> getAllServices() {
+    public ResponseEntity<List<ServiceResponseDto>> getAllServices() {
         List<ServiceDomain> services = getAllServicesUseCase.execute();
-        List<ServiceResumeResponseDto> responseDtos = services.stream()
-                .map(ServiceMapper::toResumeResponseDto)
+        List<ServiceResponseDto> responseDtos = services.stream()
+                .map(ServiceMapper::toResponseDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responseDtos);
     }

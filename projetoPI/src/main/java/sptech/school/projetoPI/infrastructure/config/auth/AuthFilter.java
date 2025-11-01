@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.infrastructure.auth;
+package sptech.school.projetoPI.infrastructure.config.auth;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;

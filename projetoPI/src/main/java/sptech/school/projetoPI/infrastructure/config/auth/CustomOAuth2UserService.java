@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.infrastructure.auth;
+package sptech.school.projetoPI.infrastructure.config.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

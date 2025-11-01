@@ -12,7 +12,7 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
   security:
     oauth2:
       client:
@@ -36,3 +36,12 @@ server:
 jwt:
   validity: 3600000
   secret: RXhpc3RlIHVtYSB0ZW9yaWEgcXVlIGRpeiBxdWUsIHNlIHVtIGRpYSBhbGd16W0gZGVzY29icmlyIGV4YXRhbWVudGUgcGFyYSBxdWUgZGUgdG9kbyBvIFVuaXZlcnNvIGUgcG9yIHF1ZSBlbGUgZXN04SBhcnJpc2NhdmVsLCBlbGUgZGVzYXBhcmljZSBpbnN0YW5lYSBzdWJzdGl0dWNvbiBwZXJmaXRvLi4u
+
+aws.regiao: us-east-1
+aws.s3.nome-bucket: beauty-barreto-source
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html   # Caminho da interface do Swagger UI
+  api-docs:
+    path: /v3/api-docs       # Caminho do JSON da documentação

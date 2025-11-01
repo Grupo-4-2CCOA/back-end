@@ -68,6 +68,14 @@ public class CategoryMapper {
                 .build();
     }
 
+    public static CategoryJpaEntity toJpaEntity(Integer id) {
+        if (id == null) return null;
+
+        CategoryJpaEntity entity = new CategoryJpaEntity();
+        entity.setId(id);
+        return entity;
+    }
+
     /* ========= JPA -> DOMAIN (Repository to Use Case) ========= */
     public static CategoryDomain toDomain(CategoryJpaEntity jpa) {
         if (jpa == null) return null;

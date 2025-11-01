@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.infrastructure.auth;
+package sptech.school.projetoPI.infrastructure.config.auth;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;

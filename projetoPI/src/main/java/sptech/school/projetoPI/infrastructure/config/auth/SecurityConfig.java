@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.infrastructure.auth;
+package sptech.school.projetoPI.infrastructure.config.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,9 +39,7 @@ public class SecurityConfig {
                 .cors(cors -> {})
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/auth/**", "/oauth2/**", "/login/**", "/disponibilidades/**",
-                                "/categorias/**","/clientes/**", "/funcionarios/**", "/feedbacks/**", "/pagamentos/**",
-                                "/cargos/**", "/agendamento" ,"/agendamentos/**", "/itens-agendamento/**", "/servicos/**").permitAll()
+                        .requestMatchers("/auth/**", "/oauth2/**", "/login/**").permitAll()
 
                         .requestMatchers("/admin/**").hasAnyRole("OWNER", "ADMIN", "FUNC", "EMPLOYEE")
                         .requestMatchers("/agendamento/**").hasAnyRole("USER", "ADMIN", "FUNC", "EMPLOYEE")

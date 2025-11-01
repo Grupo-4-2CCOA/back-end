@@ -2,6 +2,7 @@ package sptech.school.projetoPI.core.application.dto.service;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
+import sptech.school.projetoPI.core.application.dto.category.CategoryIdDto;
 
 @Getter
 @Setter
@@ -29,7 +30,6 @@ public class ServiceRequestDto {
     @Size(max = 255, message = "URL de imagem muito longa")
     private String image;
 
-    @Positive(message = "ID inválido para categoria")
-    @NotNull(message = "Preencha o ID da categoria")
-    private Integer category;
+    @NotNull(message = "Preencha a categoria")
+    private CategoryIdDto category;
 }

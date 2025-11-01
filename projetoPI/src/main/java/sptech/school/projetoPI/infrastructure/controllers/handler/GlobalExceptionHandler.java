@@ -1,4 +1,4 @@
-package sptech.school.projetoPI.infrastructure.controllers;
+package sptech.school.projetoPI.infrastructure.controllers.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

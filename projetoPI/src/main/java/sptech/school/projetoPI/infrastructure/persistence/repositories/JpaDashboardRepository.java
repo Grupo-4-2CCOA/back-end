@@ -12,22 +12,36 @@ import java.util.List;
 @Repository
 public interface JpaDashboardRepository extends JpaRepository<ScheduleJpaEntity, Integer> {
 
+    // CORREÇÃO: Utilizando DAYOFMONTH para calcular a semana do mês (1 a 5)
     @Query(value = """
-        SELECT COALESCE(SUM(si.final_price - si.discount), 0)
-        FROM schedule s
-        JOIN schedule_item si ON si.fk_schedule = s.id
+        SELECT 
+            (DAYOFMONTH(s.appointment_datetime) - 1) DIV 7 + 1 AS semana,
+            COALESCE(SUM(si.final_price - si.discount), 0) AS rendimento
+        FROM schedule_item si
+        JOIN schedule s ON s.id = si.fk_schedule
         WHERE MONTH(s.appointment_datetime) = :mes
           AND YEAR(s.appointment_datetime) = :ano
           AND s.status = 'COMPLETED'
-        """, nativeQuery = true)
-    double findRendimentoTotal(@Param("mes") int mes, @Param("ano") int ano);
+        GROUP BY semana
+        ORDER BY semana
+    """, nativeQuery = true)
+    List<Object[]> findRendimentoPorSemana(@Param("mes") int mes, @Param("ano") int ano);
 
+    // CORREÇÃO: Utilizando DAYOFMONTH para calcular a semana do mês (1 a 5)
     @Query(value = """
-        SELECT (COUNT(CASE WHEN s.status = 'CANCELED' THEN 1 END) * 100.0 / COUNT(*))
+        SELECT 
+            (DAYOFMONTH(s.appointment_datetime) - 1) DIV 7 + 1 AS semana,
+            ROUND(
+                (SUM(CASE WHEN s.status = 'CANCELED' THEN 1 ELSE 0 END) / COUNT(*)) * 100, 
+                2
+            ) AS taxa_cancelamento
         FROM schedule s
-        WHERE MONTH(s.appointment_datetime) = :mes AND YEAR(s.appointment_datetime) = :ano
-        """, nativeQuery = true)
-    double findTaxaCancelamento(@Param("mes") int mes, @Param("ano") int ano);
+        WHERE MONTH(s.appointment_datetime) = :mes
+          AND YEAR(s.appointment_datetime) = :ano
+        GROUP BY semana
+        ORDER BY semana
+    """, nativeQuery = true)
+    List<Object[]> findTaxaCancelamentoPorSemana(@Param("mes") int mes, @Param("ano") int ano);
 
     @Query(value = "SELECT COUNT(*) FROM schedule s WHERE MONTH(s.appointment_datetime) = :mes AND YEAR(s.appointment_datetime) = :ano AND s.status = 'COMPLETED'", nativeQuery = true)
     int findTotalAtendimentos(@Param("mes") int mes, @Param("ano") int ano);

@@ -10,8 +10,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DashboardResponseDto {
-    private double rendimentoTotal;
-    private double taxaCancelamento;
+    private List<Object[]> rendimentoTotal;
+    private List<Object[]> taxaCancelamento;
     private int totalAtendimentos;
     private List<ServiceRankDto> rankingServicos;
 }

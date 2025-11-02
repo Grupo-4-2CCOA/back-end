@@ -31,6 +31,7 @@ public class UserMapper {
         userDomain.setEmail(request.getEmail());
         userDomain.setCep(request.getCep());
         userDomain.setPhone(request.getPhone());
+        userDomain.setRoleDomain(RoleMapper.toDomain(request.getRole()));
         return userDomain;
     }
 

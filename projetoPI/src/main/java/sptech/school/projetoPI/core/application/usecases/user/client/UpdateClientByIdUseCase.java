@@ -3,6 +3,7 @@ package sptech.school.projetoPI.core.application.usecases.user.client;
 import sptech.school.projetoPI.core.application.usecases.exceptions.ConflictException;
 import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.EntityNotFoundException;
 import sptech.school.projetoPI.core.application.usecases.exceptions.exceptionClass.InactiveEntityException;
+import sptech.school.projetoPI.core.domains.RoleDomain;
 import sptech.school.projetoPI.core.domains.UserDomain;
 import sptech.school.projetoPI.core.enums.Logs;
 import sptech.school.projetoPI.core.gateways.UserGateway;

@@ -42,7 +42,8 @@ public class AuthController {
 
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
         String email = oauth2User.getAttribute("email");
-        String role = oauth2User.getAttribute("role");
+        RoleDomain roleDomain = oauth2User.getAttribute("role");
+        String role = roleDomain.getName();
         Integer clientId = oauth2User.getAttribute("id");
 
         // 2. Gera o token JWT

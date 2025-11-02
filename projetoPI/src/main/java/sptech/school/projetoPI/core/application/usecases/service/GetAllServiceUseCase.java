@@ -1,5 +1,7 @@
 package sptech.school.projetoPI.core.application.usecases.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import sptech.school.projetoPI.core.domains.ServiceDomain;
 import sptech.school.projetoPI.core.gateways.ServiceGateway;
 
@@ -13,8 +15,8 @@ public class GetAllServiceUseCase {
         this.serviceGateway = serviceGateway;
     }
 
-    public List<ServiceDomain> execute() {
-        return serviceGateway.findAllByActiveTrue();
+    public Page<ServiceDomain> execute(Pageable pageable) {
+        return serviceGateway.findAllByActiveTrue(pageable);
     }
 
 }

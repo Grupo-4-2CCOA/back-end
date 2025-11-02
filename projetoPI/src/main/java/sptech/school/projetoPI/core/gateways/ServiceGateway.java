@@ -1,5 +1,7 @@
 package sptech.school.projetoPI.core.gateways;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import sptech.school.projetoPI.core.domains.ServiceDomain;
 
 import java.util.List;
@@ -17,5 +19,5 @@ public interface ServiceGateway {
     boolean existsByIdNotAndName(Integer id, String name);
     Optional<ServiceDomain> findByIdAndActiveTrue(Integer id);
     List<ServiceDomain> findAllByCategoryId(Integer categoryId);
-    List<ServiceDomain> findAllByActiveTrue();
+    Page<ServiceDomain> findAllByActiveTrue(Pageable pageable);
 }

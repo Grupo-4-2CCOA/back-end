@@ -92,7 +92,7 @@ public class ScheduleController {
             ))
     })
     public ResponseEntity<Page<ScheduleResumeResponseDto>> getAllSchedules(@RequestParam(defaultValue = "0") int page) {
-        int size = 10;
+        int size = 5;
         Pageable pageable = PageRequest.of(page, size);
 
         Page<ScheduleDomain> scheduleDomains = getAllScheduleUseCase.execute(pageable);
@@ -246,7 +246,7 @@ public class ScheduleController {
             ))
     })
     public ResponseEntity<Page<ScheduleDomain>> getAllScheduleByClient(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page) {
-        int size = 10;
+        int size = 5;
         Pageable pageable = PageRequest.of(page, size);
 
         return ResponseEntity.ok(getAllSchedulesByClient.execute(pageable, id));

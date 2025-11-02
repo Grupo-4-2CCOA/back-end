@@ -14,6 +14,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -99,11 +102,12 @@ public class FeedbackController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<List<FeedbackResumeResponseDto>> getAllFeedbacks() {
-        List<FeedbackDomain> feedbackDomains = getAllFeedbacksUseCase.execute();
-        List<FeedbackResumeResponseDto> responseDtos = feedbackDomains.stream()
-                .map(FeedbackMapper::toResumeResponseDto)
-                .collect(Collectors.toList());
+    public ResponseEntity<Page<FeedbackResumeResponseDto>> getAllFeedbacks(@RequestParam(defaultValue = "0") int page) {
+        int size = 5;
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<FeedbackDomain> feedbackDomains = getAllFeedbacksUseCase.execute(pageable);
+        Page<FeedbackResumeResponseDto> responseDtos = feedbackDomains.map(FeedbackMapper::toResumeResponseDto);
         return ResponseEntity.ok(responseDtos);
     }
 

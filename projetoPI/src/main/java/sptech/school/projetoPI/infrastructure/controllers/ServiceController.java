@@ -10,6 +10,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -97,11 +100,12 @@ public class ServiceController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<List<ServiceResponseDto>> getAllServices() {
-        List<ServiceDomain> services = getAllServicesUseCase.execute();
-        List<ServiceResponseDto> responseDtos = services.stream()
-                .map(ServiceMapper::toResponseDto)
-                .collect(Collectors.toList());
+    public ResponseEntity<Page<ServiceResponseDto>> getAllServices(@RequestParam(defaultValue = "0") int page) {
+        int size = 5;
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<ServiceDomain> services = getAllServicesUseCase.execute(pageable);
+        Page<ServiceResponseDto> responseDtos = services.map(ServiceMapper::toResponseDto);
         return ResponseEntity.ok(responseDtos);
     }
 

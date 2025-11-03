@@ -29,7 +29,7 @@ public class DashboardController {
                 metrics.getTaxaCancelamento(),
                 metrics.getTotalAtendimentos(),
                 metrics.getRankingServicos().stream()
-                        .map(r -> new ServiceRankDto(r.getNomeServico(), r.getQuantidade()))
+                        .map(r -> new ServiceRankDto(r.getRanking(), r.getNomeServico(), r.getQuantidade(), r.getQuantidade()))
                         .toList()
         );
 

@@ -8,6 +8,7 @@ import sptech.school.projetoPI.core.domains.ServiceRanking;
 import sptech.school.projetoPI.infrastructure.persistence.entity.ScheduleJpaEntity;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public interface JpaDashboardRepository extends JpaRepository<ScheduleJpaEntity, Integer> {
@@ -47,21 +48,32 @@ public interface JpaDashboardRepository extends JpaRepository<ScheduleJpaEntity,
     int findTotalAtendimentos(@Param("mes") int mes, @Param("ano") int ano);
 
     @Query(value = """
-        SELECT sv.name AS nomeServico, COUNT(*) AS quantidade
-        FROM schedule_item si
-        JOIN service sv ON sv.id = si.fk_service
-        JOIN schedule s ON s.id = si.fk_schedule
-        WHERE MONTH(s.appointment_datetime) = :mes
-          AND YEAR(s.appointment_datetime) = :ano
-          AND s.status = 'COMPLETED'
-        GROUP BY sv.name
-        ORDER BY quantidade DESC
-        """, nativeQuery = true)
+    SELECT 
+        sv.name AS nomeServico,
+        COUNT(*) AS quantidade,
+        ROUND(SUM(si.final_price - si.discount), 2) AS valorTotal
+    FROM schedule_item si
+    JOIN service sv ON sv.id = si.fk_service
+    JOIN schedule s ON s.id = si.fk_schedule
+    WHERE MONTH(s.appointment_datetime) = :mes
+      AND YEAR(s.appointment_datetime) = :ano
+      AND s.status = 'COMPLETED'
+    GROUP BY sv.name
+    ORDER BY valorTotal DESC
+    """, nativeQuery = true)
     List<Object[]> findRankingServicosMaisVendidos(@Param("mes") int mes, @Param("ano") int ano);
 
     default List<ServiceRanking> findRankingServicos(int mes, int ano) {
-        return findRankingServicosMaisVendidos(mes, ano).stream()
-                .map(r -> new ServiceRanking((String) r[0], ((Number) r[1]).longValue()))
+        List<Object[]> resultados = findRankingServicosMaisVendidos(mes, ano);
+
+        AtomicInteger ranking = new AtomicInteger(1);
+        return resultados.stream()
+                .map(r -> new ServiceRanking(
+                        ranking.getAndIncrement(),                              // ranking calculado manualmente
+                        (String) r[0],                          // nomeServico
+                        ((Number) r[1]).longValue(),            // quantidade
+                        ((java.math.BigDecimal) r[2]).doubleValue() // valorTotal
+                ))
                 .toList();
     }
 }

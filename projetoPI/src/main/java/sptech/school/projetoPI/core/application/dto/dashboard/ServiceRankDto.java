@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ServiceRankDto {
+    private int ranking;
     private String nomeServico;
     private long quantidade;
+    private double valorTotal;
 }

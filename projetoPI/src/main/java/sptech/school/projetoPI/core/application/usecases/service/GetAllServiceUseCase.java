@@ -15,8 +15,8 @@ public class GetAllServiceUseCase {
         this.serviceGateway = serviceGateway;
     }
 
-    public Page<ServiceDomain> execute(Pageable pageable) {
-        return serviceGateway.findAllByActiveTrue(pageable);
+    public List<ServiceDomain> execute() {
+        return serviceGateway.findAllByActiveTrue();
     }
 
 }

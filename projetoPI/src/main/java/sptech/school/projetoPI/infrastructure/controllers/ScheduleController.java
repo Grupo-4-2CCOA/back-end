@@ -91,12 +91,12 @@ public class ScheduleController {
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<Page<ScheduleResumeResponseDto>> getAllSchedules(@RequestParam(defaultValue = "0") int page) {
+    public ResponseEntity<Page<ScheduleResponseDto>> getAllSchedules(@RequestParam(defaultValue = "0") int page) {
         int size = 5;
         Pageable pageable = PageRequest.of(page, size);
 
         Page<ScheduleDomain> scheduleDomains = getAllScheduleUseCase.execute(pageable);
-        Page<ScheduleResumeResponseDto> responseDtos = scheduleDomains.map(ScheduleMapper::toResumeResponseDto);
+        Page<ScheduleResponseDto> responseDtos = scheduleDomains.map(ScheduleMapper::toResponseDto);
         return ResponseEntity.ok(responseDtos);
     }
 
@@ -245,10 +245,12 @@ public class ScheduleController {
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<Page<ScheduleDomain>> getAllScheduleByClient(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page) {
+    public ResponseEntity<Page<ScheduleResponseDto>> getAllScheduleByClient(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page) {
         int size = 5;
         Pageable pageable = PageRequest.of(page, size);
 
-        return ResponseEntity.ok(getAllSchedulesByClient.execute(pageable, id));
+        Page<ScheduleDomain> scheduleDomains = getAllSchedulesByClient.execute(pageable, id);
+        Page<ScheduleResponseDto> responseDtos = scheduleDomains.map(ScheduleMapper::toResponseDto);
+        return ResponseEntity.ok(responseDtos);
     }
 }

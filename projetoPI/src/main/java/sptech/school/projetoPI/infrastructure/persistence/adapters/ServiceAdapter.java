@@ -83,7 +83,9 @@ public class ServiceAdapter implements ServiceGateway {
     }
 
     @Override
-    public Page<ServiceDomain> findAllByActiveTrue(Pageable pageable) {
-        return jpaRepository.findAllByIsActiveTrue(pageable).map(ServiceMapper::toDomain);
+    public List<ServiceDomain> findAllByActiveTrue() {
+        return jpaRepository.findAllByIsActiveTrue().stream()
+                .map(ServiceMapper::toDomain)
+                .collect(Collectors.toList());
     }
 }

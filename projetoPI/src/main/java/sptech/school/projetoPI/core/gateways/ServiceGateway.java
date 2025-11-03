@@ -19,5 +19,5 @@ public interface ServiceGateway {
     boolean existsByIdNotAndName(Integer id, String name);
     Optional<ServiceDomain> findByIdAndActiveTrue(Integer id);
     List<ServiceDomain> findAllByCategoryId(Integer categoryId);
-    Page<ServiceDomain> findAllByActiveTrue(Pageable pageable);
+    List<ServiceDomain> findAllByActiveTrue();
 }

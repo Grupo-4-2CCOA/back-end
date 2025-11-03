@@ -82,10 +82,10 @@ public class EmployeeController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<List<UserResumeResponseDto>> getAllEmployees() {
+    public ResponseEntity<List<UserResponseDto>> getAllEmployees() {
         List<UserDomain> employeeDomains = getAllEmployeesUseCase.execute();
-        List<UserResumeResponseDto> responseDtos = employeeDomains.stream()
-                .map(UserMapper::toResumeResponseDto)
+        List<UserResponseDto> responseDtos = employeeDomains.stream()
+                .map(UserMapper::toResponseDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responseDtos);
     }

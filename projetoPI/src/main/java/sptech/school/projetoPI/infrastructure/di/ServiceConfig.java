@@ -29,7 +29,7 @@ public class ServiceConfig {
     }
 
     @Bean
-    public UpdateServiceByIdUseCase updateServiceByIdUseCase(ServiceGateway serviceGateway) {
-        return new UpdateServiceByIdUseCase(serviceGateway);
+    public UpdateServiceByIdUseCase updateServiceByIdUseCase(ServiceGateway serviceGateway, FileUploadGateway fileUploadGateway) {
+        return new UpdateServiceByIdUseCase(serviceGateway, fileUploadGateway);
     }
 }

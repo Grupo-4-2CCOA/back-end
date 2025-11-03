@@ -1,7 +1,5 @@
 package sptech.school.projetoPI.infrastructure.persistence.repositories;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import sptech.school.projetoPI.infrastructure.persistence.entity.ServiceJpaEntity;
 
@@ -15,7 +13,7 @@ public interface JpaServiceRepository extends JpaRepository<ServiceJpaEntity, In
     boolean existsByIdNotAndName(Integer id, String name);
     Optional<ServiceJpaEntity> findByIdAndIsActiveTrue(Integer id);
     List<ServiceJpaEntity> findAllByCategoryId(Integer id);
-    Page<ServiceJpaEntity> findAllByIsActiveTrue(Pageable pageable);
+    List<ServiceJpaEntity> findAllByIsActiveTrue();
     boolean existsById(Integer id);
     Optional<ServiceJpaEntity> findById(Integer id);
 }

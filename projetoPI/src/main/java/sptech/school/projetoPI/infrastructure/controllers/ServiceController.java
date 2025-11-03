@@ -100,12 +100,11 @@ public class ServiceController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<Page<ServiceResponseDto>> getAllServices(@RequestParam(defaultValue = "0") int page) {
-        int size = 5;
-        Pageable pageable = PageRequest.of(page, size);
-
-        Page<ServiceDomain> services = getAllServicesUseCase.execute(pageable);
-        Page<ServiceResponseDto> responseDtos = services.map(ServiceMapper::toResponseDto);
+    public ResponseEntity<List<ServiceResponseDto>> getAllServices() {
+        List<ServiceDomain> services = getAllServicesUseCase.execute();
+        List<ServiceResponseDto> responseDtos = services.stream()
+                .map(ServiceMapper::toResponseDto)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(responseDtos);
     }
 
@@ -139,7 +138,7 @@ public class ServiceController {
         return ResponseEntity.ok(ServiceMapper.toResponseDto(service));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Atualizar serviço por ID", description = "Atualiza as informações do serviço com base no ID fornecido.")
     @ApiResponses(value = {
@@ -164,10 +163,20 @@ public class ServiceController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<ServiceResumeResponseDto> updateServiceById(@Valid @RequestBody ServiceRequestDto requestDto, @PathVariable Integer id) {
+    public ResponseEntity<ServiceResponseDto> updateServiceById(@PathVariable Integer id,
+                                                                @RequestPart("service") @Valid ServiceRequestDto requestDto,
+                                                                @RequestPart("image") MultipartFile image) throws IOException {
         ServiceDomain service = ServiceMapper.toDomain(requestDto);
-        ServiceDomain updatedService = updateServiceByIdUseCase.execute(service, id);
-        return ResponseEntity.ok(ServiceMapper.toResumeResponseDto(updatedService));
+        System.out.println(requestDto);
+        System.out.println(id);
+        System.out.println(image);
+        ServiceDomain updateService = updateServiceByIdUseCase.execute(
+                service,
+                id,
+                image.getBytes(),
+                image.getOriginalFilename()
+        );
+        return ResponseEntity.ok(serviceMapperImage.toResponseDtoWithImageUrl(updateService));
     }
 
     @DeleteMapping("/{id}")

@@ -102,12 +102,12 @@ public class FeedbackController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<Page<FeedbackResumeResponseDto>> getAllFeedbacks(@RequestParam(defaultValue = "0") int page) {
+    public ResponseEntity<Page<FeedbackResponseDto>> getAllFeedbacks(@RequestParam(defaultValue = "0") int page) {
         int size = 5;
         Pageable pageable = PageRequest.of(page, size);
 
         Page<FeedbackDomain> feedbackDomains = getAllFeedbacksUseCase.execute(pageable);
-        Page<FeedbackResumeResponseDto> responseDtos = feedbackDomains.map(FeedbackMapper::toResumeResponseDto);
+        Page<FeedbackResponseDto> responseDtos = feedbackDomains.map(FeedbackMapper::toResponseDto);
         return ResponseEntity.ok(responseDtos);
     }
 

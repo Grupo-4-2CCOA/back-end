@@ -55,6 +55,7 @@ public class FeedbackMapper {
                 .id(domain.getId())
                 .comment(domain.getComment())
                 .rating(domain.getRating())
+                .scheduleId(ScheduleMapper.toResumeResponseDto(domain.getScheduleDomain()).getId())
                 .build();
     }
 

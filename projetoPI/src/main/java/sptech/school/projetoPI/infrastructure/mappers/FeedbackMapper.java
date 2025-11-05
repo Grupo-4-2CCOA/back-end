@@ -43,7 +43,7 @@ public class FeedbackMapper {
                 .rating(domain.getRating())
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
-                .schedule(ScheduleMapper.toResumeResponseDto(domain.getScheduleDomain()))
+                .schedule(ScheduleMapper.toResponseDto(domain.getScheduleDomain()))
                 .build();
     }
 

@@ -103,7 +103,7 @@ public class FeedbackController {
             ))
     })
     public ResponseEntity<Page<FeedbackResponseDto>> getAllFeedbacks(@RequestParam(defaultValue = "0") int page) {
-        int size = 5;
+        int size = 22;
         Pageable pageable = PageRequest.of(page, size);
 
         Page<FeedbackDomain> feedbackDomains = getAllFeedbacksUseCase.execute(pageable);

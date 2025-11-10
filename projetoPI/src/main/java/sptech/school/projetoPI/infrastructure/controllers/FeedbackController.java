@@ -1,5 +1,7 @@
 package sptech.school.projetoPI.infrastructure.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -10,6 +12,11 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +26,11 @@ import sptech.school.projetoPI.core.domains.FeedbackDomain;
 import sptech.school.projetoPI.core.application.dto.feedback.FeedbackRequestDto;
 import sptech.school.projetoPI.core.application.dto.feedback.FeedbackResponseDto;
 import sptech.school.projetoPI.core.application.dto.feedback.FeedbackResumeResponseDto;
+import sptech.school.projetoPI.infrastructure.di.RabbitMqConfig;
 import sptech.school.projetoPI.infrastructure.mappers.FeedbackMapper;
+import sptech.school.projetoPI.infrastructure.di.RabbitMqConfig;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +46,9 @@ public class FeedbackController {
     private final GetFeedbackByIdUseCase getFeedbackByIdUseCase;
     private final UpdateFeedbackByIdUseCase updateFeedbackByIdUseCase;
     private final DeleteFeedbackByIdUseCase deleteFeedbackByIdUseCase;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @SecurityRequirement(name = "Bearer")
     @PostMapping
@@ -53,7 +67,19 @@ public class FeedbackController {
     })
     public ResponseEntity<FeedbackResumeResponseDto> createFeedback(@Valid @RequestBody FeedbackRequestDto requestDto) {
         FeedbackDomain createdFeedbackDomain = createFeedbackUseCase.execute(requestDto);
-        return new ResponseEntity<>(FeedbackMapper.toResumeResponseDto(createdFeedbackDomain), HttpStatus.CREATED);
+        FeedbackResumeResponseDto responseDto = FeedbackMapper.toResumeResponseDto(createdFeedbackDomain);
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            String feedbackJson = mapper.writeValueAsString(responseDto); // Converte o objeto em JSON
+            rabbitTemplate.convertAndSend(RabbitMqConfig.QUEUE_NAME, feedbackJson);
+            System.out.println("Feedback enviado com sucesso para a fila RabbitMQ!");
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            System.err.println("Erro ao converter o objeto para JSON antes de enviar ao RabbitMQ.");
+        }
+
+        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
     @SecurityRequirement(name = "Bearer")
@@ -76,11 +102,12 @@ public class FeedbackController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<List<FeedbackResumeResponseDto>> getAllFeedbacks() {
-        List<FeedbackDomain> feedbackDomains = getAllFeedbacksUseCase.execute();
-        List<FeedbackResumeResponseDto> responseDtos = feedbackDomains.stream()
-                .map(FeedbackMapper::toResumeResponseDto)
-                .collect(Collectors.toList());
+    public ResponseEntity<Page<FeedbackResponseDto>> getAllFeedbacks(@RequestParam(defaultValue = "0") int page) {
+        int size = 22;
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<FeedbackDomain> feedbackDomains = getAllFeedbacksUseCase.execute(pageable);
+        Page<FeedbackResponseDto> responseDtos = feedbackDomains.map(FeedbackMapper::toResponseDto);
         return ResponseEntity.ok(responseDtos);
     }
 

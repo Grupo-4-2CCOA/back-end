@@ -47,6 +47,11 @@ public class ScheduleMapper {
                 .client(UserMapper.toResumeResponseDto(domain.getClientDomain()))
                 .employee(UserMapper.toResumeResponseDto(domain.getEmployeeDomain()))
                 .paymentType(PaymentTypeMapper.toResumeResponseDto(domain.getPaymentTypeDomain()))
+                .items(domain.getItems() != null
+                        ? domain.getItems().stream()
+                        .map(ScheduleItemMapper::toResponseDto)
+                        .collect(Collectors.toList())
+                        : List.of())
                 .build();
     }
 

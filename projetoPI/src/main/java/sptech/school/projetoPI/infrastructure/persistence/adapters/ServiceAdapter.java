@@ -1,6 +1,8 @@
 package sptech.school.projetoPI.infrastructure.persistence.adapters;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.core.domains.ServiceDomain;
 import sptech.school.projetoPI.core.gateways.ServiceGateway;
@@ -60,7 +62,7 @@ public class ServiceAdapter implements ServiceGateway {
 
     @Override
     public boolean existsByIdAndActiveFalse(Integer id) {
-        return jpaRepository.existsByIdAndActiveFalse(id);
+        return jpaRepository.existsByIdAndIsActiveFalse(id);
     }
 
     @Override
@@ -70,7 +72,7 @@ public class ServiceAdapter implements ServiceGateway {
 
     @Override
     public Optional<ServiceDomain> findByIdAndActiveTrue(Integer id) {
-        return jpaRepository.findByIdAndActiveTrue(id).map(ServiceMapper::toDomain);
+        return jpaRepository.findByIdAndIsActiveTrue(id).map(ServiceMapper::toDomain);
     }
 
     @Override
@@ -82,7 +84,7 @@ public class ServiceAdapter implements ServiceGateway {
 
     @Override
     public List<ServiceDomain> findAllByActiveTrue() {
-        return jpaRepository.findAllByActiveTrue().stream()
+        return jpaRepository.findAllByIsActiveTrue().stream()
                 .map(ServiceMapper::toDomain)
                 .collect(Collectors.toList());
     }

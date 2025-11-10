@@ -35,7 +35,7 @@ public class RoleMapper {
         domain.setId(jpa.getId());
         domain.setName(jpa.getName());
         domain.setDescription(jpa.getDescription());
-        domain.setActive(jpa.getActive());
+        domain.setActive(jpa.getIsActive());
         domain.setCreatedAt(jpa.getCreatedAt());
         domain.setUpdatedAt(jpa.getUpdatedAt());
 
@@ -79,7 +79,7 @@ public class RoleMapper {
                 .id(domain.getId())
                 .name(domain.getName())
                 .description(domain.getDescription())
-                .active(domain.getActive())
+                .isActive(domain.getActive())
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
                 .build();

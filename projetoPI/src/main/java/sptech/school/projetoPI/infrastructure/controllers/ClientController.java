@@ -113,10 +113,10 @@ public class ClientController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<List<UserResumeResponseDto>> getAllClients() {
+    public ResponseEntity<List<UserResponseDto>> getAllClients() {
         List<UserDomain> clientDomains = getAllClientsUseCase.execute();
-        List<UserResumeResponseDto> responseDtos = clientDomains.stream()
-                .map(UserMapper::toResumeResponseDto)
+        List<UserResponseDto> responseDtos = clientDomains.stream()
+                .map(UserMapper::toResponseDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responseDtos);
     }

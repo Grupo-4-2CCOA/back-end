@@ -13,6 +13,6 @@ public class GetAllSchedulesByClient {
     }
 
     public Page<ScheduleDomain> execute(Pageable pageable, Integer id) {
-        return scheduleGateway.findAllByClientId(pageable, id);
+        return scheduleGateway.findAllByClientId(id, pageable);
     }
 }

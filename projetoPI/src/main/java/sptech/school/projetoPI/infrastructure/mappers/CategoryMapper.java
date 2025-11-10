@@ -62,10 +62,18 @@ public class CategoryMapper {
                 .id(domain.getId())
                 .name(domain.getName())
                 .description(domain.getDescription())
-                .active(domain.getActive())
+                .isActive(domain.getActive())
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
                 .build();
+    }
+
+    public static CategoryJpaEntity toJpaEntity(Integer id) {
+        if (id == null) return null;
+
+        CategoryJpaEntity entity = new CategoryJpaEntity();
+        entity.setId(id);
+        return entity;
     }
 
     /* ========= JPA -> DOMAIN (Repository to Use Case) ========= */
@@ -76,7 +84,7 @@ public class CategoryMapper {
         domain.setId(jpa.getId());
         domain.setName(jpa.getName());
         domain.setDescription(jpa.getDescription());
-        domain.setActive(jpa.getActive());
+        domain.setActive(jpa.getIsActive());
         domain.setCreatedAt(jpa.getCreatedAt());
         domain.setUpdatedAt(jpa.getUpdatedAt());
         return domain;

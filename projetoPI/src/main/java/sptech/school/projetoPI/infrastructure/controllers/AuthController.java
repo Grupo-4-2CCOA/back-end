@@ -12,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.core.domains.RoleDomain;
-import sptech.school.projetoPI.infrastructure.auth.JwtService;
+import sptech.school.projetoPI.infrastructure.config.auth.JwtService;
 
 import java.io.IOException;
 import java.util.HashMap;

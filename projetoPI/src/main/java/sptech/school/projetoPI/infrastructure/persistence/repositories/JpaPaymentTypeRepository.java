@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface JpaPaymentTypeRepository extends JpaRepository<PaymentTypeJpaEntity, Integer> {
-    boolean existsByIdAndActiveTrue(Integer id);
-    boolean existsByIdAndActiveFalse(Integer id);
+    boolean existsByIdAndIsActiveTrue(Integer id);
+    boolean existsByIdAndIsActiveFalse(Integer id);
     boolean existsByNameIgnoreCase(String name);
     boolean existsByIdNotAndNameIgnoreCase(Integer id, String name);
-    Optional<PaymentTypeJpaEntity> findByIdAndActiveTrue(Integer id);
-    List<PaymentTypeJpaEntity> findAllByActiveTrue();
+    Optional<PaymentTypeJpaEntity> findByIdAndIsActiveTrue(Integer id);
+    List<PaymentTypeJpaEntity> findAllByIsActiveTrue();
 }

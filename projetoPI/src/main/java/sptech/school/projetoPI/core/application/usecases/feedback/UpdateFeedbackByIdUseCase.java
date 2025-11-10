@@ -13,12 +13,10 @@ public class UpdateFeedbackByIdUseCase {
 
     private final FeedbackGateway feedbackGateway;
     private final ScheduleGateway scheduleGateway;
-    private final UserGateway clientGateway;
 
     public UpdateFeedbackByIdUseCase(FeedbackGateway feedbackGateway, ScheduleGateway scheduleGateway, UserGateway clientGateway) {
         this.feedbackGateway = feedbackGateway;
         this.scheduleGateway = scheduleGateway;
-        this.clientGateway = clientGateway;
     }
 
     public FeedbackDomain execute(FeedbackDomain feedbackDomain, Integer id) {
@@ -31,12 +29,6 @@ public class UpdateFeedbackByIdUseCase {
         if (!scheduleGateway.existsById(feedbackDomain.getScheduleDomain().getId())) {
             throw new RelatedEntityNotFoundException(
                     "O agendamento com o ID %d não foi encontrado".formatted(feedbackDomain.getScheduleDomain().getId())
-            );
-        }
-
-        if (!clientGateway.existsByIdAndActiveTrue(feedbackDomain.getUserDomain().getId())) {
-            throw new RelatedEntityNotFoundException(
-                    "O cliente com o ID %d não foi encontrado".formatted(feedbackDomain.getUserDomain().getId())
             );
         }
 

@@ -19,13 +19,6 @@ public class FeedbackMapper {
         domain.setComment(request.getComment());
         domain.setRating(request.getRating());
 
-        // Mapeia o usuário (cliente)
-        if (request.getClientId() != null) {
-            var userDomain = new UserDomain();
-            userDomain.setId(request.getClientId());
-            domain.setUserDomain(userDomain);
-        }
-
         // Mapeia o agendamento (schedule)
         if (request.getScheduleId() != null) {
             var scheduleDomain = new ScheduleDomain();
@@ -50,8 +43,7 @@ public class FeedbackMapper {
                 .rating(domain.getRating())
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
-                .client(UserMapper.toResumeResponseDto(domain.getUserDomain()))
-                .schedule(ScheduleMapper.toResumeResponseDto(domain.getScheduleDomain()))
+                .schedule(ScheduleMapper.toResponseDto(domain.getScheduleDomain()))
                 .build();
     }
 
@@ -63,6 +55,7 @@ public class FeedbackMapper {
                 .id(domain.getId())
                 .comment(domain.getComment())
                 .rating(domain.getRating())
+                .scheduleId(ScheduleMapper.toResumeResponseDto(domain.getScheduleDomain()).getId())
                 .build();
     }
 
@@ -74,7 +67,6 @@ public class FeedbackMapper {
                 .id(domain.getId())
                 .comment(domain.getComment())
                 .rating(domain.getRating())
-                .client(UserMapper.toJpaEntity(domain.getUserDomain()))
                 .schedule(ScheduleMapper.toJpaEntity(domain.getScheduleDomain()))
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
@@ -89,7 +81,6 @@ public class FeedbackMapper {
         domain.setId(jpa.getId());
         domain.setComment(jpa.getComment());
         domain.setRating(jpa.getRating());
-        domain.setUserDomain(UserMapper.toDomain(jpa.getClient()));
         domain.setScheduleDomain(ScheduleMapper.toDomain(jpa.getSchedule()));
         domain.setCreatedAt(jpa.getCreatedAt());
         domain.setUpdatedAt(jpa.getUpdatedAt());

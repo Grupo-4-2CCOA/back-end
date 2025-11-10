@@ -26,17 +26,10 @@ public class CreateFeedbackUseCase {
 
     public FeedbackDomain execute(FeedbackRequestDto feedbackRequestDto) {
         Optional<ScheduleDomain> scheduleDomain = scheduleGateway.findById(feedbackRequestDto.getScheduleId());
-        Optional<UserDomain> userDomain = userGateway.findById(feedbackRequestDto.getClientId());
 
         if (scheduleDomain.isEmpty()) {
             throw new RelatedEntityNotFoundException(
                     "O agendamento com o ID %d não foi encontrado".formatted(feedbackRequestDto.getScheduleId())
-            );
-        }
-
-        if (userDomain.isEmpty()) {
-            throw new RelatedEntityNotFoundException(
-                    "O cliente com o ID %d não foi encontrado".formatted(feedbackRequestDto.getClientId())
             );
         }
 
@@ -48,8 +41,7 @@ public class CreateFeedbackUseCase {
         feedbackDomain.setComment(feedbackRequestDto.getComment());
         feedbackDomain.setRating(feedbackRequestDto.getRating());
         feedbackDomain.setScheduleDomain(scheduleDomain.get());
-        feedbackDomain.setUserDomain(userDomain.get());
 
-        return feedbackGateway.save(feedbackDomain);
+        return feedbackDomain;
     }
 }

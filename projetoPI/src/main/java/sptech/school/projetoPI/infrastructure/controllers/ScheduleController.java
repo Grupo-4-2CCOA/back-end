@@ -1,5 +1,7 @@
 package sptech.school.projetoPI.infrastructure.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -10,6 +12,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,10 +26,10 @@ import sptech.school.projetoPI.core.domains.ScheduleDomain;
 import sptech.school.projetoPI.core.application.dto.schedule.ScheduleRequestDto;
 import sptech.school.projetoPI.core.application.dto.schedule.ScheduleResponseDto;
 import sptech.school.projetoPI.core.application.dto.schedule.ScheduleResumeResponseDto;
+import sptech.school.projetoPI.infrastructure.di.RabbitMqConfig;
 import sptech.school.projetoPI.infrastructure.mappers.ScheduleMapper;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/agendamentos")
@@ -87,12 +91,12 @@ public class ScheduleController {
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<Page<ScheduleResumeResponseDto>> getAllSchedules(@RequestParam(defaultValue = "0") int page) {
-        int size = 10;
+    public ResponseEntity<Page<ScheduleResponseDto>> getAllSchedules(@RequestParam(defaultValue = "0") int page) {
+        int size = 5;
         Pageable pageable = PageRequest.of(page, size);
 
         Page<ScheduleDomain> scheduleDomains = getAllScheduleUseCase.execute(pageable);
-        Page<ScheduleResumeResponseDto> responseDtos = scheduleDomains.map(ScheduleMapper::toResumeResponseDto);
+        Page<ScheduleResponseDto> responseDtos = scheduleDomains.map(ScheduleMapper::toResponseDto);
         return ResponseEntity.ok(responseDtos);
     }
 
@@ -241,10 +245,12 @@ public class ScheduleController {
                     examples = @ExampleObject(value = ErroResponseExamples.FORBIDDEN)
             ))
     })
-    public ResponseEntity<Page<ScheduleDomain>> getAllScheduleByClient(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page) {
-        int size = 10;
+    public ResponseEntity<Page<ScheduleResponseDto>> getAllScheduleByClient(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page) {
+        int size = 5;
         Pageable pageable = PageRequest.of(page, size);
 
-        return ResponseEntity.ok(getAllSchedulesByClient.execute(pageable, id));
+        Page<ScheduleDomain> scheduleDomains = getAllSchedulesByClient.execute(pageable, id);
+        Page<ScheduleResponseDto> responseDtos = scheduleDomains.map(ScheduleMapper::toResponseDto);
+        return ResponseEntity.ok(responseDtos);
     }
 }

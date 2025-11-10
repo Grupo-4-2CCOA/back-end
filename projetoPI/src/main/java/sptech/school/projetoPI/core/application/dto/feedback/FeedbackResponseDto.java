@@ -2,6 +2,7 @@ package sptech.school.projetoPI.core.application.dto.feedback;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import sptech.school.projetoPI.core.application.dto.schedule.ScheduleResponseDto;
 import sptech.school.projetoPI.core.application.dto.user.UserResumeResponseDto;
 import sptech.school.projetoPI.core.application.dto.user.client.ClientResumeResponseDto;
 import sptech.school.projetoPI.core.application.dto.schedule.ScheduleResumeResponseDto;
@@ -20,6 +21,5 @@ public class FeedbackResponseDto {
     private LocalDateTime updatedAt;
     private Integer rating;
     private String comment;
-    private UserResumeResponseDto client;
-    private ScheduleResumeResponseDto schedule;
+    private ScheduleResponseDto schedule;
 }

@@ -4,9 +4,17 @@ import sptech.school.projetoPI.core.domains.ServiceDomain;
 import sptech.school.projetoPI.core.application.dto.service.ServiceRequestDto;
 import sptech.school.projetoPI.core.application.dto.service.ServiceResponseDto;
 import sptech.school.projetoPI.core.application.dto.service.ServiceResumeResponseDto;
+import sptech.school.projetoPI.core.gateways.FileUploadGateway;
+import sptech.school.projetoPI.infrastructure.persistence.entity.CategoryJpaEntity;
 import sptech.school.projetoPI.infrastructure.persistence.entity.ServiceJpaEntity;
 
 public class ServiceMapper {
+
+    private FileUploadGateway fileUploadGateway;
+
+    public ServiceMapper(FileUploadGateway fileUploadGateway) {
+        this.fileUploadGateway = fileUploadGateway;
+    }
 
     /* ========= DTO -> DOMAIN (Controller to Use Case) ========= */
     public static ServiceDomain toDomain(ServiceRequestDto requestObject) {
@@ -21,7 +29,7 @@ public class ServiceMapper {
         service.setActive(true);
 
         // Delegação de mapeamento de entidade relacionada
-        service.setCategory(CategoryMapper.toDomain(requestObject.getCategory()));
+        service.setCategory(CategoryMapper.toDomain(requestObject.getCategory().getId()));
 
         return service;
     }
@@ -75,14 +83,17 @@ public class ServiceMapper {
         jpaEntity.setBasePrice(domain.getBasePrice());
         jpaEntity.setBaseDuration(domain.getBaseDuration());
         jpaEntity.setImage(domain.getImage());
-        jpaEntity.setActive(domain.getActive());
+        jpaEntity.setIsActive(domain.getActive());
         jpaEntity.setCreatedAt(domain.getCreatedAt());
         jpaEntity.setUpdatedAt(domain.getUpdatedAt());
 
-        if (domain.getCategory() != null) {
-            jpaEntity.setCategory(CategoryMapper.toJpaEntity(domain.getCategory()));
+        if (domain.getCategory() != null && domain.getCategory().getId() != null) {
+            CategoryJpaEntity categoryJpa = new CategoryJpaEntity();
+            categoryJpa.setId(domain.getCategory().getId());
+            jpaEntity.setCategory(categoryJpa);
+        } else {
+            throw new IllegalArgumentException("Categoria não pode ser nula ou sem ID");
         }
-
         return jpaEntity;
     }
 
@@ -97,7 +108,7 @@ public class ServiceMapper {
         domain.setBasePrice(jpaEntity.getBasePrice());
         domain.setBaseDuration(jpaEntity.getBaseDuration());
         domain.setImage(jpaEntity.getImage());
-        domain.setActive(jpaEntity.getActive());
+        domain.setActive(jpaEntity.getIsActive());
         domain.setCreatedAt(jpaEntity.getCreatedAt());
         domain.setUpdatedAt(jpaEntity.getUpdatedAt());
 

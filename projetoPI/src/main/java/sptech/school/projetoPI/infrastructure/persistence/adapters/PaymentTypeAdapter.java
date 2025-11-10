@@ -27,12 +27,12 @@ public class PaymentTypeAdapter implements PaymentTypeGateway {
 
     @Override
     public boolean existsByIdAndActiveTrue(Integer id) {
-        return repository.existsByIdAndActiveTrue(id);
+        return repository.existsByIdAndIsActiveTrue(id);
     }
 
     @Override
     public boolean existsByIdAndActiveFalse(Integer id) {
-        return repository.existsByIdAndActiveFalse(id);
+        return repository.existsByIdAndIsActiveFalse(id);
     }
 
     @Override
@@ -57,12 +57,12 @@ public class PaymentTypeAdapter implements PaymentTypeGateway {
 
     @Override
     public Optional<PaymentTypeDomain> findByIdAndActiveTrue(Integer id) {
-        return repository.findByIdAndActiveTrue(id).map(PaymentTypeMapper::toDomain);
+        return repository.findByIdAndIsActiveTrue(id).map(PaymentTypeMapper::toDomain);
     }
 
     @Override
     public List<PaymentTypeDomain> findAllByActiveTrue() {
-        return repository.findAllByActiveTrue().stream()
+        return repository.findAllByIsActiveTrue().stream()
                 .map(PaymentTypeMapper::toDomain)
                 .collect(Collectors.toList());
     }

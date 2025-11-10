@@ -13,4 +13,5 @@ public class FeedbackResumeResponseDto {
     private Integer id;
     private String comment;
     private Integer rating;
+    private Integer scheduleId;
 }

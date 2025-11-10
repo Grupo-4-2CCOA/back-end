@@ -1,5 +1,7 @@
 package sptech.school.projetoPI.core.gateways;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import sptech.school.projetoPI.core.domains.FeedbackDomain;
 
 import java.util.List;
@@ -9,8 +11,6 @@ public interface FeedbackGateway {
     FeedbackDomain save(FeedbackDomain feedbackDomain);
     boolean existsById(Integer id);
     FeedbackDomain deleteById(Integer id);
-    boolean existsByClientId(Integer clientId);
-    List<FeedbackDomain> findAllByClientId(Integer clientId);
     Optional<FeedbackDomain> findById(Integer id);
-    List<FeedbackDomain> findAll();
+    Page<FeedbackDomain> findAll(Pageable pageable);
 }

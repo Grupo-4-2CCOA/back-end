@@ -10,9 +10,14 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import sptech.school.projetoPI.core.application.usecases.exceptions.ErroResponseExamples;
 import sptech.school.projetoPI.core.application.usecases.service.*;
 import sptech.school.projetoPI.core.domains.ServiceDomain;
@@ -20,7 +25,9 @@ import sptech.school.projetoPI.core.application.dto.service.ServiceRequestDto;
 import sptech.school.projetoPI.core.application.dto.service.ServiceResponseDto;
 import sptech.school.projetoPI.core.application.dto.service.ServiceResumeResponseDto;
 import sptech.school.projetoPI.infrastructure.mappers.ServiceMapper;
+import sptech.school.projetoPI.infrastructure.mappers.ServiceMapperImage;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,8 +42,9 @@ public class ServiceController {
     private final GetServiceByIdUseCase getServiceByIdUseCase;
     private final UpdateServiceByIdUseCase updateServiceByIdUseCase;
     private final DeleteServiceByIdUseCase deleteServiceByIdUseCase;
+    private final ServiceMapperImage serviceMapperImage;
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Cadastrar novo serviço", description = "Cadastra um novo serviço a partir do json fornecido.")
     @ApiResponses(value = {
@@ -56,10 +64,20 @@ public class ServiceController {
                     examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
             ))
     })
-    public ResponseEntity<ServiceResumeResponseDto> createService(@Valid @RequestBody ServiceRequestDto requestDto) {
+    public ResponseEntity<ServiceResponseDto> createService(
+            @RequestPart("service") @Valid ServiceRequestDto requestDto,
+            @RequestPart("image") MultipartFile image
+    ) throws IOException {
         ServiceDomain service = ServiceMapper.toDomain(requestDto);
-        ServiceDomain createdService = createServiceUseCase.execute(service);
-        return new ResponseEntity<>(ServiceMapper.toResumeResponseDto(createdService), HttpStatus.CREATED);
+
+        ServiceDomain createdService = createServiceUseCase.execute(
+                service,
+                image.getBytes(),
+                image.getOriginalFilename()
+        );
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(serviceMapperImage.toResponseDtoWithImageUrl(createdService));
     }
 
     @GetMapping
@@ -82,10 +100,10 @@ public class ServiceController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<List<ServiceResumeResponseDto>> getAllServices() {
+    public ResponseEntity<List<ServiceResponseDto>> getAllServices() {
         List<ServiceDomain> services = getAllServicesUseCase.execute();
-        List<ServiceResumeResponseDto> responseDtos = services.stream()
-                .map(ServiceMapper::toResumeResponseDto)
+        List<ServiceResponseDto> responseDtos = services.stream()
+                .map(ServiceMapper::toResponseDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responseDtos);
     }
@@ -120,7 +138,7 @@ public class ServiceController {
         return ResponseEntity.ok(ServiceMapper.toResponseDto(service));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Atualizar serviço por ID", description = "Atualiza as informações do serviço com base no ID fornecido.")
     @ApiResponses(value = {
@@ -145,10 +163,20 @@ public class ServiceController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<ServiceResumeResponseDto> updateServiceById(@Valid @RequestBody ServiceRequestDto requestDto, @PathVariable Integer id) {
+    public ResponseEntity<ServiceResponseDto> updateServiceById(@PathVariable Integer id,
+                                                                @RequestPart("service") @Valid ServiceRequestDto requestDto,
+                                                                @RequestPart("image") MultipartFile image) throws IOException {
         ServiceDomain service = ServiceMapper.toDomain(requestDto);
-        ServiceDomain updatedService = updateServiceByIdUseCase.execute(service, id);
-        return ResponseEntity.ok(ServiceMapper.toResumeResponseDto(updatedService));
+        System.out.println(requestDto);
+        System.out.println(id);
+        System.out.println(image);
+        ServiceDomain updateService = updateServiceByIdUseCase.execute(
+                service,
+                id,
+                image.getBytes(),
+                image.getOriginalFilename()
+        );
+        return ResponseEntity.ok(serviceMapperImage.toResponseDtoWithImageUrl(updateService));
     }
 
     @DeleteMapping("/{id}")

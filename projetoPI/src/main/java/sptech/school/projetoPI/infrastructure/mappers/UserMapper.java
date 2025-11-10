@@ -31,6 +31,7 @@ public class UserMapper {
         userDomain.setEmail(request.getEmail());
         userDomain.setCep(request.getCep());
         userDomain.setPhone(request.getPhone());
+        userDomain.setRoleDomain(RoleMapper.toDomain(request.getRole()));
         return userDomain;
     }
 
@@ -51,6 +52,7 @@ public class UserMapper {
                 .email(domain.getEmail())
                 .cep(domain.getCep())
                 .phone(domain.getPhone())
+                .role(RoleMapper.toResumeResponseDto(domain.getRoleDomain()))
                 .build();
     }
 
@@ -74,7 +76,7 @@ public class UserMapper {
                 .email(domain.getEmail())
                 .cep(domain.getCep())
                 .phone(domain.getPhone())
-                .active(domain.getActive() != null ? domain.getActive() : true)
+                .isActive(domain.getActive() != null ? domain.getActive() : true)
                 .role(RoleMapper.toJpaEntity(domain.getRoleDomain()))
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
@@ -102,10 +104,24 @@ public class UserMapper {
         domain.setEmail(jpa.getEmail());
         domain.setCep(jpa.getCep());
         domain.setPhone(jpa.getPhone());
-        domain.setActive(jpa.getActive());
+        domain.setActive(jpa.getIsActive());
         domain.setCreatedAt(jpa.getCreatedAt());
         domain.setUpdatedAt(jpa.getUpdatedAt());
         domain.setRoleDomain(RoleMapper.toDomain(jpa.getRole()));
         return domain;
+    }
+
+    public static UserResponseDto toClientResponseDto(UserDomain domain) {
+        if (domain == null) return null;
+
+        return UserResponseDto.builder()
+                .id(domain.getId())
+                .name(domain.getName())
+                .email(domain.getEmail())
+                .cpf(domain.getCpf())
+                .phone(domain.getPhone())
+                .cep(domain.getCep())
+                .role(RoleMapper.toResumeResponseDto(domain.getRoleDomain()))
+                .build();
     }
 }

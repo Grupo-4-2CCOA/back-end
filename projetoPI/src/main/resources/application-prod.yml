@@ -11,6 +11,21 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 630177904220-m0htlila7b9easlrkvdaeo2f1ehs9u3e.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope: email, profile
+        provider:
+          google:
+            issuer-uri: https://accounts.google.com
   main:
     allow-circular-references: true
 

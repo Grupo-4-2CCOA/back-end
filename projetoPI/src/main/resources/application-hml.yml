@@ -34,9 +34,6 @@ server:
     include-message: always
     include-binding-error: always
 
-web-endpoint:
-  url: "http://localhost:5173"
-
 jwt:
   validity: 3600000
   secret: RXhpc3RlIHVtYSB0ZW9yaWEgcXVlIGRpeiBxdWUsIHNlIHVtIGRpYSBhbGd16W0gZGVzY29icmlyIGV4YXRhbWVudGUgcGFyYSBxdWUgZGUgdG9kbyBvIFVuaXZlcnNvIGUgcG9yIHF1ZSBlbGUgZXN04SBhcnJpc2NhdmVsLCBlbGUgZGVzYXBhcmljZSBpbnN0YW5lYSBzdWJzdGl0dWNvbiBwZXJmaXRvLi4u
@@ -46,6 +43,9 @@ aws.s3.nome-bucket: beauty-barreto-source
 
 springdoc:
   swagger-ui:
-    path: /swagger-ui.html   # Caminho da interface do Swagger UI
+    path: /swagger-ui.html
   api-docs:
-    path: /v3/api-docs       # Caminho do JSON da documentação
+    path: /v3/api-docs
+
+web-endpoint:
+  url: "http://localhost:5173"

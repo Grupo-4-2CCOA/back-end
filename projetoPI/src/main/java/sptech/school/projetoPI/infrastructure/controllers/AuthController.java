@@ -23,7 +23,7 @@ import java.util.Map;
 public class AuthController {
 
     @Value("${web-endpoint.url}")
-    private String webEndpointUrl;
+    private String webEndpoint;
 
     private final JwtService jwtService;
 
@@ -40,7 +40,7 @@ public class AuthController {
                 .getAttribute("OAUTH2_AUTHENTICATION");
 
         if (authentication == null || !(authentication.getPrincipal() instanceof OAuth2User)) {
-            response.sendRedirect(webEndpointUrl + "/login?error=auth_failed");
+            response.sendRedirect(String.format("%s/login?error=auth_failed", webEndpoint));
             return;
         }
 
@@ -68,7 +68,7 @@ public class AuthController {
         response.addCookie(userRoleCookie);
 
         // 5. Redireciona para a página de loading do frontend
-        response.sendRedirect(webEndpointUrl + "/auth-loading");
+        response.sendRedirect(String.format("%s/auth-loading", webEndpoint));
     }
 
     @GetMapping("/check-auth")

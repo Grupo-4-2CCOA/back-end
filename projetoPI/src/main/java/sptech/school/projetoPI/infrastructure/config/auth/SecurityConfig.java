@@ -22,7 +22,7 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     @Value("${web-endpoint.url}")
-    private String webEndpointUrl;
+    private String webEndpoint;
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -69,11 +69,11 @@ public class SecurityConfig {
                             response.sendRedirect("/auth/oauth2/success"); // Redireciona para o endpoint de sucesso
                         })
                         .failureHandler((request, response, exception) -> {
-                            response.sendRedirect(webEndpointUrl + "/login?error=auth_failed");
+                            response.sendRedirect(String.format("%s/login?error=auth_failed", webEndpoint));
                         })
                 ).logout(logout -> logout
                         .logoutUrl("/auth/logout")
-                        .logoutSuccessUrl(webEndpointUrl + "/login")
+                        .logoutSuccessUrl(String.format("%s/login", webEndpoint))
                         .deleteCookies("AUTH_TOKEN", "JSESSIONID")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
@@ -90,7 +90,7 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(Arrays.asList(webEndpointUrl));
+        config.setAllowedOrigins(Arrays.asList(webEndpoint));
         config.setAllowCredentials(true);
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");

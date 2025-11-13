@@ -42,6 +42,9 @@ aws.s3.nome-bucket: beauty-barreto-source
 
 springdoc:
   swagger-ui:
-    path: /swagger-ui.html   # Caminho da interface do Swagger UI
+    path: /swagger-ui.html
   api-docs:
-    path: /v3/api-docs       # Caminho do JSON da documentação
+    path: /v3/api-docs
+
+web-endpoint:
+  url: "http://localhost:5173"

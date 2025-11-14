@@ -9,15 +9,6 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        host: 
-          - name: "EC2-AZ1A-PUBLIC"
-            remote_host: 100.29.206.9
-
-          - name: "EC2-AZ1B-PUBLIC"
-            remote_host: 100.30.1.38
-
     steps:
       - name: Checkout do Repositório
         uses: actions/checkout@v4
@@ -48,7 +39,7 @@ jobs:
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ matrix.host.remote_host }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST_PUBLICO }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: /home/${{ secrets.REMOTE_USER }}/backend/
           ARGS: "-rltgoDzvO --delete" 
@@ -57,7 +48,7 @@ jobs:
       - name: Executar Comando Shell na EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ matrix.host.remote_host }} 
+          host: ${{ secrets.REMOTE_HOST_PUBLICO }} 
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}  
 
@@ -65,7 +56,7 @@ jobs:
             set -e
 
             INSTANCE_KEY="instance-key-rest.pem"
-            USUARIO_IP=${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST_PRIVADO }}
+            USUARIO_IP=${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}
             echo "usuario@ip configurado: $USUARIO_IP"
 
             echo "Tentando enviar arquivo /home/${{ secrets.REMOTE_USER }}/backend/beauty_barreto.jar"

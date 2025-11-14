@@ -50,4 +50,4 @@ springdoc:
     path: /v3/api-docs
 
 web-endpoint:
-  url: ""
+  url: ${WEB_URL_ENDPOINT}

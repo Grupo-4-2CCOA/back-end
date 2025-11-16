@@ -64,9 +64,8 @@ public class SecurityConfig {
                                 .userService(customOAuth2UserService)
                         )
                         .successHandler((request, response, authentication) -> {
-                            // Salva a autenticação na sessão antes de redirecionar
                             request.getSession().setAttribute("OAUTH2_AUTHENTICATION", authentication);
-                            response.sendRedirect("/auth/oauth2/success"); // Redireciona para o endpoint de sucesso
+                            response.sendRedirect("/auth/oauth2/success");
                         })
                         .failureHandler((request, response, exception) -> {
                             response.sendRedirect(String.format("%s/login?error=auth_failed", webEndpoint));
@@ -94,6 +93,7 @@ public class SecurityConfig {
         config.setAllowCredentials(true);
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
+        config.addExposedHeader("Authorization");
 
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);

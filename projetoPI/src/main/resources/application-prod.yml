@@ -3,7 +3,7 @@ spring:
     name: projetoPI
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://10.1.0.40:3306/grupo4
+    url: jdbc:mysql://10.1.0.41:3306/grupo4
     username: root
     password: infra
   jpa:

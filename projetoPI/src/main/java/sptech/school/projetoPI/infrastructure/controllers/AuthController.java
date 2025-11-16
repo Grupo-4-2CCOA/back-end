@@ -1,6 +1,5 @@
 package sptech.school.projetoPI.infrastructure.controllers;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -60,20 +59,12 @@ public class AuthController {
                 .httpOnly(true)
                 .secure(false)
                 .path("/")
-                .maxAge(86400) // 1 dia em segundos
+                .maxAge(86400)
                 .sameSite(sameSite)
                 .build();
         
         response.addHeader(HttpHeaders.SET_COOKIE, authCookie.toString());
-        
-        // Log para verificar se o cookie está sendo definido
-        System.out.println("=== COOKIE DEFINIDO NO /oauth2/success ===");
-        System.out.println("Cookie string: " + authCookie.toString());
-        System.out.println("Token gerado: " + token.substring(0, Math.min(20, token.length())) + "...");
-        System.out.println("Redirecionando para: " + String.format("%s/auth-loading", webEndpoint));
-        System.out.println("===========================================");
 
-        // 4. Configura um cookie adicional para o frontend (opcional)
         ResponseCookie userRoleCookie = ResponseCookie.from("USER_ROLE", role)
                 .path("/")
                 .maxAge(86400)
@@ -81,9 +72,6 @@ public class AuthController {
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, userRoleCookie.toString());
 
-        // 5. Redireciona para a página de loading do frontend
-        // IMPORTANTE: Passa o token como query parameter para garantir que o frontend tenha acesso
-        // Isso é necessário porque cookies cross-domain podem não funcionar em requisições AJAX
         String encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8);
         String redirectUrl = String.format("%s/auth-loading?token=%s", webEndpoint, encodedToken);
         response.sendRedirect(redirectUrl);
@@ -160,51 +148,22 @@ public class AuthController {
 
     @GetMapping("/user-info")
     public ResponseEntity<Map<String, Object>> getUserInfo(
-            HttpServletRequest request,
             @RequestHeader(value = "Authorization", required = false) String authHeader,
             @CookieValue(name = "AUTH_TOKEN", required = false) String token) {
-
-        // Logs detalhados para diagnóstico
-        System.out.println("=== DIAGNÓSTICO /auth/user-info ===");
-        System.out.println("Request URL: " + request.getRequestURL());
-        System.out.println("Request Origin: " + request.getHeader("Origin"));
-        System.out.println("Request Referer: " + request.getHeader("Referer"));
-        System.out.println("Authorization header: " + (authHeader != null ? authHeader.substring(0, Math.min(20, authHeader.length())) + "..." : "null"));
-        System.out.println("Cookie AUTH_TOKEN: " + (token != null ? "SIM (length: " + token.length() + ")" : "NÃO"));
-        
-        // Verifica todos os cookies recebidos
-        if (request.getCookies() != null) {
-            System.out.println("Total de cookies recebidos: " + request.getCookies().length);
-            for (Cookie c : request.getCookies()) {
-                System.out.println("  - Cookie: " + c.getName() + " = " + (c.getValue() != null ? c.getValue().substring(0, Math.min(20, c.getValue().length())) + "..." : "null"));
-            }
-        } else {
-            System.out.println("Nenhum cookie recebido!");
-        }
-
         String jwt = null;
-
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
-            System.out.println("Token extraído do header Authorization");
         }
         else if (token != null && !token.isEmpty()) {
             jwt = token;
-            System.out.println("Token extraído do cookie");
         }
 
-        System.out.println("Token final: " + (jwt != null ? "SIM" : "NÃO"));
-        System.out.println("================================");
-
         if (jwt == null || jwt.isEmpty()) {
-            System.out.println("Token Null ou vazio [UPDATED]");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         try {
-            System.out.println("Entrei no Try");
             if (!jwtService.isTokenValid(jwt)) {
-                System.out.println("Token não valido");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
 
@@ -222,8 +181,6 @@ public class AuthController {
             return ResponseEntity.ok(userInfo);
 
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.printf("ERRO INTERNO ---- %s", e);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }

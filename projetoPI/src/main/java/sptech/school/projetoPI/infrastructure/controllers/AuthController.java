@@ -165,7 +165,7 @@ public class AuthController {
         System.out.println("Token do header: " + (authHeader != null ? "SIM" : "NÃO"));
 
         if (jwt == null || jwt.isEmpty()) {
-            System.out.println("Token Null ou vazio");
+            System.out.println("Token Null ou vazio [UPDATED]");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 

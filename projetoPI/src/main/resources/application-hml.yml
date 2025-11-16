@@ -30,6 +30,7 @@ spring:
     allow-circular-references: true
 
 server:
+  forward-headers-strategy: native
   error:
     include-message: always
     include-binding-error: always

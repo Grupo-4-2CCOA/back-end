@@ -133,14 +133,20 @@ public class AuthController {
     @GetMapping("/user-info")
     public ResponseEntity<Map<String, Object>> getUserInfo(
             @CookieValue(name = "AUTH_TOKEN", required = false) String token) {
+
+        System.out.println(token);
+
         // 1. Verifica se o token existe
         if (token == null || token.isEmpty()) {
+            System.out.println("Token Null ou vazio");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         // 2. Valida o token
         try {
+            System.out.println("Entrei no Try");
             if (!jwtService.isTokenValid(token)) {
+                System.out.println("Token não valido");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
 
@@ -159,6 +165,8 @@ public class AuthController {
             return ResponseEntity.ok(userInfo);
 
         } catch (Exception e) {
+            e.printStackTrace();
+            System.out.printf("ERRO INTERNO ---- %s", e);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }

@@ -3,9 +3,9 @@ spring:
     name: projetoPI
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://10.1.0.41:3306/grupo4
+    url: jdbc:mysql://localhost:3306/grupo4
     username: root
-    password: infra
+    password: admin
   jpa:
     show-sql: true
     properties:
@@ -40,7 +40,7 @@ google:
     application-name: "beauty-agenda"
     salon:
       calendar-id: "primary"
-      credentials-file: ${FILE_GOOGLE_CALENDAR_CREDENTIALS}
+      credentials-file: ${CREDENTIALS_FILE_PATH:classpath:salao.json}
 
 server:
   forward-headers-strategy: native

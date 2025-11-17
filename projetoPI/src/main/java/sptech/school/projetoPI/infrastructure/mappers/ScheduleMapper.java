@@ -5,7 +5,6 @@ import sptech.school.projetoPI.core.enums.Status;
 import sptech.school.projetoPI.core.application.dto.schedule.ScheduleRequestDto;
 import sptech.school.projetoPI.core.application.dto.schedule.ScheduleResponseDto;
 import sptech.school.projetoPI.core.application.dto.schedule.ScheduleResumeResponseDto;
-import sptech.school.projetoPI.infrastructure.persistence.entity.ScheduleItemJpaEntity;
 import sptech.school.projetoPI.infrastructure.persistence.entity.ScheduleJpaEntity;
 
 import java.util.List;

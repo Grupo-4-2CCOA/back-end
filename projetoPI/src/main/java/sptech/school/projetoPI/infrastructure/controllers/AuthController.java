@@ -143,8 +143,7 @@ public class AuthController {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
-        }
-        else if (token != null) {
+        } else if (token != null) {
             jwt = token;
         }
 

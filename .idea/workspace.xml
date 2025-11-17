@@ -5,26 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8ed9cf5b-230f-4a08-b13c-50b6a376d262" name="Changes" comment="feat: CICD">
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/core/gateways/CalendarGateway.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/config/auth/GoogleCalendarConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/persistence/adapters/GoogleCalendarAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/resources/salao.exemple.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.github/workflows/cicd.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/cicd.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/.gitattributes" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/.gitattributes" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/core/application/dto/schedule/ScheduleResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/core/application/dto/schedule/ScheduleResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/core/application/usecases/schedule/CreateScheduleUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/core/application/usecases/schedule/CreateScheduleUseCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/config/auth/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/config/auth/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/controllers/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/controllers/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/controllers/ScheduleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/di/ScheduleConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/di/ScheduleConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/di/WebMvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/di/WebMvcConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/mappers/ScheduleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/mappers/ScheduleMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/resources/application-hml.yml" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/resources/application-hml.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/resources/application-prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/resources/application-prod.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/resources/application-test.yml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +20,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="homologation" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProblemsViewState">
@@ -56,7 +42,7 @@
   "keyToString": {
     "Application.ProjetoPiApplication.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Merging homologation",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "settings.editor.selected.configurable": "reference.settings.project.maven.importing"
   }
@@ -90,6 +76,15 @@
       <option name="presentableId" value="Default" />
       <updated>1744316855360</updated>
     </task>
+    <task id="LOCAL-00001" summary="feat: CICD">
+      <option name="closed" value="true" />
+      <created>1763411001795</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1763411001795</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

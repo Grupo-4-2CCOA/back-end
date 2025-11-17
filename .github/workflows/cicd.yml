@@ -3,7 +3,7 @@ name: CI/CD para EC2 privada
 on:
   push:
     branches:
-      - homologation
+      - main
 
 jobs:
   build_and_deploy:

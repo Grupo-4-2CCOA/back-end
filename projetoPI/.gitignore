@@ -4,6 +4,12 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# No seu .gitignore
+projetoPI/src/main/resources/salao.json
+**/salao.json
+**/credentials.json
+**/*.json
+
 ### STS ###
 .apt_generated
 .classpath

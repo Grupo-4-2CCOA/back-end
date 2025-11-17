@@ -1,7 +1,5 @@
 package sptech.school.projetoPI.infrastructure.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -12,8 +10,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +22,6 @@ import sptech.school.projetoPI.core.domains.ScheduleDomain;
 import sptech.school.projetoPI.core.application.dto.schedule.ScheduleRequestDto;
 import sptech.school.projetoPI.core.application.dto.schedule.ScheduleResponseDto;
 import sptech.school.projetoPI.core.application.dto.schedule.ScheduleResumeResponseDto;
-import sptech.school.projetoPI.infrastructure.di.RabbitMqConfig;
 import sptech.school.projetoPI.infrastructure.mappers.ScheduleMapper;
 
 import java.util.List;
@@ -65,10 +60,10 @@ public class ScheduleController {
                     examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
             ))
     })
-    public ResponseEntity<ScheduleResumeResponseDto> createSchedule(@Valid @RequestBody ScheduleRequestDto requestDto) {
+    public ResponseEntity<ScheduleResponseDto> createSchedule(@Valid @RequestBody ScheduleRequestDto requestDto) throws Exception {
         ScheduleDomain scheduleDomain = ScheduleMapper.toDomain(requestDto);
         ScheduleDomain created = createScheduleUseCase.execute(scheduleDomain);
-        return new ResponseEntity<>(ScheduleMapper.toResumeResponseDto(created), HttpStatus.CREATED);
+        return new ResponseEntity<>(ScheduleMapper.toResponseDto(created), HttpStatus.CREATED);
     }
 
     @SecurityRequirement(name = "Bearer")

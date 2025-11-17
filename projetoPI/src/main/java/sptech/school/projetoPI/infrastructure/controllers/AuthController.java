@@ -10,6 +10,9 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.core.domains.RoleDomain;
@@ -29,9 +32,11 @@ public class AuthController {
     private String webEndpoint;
 
     private final JwtService jwtService;
+    private final OAuth2AuthorizedClientService authorizedClientService;
 
-    public AuthController(JwtService jwtService) {
+    public AuthController(JwtService jwtService, OAuth2AuthorizedClientService authorizedClientService) {
         this.jwtService = jwtService;
+        this.authorizedClientService = authorizedClientService;
     }
 
     @GetMapping("/oauth2/success")
@@ -47,14 +52,16 @@ public class AuthController {
         }
 
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
+        OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
         String email = oauth2User.getAttribute("email");
         RoleDomain roleDomain = oauth2User.getAttribute("role");
         String role = roleDomain.getName();
         Integer clientId = oauth2User.getAttribute("id");
 
+        String googleAccessToken = getGoogleAccessToken(oauthToken);
         String token = jwtService.generateToken(email, role, clientId);
         String sameSite = "Lax";
-        
+
         ResponseCookie authCookie = ResponseCookie.from("AUTH_TOKEN", token)
                 .httpOnly(true)
                 .secure(false)
@@ -62,7 +69,7 @@ public class AuthController {
                 .maxAge(86400)
                 .sameSite(sameSite)
                 .build();
-        
+
         response.addHeader(HttpHeaders.SET_COOKIE, authCookie.toString());
 
         ResponseCookie userRoleCookie = ResponseCookie.from("USER_ROLE", role)
@@ -72,9 +79,34 @@ public class AuthController {
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, userRoleCookie.toString());
 
+        ResponseCookie googleTokenCookie = ResponseCookie.from("GOOGLE_ACCESS_TOKEN", googleAccessToken)
+                .path("/")
+                .maxAge(3600)
+                .httpOnly(false)
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, googleTokenCookie.toString());
+
         String encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8);
         String redirectUrl = String.format("%s/auth-loading?token=%s", webEndpoint, encodedToken);
         response.sendRedirect(redirectUrl);
+    }
+
+    private String getGoogleAccessToken(OAuth2AuthenticationToken oauthToken) {
+        try {
+            OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient(
+                    oauthToken.getAuthorizedClientRegistrationId(),
+                    oauthToken.getName()
+            );
+
+            if (authorizedClient != null && authorizedClient.getAccessToken() != null) {
+                String accessToken = authorizedClient.getAccessToken().getTokenValue();
+                System.out.println("🔑 Token do Google capturado: " + accessToken.substring(0, 20) + "...");
+                return accessToken;
+            }
+        } catch (Exception e) {
+            System.err.println("Erro ao capturar token do Google: " + e.getMessage());
+        }
+        return null;
     }
 
     @GetMapping("/check-auth")
@@ -111,8 +143,7 @@ public class AuthController {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
-        }
-        else if (token != null) {
+        } else if (token != null) {
             jwt = token;
         }
 
@@ -126,7 +157,7 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) {
         String sameSite = "Lax";
-        
+
         ResponseCookie authCookie = ResponseCookie.from("AUTH_TOKEN", "")
                 .path("/")
                 .httpOnly(true)

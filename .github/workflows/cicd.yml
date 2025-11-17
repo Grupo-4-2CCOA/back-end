@@ -66,6 +66,12 @@ jobs:
             echo "Movendo o arquivo para a pasta correta"
             ssh -i $INSTANCE_KEY $USUARIO_IP "sudo mv ~/beauty_barreto.jar /usr/share/api/beauty_barreto.jar"
             echo "Arquivo movido com sucesso"
+            
+            echo "Enviando credenciais do Google Calendar para a EC2"
+            echo "${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}" | base64 -d > credentials.json
+            scp -o StrictHostKeyChecking=no -i $INSTANCE_KEY credentials.json $USUARIO_IP:~/credentials.json
+            ssh -i $INSTANCE_KEY $USUARIO_IP "sudo mv ~/credentials.json /usr/share/api/credentials.json"
+            echo "Credenciais enviadas para a EC2 Privada"
 
             ssh -i $INSTANCE_KEY $USUARIO_IP "sudo docker compose up -d"
             echo "Servico iniciado via Docker Compose"

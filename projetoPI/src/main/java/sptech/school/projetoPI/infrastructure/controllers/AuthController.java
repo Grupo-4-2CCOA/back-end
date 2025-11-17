@@ -1,19 +1,26 @@
 package sptech.school.projetoPI.infrastructure.controllers;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import sptech.school.projetoPI.core.domains.RoleDomain;
 import sptech.school.projetoPI.infrastructure.config.auth.JwtService;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,60 +28,105 @@ import java.util.Map;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final JwtService jwtService;
+    @Value("${web-endpoint.url}")
+    private String webEndpoint;
 
-    public AuthController(JwtService jwtService) {
+    private final JwtService jwtService;
+    private final OAuth2AuthorizedClientService authorizedClientService;
+
+    public AuthController(JwtService jwtService, OAuth2AuthorizedClientService authorizedClientService) {
         this.jwtService = jwtService;
+        this.authorizedClientService = authorizedClientService;
     }
 
     @GetMapping("/oauth2/success")
     public void oauth2Success(
             HttpServletRequest request,
             HttpServletResponse response) throws IOException {
-        // 1. Recupera a autenticação
         Authentication authentication = (Authentication) request.getSession()
                 .getAttribute("OAUTH2_AUTHENTICATION");
 
         if (authentication == null || !(authentication.getPrincipal() instanceof OAuth2User)) {
-            response.sendRedirect("http://localhost:5173/login?error=auth_failed");
+            response.sendRedirect(String.format("%s/login?error=auth_failed", webEndpoint));
             return;
         }
 
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
+        OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
         String email = oauth2User.getAttribute("email");
         RoleDomain roleDomain = oauth2User.getAttribute("role");
         String role = roleDomain.getName();
         Integer clientId = oauth2User.getAttribute("id");
 
-        // 2. Gera o token JWT
+        String googleAccessToken = getGoogleAccessToken(oauthToken);
         String token = jwtService.generateToken(email, role, clientId);
+        String sameSite = "Lax";
 
-        // 3. Configura o cookie
-        Cookie authCookie = new Cookie("AUTH_TOKEN", token);
-        authCookie.setHttpOnly(true);
-        authCookie.setSecure(false); // Ativar em produção
-        authCookie.setPath("/");
-        authCookie.setMaxAge(86400); // 1 dia em segundos
-        response.addCookie(authCookie);
+        ResponseCookie authCookie = ResponseCookie.from("AUTH_TOKEN", token)
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(86400)
+                .sameSite(sameSite)
+                .build();
 
-        // 4. Configura um cookie adicional para o frontend (opcional)
-        Cookie userRoleCookie = new Cookie("USER_ROLE", role);
-        userRoleCookie.setPath("/");
-        userRoleCookie.setMaxAge(86400);
-        response.addCookie(userRoleCookie);
+        response.addHeader(HttpHeaders.SET_COOKIE, authCookie.toString());
 
-        // 5. Redireciona para a página de loading do frontend
-        response.sendRedirect("http://localhost:5173/auth-loading");
+        ResponseCookie userRoleCookie = ResponseCookie.from("USER_ROLE", role)
+                .path("/")
+                .maxAge(86400)
+                .sameSite(sameSite)
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, userRoleCookie.toString());
+
+        ResponseCookie googleTokenCookie = ResponseCookie.from("GOOGLE_ACCESS_TOKEN", googleAccessToken)
+                .path("/")
+                .maxAge(3600)
+                .httpOnly(false)
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, googleTokenCookie.toString());
+
+        String encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8);
+        String redirectUrl = String.format("%s/auth-loading?token=%s", webEndpoint, encodedToken);
+        response.sendRedirect(redirectUrl);
+    }
+
+    private String getGoogleAccessToken(OAuth2AuthenticationToken oauthToken) {
+        try {
+            OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient(
+                    oauthToken.getAuthorizedClientRegistrationId(),
+                    oauthToken.getName()
+            );
+
+            if (authorizedClient != null && authorizedClient.getAccessToken() != null) {
+                String accessToken = authorizedClient.getAccessToken().getTokenValue();
+                System.out.println("🔑 Token do Google capturado: " + accessToken.substring(0, 20) + "...");
+                return accessToken;
+            }
+        } catch (Exception e) {
+            System.err.println("Erro ao capturar token do Google: " + e.getMessage());
+        }
+        return null;
     }
 
     @GetMapping("/check-auth")
     public ResponseEntity<Map<String, String>> checkAuth(
+            @RequestHeader(value = "Authorization", required = false) String authHeader,
             @CookieValue(name = "AUTH_TOKEN", required = false) String token) {
         Map<String, String> response = new HashMap<>();
 
-        if (token != null && jwtService.isTokenValid(token)) {
+        String jwt = null;
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            jwt = authHeader.substring(7);
+        }
+        else if (token != null && !token.isEmpty()) {
+            jwt = token;
+        }
+
+        if (jwt != null && jwtService.isTokenValid(jwt)) {
             response.put("status", "authenticated");
-            response.put("role", jwtService.extractClaim(token, claims -> claims.get("role", String.class)));
+            response.put("role", jwtService.extractClaim(jwt, claims -> claims.get("role", String.class)));
             return ResponseEntity.ok(response);
         }
 
@@ -89,11 +141,9 @@ public class AuthController {
 
         String jwt = null;
 
-        // 1. Tenta pegar do header Authorization
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
         }
-        // 2. Tenta pegar do cookie
         else if (token != null) {
             jwt = token;
         }
@@ -107,17 +157,19 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) {
-        // 1. Limpa o cookie de autenticação
-        Cookie authCookie = new Cookie("AUTH_TOKEN", null);
-        authCookie.setPath("/");
-        authCookie.setHttpOnly(true);
-        authCookie.setMaxAge(0); // Expira imediatamente
-        response.addCookie(authCookie);
+        String sameSite = "Lax";
 
-        // 2. Invalida a sessão do Spring Security
+        ResponseCookie authCookie = ResponseCookie.from("AUTH_TOKEN", "")
+                .path("/")
+                .httpOnly(true)
+                .secure(false)
+                .maxAge(0)
+                .sameSite(sameSite)
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, authCookie.toString());
+
         SecurityContextHolder.clearContext();
 
-        // 3. Invalida a sessão HTTP (se estiver usando)
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();
@@ -128,22 +180,28 @@ public class AuthController {
 
     @GetMapping("/user-info")
     public ResponseEntity<Map<String, Object>> getUserInfo(
+            @RequestHeader(value = "Authorization", required = false) String authHeader,
             @CookieValue(name = "AUTH_TOKEN", required = false) String token) {
-        // 1. Verifica se o token existe
-        if (token == null || token.isEmpty()) {
+        String jwt = null;
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            jwt = authHeader.substring(7);
+        }
+        else if (token != null && !token.isEmpty()) {
+            jwt = token;
+        }
+
+        if (jwt == null || jwt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        // 2. Valida o token
         try {
-            if (!jwtService.isTokenValid(token)) {
+            if (!jwtService.isTokenValid(jwt)) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
 
-            // 3. Extrai as informações
-            String email = jwtService.extractUsername(token);
-            String role = jwtService.extractClaim(token, claims -> claims.get("role", String.class));
-            Integer clientId = jwtService.extractClaim(token, claims -> claims.get("id", Integer.class));
+            String email = jwtService.extractUsername(jwt);
+            String role = jwtService.extractClaim(jwt, claims -> claims.get("role", String.class));
+            Integer clientId = jwtService.extractClaim(jwt, claims -> claims.get("id", Integer.class));
 
             Map<String, Object> userInfo = new HashMap<>();
             userInfo.put("email", email);

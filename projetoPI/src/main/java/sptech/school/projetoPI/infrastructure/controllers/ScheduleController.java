@@ -65,10 +65,10 @@ public class ScheduleController {
                     examples = @ExampleObject(value = ErroResponseExamples.CONFLICT)
             ))
     })
-    public ResponseEntity<ScheduleResumeResponseDto> createSchedule(@Valid @RequestBody ScheduleRequestDto requestDto) {
+    public ResponseEntity<ScheduleResponseDto> createSchedule(@Valid @RequestBody ScheduleRequestDto requestDto) throws Exception {
         ScheduleDomain scheduleDomain = ScheduleMapper.toDomain(requestDto);
         ScheduleDomain created = createScheduleUseCase.execute(scheduleDomain);
-        return new ResponseEntity<>(ScheduleMapper.toResumeResponseDto(created), HttpStatus.CREATED);
+        return new ResponseEntity<>(ScheduleMapper.toResponseDto(created), HttpStatus.CREATED);
     }
 
     @SecurityRequirement(name = "Bearer")

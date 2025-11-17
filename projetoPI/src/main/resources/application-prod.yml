@@ -3,18 +3,47 @@ spring:
     name: projetoPI
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/grupo4
+    url: jdbc:mysql://10.1.0.41:3306/grupo4
     username: root
-    password: admin
+    password: infra
   jpa:
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 630177904220-m0htlila7b9easlrkvdaeo2f1ehs9u3e.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope:
+              - email
+              - profile
+              - https://www.googleapis.com/auth/calendar
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            issuer-uri: https://accounts.google.com
   main:
     allow-circular-references: true
 
+google:
+  calendar:
+    application-name: "beauty-agenda"
+    salon:
+      calendar-id: "primary"
+      credentials-file: ${FILE_GOOGLE_CALENDAR_CREDENTIALS}
+
 server:
+  forward-headers-strategy: native
   error:
     include-message: always
     include-binding-error: always
@@ -22,3 +51,17 @@ server:
 jwt:
   validity: 3600000
   secret: RXhpc3RlIHVtYSB0ZW9yaWEgcXVlIGRpeiBxdWUsIHNlIHVtIGRpYSBhbGd16W0gZGVzY29icmlyIGV4YXRhbWVudGUgcGFyYSBxdWUgc2VydmUgbyBVbml2ZXJzbyBlIHBvciBxdWUgZWxlIGVzdOEgYXF1aSwgZWxlIGRlc2FwYXJlY2Vy4SBpbnN0YW50YW5lYW1lbnRlIGUgc2Vy4SBzdWJzdGl0de1kbyBwb3IgYWxnbyBhaW5kYSBtYWlzIGVzdHJhbmhvIGUgaW5leHBsaWPhdmVsLiBFeGlzdGUgdW1hIHNlZ3VuZGEgdGVvcmlhIHF1ZSBkaXogcXVlIGlzc28gauEgYWNvbnRlY2V1Li4u
+
+aws:
+  regiao: us-east-1
+  s3:
+    nome-bucket: beauty-barreto-source
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+web-endpoint:
+  url: ${WEB_URL_ENDPOINT}

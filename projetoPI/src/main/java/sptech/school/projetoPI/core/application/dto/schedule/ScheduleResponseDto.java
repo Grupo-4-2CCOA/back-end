@@ -30,6 +30,7 @@ public class ScheduleResponseDto {
     @Enumerated(EnumType.STRING)
     private Status status;
     private LocalDateTime appointmentDatetime;
+    private Integer duration;
 
     private UserResumeResponseDto client;
     private UserResumeResponseDto employee;

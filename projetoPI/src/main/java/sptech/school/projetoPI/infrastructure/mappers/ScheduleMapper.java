@@ -22,6 +22,7 @@ public class ScheduleMapper {
         ScheduleDomain scheduleDomain = new ScheduleDomain();
         scheduleDomain.setAppointmentDatetime(requestObject.getAppointmentDatetime());
         scheduleDomain.setStatus(Status.valueOf(requestObject.getStatus()));
+        scheduleDomain.setDuration(requestObject.getDuration());
 
         // Delegação de mapeamento para outras entidades
         scheduleDomain.setEmployeeDomain(UserMapper.toDomain(requestObject.getEmployee()));
@@ -44,6 +45,7 @@ public class ScheduleMapper {
                 .appointmentDatetime(domain.getAppointmentDatetime())
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
+                .duration(domain.getDuration())
                 .client(UserMapper.toResumeResponseDto(domain.getClientDomain()))
                 .employee(UserMapper.toResumeResponseDto(domain.getEmployeeDomain()))
                 .paymentType(PaymentTypeMapper.toResumeResponseDto(domain.getPaymentTypeDomain()))

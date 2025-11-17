@@ -21,13 +21,25 @@ spring:
             client-id: 630177904220-m0htlila7b9easlrkvdaeo2f1ehs9u3e.apps.googleusercontent.com
             client-secret: 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
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-            scope: email, profile
+            scope:
+              - email
+              - profile
+              - https://www.googleapis.com/auth/calendar
         provider:
           google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
             issuer-uri: https://accounts.google.com
   main:
     allow-circular-references: true
 
+google:
+  calendar:
+    application-name: "beauty-agenda"
+    salon:
+      calendar-id: "primary"
+      credentials-file: "classpath:salao.json"
 server:
   error:
     include-message: always
@@ -37,11 +49,16 @@ jwt:
   validity: 3600000
   secret: RXhpc3RlIHVtYSB0ZW9yaWEgcXVlIGRpeiBxdWUsIHNlIHVtIGRpYSBhbGd16W0gZGVzY29icmlyIGV4YXRhbWVudGUgcGFyYSBxdWUgZGUgdG9kbyBvIFVuaXZlcnNvIGUgcG9yIHF1ZSBlbGUgZXN04SBhcnJpc2NhdmVsLCBlbGUgZGVzYXBhcmljZSBpbnN0YW5lYSBzdWJzdGl0dWNvbiBwZXJmaXRvLi4u
 
-aws.regiao: us-east-1
-aws.s3.nome-bucket: beauty-barreto-source
+aws:
+  regiao: us-east-1
+  s3:
+    nome-bucket: beauty-barreto-source
 
 springdoc:
   swagger-ui:
     path: /swagger-ui.html   # Caminho da interface do Swagger UI
   api-docs:
     path: /v3/api-docs       # Caminho do JSON da documentação
+
+web-endpoint:
+  url: "http://localhost:5173"

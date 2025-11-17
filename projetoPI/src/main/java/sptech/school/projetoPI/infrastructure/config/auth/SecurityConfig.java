@@ -1,5 +1,6 @@
 package sptech.school.projetoPI.infrastructure.config.auth;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,9 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    @Value("${web-endpoint.url}")
+    private String webEndpoint;
+
     private final CustomOAuth2UserService customOAuth2UserService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
@@ -39,7 +43,7 @@ public class SecurityConfig {
                 .cors(cors -> {})
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/auth/**", "/oauth2/**", "/login/**", "/dashboard/**", "/agendamentos/**").permitAll()
+                        .requestMatchers("/auth/**", "/oauth2/**", "/login/**").permitAll()
 
                         .requestMatchers("/admin/**").hasAnyRole("OWNER", "ADMIN", "FUNC", "EMPLOYEE")
                         .requestMatchers("/agendamento/**").hasAnyRole("USER", "ADMIN", "FUNC", "EMPLOYEE")
@@ -60,16 +64,15 @@ public class SecurityConfig {
                                 .userService(customOAuth2UserService)
                         )
                         .successHandler((request, response, authentication) -> {
-                            // Salva a autenticação na sessão antes de redirecionar
                             request.getSession().setAttribute("OAUTH2_AUTHENTICATION", authentication);
-                            response.sendRedirect("/auth/oauth2/success"); // Redireciona para o endpoint de sucesso
+                            response.sendRedirect("/auth/oauth2/success");
                         })
                         .failureHandler((request, response, exception) -> {
-                            response.sendRedirect("http://localhost:5173/login?error=auth_failed");
+                            response.sendRedirect(String.format("%s/login?error=auth_failed", webEndpoint));
                         })
                 ).logout(logout -> logout
                         .logoutUrl("/auth/logout")
-                        .logoutSuccessUrl("http://localhost:5173/login")
+                        .logoutSuccessUrl(String.format("%s/login", webEndpoint))
                         .deleteCookies("AUTH_TOKEN", "JSESSIONID")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
@@ -86,10 +89,11 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+        config.setAllowedOrigins(Arrays.asList(webEndpoint));
         config.setAllowCredentials(true);
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
+        config.addExposedHeader("Authorization");
 
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);

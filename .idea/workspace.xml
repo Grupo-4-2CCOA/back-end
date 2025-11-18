@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8ed9cf5b-230f-4a08-b13c-50b6a376d262" name="Changes" comment="feat: CICD">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/cicd.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/cicd.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/resources/application-prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/resources/application-prod.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/resources/salao.exemple.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +29,18 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Fabricio-Prudente-Ferreira"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Grupo-4-2CCOA/back-end.git",
+    "accountId": "b2b4bac0-11a6-46fc-bb32-e9f652036f2e"
+  }
+}]]></component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -42,6 +56,8 @@
   "keyToString": {
     "Application.ProjetoPiApplication.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "settings.editor.selected.configurable": "reference.settings.project.maven.importing"
@@ -84,7 +100,23 @@
       <option name="project" value="LOCAL" />
       <updated>1763411001795</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="feat: CICD">
+      <option name="closed" value="true" />
+      <created>1763411514769</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1763411514769</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat: CICD">
+      <option name="closed" value="true" />
+      <created>1763411523883</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1763411523883</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

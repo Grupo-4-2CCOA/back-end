@@ -4,13 +4,14 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/grupo4
-    username: infra
-    password: "infra"
+    username: root
+    password: "#Gf52291945882"
   jpa:
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: none
   security:
@@ -39,8 +40,10 @@ google:
     application-name: "beauty-agenda"
     salon:
       calendar-id: "primary"
-      credentials-file: "classpath:salao.json"
+      credentials-file: ${CREDENTIALS_FILE_PATH:classpath:salao.json}
+
 server:
+  forward-headers-strategy: native
   error:
     include-message: always
     include-binding-error: always
@@ -56,9 +59,9 @@ aws:
 
 springdoc:
   swagger-ui:
-    path: /swagger-ui.html   # Caminho da interface do Swagger UI
+    path: /swagger-ui.html
   api-docs:
-    path: /v3/api-docs       # Caminho do JSON da documentação
+    path: /v3/api-docs
 
 web-endpoint:
   url: "http://localhost:5173"

@@ -1,6 +1,8 @@
 package sptech.school.projetoPI.infrastructure.persistence.adapters;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -44,6 +46,7 @@ public class ServiceAdapter implements ServiceGateway {
     }
 
     @Override
+    @CacheEvict(value = "services", allEntries = true)
     public ServiceDomain deleteById(Integer id) {
         Optional<ServiceDomain> serviceOpt = this.findById(id);
         serviceOpt.ifPresent(a -> jpaRepository.deleteById(id));
@@ -83,6 +86,7 @@ public class ServiceAdapter implements ServiceGateway {
     }
 
     @Override
+    @Cacheable(value = "services", key = "'all'")
     public List<ServiceDomain> findAllByActiveTrue() {
         return jpaRepository.findAllByIsActiveTrue().stream()
                 .map(ServiceMapper::toDomain)

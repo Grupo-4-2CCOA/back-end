@@ -4,8 +4,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/grupo4
-    username: root
-    password: "#Gf52291945882"
+    username: infra
+    password: "infra"
   jpa:
     show-sql: true
     properties:
@@ -34,6 +34,21 @@ spring:
             issuer-uri: https://accounts.google.com
   main:
     allow-circular-references: true
+
+cache:
+  type: redis
+  redis:
+    time-to-live: PT5M          # TTL padrão (5 minutos)
+    cache-null-values: false    # não armazena valores nulos
+    key-prefix: "app::"          # adiciona um prefixo antes de cada chave
+data:
+  redis:
+    host: host.docker.internal
+    port: 6379
+      # password: minha_senha_segura (caso tenha definido no Docker)
+logging:
+  level:
+    org.springframework.cache.interceptor.CacheInterceptor: TRACE  # mostra hits/misses no log
 
 google:
   calendar:

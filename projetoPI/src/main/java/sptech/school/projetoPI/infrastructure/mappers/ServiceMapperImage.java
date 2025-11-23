@@ -24,8 +24,6 @@ public class ServiceMapperImage {
                 .basePrice(domain.getBasePrice())
                 .baseDuration(domain.getBaseDuration())
                 .image(domain.getImage() != null ? fileUploadGateway.getFileUrl(domain.getImage()) : null)
-                .createdAt(domain.getCreatedAt())
-                .updatedAt(domain.getUpdatedAt())
                 .category(CategoryMapper.toResumeResponseDto(domain.getCategory()))
                 .build();
     }

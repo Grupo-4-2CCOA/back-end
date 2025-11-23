@@ -1,3 +1,5 @@
 spring:
   application:
     name: projetoPI
+  profiles:
+    active: hml

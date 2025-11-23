@@ -8,6 +8,8 @@ import sptech.school.projetoPI.core.gateways.PaymentTypeGateway;
 import sptech.school.projetoPI.core.gateways.ScheduleGateway;
 import sptech.school.projetoPI.core.gateways.UserGateway;
 
+import java.time.LocalDateTime;
+
 public class UpdateScheduleByIdUseCase {
 
     private final ScheduleGateway scheduleGateway;
@@ -53,6 +55,7 @@ public class UpdateScheduleByIdUseCase {
 
         scheduleDomain.setId(id);
         scheduleDomain.setCreatedAt(scheduleGateway.findById(id).get().getCreatedAt());
+        scheduleDomain.setUpdatedAt(LocalDateTime.now());
         return scheduleGateway.save(scheduleDomain);
     }
 

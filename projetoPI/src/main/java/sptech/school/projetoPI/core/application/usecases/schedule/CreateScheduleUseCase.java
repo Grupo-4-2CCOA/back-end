@@ -60,6 +60,10 @@ public class CreateScheduleUseCase {
             throw new EntityConflictException("Horário já ocupado");
         }
 
+        if(scheduleDomain.getAppointmentDatetime().isAfter(LocalDateTime.now())){
+            throw new Exception("O Horário deve estar no futuro");
+        }
+
         if (scheduleDomain.getItems() != null) {
             scheduleDomain.getItems().forEach(item -> item.setSchedule(scheduleDomain));
         }

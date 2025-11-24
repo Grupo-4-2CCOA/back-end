@@ -179,15 +179,39 @@ public class AuthController {
 
     @GetMapping("/user-info")
     public ResponseEntity<Map<String, Object>> getUserInfo(
+            HttpServletRequest request,
             @RequestHeader(value = "Authorization", required = false) String authHeader,
             @CookieValue(name = "AUTH_TOKEN", required = false) String token) {
+        
+        // Logs temporários para diagnóstico
+        System.out.println("=== /auth/user-info - DIAGNÓSTICO ===");
+        System.out.println("Authorization header: " + (authHeader != null ? "SIM (length: " + authHeader.length() + ")" : "NÃO"));
+        System.out.println("Cookie AUTH_TOKEN: " + (token != null ? "SIM (length: " + token.length() + ")" : "NÃO"));
+        System.out.println("Request Origin: " + request.getHeader("Origin"));
+        System.out.println("Request Referer: " + request.getHeader("Referer"));
+        
+        // Verifica todos os cookies recebidos
+        if (request.getCookies() != null) {
+            System.out.println("Total de cookies: " + request.getCookies().length);
+            for (jakarta.servlet.http.Cookie c : request.getCookies()) {
+                System.out.println("  Cookie: " + c.getName());
+            }
+        } else {
+            System.out.println("Nenhum cookie recebido!");
+        }
+        
         String jwt = null;
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
+            System.out.println("Token extraído do header Authorization");
         }
         else if (token != null && !token.isEmpty()) {
             jwt = token;
+            System.out.println("Token extraído do cookie");
         }
+
+        System.out.println("Token final: " + (jwt != null ? "SIM" : "NÃO"));
+        System.out.println("=====================================");
 
         if (jwt == null || jwt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

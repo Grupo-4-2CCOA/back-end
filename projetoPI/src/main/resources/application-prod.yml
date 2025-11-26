@@ -38,6 +38,8 @@ spring:
     redis:
       host: redis
       port: 6379
+      repositories:
+        enabled: false
   cache:
     type: redis
     redis:

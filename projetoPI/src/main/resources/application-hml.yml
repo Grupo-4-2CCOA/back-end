@@ -34,21 +34,20 @@ spring:
             issuer-uri: https://accounts.google.com
   main:
     allow-circular-references: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  cache:
+    type: redis
+    redis:
+      time-to-live: PT5M
+      cache-null-values: false
+      key-prefix: "app::"
 
-cache:
-  type: redis
-  redis:
-    time-to-live: PT5M          # TTL padrão (5 minutos)
-    cache-null-values: false    # não armazena valores nulos
-    key-prefix: "app::"          # adiciona um prefixo antes de cada chave
-data:
-  redis:
-    host: host.docker.internal
-    port: 6379
-      # password: minha_senha_segura (caso tenha definido no Docker)
 logging:
   level:
-    org.springframework.cache.interceptor.CacheInterceptor: TRACE  # mostra hits/misses no log
+    org.springframework.cache.interceptor.CacheInterceptor: TRACE
 
 google:
   calendar:

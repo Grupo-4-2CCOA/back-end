@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 @Component
 @RequiredArgsConstructor
@@ -85,11 +87,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (request.getCookies() != null) {
             for (var cookie : request.getCookies()) {
                 if ("AUTH_TOKEN".equals(cookie.getName())) {
-                    return cookie.getValue();
+                    String encodedToken = cookie.getValue();
+                    return decodeTokenFromCookie(encodedToken);
                 }
             }
         }
 
         return null;
+    }
+
+    private String decodeTokenFromCookie(String encodedToken) {
+        if (encodedToken == null || encodedToken.isEmpty()) {
+            return encodedToken;
+        }
+        try {
+            return new String(Base64.getUrlDecoder().decode(encodedToken), StandardCharsets.UTF_8);
+        } catch (IllegalArgumentException e) {
+            return encodedToken;
+        }
     }
 }

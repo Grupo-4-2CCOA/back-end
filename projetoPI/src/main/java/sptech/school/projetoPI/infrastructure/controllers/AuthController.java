@@ -21,6 +21,7 @@ import sptech.school.projetoPI.infrastructure.config.auth.JwtService;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +38,17 @@ public class AuthController {
     public AuthController(JwtService jwtService, OAuth2AuthorizedClientService authorizedClientService) {
         this.jwtService = jwtService;
         this.authorizedClientService = authorizedClientService;
+    }
+
+    private String decodeTokenFromCookie(String encodedToken) {
+        if (encodedToken == null || encodedToken.isEmpty()) {
+            return encodedToken;
+        }
+        try {
+            return new String(Base64.getUrlDecoder().decode(encodedToken), StandardCharsets.UTF_8);
+        } catch (IllegalArgumentException e) {
+            return encodedToken;
+        }
     }
 
     @GetMapping("/oauth2/success")
@@ -62,7 +74,9 @@ public class AuthController {
         String token = jwtService.generateToken(email, role, clientId);
         String sameSite = "Lax";
 
-        ResponseCookie authCookie = ResponseCookie.from("AUTH_TOKEN", token)
+        String encodedTokenForCookie = Base64.getUrlEncoder().withoutPadding().encodeToString(token.getBytes(StandardCharsets.UTF_8));
+        
+        ResponseCookie authCookie = ResponseCookie.from("AUTH_TOKEN", encodedTokenForCookie)
                 .httpOnly(true)
                 .secure(false)
                 .path("/")
@@ -72,14 +86,17 @@ public class AuthController {
 
         response.addHeader(HttpHeaders.SET_COOKIE, authCookie.toString());
 
-        ResponseCookie userRoleCookie = ResponseCookie.from("USER_ROLE", role)
+        String encodedRole = URLEncoder.encode(role, StandardCharsets.UTF_8);
+        ResponseCookie userRoleCookie = ResponseCookie.from("USER_ROLE", encodedRole)
                 .path("/")
                 .maxAge(86400)
                 .sameSite(sameSite)
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, userRoleCookie.toString());
-
-        ResponseCookie googleTokenCookie = ResponseCookie.from("GOOGLE_ACCESS_TOKEN", googleAccessToken)
+        
+        String encodedGoogleToken = Base64.getUrlEncoder().withoutPadding().encodeToString(
+                googleAccessToken.getBytes(StandardCharsets.UTF_8));
+        ResponseCookie googleTokenCookie = ResponseCookie.from("GOOGLE_ACCESS_TOKEN", encodedGoogleToken)
                 .path("/")
                 .maxAge(3600)
                 .httpOnly(false)
@@ -121,7 +138,7 @@ public class AuthController {
             jwt = authHeader.substring(7);
         }
         else if (token != null && !token.isEmpty()) {
-            jwt = token;
+            jwt = decodeTokenFromCookie(token);
         }
 
         if (jwt != null && jwtService.isTokenValid(jwt)) {
@@ -144,7 +161,7 @@ public class AuthController {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
         } else if (token != null) {
-            jwt = token;
+            jwt = decodeTokenFromCookie(token);
         }
 
         if (jwt == null || !jwtService.isTokenValid(jwt)) {
@@ -189,7 +206,7 @@ public class AuthController {
             jwt = authHeader.substring(7);
         }
         else if (token != null && !token.isEmpty()) {
-            jwt = token;
+            jwt = decodeTokenFromCookie(token);
         }
 
         if (jwt == null || jwt.isEmpty()) {

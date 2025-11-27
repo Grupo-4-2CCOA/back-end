@@ -52,6 +52,7 @@ public class ServiceMapper {
                 .description(domain.getDescription())
                 .basePrice(domain.getBasePrice())
                 .baseDuration(domain.getBaseDuration())
+                .image(domain.getImage())
                 .category(CategoryMapper.toResumeResponseDto(domain.getCategory()))
                 .build();
     }

@@ -11,6 +11,8 @@ RABBITMQ_URL = os.environ.get("RABBITMQ_URL", "amqp://guest:guest@localhost:5672
 GMAIL_PASSWORD = os.environ.get("GMAIL_PASSWORD", "PASSWORD_NULL")
 QUEUE_NAME = "beauty-barreto.queue"
 
+print(GMAIL_PASSWORD)
+
 DB_CONFIG = {
     "host": os.environ.get("DB_HOST", "localhost"),
     "user": os.environ.get("DB_USER", "infra"),

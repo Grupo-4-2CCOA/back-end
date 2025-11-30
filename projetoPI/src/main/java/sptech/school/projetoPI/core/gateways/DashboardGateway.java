@@ -1,7 +1,9 @@
 package sptech.school.projetoPI.core.gateways;
 
-import sptech.school.projetoPI.core.domains.DashboardMetrics;
+import sptech.school.projetoPI.core.domains.DashboardSistemasMetrics;
+import sptech.school.projetoPI.core.domains.DashboardVendasMetrics;
 
 public interface DashboardGateway {
-    DashboardMetrics getDashboardSistema(int mes, int ano);
+  DashboardSistemasMetrics getDashboardSistema(int mes, int ano);
+  DashboardVendasMetrics getDashboardVendas(int mes, int ano);
 }

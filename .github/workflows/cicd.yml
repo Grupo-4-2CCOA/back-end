@@ -35,7 +35,7 @@ jobs:
           echo "Renomeado para target/beauty_barreto.jar"
         working-directory: ./projetoPI
 
-      - name: Enviando JAR e Consumer para EC2 Pública
+      - name: Enviando JAR para EC2 Pública
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
@@ -43,9 +43,17 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: /home/${{ secrets.REMOTE_USER }}/backend/
           ARGS: "-rltgoDzvO --delete" 
-          SOURCE: | 
-            ./projetoPI/target/*.jar
-            ./projetoPI/consumer/
+          SOURCE: ./projetoPI/target/*.jar
+
+      - name: Enviando Consumer para EC2 Pública
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST_PUBLICO }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: /home/${{ secrets.REMOTE_USER }}/backend/
+          ARGS: "-rltgoDzvO --delete" 
+          SOURCE: ./projetoPI/consumer/
           
       - name: Executar Comando Shell na EC2
         uses: appleboy/ssh-action@v1.0.3

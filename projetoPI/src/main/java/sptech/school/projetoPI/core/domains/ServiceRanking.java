@@ -13,6 +13,11 @@ public class ServiceRanking {
         this.valorTotal = valorTotal;
     }
 
+    public ServiceRanking(String nomeServico, long quantidade) {
+        this.nomeServico = nomeServico;
+        this.quantidade = quantidade;
+    }
+
     public ServiceRanking() {
     }
 

@@ -34,6 +34,11 @@ spring:
             issuer-uri: https://accounts.google.com
   main:
     allow-circular-references: true
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: myuser
+    password: secret
   data:
     redis:
       host: redis

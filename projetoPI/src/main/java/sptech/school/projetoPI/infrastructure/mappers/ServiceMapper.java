@@ -46,8 +46,6 @@ public class ServiceMapper {
     public static ServiceResponseDto toResponseDto(ServiceDomain domain) {
         if(domain == null) return null;
 
-        System.out.println(domain.getImage());
-
         return ServiceResponseDto.builder()
                 .id(domain.getId())
                 .name(domain.getName())

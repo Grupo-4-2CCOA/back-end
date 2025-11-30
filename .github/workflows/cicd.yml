@@ -82,7 +82,7 @@ jobs:
             echo "Arquivo movido com sucesso"
 
             echo "Movendo Consumer para a pasta correta"
-            ssh -o StrictHostKeyChecking=no -i $INSTANCE_KEY $USUARIO_IP "sudo mv ~/backend/consumer/* /usr/share/consumer/"
+            ssh -o StrictHostKeyChecking=no -i $INSTANCE_KEY $USUARIO_IP "sudo mv ~/backend/* /usr/share/consumer/"
             echo "Arquivos movidos com sucesso"
             
             echo "Enviando credenciais do Google Calendar para a EC2"

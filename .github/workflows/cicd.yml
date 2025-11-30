@@ -92,7 +92,7 @@ jobs:
             echo "Credenciais enviadas para a EC2 Privada"
 
             ssh -o StrictHostKeyChecking=no -i $INSTANCE_KEY $USUARIO_IP << EOF
-              echo "gmail_password=${{ secrets.GMAIL_PASSWORD }}" | sudo tee .env > /dev/null
+              echo "GMAIL_PASSWORD=${{ secrets.GMAIL_PASSWORD }}" | sudo tee .env > /dev/null
               sudo docker compose up -d
             EOF
 

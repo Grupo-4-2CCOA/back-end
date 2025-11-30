@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import sptech.school.projetoPI.core.domains.ScheduleDomain;
 import sptech.school.projetoPI.core.gateways.ScheduleGateway;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class GetAllScheduleUseCase {
@@ -15,8 +16,8 @@ public class GetAllScheduleUseCase {
         this.scheduleGateway = scheduleGateway;
     }
 
-    public Page<ScheduleDomain> execute(Pageable pageable) {
-        return scheduleGateway.findAll(pageable);
+    public Page<ScheduleDomain> execute(Pageable pageable, LocalDateTime startDate, LocalDateTime endDate) {
+        return scheduleGateway.findAll(pageable, startDate, endDate);
     }
 
 }

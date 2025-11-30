@@ -11,16 +11,29 @@ import java.util.Optional;
 
 public interface ScheduleGateway {
     ScheduleDomain save(ScheduleDomain scheduleDomain);
+
     boolean existsById(Integer id);
+
     boolean existsByAppointmentDatetime(LocalDateTime appointmentDatetime);
+
     boolean existsByPaymentTypeId(Integer id);
+
     boolean existsByEmployeeId(Integer id);
+
     boolean existsByIdNotAndAppointmentDatetime(Integer id, LocalDateTime appointmentDatetime);
+
     boolean existsByClientId(Integer clientId);
+
     boolean existsByIdAndStatus(Integer id, Status status);
+
     Optional<ScheduleDomain> findById(Integer id);
-    Page<ScheduleDomain> findAll(Pageable pageable);
+
+    Page<ScheduleDomain> findAll(Pageable pageable, LocalDateTime startDate, LocalDateTime endDate);
+
     List<ScheduleDomain> findAllByPaymentTypeId(Integer id);
+
     List<ScheduleDomain> findAllByEmployeeId(Integer id);
-    Page<ScheduleDomain> findAllByClientId(Integer clientId, Pageable pageable);
+
+    Page<ScheduleDomain> findAllByClientId(Integer clientId, Pageable pageable, LocalDateTime startDate,
+            LocalDateTime endDate);
 }

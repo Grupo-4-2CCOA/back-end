@@ -1,6 +1,7 @@
 package sptech.school.projetoPI.core.application.dto.schedule;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import sptech.school.projetoPI.core.application.dto.user.UserResumeResponseDto;
 import sptech.school.projetoPI.core.application.dto.user.client.ClientResumeResponseDto;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ScheduleResumeResponseDto {
     private Integer id;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime appointmentDatetime;
     private Status status;
     private UserResumeResponseDto client;

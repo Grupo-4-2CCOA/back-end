@@ -1,6 +1,8 @@
 package sptech.school.projetoPI.infrastructure.persistence.adapters;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ScheduleAdapter implements ScheduleGateway {
 
+    private static final Logger logger = LoggerFactory.getLogger(ScheduleAdapter.class);
     private final JpaScheduleRepository repository;
 
     @Override
@@ -70,7 +73,22 @@ public class ScheduleAdapter implements ScheduleGateway {
     }
 
     @Override
-    public Page<ScheduleDomain> findAll(Pageable pageable) {
+    public Page<ScheduleDomain> findAll(Pageable pageable, LocalDateTime startDate, LocalDateTime endDate) {
+        logger.info("findAll - startDate: {}, endDate: {}", startDate, endDate);
+        if (startDate != null && endDate != null) {
+            logger.info("Applying BETWEEN filter: {} to {}", startDate, endDate);
+            return repository.findAllByAppointmentDatetimeBetween(startDate, endDate, pageable)
+                    .map(ScheduleMapper::toDomain);
+        } else if (startDate != null) {
+            logger.info("Applying >= filter: {}", startDate);
+            return repository.findAllByAppointmentDatetimeGreaterThanEqual(startDate, pageable)
+                    .map(ScheduleMapper::toDomain);
+        } else if (endDate != null) {
+            logger.info("Applying <= filter: {}", endDate);
+            return repository.findAllByAppointmentDatetimeLessThanEqual(endDate, pageable)
+                    .map(ScheduleMapper::toDomain);
+        }
+        logger.info("No date filter applied");
         return repository.findAll(pageable).map(ScheduleMapper::toDomain);
     }
 
@@ -89,7 +107,23 @@ public class ScheduleAdapter implements ScheduleGateway {
     }
 
     @Override
-    public Page<ScheduleDomain> findAllByClientId(Integer clientId, Pageable pageable) {
+    public Page<ScheduleDomain> findAllByClientId(Integer clientId, Pageable pageable, LocalDateTime startDate,
+            LocalDateTime endDate) {
+        logger.info("findAllByClientId - clientId: {}, startDate: {}, endDate: {}", clientId, startDate, endDate);
+        if (startDate != null && endDate != null) {
+            logger.info("Applying BETWEEN filter: {} to {}", startDate, endDate);
+            return repository.findAllByClient_IdAndAppointmentDatetimeBetween(clientId, startDate, endDate, pageable)
+                    .map(ScheduleMapper::toDomain);
+        } else if (startDate != null) {
+            logger.info("Applying >= filter: {}", startDate);
+            return repository.findAllByClient_IdAndAppointmentDatetimeGreaterThanEqual(clientId, startDate, pageable)
+                    .map(ScheduleMapper::toDomain);
+        } else if (endDate != null) {
+            logger.info("Applying <= filter: {}", endDate);
+            return repository.findAllByClient_IdAndAppointmentDatetimeLessThanEqual(clientId, endDate, pageable)
+                    .map(ScheduleMapper::toDomain);
+        }
+        logger.info("No date filter applied");
         return repository.findAllByClient_Id(clientId, pageable).map(ScheduleMapper::toDomain);
     }
 }

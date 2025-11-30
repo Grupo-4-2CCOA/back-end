@@ -91,5 +91,9 @@ jobs:
             ssh -o StrictHostKeyChecking=no -i $INSTANCE_KEY $USUARIO_IP "sudo mv ~/credentials.json /usr/share/api/credentials.json"
             echo "Credenciais enviadas para a EC2 Privada"
 
-            ssh -o StrictHostKeyChecking=no -i $INSTANCE_KEY $USUARIO_IP "sudo docker compose up -d"
+            ssh -o StrictHostKeyChecking=no -i $INSTANCE_KEY $USUARIO_IP << EOF
+              echo "gmail_password=${{ secrets.GMAIL_PASSWORD }}" | sudo tee .env > /dev/null
+              sudo docker compose up -d
+            EOF
+
             echo "Servico iniciado via Docker Compose"

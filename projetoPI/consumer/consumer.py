@@ -8,6 +8,7 @@ from email.message import EmailMessage
 import smtplib
 
 RABBITMQ_URL = os.environ.get("RABBITMQ_URL", "amqp://guest:guest@localhost:5672/")
+GMAIL_PASSWORD = os.environ.get("GMAIL_PASSWORD", "PASSWORD_NULL")
 QUEUE_NAME = "beauty-barreto.queue"
 
 DB_CONFIG = {
@@ -107,7 +108,7 @@ def enviar_email_agradecimento(destinatario, nome_cliente, rating, comment):
             smtp.starttls()
             print(">>> [6] TLS iniciado")
 
-            smtp.login("miguel.lopesluvizon@gmail.com", "senha enviada no email grupo 4")
+            smtp.login("beautybarreto01@gmail.com", GMAIL_PASSWORD)
             print(">>> [7] Login realizado com sucesso")
 
             smtp.send_message(msg)

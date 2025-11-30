@@ -1,6 +1,6 @@
 package sptech.school.projetoPI.core.application.usecases.dashboard;
 
-import sptech.school.projetoPI.core.domains.DashboardMetrics;
+import sptech.school.projetoPI.core.domains.DashboardSistemasMetrics;
 import sptech.school.projetoPI.core.gateways.DashboardGateway;
 
 public class GetDashboardSistemaUseCase {
@@ -10,7 +10,7 @@ public class GetDashboardSistemaUseCase {
         this.dashboardGateway = dashboardGateway;
     }
 
-    public DashboardMetrics execute(int mes, int ano) {
+    public DashboardSistemasMetrics execute(int mes, int ano) {
         return dashboardGateway.getDashboardSistema(mes, ano);
     }
 }

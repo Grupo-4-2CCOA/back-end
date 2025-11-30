@@ -2,20 +2,20 @@ package sptech.school.projetoPI.core.domains;
 
 import java.util.List;
 
-public class DashboardMetrics {
+public class DashboardSistemasMetrics {
     private List<Object[]> rendimentoTotal;
     private List<Object[]> taxaCancelamento;
     private int totalAtendimentos;
     private List<ServiceRanking> rankingServicos;
 
-    public DashboardMetrics(List<Object[]> rendimentoTotal, List<Object[]> taxaCancelamento, int totalAtendimentos, List<ServiceRanking> rankingServicos) {
+    public DashboardSistemasMetrics(List<Object[]> rendimentoTotal, List<Object[]> taxaCancelamento, int totalAtendimentos, List<ServiceRanking> rankingServicos) {
         this.rendimentoTotal = rendimentoTotal;
         this.taxaCancelamento = taxaCancelamento;
         this.totalAtendimentos = totalAtendimentos;
         this.rankingServicos = rankingServicos;
     }
 
-    public DashboardMetrics() {
+    public DashboardSistemasMetrics() {
     }
 
     public List<Object[]> getRendimentoTotal() {

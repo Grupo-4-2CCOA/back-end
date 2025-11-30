@@ -52,7 +52,6 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST_PUBLICO }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: /home/${{ secrets.REMOTE_USER }}/backend/
-          ARGS: "-rltgoDzvO --delete" 
           SOURCE: ./projetoPI/consumer/
 
       - name: Clean SSH known_hosts

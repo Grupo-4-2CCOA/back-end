@@ -1,5 +1,7 @@
 package sptech.school.projetoPI.core.application.usecases.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import sptech.school.projetoPI.core.domains.ServiceDomain;
 import sptech.school.projetoPI.core.gateways.ServiceGateway;
 

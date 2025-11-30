@@ -5,7 +5,6 @@ import sptech.school.projetoPI.core.enums.Status;
 import sptech.school.projetoPI.core.application.dto.schedule.ScheduleRequestDto;
 import sptech.school.projetoPI.core.application.dto.schedule.ScheduleResponseDto;
 import sptech.school.projetoPI.core.application.dto.schedule.ScheduleResumeResponseDto;
-import sptech.school.projetoPI.infrastructure.persistence.entity.ScheduleItemJpaEntity;
 import sptech.school.projetoPI.infrastructure.persistence.entity.ScheduleJpaEntity;
 
 import java.util.List;
@@ -22,6 +21,7 @@ public class ScheduleMapper {
         ScheduleDomain scheduleDomain = new ScheduleDomain();
         scheduleDomain.setAppointmentDatetime(requestObject.getAppointmentDatetime());
         scheduleDomain.setStatus(Status.valueOf(requestObject.getStatus()));
+        scheduleDomain.setDuration(requestObject.getDuration());
 
         // Delegação de mapeamento para outras entidades
         scheduleDomain.setEmployeeDomain(UserMapper.toDomain(requestObject.getEmployee()));
@@ -44,6 +44,7 @@ public class ScheduleMapper {
                 .appointmentDatetime(domain.getAppointmentDatetime())
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
+                .duration(domain.getDuration())
                 .client(UserMapper.toResumeResponseDto(domain.getClientDomain()))
                 .employee(UserMapper.toResumeResponseDto(domain.getEmployeeDomain()))
                 .paymentType(PaymentTypeMapper.toResumeResponseDto(domain.getPaymentTypeDomain()))

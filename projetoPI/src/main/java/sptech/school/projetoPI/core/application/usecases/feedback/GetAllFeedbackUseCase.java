@@ -1,5 +1,7 @@
 package sptech.school.projetoPI.core.application.usecases.feedback;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import sptech.school.projetoPI.core.domains.FeedbackDomain;
 import sptech.school.projetoPI.core.gateways.FeedbackGateway;
 
@@ -14,7 +16,7 @@ public class GetAllFeedbackUseCase {
         this.feedbackGateway = feedbackGateway;
     }
 
-    public List<FeedbackDomain> execute() {
-        return feedbackGateway.findAll();
+    public Page<FeedbackDomain> execute(Pageable pageable) {
+        return feedbackGateway.findAll(pageable);
     }
 }

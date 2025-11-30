@@ -23,7 +23,7 @@ public class ScheduleRequestDto {
     private Integer employee;
 
     @NotNull(message = "Preencha o horário do agendamento")
-    @FutureOrPresent(message = "Horário deve estar no futuro")
+//    @FutureOrPresent(message = "Horário deve estar no futuro")
     private LocalDateTime appointmentDatetime;
 
     @NotBlank(message = "Insira o status")

@@ -3,12 +3,3 @@ spring:
     name: projetoPI
   profiles:
     active: hml
-#    active: hml
-#    active: prod
-
-
-# ================= ALTERAR PARA "PROD" NO AMBIENTE EM NUVEM ================= #
-
-# ====== ALTERAR A SENHA DO BANCO DE DADOS "HML" PARA RODAR A APLICAÇÃO ====== #
-
-# ============= TESTES DEVEM SER EXECUTADOS NO AMBIENTE DE "TEST" ============= #

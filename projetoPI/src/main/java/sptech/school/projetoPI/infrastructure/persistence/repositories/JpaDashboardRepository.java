@@ -8,6 +8,7 @@ import sptech.school.projetoPI.core.domains.ServiceRanking;
 import sptech.school.projetoPI.infrastructure.persistence.entity.ScheduleJpaEntity;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public interface JpaDashboardRepository extends JpaRepository<ScheduleJpaEntity, Integer> {

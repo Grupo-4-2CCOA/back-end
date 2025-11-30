@@ -4,24 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8ed9cf5b-230f-4a08-b13c-50b6a376d262" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/scheduleItem/CreateScheduleItemUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/scheduleItem/DeleteScheduleItemByIdUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/scheduleItem/GetAllScheduleItemUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/scheduleItem/GetScheduleItemByIdUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/scheduleItem/UpdateScheduleItemByIdUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/di/ScheduleItemConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/implement/ScheduleItemRepositoryImpl.java" afterDir="false" />
+    <list default="true" id="8ed9cf5b-230f-4a08-b13c-50b6a376d262" name="Changes" comment="feat: CICD">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/schedule/CreateScheduleUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/schedule/CreateScheduleUseCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/schedule/GetSchedulebyIdUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/application/usecases/schedule/GetScheduleByIdUseCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/core/gateways/ScheduleGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/core/gateways/ScheduleGateway.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/core/gateways/ScheduleItemGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/core/gateways/ScheduleItemGateway.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/controllers/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/controllers/RoleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/controllers/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/controllers/ScheduleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/di/ScheduleConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/di/ScheduleConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/implement/ScheduleRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/implement/ScheduleRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/repositories/JpaScheduleItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/java/sptech/school/projetoPI/infrastructure/repositories/JpaScheduleItemRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/resources/application-prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/projetoPI/src/main/resources/application-prod.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projetoPI/src/main/resources/salao.exemple.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,8 +22,25 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="homologation" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Fabricio-Prudente-Ferreira"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Grupo-4-2CCOA/back-end.git",
+    "accountId": "b2b4bac0-11a6-46fc-bb32-e9f652036f2e"
+  }
+}]]></component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -49,14 +52,37 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;refact/refatoracao&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.importing&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.ProjetoPiApplication.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.importing"
   }
-}</component>
+}]]></component>
+  <component name="RunManager">
+    <configuration name="ProjetoPiApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="sptech.school.projetoPI.ProjetoPiApplication" />
+      <module name="projetoPI" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="sptech.school.projetoPI.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ProjetoPiApplication" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -66,6 +92,31 @@
       <option name="presentableId" value="Default" />
       <updated>1744316855360</updated>
     </task>
+    <task id="LOCAL-00001" summary="feat: CICD">
+      <option name="closed" value="true" />
+      <created>1763411001795</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1763411001795</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat: CICD">
+      <option name="closed" value="true" />
+      <created>1763411514769</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1763411514769</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat: CICD">
+      <option name="closed" value="true" />
+      <created>1763411523883</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1763411523883</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -78,6 +129,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: CICD" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: CICD" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

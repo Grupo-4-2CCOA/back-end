@@ -1,6 +1,8 @@
 package sptech.school.projetoPI.infrastructure.persistence.adapters;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import sptech.school.projetoPI.core.domains.FeedbackDomain;
 import sptech.school.projetoPI.core.gateways.FeedbackGateway;
@@ -45,9 +47,7 @@ public class FeedbackAdapter implements FeedbackGateway {
     }
 
     @Override
-    public List<FeedbackDomain> findAll() {
-        return repository.findAll().stream()
-                .map(FeedbackMapper::toDomain)
-                .collect(Collectors.toList());
+    public Page<FeedbackDomain> findAll(Pageable pageable) {
+        return repository.findAll(pageable).map(FeedbackMapper::toDomain);
     }
 }

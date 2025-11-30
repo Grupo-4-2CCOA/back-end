@@ -53,8 +53,6 @@ public class ServiceMapper {
                 .basePrice(domain.getBasePrice())
                 .baseDuration(domain.getBaseDuration())
                 .image(domain.getImage())
-                .createdAt(domain.getCreatedAt())
-                .updatedAt(domain.getUpdatedAt())
                 .category(CategoryMapper.toResumeResponseDto(domain.getCategory()))
                 .build();
     }

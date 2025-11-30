@@ -10,6 +10,11 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -135,7 +140,7 @@ public class ServiceController {
         return ResponseEntity.ok(ServiceMapper.toResponseDto(service));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @SecurityRequirement(name = "Bearer")
     @Operation(summary = "Atualizar serviço por ID", description = "Atualiza as informações do serviço com base no ID fornecido.")
     @ApiResponses(value = {
@@ -160,10 +165,20 @@ public class ServiceController {
                     examples = @ExampleObject(value = ErroResponseExamples.UNAUTHORIZED)
             ))
     })
-    public ResponseEntity<ServiceResumeResponseDto> updateServiceById(@Valid @RequestBody ServiceRequestDto requestDto, @PathVariable Integer id) {
+    public ResponseEntity<ServiceResponseDto> updateServiceById(@PathVariable Integer id,
+                                                                @RequestPart("service") @Valid ServiceRequestDto requestDto,
+                                                                @RequestPart("image") MultipartFile image) throws IOException {
         ServiceDomain service = ServiceMapper.toDomain(requestDto);
-        ServiceDomain updatedService = updateServiceByIdUseCase.execute(service, id);
-        return ResponseEntity.ok(ServiceMapper.toResumeResponseDto(updatedService));
+        System.out.println(requestDto);
+        System.out.println(id);
+        System.out.println(image);
+        ServiceDomain updateService = updateServiceByIdUseCase.execute(
+                service,
+                id,
+                image.getBytes(),
+                image.getOriginalFilename()
+        );
+        return ResponseEntity.ok(serviceMapperImage.toResponseDtoWithImageUrl(updateService));
     }
 
     @DeleteMapping("/{id}")

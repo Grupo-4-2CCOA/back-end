@@ -9,15 +9,6 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        host: 
-          - name: "EC2-AZ1A-PUBLIC"
-            remote_host: 3.93.88.182
-
-          - name: "EC2-AZ1B-PUBLIC"
-            remote_host: 44.214.171.116
-
     steps:
       - name: Checkout do Repositório
         uses: actions/checkout@v4
@@ -44,48 +35,62 @@ jobs:
           echo "Renomeado para target/beauty_barreto.jar"
         working-directory: ./projetoPI
 
-      - name: Copiar arquivos e Deploy (Usando SSH com rsync)
+      - name: Enviando JAR para EC2 Pública
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ matrix.host.remote_host }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST_PUBLICO }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: /home/${{ secrets.REMOTE_USER }}/backend/
           ARGS: "-rltgoDzvO --delete" 
-          SOURCE: "./projetoPI/target/*.jar" 
-          
+          SOURCE: ./projetoPI/target/*.jar
+
+      - name: Enviando Consumer para EC2 Pública
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST_PUBLICO }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: /home/${{ secrets.REMOTE_USER }}/backend/
+          SOURCE: ./projetoPI/consumer/
+                  
       - name: Executar Comando Shell na EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ matrix.host.remote_host }} 
+          host: ${{ secrets.REMOTE_HOST_PUBLICO }} 
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}  
 
           script: |
             set -e
-            ARQUIVO_PEM="/home/${{ secrets.REMOTE_USER }}/chavetmp.pem"
-            echo "Arquivo pem que sera criado: $ARQUIVO_PEM"
 
-            rm $ARQUIVO_PEM -f
-            echo "Arquivo .pem excluído"
-            
-            echo "${{ secrets.PRIVATE_EC2_SSH_KEY }}" > $ARQUIVO_PEM || true
-            echo "Arquivo pem criado"
-            chmod 400 $ARQUIVO_PEM || true
-            echo "Permissões ao pem concedidas"
-
-            USUARIO_IP=${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST_PRIVADO }}
+            INSTANCE_KEY="instance-key-rest.pem"
+            USUARIO_IP=${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}
             echo "usuario@ip configurado: $USUARIO_IP"
 
-            echo "Tentando enviar arquivo /home/${{ secrets.REMOTE_USER }}/backend/beauty_barreto.jar"
-            scp -o StrictHostKeyChecking=no -i $ARQUIVO_PEM /home/${{ secrets.REMOTE_USER }}/backend/beauty_barreto.jar $USUARIO_IP:~/beauty_barreto.jar
-            echo "Arquivo jar enviado ao ec2 privado"
+            echo "Tentando enviar arquivos /home/${{ secrets.REMOTE_USER }}/backend/ para EC2 privada"
+            scp -o StrictHostKeyChecking=no -i $INSTANCE_KEY -r \
+              /home/${{ secrets.REMOTE_USER }}/backend/ \
+              $USUARIO_IP:~/
+            echo "Arquivos enviados a EC2 privada"
 
-            echo "Movendo o arquivo para a pasta correta"
-            PATH_DIR="/usr/share/api/beauty_barreto.jar"
-            ssh -i $ARQUIVO_PEM $USUARIO_IP "sudo mkdir -p $(dirname $PATH_DIR)"
-            ssh -i $ARQUIVO_PEM $USUARIO_IP "sudo mv ~/beauty_barreto.jar $PATH_DIR"
+            echo "Movendo JAR para a pasta correta"
+            ssh -o StrictHostKeyChecking=no -i $INSTANCE_KEY $USUARIO_IP "sudo mv ~/backend/beauty_barreto.jar /usr/share/api/beauty_barreto.jar"
             echo "Arquivo movido com sucesso"
 
-            ssh -i $ARQUIVO_PEM $USUARIO_IP "sudo docker compose restart api"
-            echo "servico reiniciado via docker compose"
+            echo "Movendo Consumer para a pasta correta"
+            ssh -o StrictHostKeyChecking=no -i $INSTANCE_KEY $USUARIO_IP "sudo mv ~/backend/* /usr/share/consumer/"
+            echo "Arquivos movidos com sucesso"
+            
+            echo "Enviando credenciais do Google Calendar para a EC2"
+            echo "${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}" | base64 -d > credentials.json
+            scp -o StrictHostKeyChecking=no -i $INSTANCE_KEY credentials.json $USUARIO_IP:~/credentials.json
+            ssh -o StrictHostKeyChecking=no -i $INSTANCE_KEY $USUARIO_IP "sudo mv ~/credentials.json /usr/share/api/credentials.json"
+            echo "Credenciais enviadas para a EC2 Privada"
+
+            ssh -o StrictHostKeyChecking=no -i $INSTANCE_KEY $USUARIO_IP << EOF
+              echo "GMAIL_PASSWORD=${{ secrets.GMAIL_PASSWORD }}" | sudo tee /home/ubuntu/.env > /dev/null
+              sudo docker compose up -d
+            EOF
+
+            echo "Servico iniciado via Docker Compose"

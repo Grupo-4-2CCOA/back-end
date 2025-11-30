@@ -61,7 +61,7 @@ google:
     application-name: "beauty-agenda"
     salon:
       calendar-id: "primary"
-      credentials-file: ${CREDENTIALS_FILE_PATH:classpath:salao.json}
+      credentials-file: classpath:salao.json
 
 server:
   forward-headers-strategy: native

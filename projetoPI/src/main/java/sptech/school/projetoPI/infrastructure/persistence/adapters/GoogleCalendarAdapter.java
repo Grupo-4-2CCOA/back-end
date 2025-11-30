@@ -93,7 +93,7 @@ public class GoogleCalendarAdapter implements CalendarGateway {
 
             if (googleToken != null && !googleToken.trim().isEmpty()) {
                 log.info("📨 Token do Google encontrado no header. Comprimento: {}", googleToken.length());
-                return googleToken;
+                return decodeTokenIfNeeded(googleToken);
             } else {
                 log.warn("⚠️ Header X-Google-Access-Token não encontrado ou vazio");
 
@@ -107,6 +107,30 @@ public class GoogleCalendarAdapter implements CalendarGateway {
         } catch (Exception e) {
             log.warn("❌ Não foi possível obter token do Google do header: {}", e.getMessage());
             return null;
+        }
+    }
+
+    private String decodeTokenIfNeeded(String token) {
+        if (token == null || token.trim().isEmpty()) {
+            return token;
+        }
+        
+        try {
+            byte[] decodedBytes = java.util.Base64.getUrlDecoder().decode(token);
+            String decodedToken = new String(decodedBytes, java.nio.charset.StandardCharsets.UTF_8);
+            
+            if (decodedToken != null && !decodedToken.trim().isEmpty()) {
+                log.debug("Token decodificado do Base64 com sucesso (comprimento: {})", decodedToken.length());
+                return decodedToken;
+            }
+            
+            return token;
+        } catch (IllegalArgumentException e) {
+            log.debug("Token não está em Base64, usando token original: {}", e.getMessage());
+            return token;
+        } catch (Exception e) {
+            log.warn("Erro ao tentar decodificar token, usando original: {}", e.getMessage());
+            return token;
         }
     }
 

@@ -90,7 +90,7 @@ jobs:
 
             ssh -o StrictHostKeyChecking=no -i $INSTANCE_KEY $USUARIO_IP << EOF
               echo "GMAIL_PASSWORD=${{ secrets.GMAIL_PASSWORD }}" | sudo tee .env > /dev/null
-              sudo docker compose up -d
+              sudo docker compose up -d --force-recreate api-spring consumer
             EOF
 
             echo "Servico iniciado via Docker Compose"

@@ -54,7 +54,10 @@ jobs:
           TARGET: /home/${{ secrets.REMOTE_USER }}/backend/
           ARGS: "-rltgoDzvO --delete" 
           SOURCE: ./projetoPI/consumer/
-          
+
+      - name: Clean SSH known_hosts
+        run: rm -f ~/.ssh/known_hosts
+                  
       - name: Executar Comando Shell na EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -70,24 +73,24 @@ jobs:
             echo "usuario@ip configurado: $USUARIO_IP"
 
             echo "Tentando enviar arquivos /home/${{ secrets.REMOTE_USER }}/backend/ para EC2 privada"
-            sudo scp -o StrictHostKeyChecking=no -i $INSTANCE_KEY -r \
+            scp -o StrictHostKeyChecking=no -i $INSTANCE_KEY -r \
               /home/${{ secrets.REMOTE_USER }}/backend/ \
               $USUARIO_IP:~/
             echo "Arquivos enviados a EC2 privada"
 
             echo "Movendo JAR para a pasta correta"
-            ssh -i $INSTANCE_KEY $USUARIO_IP "sudo mv ~/backend/beauty_barreto.jar /usr/share/api/beauty_barreto.jar"
+            ssh -i StrictHostKeyChecking=no $INSTANCE_KEY $USUARIO_IP "sudo mv ~/backend/beauty_barreto.jar /usr/share/api/beauty_barreto.jar"
             echo "Arquivo movido com sucesso"
 
             echo "Movendo Consumer para a pasta correta"
-            ssh -i $INSTANCE_KEY $USUARIO_IP "sudo mv ~/backend/consumer/* /usr/share/consumer/"
+            ssh -i StrictHostKeyChecking=no $INSTANCE_KEY $USUARIO_IP "sudo mv ~/backend/consumer/* /usr/share/consumer/"
             echo "Arquivos movidos com sucesso"
             
             echo "Enviando credenciais do Google Calendar para a EC2"
             echo "${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}" | base64 -d > credentials.json
             scp -o StrictHostKeyChecking=no -i $INSTANCE_KEY credentials.json $USUARIO_IP:~/credentials.json
-            ssh -i $INSTANCE_KEY $USUARIO_IP "sudo mv ~/credentials.json /usr/share/api/credentials.json"
+            ssh -i StrictHostKeyChecking=no $INSTANCE_KEY $USUARIO_IP "sudo mv ~/credentials.json /usr/share/api/credentials.json"
             echo "Credenciais enviadas para a EC2 Privada"
 
-            ssh -i $INSTANCE_KEY $USUARIO_IP "sudo docker compose up -d"
+            ssh -i StrictHostKeyChecking=no $INSTANCE_KEY $USUARIO_IP "sudo docker compose up -d"
             echo "Servico iniciado via Docker Compose"

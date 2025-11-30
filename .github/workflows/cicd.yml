@@ -79,18 +79,18 @@ jobs:
             echo "Arquivos enviados a EC2 privada"
 
             echo "Movendo JAR para a pasta correta"
-            ssh -i StrictHostKeyChecking=no $INSTANCE_KEY $USUARIO_IP "sudo mv ~/backend/beauty_barreto.jar /usr/share/api/beauty_barreto.jar"
+            ssh -o StrictHostKeyChecking=no -i $INSTANCE_KEY $USUARIO_IP "sudo mv ~/backend/beauty_barreto.jar /usr/share/api/beauty_barreto.jar"
             echo "Arquivo movido com sucesso"
 
             echo "Movendo Consumer para a pasta correta"
-            ssh -i StrictHostKeyChecking=no $INSTANCE_KEY $USUARIO_IP "sudo mv ~/backend/consumer/* /usr/share/consumer/"
+            ssh -o StrictHostKeyChecking=no -i $INSTANCE_KEY $USUARIO_IP "sudo mv ~/backend/consumer/* /usr/share/consumer/"
             echo "Arquivos movidos com sucesso"
             
             echo "Enviando credenciais do Google Calendar para a EC2"
             echo "${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}" | base64 -d > credentials.json
             scp -o StrictHostKeyChecking=no -i $INSTANCE_KEY credentials.json $USUARIO_IP:~/credentials.json
-            ssh -i StrictHostKeyChecking=no $INSTANCE_KEY $USUARIO_IP "sudo mv ~/credentials.json /usr/share/api/credentials.json"
+            ssh -o StrictHostKeyChecking=no -i $INSTANCE_KEY $USUARIO_IP "sudo mv ~/credentials.json /usr/share/api/credentials.json"
             echo "Credenciais enviadas para a EC2 Privada"
 
-            ssh -i StrictHostKeyChecking=no $INSTANCE_KEY $USUARIO_IP "sudo docker compose up -d"
+            ssh -o StrictHostKeyChecking=no -i $INSTANCE_KEY $USUARIO_IP "sudo docker compose up -d"
             echo "Servico iniciado via Docker Compose"

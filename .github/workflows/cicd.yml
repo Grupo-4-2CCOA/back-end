@@ -70,7 +70,7 @@ jobs:
             echo "usuario@ip configurado: $USUARIO_IP"
 
             echo "Tentando enviar arquivos /home/${{ secrets.REMOTE_USER }}/backend/ para EC2 privada"
-            scp -o StrictHostKeyChecking=no -i $INSTANCE_KEY -r \
+            sudo scp -o StrictHostKeyChecking=no -i $INSTANCE_KEY -r \
               /home/${{ secrets.REMOTE_USER }}/backend/ \
               $USUARIO_IP:~/
             echo "Arquivos enviados a EC2 privada"

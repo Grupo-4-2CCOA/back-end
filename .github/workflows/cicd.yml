@@ -20,9 +20,9 @@ jobs:
           java-version: '21'
           cache: 'maven'
 
-      # - name: Executar Testes automatizados
-      #   run: mvn clean test    
-      #   working-directory: ./projetoPI
+      - name: Executar Testes automatizados
+        run: mvn clean test    
+        working-directory: ./projetoPI
 
       - name: Gerar Artefato .JAR
         run: mvn package -Dmaven.test.skip=true

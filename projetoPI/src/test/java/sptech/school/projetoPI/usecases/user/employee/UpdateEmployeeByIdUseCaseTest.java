@@ -102,6 +102,10 @@ class UpdateEmployeeByIdUseCaseTest {
         Integer id = 1;
         RoleDomain role = new RoleDomain(999, true, LocalDateTime.now(), LocalDateTime.now(), "Role", "Descrição");
         UserDomain employee = new UserDomain();
+        employee.setName("Funcionário Teste");
+        employee.setCpf("12345678900");
+        employee.setEmail("funcionario@teste.com");
+        employee.setPhone("11999999999");
         employee.setRoleDomain(role);
 
         when(userGateway.existsById(id)).thenReturn(true);
@@ -114,6 +118,7 @@ class UpdateEmployeeByIdUseCaseTest {
         });
 
         verify(userGateway, times(1)).existsById(id);
+        verify(userGateway, times(1)).existsByIdAndActiveFalse(id);
         verify(roleGateway, times(1)).existsById(role.getId());
         verify(userGateway, never()).save(any(UserDomain.class));
     }

@@ -28,6 +28,9 @@ public class UpdateScheduleItemByIdUseCase {
             );
         }
 
+        ScheduleItemDomain existingScheduleItem = scheduleItemGateway.findById(id).get();
+        scheduleItemDomain.setSchedule(existingScheduleItem.getSchedule());
+
         if(!scheduleGateway.existsById(scheduleItemDomain.getSchedule().getId())) {
             throw new RelatedEntityNotFoundException(
                     "O agendamento com o ID %d não foi encontrado".formatted(scheduleItemDomain.getSchedule().getId())
@@ -41,7 +44,7 @@ public class UpdateScheduleItemByIdUseCase {
         }
 
         scheduleItemDomain.setId(id);
-        scheduleItemDomain.setCreatedAt(scheduleItemGateway.findById(id).get().getCreatedAt());
+        scheduleItemDomain.setCreatedAt(existingScheduleItem.getCreatedAt());
         scheduleItemDomain.setUpdatedAt(LocalDateTime.now());
         return scheduleItemGateway.save(scheduleItemDomain);
     }

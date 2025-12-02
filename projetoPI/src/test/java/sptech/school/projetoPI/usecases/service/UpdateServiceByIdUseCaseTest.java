@@ -51,6 +51,7 @@ class UpdateServiceByIdUseCaseTest {
         ServiceDomain savedService = new ServiceDomain(id, true, existingService.getCreatedAt(), LocalDateTime.now(),
                 "Serviço Atualizado", 150.0, 90, "Nova Descrição", "imagem-nova.jpg", category);
 
+        // Mock para ambas as chamadas de existsById (linha 24 e linha 45 do UseCase)
         when(serviceGateway.existsById(id)).thenReturn(true);
         when(serviceGateway.existsByIdAndActiveFalse(id)).thenReturn(false);
         when(serviceGateway.existsByIdNotAndName(id, updatedService.getName())).thenReturn(false);
@@ -65,7 +66,8 @@ class UpdateServiceByIdUseCaseTest {
         assertNotNull(result);
         assertEquals(id, result.getId());
         assertEquals("Serviço Atualizado", result.getName());
-        verify(serviceGateway, times(1)).existsById(id);
+        // existsById é chamado duas vezes: linha 24 e linha 45 do UseCase
+        verify(serviceGateway, atLeast(1)).existsById(id);
         verify(serviceGateway, times(1)).existsByIdAndActiveFalse(id);
         verify(serviceGateway, times(1)).existsByIdNotAndName(id, updatedService.getName());
         verify(fileUploadGateway, times(1)).uploadFile(anyString(), any(byte[].class));

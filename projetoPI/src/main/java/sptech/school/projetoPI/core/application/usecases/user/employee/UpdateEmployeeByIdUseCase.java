@@ -37,7 +37,7 @@ public class UpdateEmployeeByIdUseCase {
 
         if (!roleGateway.existsById(userDomain.getRoleDomain().getId())) {
             throw new RelatedEntityNotFoundException(
-                    Logs.VALIDATE_REQUEST_BODY_ENTITY_NOT_FOUND.getMessage().formatted(userDomain.getRoleDomain().getId())
+                    Logs.VALIDATE_REQUEST_BODY_ENTITY_NOT_FOUND.getMessage().formatted("Role", userDomain.getRoleDomain().getId())
             );
         }
 

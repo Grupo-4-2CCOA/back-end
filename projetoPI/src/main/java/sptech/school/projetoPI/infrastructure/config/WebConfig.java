@@ -18,12 +18,12 @@ public class WebConfig implements WebMvcConfigurer {
     public static class StringToLocalDateTimeConverter implements org.springframework.core.convert.converter.Converter<String, LocalDateTime> {
 
         private static final DateTimeFormatter[] FORMATTERS = {
-            DateTimeFormatter.ISO_DATE_TIME,                    // 2025-12-01T15:00:00
-            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"), // 2025-12-01T15:00:00
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"),   // 2025-12-01 15:00:00
-            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"),   // 01/12/2025 15:00:00
-            DateTimeFormatter.ofPattern("dd/MM/yyyy"),            // 01/12/2025
-            DateTimeFormatter.ofPattern("yyyy-MM-dd")             // 2025-12-01
+            DateTimeFormatter.ISO_DATE_TIME,
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"),
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"),
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"),
+            DateTimeFormatter.ofPattern("dd/MM/yyyy"),
+            DateTimeFormatter.ofPattern("yyyy-MM-dd")
         };
 
         @Override
@@ -37,9 +37,7 @@ public class WebConfig implements WebMvcConfigurer {
             for (DateTimeFormatter formatter : FORMATTERS) {
                 try {
                     return LocalDateTime.parse(source, formatter);
-                } catch (Exception e) {
-                    // Tenta o próximo formato
-                }
+                } catch (Exception ignored) { }
             }
 
             throw new IllegalArgumentException("Formato de data não suportado: " + source);

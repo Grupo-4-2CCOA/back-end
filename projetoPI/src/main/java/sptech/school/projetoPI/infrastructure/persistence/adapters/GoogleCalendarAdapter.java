@@ -17,13 +17,16 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.client.RestTemplate;
 import sptech.school.projetoPI.core.domains.ScheduleDomain;
+import sptech.school.projetoPI.core.domains.ServiceDomain;
 import sptech.school.projetoPI.core.gateways.CalendarGateway;
+import sptech.school.projetoPI.core.gateways.ServiceGateway;
 import sptech.school.projetoPI.infrastructure.config.auth.GoogleCalendarConfig;
 
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -31,6 +34,7 @@ import java.util.Optional;
 public class GoogleCalendarAdapter implements CalendarGateway {
     private final GoogleCalendarConfig googleCalendarConfig;
     private final ResourceLoader resourceLoader;
+    private final ServiceGateway serviceGateway;
 
     private Calendar getSalonClient() throws Exception {
         try {
@@ -144,10 +148,30 @@ public class GoogleCalendarAdapter implements CalendarGateway {
                     .atZone(ZoneId.systemDefault()).toInstant());
 
             String services = schedule.getItems().stream()
-                    .map(i -> Optional.ofNullable(i.getService())
-                            .map(service -> "• " + service.getName())
-                            .orElse("• Serviço não disponível"))
-                    .reduce("", (a, b) -> a + "\n" + b);
+                    .map(item -> {
+                        if (item.getService() == null) {
+                            log.warn("Item sem objeto service (id?) no schedule {}. Tentando resolver pelo DB", schedule.getId());
+                            return "• Serviço não informado";
+                        }
+
+                        ServiceDomain sd = item.getService();
+                        if (sd.getName() != null && !sd.getName().trim().isEmpty()) {
+                            return "• " + sd.getName();
+                        }
+
+                        if (sd.getId() != null) {
+                            try {
+                                return serviceGateway.findById(sd.getId())
+                                        .map(s -> "• " + s.getName())
+                                        .orElse("• Serviço (id " + sd.getId() + ") não encontrado");
+                            } catch (Exception e) {
+                                log.warn("Erro ao buscar serviço id {}: {}", sd.getId(), e.getMessage());
+                                return "• Serviço (id " + sd.getId() + ") (erro ao buscar)";
+                            }
+                        }
+                        return "• Serviço não informado";
+                    })
+                    .collect(Collectors.joining("\n"));
 
             String clientName = schedule.getClientDomain().getName();
             String employeeName = schedule.getEmployeeDomain().getName();

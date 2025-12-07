@@ -8,6 +8,7 @@ import sptech.school.projetoPI.core.domains.ServiceRanking;
 import sptech.school.projetoPI.core.gateways.DashboardGateway;
 import sptech.school.projetoPI.infrastructure.persistence.repositories.JpaDashboardRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -17,20 +18,20 @@ public class DashboardAdapter implements DashboardGateway {
   private final JpaDashboardRepository repository;
 
   @Override
-  public DashboardSistemasMetrics getDashboardSistema(int mes, int ano) {
-    List<Object[]> rendimento = repository.findRendimentoPorSemana(mes, ano);
-    List<Object[]> taxaCancelamento = repository.findTaxaCancelamentoPorSemana(mes, ano);
-    int totalAtendimentos = repository.findTotalAtendimentos(mes, ano);
-    List<ServiceRanking> ranking = repository.findRankingServicos(mes, ano);
+  public DashboardSistemasMetrics getDashboardSistema(LocalDate startDate, LocalDate endDate) {
+    List<Object[]> rendimento = repository.findRendimentoPorSemana(startDate, endDate);
+    List<Object[]> taxaCancelamento = repository.findTaxaCancelamentoPorSemana(startDate, endDate);
+    int totalAtendimentos = repository.findTotalAtendimentos(startDate, endDate);
+    List<ServiceRanking> ranking = repository.findRankingServicos(startDate, endDate);
 
     return new DashboardSistemasMetrics(rendimento, taxaCancelamento, totalAtendimentos, ranking);
   }
 
   @Override
-  public DashboardVendasMetrics getDashboardVendas(int mes, int ano) {
-    List<Object[]> firstSchedules = repository.findPrimeirosAgendamentosPorSemana(mes, ano);
-    List<Object[]> visitors = repository.findLeadsPorSemana(mes, ano);
-    List<Object[]> returnRate = repository.findTaxaRetornoPorSemana(mes, ano);
+  public DashboardVendasMetrics getDashboardVendas(LocalDate startDate, LocalDate endDate) {
+    List<Object[]> firstSchedules = repository.findPrimeirosAgendamentosPorSemana(startDate, endDate);
+    List<Object[]> visitors = repository.findLeadsPorSemana(startDate, endDate);
+    List<Object[]> returnRate = repository.findTaxaRetornoPorSemana(startDate, endDate);
 
     return new DashboardVendasMetrics(firstSchedules, visitors, returnRate);
   }

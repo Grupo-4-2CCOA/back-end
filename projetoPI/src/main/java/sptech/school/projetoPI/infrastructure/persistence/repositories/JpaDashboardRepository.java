@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import sptech.school.projetoPI.core.domains.ServiceRanking;
 import sptech.school.projetoPI.infrastructure.persistence.entity.ScheduleJpaEntity;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -21,13 +22,12 @@ public interface JpaDashboardRepository extends JpaRepository<ScheduleJpaEntity,
             COALESCE(SUM(si.final_price - si.discount), 0) AS rendimento
         FROM schedule_item si
         JOIN schedule s ON s.id = si.fk_schedule
-        WHERE MONTH(s.appointment_datetime) = :mes
-          AND YEAR(s.appointment_datetime) = :ano
+        WHERE DATE(s.appointment_datetime) BETWEEN :startDate AND :endDate
           AND s.status = 'COMPLETED'
         GROUP BY semana
         ORDER BY semana
     """, nativeQuery = true)
-  List<Object[]> findRendimentoPorSemana(@Param("mes") int mes, @Param("ano") int ano);
+  List<Object[]> findRendimentoPorSemana(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
   // CORREÇÃO: Utilizando DAYOFMONTH para calcular a semana do mês (1 a 5)
   @Query(value = """
@@ -38,32 +38,34 @@ public interface JpaDashboardRepository extends JpaRepository<ScheduleJpaEntity,
                 2
             ) AS taxa_cancelamento
         FROM schedule s
-        WHERE MONTH(s.appointment_datetime) = :mes
-          AND YEAR(s.appointment_datetime) = :ano
+        WHERE DATE(s.appointment_datetime) BETWEEN :startDate AND :endDate
         GROUP BY semana
         ORDER BY semana
     """, nativeQuery = true)
-  List<Object[]> findTaxaCancelamentoPorSemana(@Param("mes") int mes, @Param("ano") int ano);
+  List<Object[]> findTaxaCancelamentoPorSemana(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
-  @Query(value = "SELECT COUNT(*) FROM schedule s WHERE MONTH(s.appointment_datetime) = :mes AND YEAR(s.appointment_datetime) = :ano AND s.status = 'COMPLETED'", nativeQuery = true)
-  int findTotalAtendimentos(@Param("mes") int mes, @Param("ano") int ano);
+  @Query(value = "SELECT COUNT(*) FROM schedule s WHERE DATE(s.appointment_datetime) BETWEEN :startDate AND :endDate AND s.status = 'COMPLETED'", nativeQuery = true)
+  int findTotalAtendimentos(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
   @Query(value = """
-    SELECT sv.name AS nomeServico, COUNT(*) AS quantidade
-    FROM schedule_item si
-    JOIN service sv ON sv.id = si.fk_service
-    JOIN schedule s ON s.id = si.fk_schedule
-    WHERE MONTH(s.appointment_datetime) = :mes
-      AND YEAR(s.appointment_datetime) = :ano
-      AND s.status = 'COMPLETED'
-    GROUP BY sv.name
-    ORDER BY quantidade DESC
+      SELECT
+          ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS linha,
+          sv.name AS nomeServico,
+          COUNT(*) AS quantidade,
+          SUM(si.final_price) AS valorTotal
+      FROM schedule_item si
+      JOIN service sv ON sv.id = si.fk_service
+      JOIN schedule s ON s.id = si.fk_schedule
+      WHERE DATE(s.appointment_datetime) BETWEEN :startDate AND :endDate
+        AND s.status = 'COMPLETED'
+      GROUP BY sv.name
+      ORDER BY quantidade DESC;
     """, nativeQuery = true)
-  List<Object[]> findRankingServicosMaisVendidos(@Param("mes") int mes, @Param("ano") int ano);
+  List<Object[]> findRankingServicosMaisVendidos(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
-  default List<ServiceRanking> findRankingServicos(int mes, int ano) {
-    return findRankingServicosMaisVendidos(mes, ano).stream()
-      .map(r -> new ServiceRanking((String) r[0], ((Number) r[1]).longValue()))
+  default List<ServiceRanking> findRankingServicos(LocalDate startDate, LocalDate endDate) {
+    return findRankingServicosMaisVendidos(startDate, endDate).stream()
+      .map(r -> new ServiceRanking(((Number) r[0]).intValue(), (String) r[1], ((Number) r[2]).longValue(), ((Number) r[3]).doubleValue()))
       .toList();
   }
 
@@ -76,13 +78,12 @@ public interface JpaDashboardRepository extends JpaRepository<ScheduleJpaEntity,
     FROM user u
     LEFT JOIN schedule s
         ON s.fk_client = u.id
-    WHERE MONTH(u.created_at) = :mes
-      AND YEAR(u.created_at) = :ano
+    WHERE DATE(u.created_at) BETWEEN :startDate AND :endDate
       AND s.id IS NULL
     GROUP BY semana
     ORDER BY semana;
     """, nativeQuery = true)
-  List<Object[]> findLeadsPorSemana(@Param("mes") int mes, @Param("ano") int ano);
+  List<Object[]> findLeadsPorSemana(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
   @Query(value = """
     SELECT
@@ -94,12 +95,11 @@ public interface JpaDashboardRepository extends JpaRepository<ScheduleJpaEntity,
         (SELECT COUNT(*)\s
          FROM schedule sc\s
          WHERE sc.fk_client = u.id) = 1
-        AND MONTH(s.appointment_datetime) = :mes
-        AND YEAR(s.appointment_datetime) = :ano
+        AND DATE(s.appointment_datetime) BETWEEN :startDate AND :endDate
     GROUP BY semana
     ORDER BY semana;
     """, nativeQuery = true)
-  List<Object[]> findPrimeirosAgendamentosPorSemana(@Param("mes") int mes, @Param("ano") int ano);
+  List<Object[]> findPrimeirosAgendamentosPorSemana(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
   @Query(value = """
     SELECT\s
@@ -121,10 +121,9 @@ public interface JpaDashboardRepository extends JpaRepository<ScheduleJpaEntity,
     ) AS x
     JOIN schedule segundo ON segundo.fk_client = x.user_id
         AND segundo.appointment_datetime = x.segundo_agendamento
-    WHERE MONTH(segundo.appointment_datetime) = :mes
-      AND YEAR(segundo.appointment_datetime) = :ano
+    WHERE DATE(segundo.appointment_datetime) BETWEEN :startDate AND :endDate
     GROUP BY semana
     ORDER BY semana;
     """, nativeQuery = true)
-  List<Object[]> findTaxaRetornoPorSemana(@Param("mes") int mes, @Param("ano") int ano);
+  List<Object[]> findTaxaRetornoPorSemana(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }

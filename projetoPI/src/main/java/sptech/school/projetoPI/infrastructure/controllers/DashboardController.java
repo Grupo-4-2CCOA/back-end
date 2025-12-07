@@ -14,6 +14,8 @@ import sptech.school.projetoPI.core.application.usecases.dashboard.GetDashboardV
 import sptech.school.projetoPI.core.domains.DashboardSistemasMetrics;
 import sptech.school.projetoPI.core.domains.DashboardVendasMetrics;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/dashboard")
 @RequiredArgsConstructor
@@ -24,16 +26,15 @@ public class DashboardController {
 
     @GetMapping("/sistema")
     public ResponseEntity<DashboardSistemaResponseDto> getDashboardSistema(
-            @RequestParam int mes,
-            @RequestParam int ano) {
+            @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
 
-        DashboardSistemasMetrics metrics = getDashboardSistemaUseCase.execute(mes, ano);
+        DashboardSistemasMetrics metrics = getDashboardSistemaUseCase.execute(startDate, endDate);
         DashboardSistemaResponseDto response = new DashboardSistemaResponseDto(
                 metrics.getRendimentoTotal(),
                 metrics.getTaxaCancelamento(),
                 metrics.getTotalAtendimentos(),
                 metrics.getRankingServicos().stream()
-                        .map(r -> new ServiceRankDto(r.getRanking(), r.getNomeServico(), r.getQuantidade(), r.getQuantidade()))
+                        .map(r -> new ServiceRankDto(r.getRanking(), r.getNomeServico(), r.getQuantidade(), r.getValorTotal()))
                         .toList()
         );
 
@@ -42,10 +43,9 @@ public class DashboardController {
 
   @GetMapping("/vendas")
   public ResponseEntity<DashboardVendasResponseDto> getDashboardVendas(
-    @RequestParam int mes,
-    @RequestParam int ano) {
+    @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
 
-    DashboardVendasMetrics metrics = getDashboardVendasUseCase.execute(mes, ano);
+    DashboardVendasMetrics metrics = getDashboardVendasUseCase.execute(startDate, endDate);
     DashboardVendasResponseDto response = new DashboardVendasResponseDto(
       metrics.getPrimeirosAgendamentos(),
       metrics.getLeads(),

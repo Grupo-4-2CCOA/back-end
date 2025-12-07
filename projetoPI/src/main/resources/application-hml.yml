@@ -76,7 +76,7 @@ jwt:
 aws:
   regiao: us-east-1
   s3:
-    nome-bucket: beauty-barreto-source
+    nome-bucket: grupo4-beauty-barreto-source
 
 springdoc:
   swagger-ui:

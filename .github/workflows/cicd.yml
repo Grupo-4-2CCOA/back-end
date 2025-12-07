@@ -89,7 +89,8 @@ jobs:
             echo "Credenciais enviadas para a EC2 Privada"
 
             ssh -o StrictHostKeyChecking=no -i $INSTANCE_KEY $USUARIO_IP << EOF
-              echo "GMAIL_PASSWORD=${{ secrets.GMAIL_PASSWORD }}" | sudo tee /home/ubuntu/.env > /dev/null
+              sudo chown -R ubuntu:ubuntu /home/ubuntu
+              echo "GMAIL_PASSWORD=${{ secrets.GMAIL_PASSWORD }}" > .env 
               sudo docker compose up -d
             EOF
 

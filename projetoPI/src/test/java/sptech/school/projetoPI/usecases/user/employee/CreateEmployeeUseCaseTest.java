@@ -37,7 +37,7 @@ class CreateEmployeeUseCaseTest {
     @DisplayName("Deve criar funcionário com sucesso quando dados são válidos")
     void deveCriarFuncionarioComSucesso() {
         // Arrange
-        RoleDomain role = new RoleDomain(1, true, LocalDateTime.now(), LocalDateTime.now(), "Funcionário", "Descrição");
+        RoleDomain role = new RoleDomain(1, true, LocalDateTime.now(), LocalDateTime.now(), "Administrador", "Descrição");
         UserDomain user = new UserDomain();
         user.setName("Funcionário Teste");
         user.setCpf("12345678900");
@@ -45,6 +45,7 @@ class CreateEmployeeUseCaseTest {
         user.setPhone("11999999999");
         user.setCep("12345678");
         user.setActive(true);
+        user.setRoleDomain(role);
 
         UserDomain savedUser = new UserDomain(1, true, LocalDateTime.now(), LocalDateTime.now(),
                 "Funcionário Teste", "12345678900", "funcionario@teste.com", "11999999999", "12345678", role);

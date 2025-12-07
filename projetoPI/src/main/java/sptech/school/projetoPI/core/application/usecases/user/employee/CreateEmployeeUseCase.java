@@ -31,7 +31,7 @@ public class CreateEmployeeUseCase {
             throw new ConflictException("Telefone já cadastrado");
         }
 
-        RoleDomain roleDomain = roleGateway.findById(1).orElseThrow(() -> new ConflictException("Função não encontrada"));
+        RoleDomain roleDomain = roleGateway.findById(userDomain.getRoleDomain().getId()).orElseThrow(() -> new ConflictException("Função não encontrada"));
 
         userDomain.setId(null);
         userDomain.setCreatedAt(LocalDateTime.now());

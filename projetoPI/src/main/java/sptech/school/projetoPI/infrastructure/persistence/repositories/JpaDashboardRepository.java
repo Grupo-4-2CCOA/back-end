@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Repository
 public interface JpaDashboardRepository extends JpaRepository<ScheduleJpaEntity, Integer> {
 
+    // DASHBOARD DE SERVIÇOS
   // CORREÇÃO: Utilizando DAYOFMONTH para calcular a semana do mês (1 a 5)
   @Query(value = """
         SELECT 
@@ -65,6 +66,8 @@ public interface JpaDashboardRepository extends JpaRepository<ScheduleJpaEntity,
       .map(r -> new ServiceRanking((String) r[0], ((Number) r[1]).longValue()))
       .toList();
   }
+
+  // DASHBOARD DE FUNIL DE VENDAS
 
   @Query(value = """
     SELECT

@@ -81,6 +81,10 @@ public class ScheduleController {
                 logger.info("getAllSchedules - Raw params - startDate/dataInicio: '{}', endDate/dataFim: '{}'", start_param, end_param);
                 LocalDateTime start = parseLocalDateTime(start_param);
                 LocalDateTime end = parseLocalDateTime(end_param);
+
+                start = start != null? start.toLocalDate().atStartOfDay() : null;
+                end = end != null? end.toLocalDate().atTime(23, 59, 59) : null;
+
                 logger.info("getAllSchedules - Parsed dates - startDate: {}, endDate: {}", start, end);
                 int size = 5;
                 Pageable pageable = PageRequest.of(page, size);
@@ -210,6 +214,10 @@ public class ScheduleController {
                 logger.info("getAllScheduleByClient - Raw params - clientId: {}, startDate/dataInicio: '{}', endDate/dataFim: '{}'", id, start_param, end_param);
                 LocalDateTime start = parseLocalDateTime(start_param);
                 LocalDateTime end = parseLocalDateTime(end_param);
+
+                start = start != null? start.toLocalDate().atStartOfDay() : null;
+                end = end != null? end.toLocalDate().atTime(23, 59, 59) : null;
+
                 logger.info("getAllScheduleByClient - Parsed dates - clientId: {}, startDate: {}, endDate: {}", id, start, end);
                 int size = 5;
                 Pageable pageable = PageRequest.of(page, size);

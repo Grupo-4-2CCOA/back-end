@@ -123,7 +123,7 @@ class FeedbackControllerTest {
         // Arrange
         FeedbackDomain feedbackDomain = criarFeedbackDomain();
         Page<FeedbackDomain> feedbackPage = new PageImpl<>(Collections.singletonList(feedbackDomain), PageRequest.of(0, 22), 1);
-        when(getAllFeedbackUseCase.execute(any())).thenReturn(feedbackPage);
+        when(getAllFeedbackUseCase.execute(any(org.springframework.data.domain.Pageable.class), any(), any())).thenReturn(feedbackPage);
 
         // Act & Assert
         mockMvc.perform(get("/feedbacks")

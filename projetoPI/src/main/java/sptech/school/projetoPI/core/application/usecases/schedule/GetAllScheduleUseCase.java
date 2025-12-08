@@ -3,6 +3,7 @@ package sptech.school.projetoPI.core.application.usecases.schedule;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import sptech.school.projetoPI.core.domains.ScheduleDomain;
+import sptech.school.projetoPI.core.enums.Status;
 import sptech.school.projetoPI.core.gateways.ScheduleGateway;
 
 import java.time.LocalDateTime;
@@ -18,6 +19,10 @@ public class GetAllScheduleUseCase {
 
     public Page<ScheduleDomain> execute(Pageable pageable, LocalDateTime startDate, LocalDateTime endDate) {
         return scheduleGateway.findAll(pageable, startDate, endDate);
+    }
+
+    public Page<ScheduleDomain> execute(Pageable pageable, LocalDateTime startDate, LocalDateTime endDate, Status status) {
+        return scheduleGateway.findAll(pageable, startDate, endDate, status);
     }
 
 }

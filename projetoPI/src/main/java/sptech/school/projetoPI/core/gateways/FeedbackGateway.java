@@ -13,4 +13,5 @@ public interface FeedbackGateway {
     FeedbackDomain deleteById(Integer id);
     Optional<FeedbackDomain> findById(Integer id);
     Page<FeedbackDomain> findAll(Pageable pageable);
+    Page<FeedbackDomain> findAllWithFilters(Pageable pageable, Integer rating, Integer employeeId);
 }

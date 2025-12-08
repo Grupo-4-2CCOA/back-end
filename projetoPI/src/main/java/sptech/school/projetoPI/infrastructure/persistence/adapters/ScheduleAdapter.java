@@ -74,7 +74,33 @@ public class ScheduleAdapter implements ScheduleGateway {
 
     @Override
     public Page<ScheduleDomain> findAll(Pageable pageable, LocalDateTime startDate, LocalDateTime endDate) {
-        logger.info("findAll - startDate: {}, endDate: {}", startDate, endDate);
+        return findAll(pageable, startDate, endDate, null);
+    }
+
+    @Override
+    public Page<ScheduleDomain> findAll(Pageable pageable, LocalDateTime startDate, LocalDateTime endDate, Status status) {
+        logger.info("findAll - startDate: {}, endDate: {}, status: {}", startDate, endDate, status);
+        
+        // Com filtro de status
+        if (status != null) {
+            if (startDate != null && endDate != null) {
+                logger.info("Applying status + BETWEEN filter");
+                return repository.findAllByStatusAndAppointmentDatetimeBetween(status, startDate, endDate, pageable)
+                        .map(ScheduleMapper::toDomain);
+            } else if (startDate != null) {
+                logger.info("Applying status + >= filter");
+                return repository.findAllByStatusAndAppointmentDatetimeGreaterThanEqual(status, startDate, pageable)
+                        .map(ScheduleMapper::toDomain);
+            } else if (endDate != null) {
+                logger.info("Applying status + <= filter");
+                return repository.findAllByStatusAndAppointmentDatetimeLessThanEqual(status, endDate, pageable)
+                        .map(ScheduleMapper::toDomain);
+            }
+            logger.info("Applying status only filter");
+            return repository.findAllByStatus(status, pageable).map(ScheduleMapper::toDomain);
+        }
+        
+        // Sem filtro de status
         if (startDate != null && endDate != null) {
             logger.info("Applying BETWEEN filter: {} to {}", startDate, endDate);
             return repository.findAllByAppointmentDatetimeBetween(startDate, endDate, pageable)
@@ -88,7 +114,7 @@ public class ScheduleAdapter implements ScheduleGateway {
             return repository.findAllByAppointmentDatetimeLessThanEqual(endDate, pageable)
                     .map(ScheduleMapper::toDomain);
         }
-        logger.info("No date filter applied");
+        logger.info("No filter applied");
         return repository.findAll(pageable).map(ScheduleMapper::toDomain);
     }
 

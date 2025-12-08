@@ -3,6 +3,8 @@ package sptech.school.projetoPI.core.application.usecases.dashboard;
 import sptech.school.projetoPI.core.domains.DashboardSistemasMetrics;
 import sptech.school.projetoPI.core.gateways.DashboardGateway;
 
+import java.time.LocalDate;
+
 public class GetDashboardSistemaUseCase {
     private final DashboardGateway dashboardGateway;
 
@@ -10,7 +12,7 @@ public class GetDashboardSistemaUseCase {
         this.dashboardGateway = dashboardGateway;
     }
 
-    public DashboardSistemasMetrics execute(int mes, int ano) {
-        return dashboardGateway.getDashboardSistema(mes, ano);
+    public DashboardSistemasMetrics execute(LocalDate startDate, LocalDate endDate) {
+        return dashboardGateway.getDashboardSistema(startDate, endDate);
     }
 }

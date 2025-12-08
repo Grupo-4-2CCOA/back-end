@@ -209,7 +209,7 @@ class ScheduleControllerTest {
         schedule2.setId(2);
 
         Page<ScheduleDomain> schedulePage = new PageImpl<>(Arrays.asList(schedule1, schedule2), PageRequest.of(0, 5), 2);
-        when(getAllScheduleUseCase.execute(any(), any(), any())).thenReturn(schedulePage);
+        when(getAllScheduleUseCase.execute(any(org.springframework.data.domain.Pageable.class), any(), any(), any())).thenReturn(schedulePage);
 
         // Act & Assert
         mockMvc.perform(get("/agendamentos")

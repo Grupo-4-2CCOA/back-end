@@ -30,6 +30,8 @@ public interface ScheduleGateway {
 
     Page<ScheduleDomain> findAll(Pageable pageable, LocalDateTime startDate, LocalDateTime endDate);
 
+    Page<ScheduleDomain> findAll(Pageable pageable, LocalDateTime startDate, LocalDateTime endDate, Status status);
+
     List<ScheduleDomain> findAllByPaymentTypeId(Integer id);
 
     List<ScheduleDomain> findAllByEmployeeId(Integer id);

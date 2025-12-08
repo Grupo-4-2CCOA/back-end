@@ -9,9 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DashboardSistemaResponseDto {
-    private MetricaMensalDto rendimentoTotal;
-    private MetricaMensalDto taxaCancelamento;
-    private int totalAtendimentos;
-    private List<ServiceRankDto> rankingServicos;
+public class MetricaMensalDto {
+    private List<String> labels;
+    private List<Double> values;
 }

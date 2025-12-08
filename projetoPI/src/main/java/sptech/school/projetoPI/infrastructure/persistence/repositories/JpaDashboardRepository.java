@@ -7,106 +7,107 @@ import org.springframework.stereotype.Repository;
 import sptech.school.projetoPI.core.domains.ServiceRanking;
 import sptech.school.projetoPI.infrastructure.persistence.entity.ScheduleJpaEntity;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public interface JpaDashboardRepository extends JpaRepository<ScheduleJpaEntity, Integer> {
 
-    // DASHBOARD DE SERVIÇOS
-  // CORREÇÃO: Utilizando DAYOFMONTH para calcular a semana do mês (1 a 5)
   @Query(value = """
         SELECT 
-            (DAYOFMONTH(s.appointment_datetime) - 1) DIV 7 + 1 AS semana,
+            YEAR(s.appointment_datetime) AS ano,
+            MONTH(s.appointment_datetime) AS mes,
             COALESCE(SUM(si.final_price - si.discount), 0) AS rendimento
         FROM schedule_item si
         JOIN schedule s ON s.id = si.fk_schedule
-        WHERE MONTH(s.appointment_datetime) = :mes
-          AND YEAR(s.appointment_datetime) = :ano
+        WHERE DATE(s.appointment_datetime) BETWEEN :startDate AND :endDate
           AND s.status = 'COMPLETED'
-        GROUP BY semana
-        ORDER BY semana
+        GROUP BY ano, mes
+        ORDER BY ano, mes
     """, nativeQuery = true)
-  List<Object[]> findRendimentoPorSemana(@Param("mes") int mes, @Param("ano") int ano);
+  List<Object[]> findRendimentoPorMes(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
-  // CORREÇÃO: Utilizando DAYOFMONTH para calcular a semana do mês (1 a 5)
   @Query(value = """
         SELECT 
-            (DAYOFMONTH(s.appointment_datetime) - 1) DIV 7 + 1 AS semana,
+            YEAR(s.appointment_datetime) AS ano,
+            MONTH(s.appointment_datetime) AS mes,
             ROUND(
                 (SUM(CASE WHEN s.status = 'CANCELED' THEN 1 ELSE 0 END) / COUNT(*)) * 100, 
                 2
             ) AS taxa_cancelamento
         FROM schedule s
-        WHERE MONTH(s.appointment_datetime) = :mes
-          AND YEAR(s.appointment_datetime) = :ano
-        GROUP BY semana
-        ORDER BY semana
+        WHERE DATE(s.appointment_datetime) BETWEEN :startDate AND :endDate
+        GROUP BY ano, mes
+        ORDER BY ano, mes
     """, nativeQuery = true)
-  List<Object[]> findTaxaCancelamentoPorSemana(@Param("mes") int mes, @Param("ano") int ano);
+  List<Object[]> findTaxaCancelamentoPorMes(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
-  @Query(value = "SELECT COUNT(*) FROM schedule s WHERE MONTH(s.appointment_datetime) = :mes AND YEAR(s.appointment_datetime) = :ano AND s.status = 'COMPLETED'", nativeQuery = true)
-  int findTotalAtendimentos(@Param("mes") int mes, @Param("ano") int ano);
+  @Query(value = "SELECT COUNT(*) FROM schedule s WHERE DATE(s.appointment_datetime) BETWEEN :startDate AND :endDate AND s.status = 'COMPLETED'", nativeQuery = true)
+  int findTotalAtendimentos(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
   @Query(value = """
-    SELECT sv.name AS nomeServico, COUNT(*) AS quantidade
-    FROM schedule_item si
-    JOIN service sv ON sv.id = si.fk_service
-    JOIN schedule s ON s.id = si.fk_schedule
-    WHERE MONTH(s.appointment_datetime) = :mes
-      AND YEAR(s.appointment_datetime) = :ano
-      AND s.status = 'COMPLETED'
-    GROUP BY sv.name
-    ORDER BY quantidade DESC
+      SELECT
+          ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS linha,
+          sv.name AS nomeServico,
+          COUNT(*) AS quantidade,
+          SUM(si.final_price) AS valorTotal
+      FROM schedule_item si
+      JOIN service sv ON sv.id = si.fk_service
+      JOIN schedule s ON s.id = si.fk_schedule
+      WHERE DATE(s.appointment_datetime) BETWEEN :startDate AND :endDate
+        AND s.status = 'COMPLETED'
+      GROUP BY sv.name
+      ORDER BY quantidade DESC;
     """, nativeQuery = true)
-  List<Object[]> findRankingServicosMaisVendidos(@Param("mes") int mes, @Param("ano") int ano);
+  List<Object[]> findRankingServicosMaisVendidos(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
-  default List<ServiceRanking> findRankingServicos(int mes, int ano) {
-    return findRankingServicosMaisVendidos(mes, ano).stream()
-      .map(r -> new ServiceRanking((String) r[0], ((Number) r[1]).longValue()))
+  default List<ServiceRanking> findRankingServicos(LocalDate startDate, LocalDate endDate) {
+    return findRankingServicosMaisVendidos(startDate, endDate).stream()
+      .map(r -> new ServiceRanking(((Number) r[0]).intValue(), (String) r[1], ((Number) r[2]).longValue(), ((Number) r[3]).doubleValue()))
       .toList();
   }
 
-  // DASHBOARD DE FUNIL DE VENDAS
-
+  // Agrupa leads por ano e mês, retorna: [ano, mes, quantidade]
   @Query(value = """
     SELECT
-        (DAYOFMONTH(u.created_at) - 1) DIV 7 + 1 AS semana,
+        YEAR(u.created_at) AS ano,
+        MONTH(u.created_at) AS mes,
         COUNT(*) AS usuarios_sem_agendamentos
     FROM user u
     LEFT JOIN schedule s
         ON s.fk_client = u.id
-    WHERE MONTH(u.created_at) = :mes
-      AND YEAR(u.created_at) = :ano
+    WHERE DATE(u.created_at) BETWEEN :startDate AND :endDate
       AND s.id IS NULL
-    GROUP BY semana
-    ORDER BY semana;
+    GROUP BY ano, mes
+    ORDER BY ano, mes
     """, nativeQuery = true)
-  List<Object[]> findLeadsPorSemana(@Param("mes") int mes, @Param("ano") int ano);
+  List<Object[]> findLeadsPorMes(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
   @Query(value = """
     SELECT
-        (DAYOFMONTH(s.appointment_datetime) - 1) DIV 7 + 1 AS semana,
+        YEAR(s.appointment_datetime) AS ano,
+        MONTH(s.appointment_datetime) AS mes,
         COUNT(*) AS usuarios_com_1_agendamento
     FROM user u
     JOIN schedule s ON s.fk_client = u.id
-    WHERE\s
-        (SELECT COUNT(*)\s
-         FROM schedule sc\s
+    WHERE 
+        (SELECT COUNT(*) 
+         FROM schedule sc 
          WHERE sc.fk_client = u.id) = 1
-        AND MONTH(s.appointment_datetime) = :mes
-        AND YEAR(s.appointment_datetime) = :ano
-    GROUP BY semana
-    ORDER BY semana;
+        AND DATE(s.appointment_datetime) BETWEEN :startDate AND :endDate
+    GROUP BY ano, mes
+    ORDER BY ano, mes
     """, nativeQuery = true)
-  List<Object[]> findPrimeirosAgendamentosPorSemana(@Param("mes") int mes, @Param("ano") int ano);
+  List<Object[]> findPrimeirosAgendamentosPorMes(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
   @Query(value = """
-    SELECT\s
-        (DAYOFMONTH(segundo.appointment_datetime) - 1) DIV 7 + 1 AS semana,
-        COUNT(*) AS usuarios_2_agendamentos
+    SELECT 
+        YEAR(segundo.appointment_datetime) AS ano,
+        MONTH(segundo.appointment_datetime) AS mes,
+        COUNT(*) AS usuarios_2_ou_mais_agendamentos
     FROM (
-        SELECT\s
+        SELECT 
             s.fk_client AS user_id,
             (
                 SELECT s2.appointment_datetime
@@ -117,14 +118,40 @@ public interface JpaDashboardRepository extends JpaRepository<ScheduleJpaEntity,
             ) AS segundo_agendamento
         FROM schedule s
         GROUP BY s.fk_client
-        HAVING COUNT(*) = 2
+        HAVING COUNT(*) >= 2
     ) AS x
     JOIN schedule segundo ON segundo.fk_client = x.user_id
         AND segundo.appointment_datetime = x.segundo_agendamento
-    WHERE MONTH(segundo.appointment_datetime) = :mes
-      AND YEAR(segundo.appointment_datetime) = :ano
-    GROUP BY semana
-    ORDER BY semana;
+    WHERE DATE(segundo.appointment_datetime) BETWEEN :startDate AND :endDate
+    GROUP BY ano, mes
+    ORDER BY ano, mes
     """, nativeQuery = true)
-  List<Object[]> findTaxaRetornoPorSemana(@Param("mes") int mes, @Param("ano") int ano);
+  List<Object[]> findTaxaRetornoPorMes(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+  @Query(value = """
+    SELECT 
+        ano,
+        mes,
+        ROUND(
+            CASE 
+                WHEN total_leads = 0 THEN 0
+                ELSE (total_clientes / total_leads) * 100 
+            END, 
+            2
+        ) AS taxa_conversao
+    FROM (
+        SELECT 
+            YEAR(u.created_at) AS ano,
+            MONTH(u.created_at) AS mes,
+            COUNT(*) AS total_leads,
+            SUM(CASE WHEN EXISTS (
+                SELECT 1 FROM schedule s WHERE s.fk_client = u.id
+            ) THEN 1 ELSE 0 END) AS total_clientes
+        FROM user u
+        WHERE DATE(u.created_at) BETWEEN :startDate AND :endDate
+        GROUP BY ano, mes
+    ) AS stats
+    ORDER BY ano, mes
+    """, nativeQuery = true)
+  List<Object[]> findTaxaConversaoPorMes(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }

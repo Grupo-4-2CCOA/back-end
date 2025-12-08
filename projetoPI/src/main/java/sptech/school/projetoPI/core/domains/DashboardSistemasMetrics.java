@@ -3,14 +3,20 @@ package sptech.school.projetoPI.core.domains;
 import java.util.List;
 
 public class DashboardSistemasMetrics {
-    private List<Object[]> rendimentoTotal;
-    private List<Object[]> taxaCancelamento;
+    private List<String> rendimentoLabels;
+    private List<Double> rendimentoValues;
+    private List<String> cancelamentoLabels;
+    private List<Double> cancelamentoValues;
     private int totalAtendimentos;
     private List<ServiceRanking> rankingServicos;
 
-    public DashboardSistemasMetrics(List<Object[]> rendimentoTotal, List<Object[]> taxaCancelamento, int totalAtendimentos, List<ServiceRanking> rankingServicos) {
-        this.rendimentoTotal = rendimentoTotal;
-        this.taxaCancelamento = taxaCancelamento;
+    public DashboardSistemasMetrics(List<String> rendimentoLabels, List<Double> rendimentoValues,
+                                    List<String> cancelamentoLabels, List<Double> cancelamentoValues,
+                                    int totalAtendimentos, List<ServiceRanking> rankingServicos) {
+        this.rendimentoLabels = rendimentoLabels;
+        this.rendimentoValues = rendimentoValues;
+        this.cancelamentoLabels = cancelamentoLabels;
+        this.cancelamentoValues = cancelamentoValues;
         this.totalAtendimentos = totalAtendimentos;
         this.rankingServicos = rankingServicos;
     }
@@ -18,20 +24,36 @@ public class DashboardSistemasMetrics {
     public DashboardSistemasMetrics() {
     }
 
-    public List<Object[]> getRendimentoTotal() {
-        return rendimentoTotal;
+    public List<String> getRendimentoLabels() {
+        return rendimentoLabels;
     }
 
-    public void setRendimentoTotal(List<Object[]> rendimentoTotal) {
-        this.rendimentoTotal = rendimentoTotal;
+    public void setRendimentoLabels(List<String> rendimentoLabels) {
+        this.rendimentoLabels = rendimentoLabels;
     }
 
-    public List<Object[]> getTaxaCancelamento() {
-        return taxaCancelamento;
+    public List<Double> getRendimentoValues() {
+        return rendimentoValues;
     }
 
-    public void setTaxaCancelamento(List<Object[]> taxaCancelamento) {
-        this.taxaCancelamento = taxaCancelamento;
+    public void setRendimentoValues(List<Double> rendimentoValues) {
+        this.rendimentoValues = rendimentoValues;
+    }
+
+    public List<String> getCancelamentoLabels() {
+        return cancelamentoLabels;
+    }
+
+    public void setCancelamentoLabels(List<String> cancelamentoLabels) {
+        this.cancelamentoLabels = cancelamentoLabels;
+    }
+
+    public List<Double> getCancelamentoValues() {
+        return cancelamentoValues;
+    }
+
+    public void setCancelamentoValues(List<Double> cancelamentoValues) {
+        this.cancelamentoValues = cancelamentoValues;
     }
 
     public int getTotalAtendimentos() {

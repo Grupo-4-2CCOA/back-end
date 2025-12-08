@@ -58,4 +58,26 @@ public interface JpaScheduleRepository extends JpaRepository<ScheduleJpaEntity, 
     @Query("SELECT s FROM ScheduleJpaEntity s WHERE s.client.id = :clientId AND s.appointmentDatetime <= :endDate")
     Page<ScheduleJpaEntity> findAllByClient_IdAndAppointmentDatetimeLessThanEqual(@Param("clientId") Integer clientId,
             @Param("endDate") LocalDateTime endDate, Pageable pageable);
+
+    // Queries com filtro por STATUS
+    Page<ScheduleJpaEntity> findAllByStatus(Status status, Pageable pageable);
+
+    @Query("SELECT s FROM ScheduleJpaEntity s WHERE s.status = :status AND s.appointmentDatetime BETWEEN :startDate AND :endDate")
+    Page<ScheduleJpaEntity> findAllByStatusAndAppointmentDatetimeBetween(
+            @Param("status") Status status,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate,
+            Pageable pageable);
+
+    @Query("SELECT s FROM ScheduleJpaEntity s WHERE s.status = :status AND s.appointmentDatetime >= :startDate")
+    Page<ScheduleJpaEntity> findAllByStatusAndAppointmentDatetimeGreaterThanEqual(
+            @Param("status") Status status,
+            @Param("startDate") LocalDateTime startDate,
+            Pageable pageable);
+
+    @Query("SELECT s FROM ScheduleJpaEntity s WHERE s.status = :status AND s.appointmentDatetime <= :endDate")
+    Page<ScheduleJpaEntity> findAllByStatusAndAppointmentDatetimeLessThanEqual(
+            @Param("status") Status status,
+            @Param("endDate") LocalDateTime endDate,
+            Pageable pageable);
 }

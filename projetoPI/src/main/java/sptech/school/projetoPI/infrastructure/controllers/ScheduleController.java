@@ -74,22 +74,33 @@ public class ScheduleController {
                         @RequestParam(required = false) String startDate,
                         @RequestParam(required = false) String endDate,
                         @RequestParam(required = false) String dataInicio,
-                        @RequestParam(required = false) String dataFim) {
+                        @RequestParam(required = false) String dataFim,
+                        @RequestParam(required = false) String status) {
                 String start_param = startDate != null ? startDate : dataInicio;
                 String end_param = endDate != null ? endDate : dataFim;
 
-                logger.info("getAllSchedules - Raw params - startDate/dataInicio: '{}', endDate/dataFim: '{}'", start_param, end_param);
+                logger.info("getAllSchedules - Raw params - startDate/dataInicio: '{}', endDate/dataFim: '{}', status: '{}'", start_param, end_param, status);
                 LocalDateTime start = parseLocalDateTime(start_param);
                 LocalDateTime end = parseLocalDateTime(end_param);
 
                 start = start != null? start.toLocalDate().atStartOfDay() : null;
                 end = end != null? end.toLocalDate().atTime(23, 59, 59) : null;
 
-                logger.info("getAllSchedules - Parsed dates - startDate: {}, endDate: {}", start, end);
+                // Parse status
+                sptech.school.projetoPI.core.enums.Status statusEnum = null;
+                if (status != null && !status.isEmpty() && !status.equalsIgnoreCase("TODOS")) {
+                        try {
+                                statusEnum = sptech.school.projetoPI.core.enums.Status.valueOf(status.toUpperCase());
+                        } catch (IllegalArgumentException e) {
+                                logger.warn("Invalid status value: {}", status);
+                        }
+                }
+
+                logger.info("getAllSchedules - Parsed dates - startDate: {}, endDate: {}, status: {}", start, end, statusEnum);
                 int size = 5;
                 Pageable pageable = PageRequest.of(page, size);
 
-                Page<ScheduleDomain> scheduleDomains = getAllScheduleUseCase.execute(pageable, start, end);
+                Page<ScheduleDomain> scheduleDomains = getAllScheduleUseCase.execute(pageable, start, end, statusEnum);
                 Page<ScheduleResponseDto> responseDtos = scheduleDomains.map(ScheduleMapper::toResponseDto);
                 return ResponseEntity.ok(responseDtos);
         }

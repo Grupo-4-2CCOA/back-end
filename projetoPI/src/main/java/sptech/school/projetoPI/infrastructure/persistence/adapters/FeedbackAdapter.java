@@ -50,4 +50,12 @@ public class FeedbackAdapter implements FeedbackGateway {
     public Page<FeedbackDomain> findAll(Pageable pageable) {
         return repository.findAll(pageable).map(FeedbackMapper::toDomain);
     }
+
+    @Override
+    public Page<FeedbackDomain> findAllWithFilters(Pageable pageable, Integer rating, Integer employeeId) {
+        if (rating == null && employeeId == null) {
+            return repository.findAll(pageable).map(FeedbackMapper::toDomain);
+        }
+        return repository.findAllWithFilters(rating, employeeId, pageable).map(FeedbackMapper::toDomain);
+    }
 }

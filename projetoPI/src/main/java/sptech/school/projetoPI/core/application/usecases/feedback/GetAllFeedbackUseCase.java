@@ -19,4 +19,8 @@ public class GetAllFeedbackUseCase {
     public Page<FeedbackDomain> execute(Pageable pageable) {
         return feedbackGateway.findAll(pageable);
     }
+
+    public Page<FeedbackDomain> execute(Pageable pageable, Integer rating, Integer employeeId) {
+        return feedbackGateway.findAllWithFilters(pageable, rating, employeeId);
+    }
 }
